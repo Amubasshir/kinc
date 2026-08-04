@@ -1,5 +1,6 @@
 import BrandLogos from "./components/BrandLogos";
 import Hero from "./components/Hero";
+import HowItWorks from "./components/HowItWorks";
 import Welcome from "./components/Welcome";
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <Welcome />
       <BrandLogos />
+      <HowItWorks />
     </>
   );
 }
