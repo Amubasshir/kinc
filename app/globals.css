@@ -1721,3 +1721,199 @@ main > section {
     margin-top: 22px;
   }
 }
+
+.tote-bag-product {
+  display: grid;
+  min-height: 736px;
+  padding: 55px 24px;
+  overflow: hidden;
+  grid-template-columns: repeat(3, 385px);
+  justify-content: center;
+  gap: 16px;
+  border-radius: 20px;
+  background: #FFFFFF;
+  color: #5b5b5d;
+}
+
+.tote-bag-content {
+  padding: 7px 7px 0 0;
+}
+
+.tote-bag-content h2 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.15;
+}
+
+.tote-bag-description {
+  max-width: 365px;
+  margin: 29px 0 0;
+  color: #8a8a8d;
+  font-size: 15px;
+  line-height: 1.48;
+}
+
+.tote-bag-swatches {
+  display: flex;
+  margin-top: 28px;
+  align-items: center;
+}
+
+.tote-bag-swatches img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-right: -5px;
+}
+
+.tote-bag-main-visual {
+  width: 385px;
+  height: 626px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.tote-bag-main-visual img {
+  display: block;
+  width: 385px;
+  height: 626px;
+  object-fit: contain;
+}
+
+.tote-bag-colour-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: repeat(2, 306px);
+  gap: 14px;
+}
+
+.tote-bag-colour-grid img,
+.tote-bag-tone-card {
+  display: block;
+  width: 385px;
+  height: 306px;
+  border-radius: 15px;
+}
+
+.tote-bag-colour-grid img {
+  object-fit: cover;
+}
+
+.tote-bag-tone-card {
+  background: #d8cabb;
+}
+
+.tote-bag-details {
+  margin-top: 30px;
+}
+
+.tote-bag-details details {
+  border-bottom: 1px solid #b8b8ba;
+}
+
+.tote-bag-details summary {
+  position: relative;
+  padding: 22px 34px 19px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.tote-bag-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.tote-bag-details summary::before,
+.tote-bag-details summary::after {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 12px;
+  height: 1px;
+  background: #5b5b5d;
+  content: "";
+}
+
+.tote-bag-details summary::after {
+  transform: rotate(90deg);
+}
+
+.tote-bag-details details[open] summary::after {
+  display: none;
+}
+
+.tote-bag-details details[open] summary {
+  padding-bottom: 13px;
+}
+
+.tote-bag-details details p {
+  margin: 0;
+  padding: 0 28px 21px 0;
+  color: #858589;
+  font-size: 13px;
+  line-height: 1.42;
+}
+
+@media (max-width: 1250px) {
+  .tote-bag-product {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tote-bag-main-visual,
+  .tote-bag-main-visual img,
+  .tote-bag-colour-grid img,
+  .tote-bag-tone-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .tote-bag-product {
+    display: flex;
+    min-height: auto;
+    padding: 22px;
+    flex-direction: column;
+    gap: 22px;
+    border-radius: 16px;
+  }
+
+  .tote-bag-content {
+    padding: 28px 0 14px;
+  }
+
+  .tote-bag-content h2 {
+    font-size: 32px;
+  }
+
+  .tote-bag-description {
+    max-width: none;
+    margin-top: 22px;
+  }
+
+  .tote-bag-main-visual {
+    order: -1;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 385 / 626;
+  }
+
+  .tote-bag-main-visual img {
+    height: 100%;
+  }
+
+  .tote-bag-colour-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .tote-bag-colour-grid img,
+  .tote-bag-tone-card {
+    height: auto;
+    aspect-ratio: 385 / 306;
+  }
+}
+
+.travel-tumbler-product .phone-case-tone-card {
+  background: #cbb9aa;
+}
