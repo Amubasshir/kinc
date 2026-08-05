@@ -1285,3 +1285,38 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .stay-connected-form { width: min(100%, 460px); margin-top: 32px; grid-template-columns: 1fr; gap: 20px; }
   .stay-connected-form button { margin-top: 8px; }
 }
+
+.site-footer {
+  position: relative;
+  min-height: 548px;
+  padding: 143px 39px 39px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #fff;
+  color: #5d5d60;
+}
+
+.footer-logo { display: block; width: 144px; height: auto; }
+.footer-profile h2 { margin: 31px 0 0; font-family: Arial, sans-serif; font-size: 34px; font-weight: 300; line-height: 1; }
+.footer-role { margin: 11px 0 0; font-size: 21px; line-height: 1.25; }
+.footer-acknowledgement { margin: 18px 0 0; color: #78788c; font-size: 15.5px; line-height: 1.48; }
+.footer-email { margin: 19px 0 0; color: #78788c; font-size: 15px; }
+.footer-actions { position: absolute; top: 327px; right: 39px; display: flex; align-items: center; gap: 35px; }
+.footer-socials { display: flex; align-items: center; gap: 36px; }
+.footer-socials span, .footer-socials img { display: block; }
+.footer-contact { display: flex; min-width: 166px; height: 72px; align-items: center; justify-content: center; gap: 4px; border: 9px solid rgba(72, 222, 171, 0.42); border-radius: 999px; background: #00d28e; color: #121212; font-family: Georgia, serif; font-size: 16px; text-decoration: none; }
+.footer-bottom { position: absolute; right: 39px; bottom: 39px; left: 39px; display: flex; align-items: center; justify-content: space-between; color: #78788c; font-size: 15px; }
+.footer-bottom p { margin: 0; }
+.footer-bottom nav { display: flex; align-items: center; gap: 27px; font-family: Georgia, serif; font-size: 15px; }
+
+@media (max-width: 800px) {
+  .site-footer { min-height: 0; padding: 70px 24px 34px; }
+  .footer-profile h2 { font-size: 29px; }
+  .footer-role { font-size: 18px; }
+  .footer-acknowledgement br { display: none; }
+  .footer-actions { position: static; flex-wrap: wrap; margin-top: 38px; gap: 28px; }
+  .footer-socials { flex-wrap: wrap; gap: 20px; }
+  .footer-contact { min-width: 155px; height: 66px; }
+  .footer-bottom { position: static; align-items: flex-start; flex-direction: column-reverse; margin-top: 58px; gap: 28px; }
+  .footer-bottom nav { flex-wrap: wrap; gap: 15px 24px; }
+}
