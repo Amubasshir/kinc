@@ -248,6 +248,51 @@ export default function CommissionsPage() {
           </div>
         </div>
       </section>
+
+      <section className="linen-journal-product special-card-product" aria-labelledby="special-card-heading">
+        <div className="linen-journal-gallery">
+          {[1, 2, 3, 4].map((image) => (
+            <Image
+              key={image}
+              src={`/special-card-${image}.png`}
+              alt={image === 1 ? "Custom birthday special card" : "Special card colour option"}
+              width={385}
+              height={306}
+              sizes="(max-width: 800px) 46vw, 28vw"
+            />
+          ))}
+        </div>
+
+        <div className="phone-case-content linen-journal-content">
+          <h2 id="special-card-heading">Special Card</h2>
+          <p className="phone-case-description">
+            Put your unique spin on a wardrobe essential and order your shirt designs - available as an exclusive add-on when you book your commission.
+          </p>
+
+          <div className="phone-case-swatches" aria-label="Available colours">
+            {[1, 2, 3, 4, 5].map((swatch) => (
+              <Image key={swatch} src={`/phone-case-swatch-${swatch}.svg`} alt={`Colour option ${swatch}`} width={24} height={24} />
+            ))}
+          </div>
+
+          <div className="phone-case-details">
+            <details open>
+              <summary>PRODUCT DETAILS</summary>
+              <p>
+                Quantity depends on your chosen canvas size, but typically 20 to 50 pieces allow for a diverse range of colours and textures. During our consultation, we will discuss the &quot;hero&quot; pieces you definitely want included versus the &quot;texture&quot; pieces I can use for background layering.
+              </p>
+            </details>
+            <details>
+              <summary>LOREM IPSUM</summary>
+              <p>Additional product information will be available here.</p>
+            </details>
+            <details>
+              <summary>LOREM IPSUM</summary>
+              <p>Additional product information will be available here.</p>
+            </details>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
