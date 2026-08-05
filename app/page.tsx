@@ -1,5 +1,6 @@
 import About from "./components/About";
 import BrandLogos from "./components/BrandLogos";
+import Gallery from "./components/Gallery";
 import GiftCard from "./components/GiftCard";
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
@@ -22,6 +23,7 @@ export default function Home() {
       <About />
       <Testimonials />
       <Stats />
+      <Gallery />
     </>
   );
 }
