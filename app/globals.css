@@ -651,3 +651,90 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .merchandise-bestseller { top: 42px; right: -12px; width: 185px; }
   .merchandise-eyelash { top: 8px; right: -2px; width: 65px; }
 }
+.gift-card {
+  display: flex;
+  min-height: 480px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 88px 24px 72px;
+  border-radius: 20px;
+  background: #97ff77;
+  color: #1f2b3d;
+  text-align: center;
+}
+.gift-card-content { width: min(760px, 100%); }
+.gift-card h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0.6px;
+}
+.gift-card-content > p {
+  margin: 32px 0 0;
+  font-size: 17px;
+  line-height: 1.28;
+  letter-spacing: 0.05px;
+}
+.gift-card-form {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 37px;
+}
+.gift-card-form label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.gift-card-form input {
+  width: min(414px, 100%);
+  height: 41px;
+  padding: 0 14px;
+  border: 2px solid #a9a9b4;
+  border-radius: 999px;
+  outline: none;
+  background: #fff;
+  color: #263443;
+  font: inherit;
+  font-size: 15px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.gift-card-form input::placeholder { color: #a7a7b4; opacity: 1; }
+.gift-card-form input:focus { border-color: #00b982; box-shadow: 0 0 0 3px rgb(0 209 143 / 18%); }
+.gift-card-form input::-webkit-outer-spin-button,
+.gift-card-form input::-webkit-inner-spin-button { margin: 0; appearance: none; }
+.gift-card-form input[type="number"] { appearance: textfield; }
+.gift-card-form button {
+  min-width: 264px;
+  min-height: 53px;
+  margin-top: 25px;
+  border: 0;
+  border-radius: 999px;
+  background: #00d18f;
+  box-shadow: 0 4px 5px rgb(25 93 69 / 28%);
+  color: #1e2c3e;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.gift-card-form button:hover, .gift-card-form button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 11px rgb(25 93 69 / 30%);
+}
+
+@media (max-width: 700px) {
+  .gift-card { min-height: auto; padding: 68px 22px 72px; border-radius: 16px; }
+  .gift-card h2 { font-size: 40px; }
+  .gift-card-content > p { margin-top: 26px; font-size: 16px; line-height: 1.42; }
+  .gift-card-content > p br { display: none; }
+  .gift-card-form { margin-top: 32px; }
+  .gift-card-form button { width: min(264px, 100%); min-width: 0; }
+}
