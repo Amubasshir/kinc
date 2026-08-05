@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root { --background: #ffffff; --foreground: #171717; }
+:root { --background: #f5f5f5; --foreground: #171717; }
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -8,7 +8,7 @@
   --font-mono: "Courier New", monospace;
 }
 
-body { background: var(--background); color: var(--foreground); font-family: Arial, Helvetica, sans-serif; margin: 0; }
+body { background: var(--background); color: var(--foreground); font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 8px; }
 
 .site-header {
   position: relative; z-index: 50; display: flex; min-height: 61px; align-items: center;
@@ -658,7 +658,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   justify-content: center;
   padding: 88px 24px 72px;
   border-radius: 20px;
-  background: #97ff77;
+  background: #97FF77;
   color: #1f2b3d;
   text-align: center;
 }
@@ -739,6 +739,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .gift-card-form button { width: min(264px, 100%); min-width: 0; }
 }
 .about {
+  margin-top: 16px;
   position: relative;
   display: grid;
   min-height: 820px;
@@ -747,7 +748,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   grid-template-columns: 1fr 504px;
   gap: 50px;
   border-radius: 20px;
-  background: #00d18f;
+  background: #00D18F;
   color: #1f2b3d;
 }
 .about-content { padding-top: 25px; }
@@ -772,7 +773,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 .about-copy mark {
   padding: 2px 4px 3px;
   border-radius: 3px;
-  background: #97ff77;
+  background: #97FF77;
   color: inherit;
 }
 .about-copy a { color: inherit; text-underline-offset: 2px; }
@@ -818,14 +819,16 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 }
 
 @media (max-width: 1160px) {
-  .about { padding-right: 54px; padding-left: 54px; grid-template-columns: minmax(0, 1fr) 440px; gap: 38px; }
+  .about { margin-top: 16px;
+  padding-right: 54px; padding-left: 54px; grid-template-columns: minmax(0, 1fr) 440px; gap: 38px; }
   .about-portrait { width: 440px; height: 552px; align-self: center; }
   .about-portrait > img:first-child { width: 440px; height: 552px; }
   .about-copy p br { display: none; }
 }
 
 @media (max-width: 800px) {
-  .about { display: flex; min-height: auto; padding: 66px 22px 80px; flex-direction: column; gap: 48px; border-radius: 16px; }
+  .about { margin-top: 16px;
+  display: flex; min-height: auto; padding: 66px 22px 80px; flex-direction: column; gap: 48px; border-radius: 16px; }
   .about-content { order: 1; padding-top: 0; }
   .about h2 { font-size: 42px; }
   .about-copy { margin-top: 28px; }
@@ -840,7 +843,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   min-height: 1520px;
   padding: 95px 24px 66px;
   border-radius: 20px;
-  background: #fff;
+  background: transparent;
   color: #5b5b5d;
 }
 .testimonials > h2 {
@@ -933,7 +936,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   min-height: 534px;
   padding: 111px 24px 80px;
   border-radius: 20px;
-  background: #fff;
+  background: #FFFFFF;
   color: #5b5b5d;
 }
 .stats-grid {
@@ -996,7 +999,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   min-height: 1059px;
   overflow: hidden;
   border-radius: 20px;
-  background: #fff;
+  background: transparent;
 }
 .gallery-grid {
   display: grid;
@@ -1061,10 +1064,11 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .gallery-cta { margin-top: 36px; }
 }
 .faqs {
+  margin-top: 16px;
   min-height: 1436px;
   padding: 119px 24px 90px;
   border-radius: 20px;
-  background: #97ff77;
+  background: #97FF77;
   color: #1f2b3d;
 }
 .faqs > h2 {
@@ -1124,7 +1128,8 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 .faq-item[open] summary { min-height: 49px; padding-top: 2px; }
 
 @media (max-width: 700px) {
-  .faqs { min-height: auto; padding: 72px 18px 80px; border-radius: 16px; }
+  .faqs { margin-top: 16px;
+  min-height: auto; padding: 72px 18px 80px; border-radius: 16px; }
   .faqs > h2 { font-size: 42px; }
   .faq-list { margin-top: 45px; }
   .faq-item summary { min-height: 72px; padding: 0 8px; gap: 16px; font-size: 15px; }
@@ -1132,6 +1137,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .faq-item p { margin: 0 8px 22px; font-size: 16px; line-height: 1.42; }
 }
 .contact {
+  margin-top: 16px;
   position: relative;
   min-height: 963px;
   overflow: hidden;
@@ -1180,7 +1186,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 .contact-message { grid-column: 1 / -1; }
 .contact-form button {
   min-height: 53px; grid-column: 1 / -1; margin-top: 16px; border: 0; border-radius: 999px;
-  background: #97ff77; box-shadow: 0 4px 5px rgb(25 93 69 / 22%); color: #263443;
+  background: #97FF77; box-shadow: 0 4px 5px rgb(25 93 69 / 22%); color: #263443;
   cursor: pointer; font-family: Georgia, "Times New Roman", serif; font-size: 16px;
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
@@ -1191,7 +1197,8 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 }
 
 @media (max-width: 1250px) {
-  .contact { min-height: auto; padding: 54px 28px 82px; }
+  .contact { margin-top: 16px;
+  min-height: auto; padding: 54px 28px 82px; }
   .contact-panel {
     position: relative; top: auto; left: auto; display: grid; width: 100%; height: auto; min-height: 650px;
     transform: none;
@@ -1204,7 +1211,8 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .contact-artwork { height: auto; align-self: center; aspect-ratio: 1820 / 2328; }
 }
 @media (max-width: 800px) {
-  .contact { padding: 42px 18px 70px; border-radius: 16px; }
+  .contact { margin-top: 16px;
+  padding: 42px 18px 70px; border-radius: 16px; }
   .contact-panel { display: flex; padding: 24px; flex-direction: column; gap: 24px; }
   .contact-shadow-layer { top: 5%; left: 2%; height: 98%; }
   .contact-artwork { order: 0; }
@@ -1214,17 +1222,19 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .contact-form-card > p br { display: none; }
 }
 @media (max-width: 540px) {
-  .contact { padding-right: 10px; padding-left: 10px; }
+  .contact { margin-top: 16px;
+  padding-right: 10px; padding-left: 10px; }
   .contact-panel { padding: 14px; }
   .contact-form-card { padding: 42px 20px 46px; }
   .contact-form { grid-template-columns: 1fr; }
   .contact-message, .contact-form button { grid-column: 1; }
 }
 .stay-connected {
+  margin-top: 16px;
   min-height: 339px;
   padding: 73px 24px 64px;
   border-radius: 20px;
-  background: #00d18f;
+  background: #00D18F;
   color: #1f2b3d;
   text-align: center;
 }
@@ -1279,7 +1289,8 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 }
 
 @media (max-width: 850px) {
-  .stay-connected { min-height: auto; padding: 64px 22px 72px; border-radius: 16px; }
+  .stay-connected { margin-top: 16px;
+  min-height: auto; padding: 64px 22px 72px; border-radius: 16px; }
   .stay-connected > p { line-height: 1.45; }
   .stay-connected > p br { display: none; }
   .stay-connected-form { width: min(100%, 460px); margin-top: 32px; grid-template-columns: 1fr; gap: 20px; }
@@ -1287,6 +1298,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 }
 
 .site-footer {
+  margin-top: 16px;
   position: relative;
   min-height: 548px;
   padding: 143px 39px 39px;
@@ -1319,4 +1331,57 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .footer-contact { min-width: 155px; height: 66px; }
   .footer-bottom { position: static; align-items: flex-start; flex-direction: column-reverse; margin-top: 58px; gap: 28px; }
   .footer-bottom nav { flex-wrap: wrap; gap: 15px 24px; }
+}
+
+/* Site typography */
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-montserrat), Arial, sans-serif;
+}
+
+p,
+a,
+button,
+input,
+textarea,
+select,
+label,
+span,
+blockquote,
+cite,
+summary,
+nav {
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
+  font-weight: 400;
+}
+
+h1 *,
+h2 *,
+h3 *,
+h4 *,
+h5 *,
+h6 * {
+  font-family: inherit !important;
+}
+
+.desktop-nav a,
+.mobile-nav nav a {
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
+}
+
+/* Consistent spacing between all page sections */
+main > section {
+  margin-top: 16px !important;
 }
