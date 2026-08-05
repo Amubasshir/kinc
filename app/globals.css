@@ -1131,3 +1131,91 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .faq-item[open] summary { min-height: 58px; }
   .faq-item p { margin: 0 8px 22px; font-size: 16px; line-height: 1.42; }
 }
+.contact {
+  position: relative;
+  min-height: 963px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: url("/contact-background.png") center / cover no-repeat;
+  color: #5b5b5d;
+}
+.contact-panel {
+  position: absolute;
+  top: 113px;
+  left: 78px;
+  width: 1244px;
+  height: 776px;
+}
+.contact-shadow-layer, .contact-green-layer { position: absolute; max-width: none; pointer-events: none; }
+.contact-shadow-layer { z-index: 0; top: 98px; left: 33px; width: 1199px; height: 678px; }
+.contact-green-layer { z-index: 1; top: 0; left: 0; width: 1212px; height: 743px; }
+.contact-form-card {
+  position: absolute;
+  z-index: 2;
+  top: 62px;
+  left: 49px;
+  width: 576px;
+  height: 583px;
+  padding: 103px 49px 70px;
+  border-radius: 18px;
+  background: #fff;
+}
+.contact-form-card h2 {
+  margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 48px;
+  font-weight: 300; line-height: 1; letter-spacing: 0.2px;
+}
+.contact-form-card > p { margin: 24px 0 0; font-size: 17px; line-height: 1.34; }
+.contact-form { display: grid; margin-top: 25px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px 32px; }
+.contact-field { min-width: 0; }
+.contact-field label { display: block; margin-bottom: 7px; font-size: 16px; line-height: 1; }
+.contact-field label span { color: #ad3127; }
+.contact-field input {
+  width: 100%; height: 40px; padding: 0 10px; border: 2px solid #aaaab5; border-radius: 999px;
+  outline: 0; background: #fff; color: #263443; font: inherit; font-size: 15px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.contact-field input::placeholder { color: #aaaab5; opacity: 1; }
+.contact-field input:focus { border-color: #00b982; box-shadow: 0 0 0 3px rgb(0 209 143 / 17%); }
+.contact-message { grid-column: 1 / -1; }
+.contact-form button {
+  min-height: 53px; grid-column: 1 / -1; margin-top: 16px; border: 0; border-radius: 999px;
+  background: #97ff77; box-shadow: 0 4px 5px rgb(25 93 69 / 22%); color: #263443;
+  cursor: pointer; font-family: Georgia, "Times New Roman", serif; font-size: 16px;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.contact-form button:hover, .contact-form button:focus-visible { transform: translateY(-2px); box-shadow: 0 6px 10px rgb(25 93 69 / 27%); }
+.contact-artwork {
+  position: absolute; z-index: 2; top: 62px; left: 657px;
+  display: block; width: 455px; height: 581px; border-radius: 15px; object-fit: cover;
+}
+
+@media (max-width: 1250px) {
+  .contact { min-height: auto; padding: 54px 28px 82px; }
+  .contact-panel {
+    position: relative; top: auto; left: auto; display: grid; width: 100%; height: auto; min-height: 650px;
+    transform: none;
+    padding: 46px; grid-template-columns: minmax(0, 1fr) minmax(320px, 42%); gap: 28px;
+  }
+  .contact-green-layer { width: calc(100% - 14px); height: 100%; }
+  .contact-shadow-layer { top: 8%; left: 3%; width: 100%; height: 96%; }
+  .contact-form-card, .contact-artwork { position: relative; top: auto; left: auto; width: 100%; }
+  .contact-form-card { height: auto; min-height: 560px; padding-right: 35px; padding-left: 35px; }
+  .contact-artwork { height: auto; align-self: center; aspect-ratio: 1820 / 2328; }
+}
+@media (max-width: 800px) {
+  .contact { padding: 42px 18px 70px; border-radius: 16px; }
+  .contact-panel { display: flex; padding: 24px; flex-direction: column; gap: 24px; }
+  .contact-shadow-layer { top: 5%; left: 2%; height: 98%; }
+  .contact-artwork { order: 0; }
+  .contact-form-card { order: 1; min-height: auto; padding: 48px 28px 52px; }
+  .contact-form-card h2 { font-size: 42px; }
+  .contact-form-card > p { font-size: 16px; }
+  .contact-form-card > p br { display: none; }
+}
+@media (max-width: 540px) {
+  .contact { padding-right: 10px; padding-left: 10px; }
+  .contact-panel { padding: 14px; }
+  .contact-form-card { padding: 42px 20px 46px; }
+  .contact-form { grid-template-columns: 1fr; }
+  .contact-message, .contact-form button { grid-column: 1; }
+}

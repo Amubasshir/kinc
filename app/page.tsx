@@ -1,5 +1,6 @@
 import About from "./components/About";
 import BrandLogos from "./components/BrandLogos";
+import Contact from "./components/Contact";
 import Faqs from "./components/Faqs";
 import Gallery from "./components/Gallery";
 import GiftCard from "./components/GiftCard";
@@ -26,6 +27,7 @@ export default function Home() {
       <Stats />
       <Gallery />
       <Faqs />
+      <Contact />
     </>
   );
 }
