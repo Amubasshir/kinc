@@ -1060,3 +1060,74 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .gallery-column img { border-radius: 10px; }
   .gallery-cta { margin-top: 36px; }
 }
+.faqs {
+  min-height: 1436px;
+  padding: 119px 24px 90px;
+  border-radius: 20px;
+  background: #97ff77;
+  color: #1f2b3d;
+}
+.faqs > h2 {
+  margin: 0;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+.faq-list { width: min(769px, 100%); margin: 57px auto 0; }
+.faq-item { border-bottom: 1px solid rgb(31 43 61 / 75%); }
+.faq-item summary {
+  position: relative;
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 0 27px 0 24px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: 0.3px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary i {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+.faq-item summary i::before,
+.faq-item summary i::after {
+  position: absolute;
+  top: 9px;
+  left: 1px;
+  width: 18px;
+  height: 1.5px;
+  background: #1f2b3d;
+  content: "";
+  transition: transform 160ms ease;
+}
+.faq-item summary i::after { transform: rotate(90deg); }
+.faq-item[open] summary i::before { transform: rotate(45deg); }
+.faq-item[open] summary i::after { transform: rotate(-45deg); }
+.faq-item p {
+  max-width: 700px;
+  margin: -3px 24px 23px;
+  font-size: 17px;
+  line-height: 1.29;
+  letter-spacing: 0.05px;
+}
+.faq-item[open] summary { min-height: 49px; padding-top: 2px; }
+
+@media (max-width: 700px) {
+  .faqs { min-height: auto; padding: 72px 18px 80px; border-radius: 16px; }
+  .faqs > h2 { font-size: 42px; }
+  .faq-list { margin-top: 45px; }
+  .faq-item summary { min-height: 72px; padding: 0 8px; gap: 16px; font-size: 15px; }
+  .faq-item[open] summary { min-height: 58px; }
+  .faq-item p { margin: 0 8px 22px; font-size: 16px; line-height: 1.42; }
+}
