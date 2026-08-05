@@ -5,6 +5,7 @@ import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
 import Merchandise from "./components/Merchandise";
 import Pricing from "./components/Pricing";
+import Testimonials from "./components/Testimonials";
 import Welcome from "./components/Welcome";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
       <Merchandise />
       <GiftCard />
       <About />
+      <Testimonials />
     </>
   );
 }
