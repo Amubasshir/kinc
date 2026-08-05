@@ -1,3 +1,4 @@
+import About from "./components/About";
 import BrandLogos from "./components/BrandLogos";
 import GiftCard from "./components/GiftCard";
 import Hero from "./components/Hero";
@@ -16,6 +17,7 @@ export default function Home() {
       <Pricing />
       <Merchandise />
       <GiftCard />
+      <About />
     </>
   );
 }

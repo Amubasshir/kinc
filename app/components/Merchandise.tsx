@@ -13,7 +13,7 @@ const products = [
 
 export default function Merchandise() {
   return (
-    <section className="merchandise" aria-labelledby="merchandise-heading">
+    <section id="merchandise" className="merchandise" aria-labelledby="merchandise-heading">
       <header className="merchandise-header">
         <h2 id="merchandise-heading">Commission it. Print it. <mark>Use it.</mark></h2>
         <p>
