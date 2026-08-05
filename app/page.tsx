@@ -9,6 +9,7 @@ import HowItWorks from "./components/HowItWorks";
 import Merchandise from "./components/Merchandise";
 import Pricing from "./components/Pricing";
 import Stats from "./components/Stats";
+import StayConnected from "./components/StayConnected";
 import Testimonials from "./components/Testimonials";
 import Welcome from "./components/Welcome";
 
@@ -28,6 +29,7 @@ export default function Home() {
       <Gallery />
       <Faqs />
       <Contact />
+      <StayConnected />
     </>
   );
 }
