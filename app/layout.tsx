@@ -16,7 +16,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className={`${montserrat.variable} ${tenorSans.variable} min-h-full flex flex-col`}>
+      <body
+        className={`${montserrat.variable} ${tenorSans.variable} min-h-full flex flex-col`}
+        suppressHydrationWarning
+      >
         <Header />
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />

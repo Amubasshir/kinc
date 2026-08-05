@@ -1385,3 +1385,339 @@ h6 * {
 main > section {
   margin-top: 16px !important;
 }
+
+.commission-intro {
+  position: relative;
+  min-height: 356px;
+  padding: 59px 24px 54px;
+  border-radius: 20px;
+  background: #FFFFFF;
+  color: #5b5b5d;
+  text-align: center;
+}
+
+.commission-intro-copy h1 {
+  margin: 0;
+  font-size: 48px;
+  line-height: 1.12;
+  letter-spacing: 0.2px;
+}
+
+.commission-intro-copy p {
+  margin: 28px 0 0;
+  font-size: 15px;
+  line-height: 1.38;
+}
+
+.commission-intro-copy .commission-intro-note {
+  margin-top: 21px;
+}
+
+.commission-intro-cta {
+  display: inline-flex;
+  min-width: 264px;
+  min-height: 53px;
+  margin-top: 25px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #97FF77;
+  box-shadow: 0 4px 5px rgb(25 93 69 / 22%);
+  color: #344153;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.commission-intro-cta:hover,
+.commission-intro-cta:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgb(25 93 69 / 27%);
+}
+
+.commission-categories {
+  position: absolute;
+  right: 24px;
+  bottom: 26px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #5b5b5d;
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.commission-categories span {
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
+}
+
+@media (max-width: 800px) {
+  .commission-intro {
+    min-height: auto;
+    padding: 64px 22px 46px;
+    border-radius: 16px;
+  }
+
+  .commission-intro-copy h1 {
+    font-size: clamp(38px, 11vw, 48px);
+  }
+
+  .commission-intro-copy p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .commission-intro-copy p br {
+    display: none;
+  }
+
+  .commission-intro-cta {
+    min-width: min(264px, 100%);
+  }
+
+  .commission-categories {
+    position: static;
+    flex-wrap: wrap;
+    margin-top: 52px;
+    gap: 16px 20px;
+    white-space: normal;
+  }
+}
+
+.product-menu {
+  display: flex;
+  min-height: 80px;
+  padding: 0 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: #FFFFFF;
+  color: #5b5b5d;
+}
+
+.product-menu nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.product-menu span {
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
+}
+
+@media (max-width: 900px) {
+  .product-menu {
+    min-height: 80px;
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .product-menu nav {
+    flex-wrap: wrap;
+    gap: 17px 22px;
+    font-size: 12px;
+    white-space: normal;
+  }
+}
+
+.phone-case-product {
+  display: grid;
+  min-height: 736px;
+  padding: 55px 24px;
+  overflow: hidden;
+  grid-template-columns: repeat(3, 385px);
+  justify-content: center;
+  gap: 16px;
+  border-radius: 20px;
+  background: #FFFFFF;
+  color: #5b5b5d;
+}
+
+.phone-case-visual,
+.phone-case-colour-grid {
+  min-width: 0;
+}
+
+.phone-case-main-visual {
+  height: 626px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.phone-case-main-visual img {
+  display: block;
+  width: 385px;
+  height: 626px;
+  object-fit: contain;
+}
+
+.phone-case-colour-grid {
+  display: grid;
+  grid-template-rows: repeat(2, 306px);
+  gap: 14px;
+}
+
+.phone-case-colour-grid img,
+.phone-case-tone-card {
+  display: block;
+  width: 385px;
+  height: 306px;
+  border-radius: 15px;
+}
+
+.phone-case-colour-grid img {
+  object-fit: cover;
+}
+
+.phone-case-tone-card {
+  background: #f0e5d5;
+}
+
+.phone-case-content {
+  padding: 7px 0 0 7px;
+}
+
+.phone-case-content h2 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.15;
+}
+
+.phone-case-description {
+  max-width: 365px;
+  margin: 29px 0 0;
+  color: #8a8a8d;
+  font-size: 15px;
+  line-height: 1.48;
+}
+
+.phone-case-swatches {
+  display: flex;
+  margin-top: 28px;
+  align-items: center;
+  gap: 0;
+}
+
+.phone-case-swatches img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-right: -5px;
+}
+
+.phone-case-details {
+  margin-top: 30px;
+}
+
+.phone-case-details details {
+  border-bottom: 1px solid #b8b8ba;
+}
+
+.phone-case-details summary {
+  position: relative;
+  padding: 22px 34px 19px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.phone-case-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.phone-case-details summary::before,
+.phone-case-details summary::after {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 12px;
+  height: 1px;
+  background: #5b5b5d;
+  content: "";
+}
+
+.phone-case-details summary::after {
+  transform: rotate(90deg);
+}
+
+.phone-case-details details[open] summary::after {
+  display: none;
+}
+
+.phone-case-details details[open] summary {
+  padding-bottom: 13px;
+}
+
+.phone-case-details details p {
+  margin: 0;
+  padding: 0 28px 21px 0;
+  color: #858589;
+  font-size: 13px;
+  line-height: 1.42;
+}
+
+@media (max-width: 1250px) {
+  .phone-case-product {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .phone-case-main-visual,
+  .phone-case-main-visual img,
+  .phone-case-colour-grid img,
+  .phone-case-tone-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .phone-case-product {
+    display: flex;
+    min-height: auto;
+    padding: 22px;
+    flex-direction: column;
+    gap: 22px;
+    border-radius: 16px;
+  }
+
+  .phone-case-main-visual {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 385 / 626;
+  }
+
+  .phone-case-main-visual img {
+    height: 100%;
+  }
+
+  .phone-case-colour-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .phone-case-colour-grid img,
+  .phone-case-tone-card {
+    height: auto;
+    aspect-ratio: 385 / 306;
+  }
+
+  .phone-case-content {
+    padding: 28px 0 14px;
+  }
+
+  .phone-case-content h2 {
+    font-size: 32px;
+  }
+
+  .phone-case-description {
+    max-width: none;
+    margin-top: 22px;
+  }
+}
