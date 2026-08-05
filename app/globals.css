@@ -12,7 +12,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 
 .site-header {
   position: relative; z-index: 50; display: flex; min-height: 61px; align-items: center;
-  justify-content: space-between; padding: 0 40px; background: #fff;
+  justify-content: space-between; padding: 0 40px; overflow: hidden; border-radius: 20px 20px 0 0; background: #fff;
 }
 .site-logo { display: flex; flex: 0 0 auto; }
 .desktop-nav { display: flex; align-items: center; gap: 33px; }
