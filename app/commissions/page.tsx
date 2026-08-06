@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import commissionAccent from "../../design/eyelash 5.png";
+import commissionMark from "../../design/Kin_Collage 4 (1).png";
 
 const productCategories = [
   "TRAVEL TUMBLER",
@@ -336,6 +338,16 @@ export default function CommissionsPage() {
               sizes="(max-width: 800px) 46vw, 28vw"
             />
           ))}
+        </div>
+      </section>
+
+      <section className="start-commission" aria-labelledby="start-commission-heading">
+        <Image className="start-commission-mark" src={commissionMark} alt="Kin" />
+        <h2 id="start-commission-heading">Start your commission</h2>
+        <p>Create a beautiful statement piece for your home, or a deeply meaningful keepsake for grandparents.</p>
+        <div className="start-commission-action">
+          <Link href="#commission-heading">GET STARTED</Link>
+          <Image src={commissionAccent} alt="" aria-hidden="true" />
         </div>
       </section>
     </>
