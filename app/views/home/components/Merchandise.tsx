@@ -1,17 +1,6 @@
 import Image from "next/image";
-
-const products = [
-  { name: "Phone Case", price: "$70 AUD", image: "/merch-phone-case.png", bestseller: true },
-  { name: "Tote Bag", price: "$70 AUD", image: "/merch-tote-bag.png" },
-  { name: "Travel Tumbler", price: "$70 AUD", image: "/merch-tumbler.png" },
-  { name: "T-shirt", price: "$70 AUD", image: "/merch-tshirt.png" },
-  { name: "Linen Journal", price: "$70 AUD", image: "/merch-journal.png" },
-  { name: "Canvas prints", price: "$70 AUD", image: "/merch-canvas.png" },
-  { name: "Special Card", price: "$70 AUD", image: "/merch-card.png" },
-  { name: "Postcard", price: "$70 AUD", image: "/merch-postcard.png" },
-];
-
-export default function Merchandise() {
+import type { MerchandiseProductModel } from "../../../models/site";
+export default function Merchandise({ products }: { products: MerchandiseProductModel[] }) {
   return (
     <section id="merchandise" className="merchandise" aria-labelledby="merchandise-heading">
       <header className="merchandise-header">

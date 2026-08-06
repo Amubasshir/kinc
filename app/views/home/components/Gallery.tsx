@@ -1,16 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const columns = [
-  [22, 23, 24],
-  [25, 26, 27],
-  [28, 29, 30],
-  [31, 32, 33],
-  [34, 35, 36],
-  [37, 38, 39],
-];
-
-export default function Gallery() {
+export default function Gallery({ columns }: { columns: number[][] }) {
   return (
     <section id="gallery" className="gallery-section" aria-label="KinCollage gallery">
       <div className="gallery-grid">

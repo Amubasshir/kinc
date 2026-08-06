@@ -1,35 +1,6 @@
-import About from "./components/About";
-import BrandLogos from "./components/BrandLogos";
-import Contact from "./components/Contact";
-import Faqs from "./components/Faqs";
-import Gallery from "./components/Gallery";
-import GiftCard from "./components/GiftCard";
-import Hero from "./components/Hero";
-import HowItWorks from "./components/HowItWorks";
-import Merchandise from "./components/Merchandise";
-import Pricing from "./components/Pricing";
-import Stats from "./components/Stats";
-import StayConnected from "./components/StayConnected";
-import Testimonials from "./components/Testimonials";
-import Welcome from "./components/Welcome";
+import HomeView from "./views/home/HomeView";
+import { getHomeViewModel } from "./view-models/homeViewModel";
 
-export default function Home() {
-  return (
-    <>
-      <Hero />
-      <Welcome />
-      <BrandLogos />
-      <HowItWorks />
-      <Pricing />
-      <Merchandise />
-      <GiftCard />
-      <About />
-      <Testimonials />
-      <Stats />
-      <Gallery />
-      <Faqs />
-      <Contact />
-      <StayConnected />
-    </>
-  );
+export default function HomePage() {
+  return <HomeView viewModel={getHomeViewModel()} />;
 }

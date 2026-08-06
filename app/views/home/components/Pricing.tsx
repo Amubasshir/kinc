@@ -1,14 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const sizes = [
-  { name: "The Mini", dimensions: "30 x 40 cm", minimum: "(Min. 10 artwork required)", price: "$950 AUD", image: "/pricing-mini.png" },
-  { name: "The Statement", dimensions: "60x80cm", minimum: "(Min. 15 artwork required)", price: "$1750 AUD", image: "/pricing-statement.png" },
-  { name: "The Master", dimensions: "90x 120cm", minimum: "(Min. 40 artwork required)", price: "$3900 AUD", image: "/pricing-master.png", popular: true },
-  { name: "The Grand", dimensions: "122 x 183 cm", minimum: "(Min. 60 artwork required)", price: "$6915 AUD", image: "/pricing-grand.png" },
-];
-
-export default function Pricing() {
+import type { PricingSizeModel } from "../../../models/site";
+export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
   return (
     <section className="pricing" aria-labelledby="pricing-heading">
       <header className="pricing-header">

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat, Tenor_Sans } from "next/font/google";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Footer from "./views/shared/Footer";
+import Header from "./views/shared/Header";
 import "./globals.css";
-
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
 const tenorSans = Tenor_Sans({ subsets: ["latin"], weight: "400", variable: "--font-tenor-sans" });
