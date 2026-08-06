@@ -2,7 +2,7 @@ import Testimonials from "../shared/Testimonials";
 import CommissionIntro from "./components/CommissionIntro";
 import CommissionProductSection from "./components/CommissionProductSection";
 import ProductMenu from "./components/ProductMenu";
-import StartCommission from "./components/StartCommission";
+import StartCommission from "../shared/StartCommission";
 import type { CommissionsViewModel, TestimonialModel } from "../../models/site";
 export default function CommissionsView({
   viewModel,

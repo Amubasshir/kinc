@@ -77,3 +77,14 @@ export type CommissionsViewModel = {
   categories: string[];
   products: CommissionProductModel[];
 };
+
+export type GalleryTileModel = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
+export type GalleryPageViewModel = {
+  columns: GalleryTileModel[][];
+};

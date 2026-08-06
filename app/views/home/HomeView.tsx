@@ -9,7 +9,7 @@ import HowItWorks from "./components/HowItWorks";
 import Merchandise from "./components/Merchandise";
 import Pricing from "./components/Pricing";
 import Stats from "./components/Stats";
-import StayConnected from "./components/StayConnected";
+import StayConnected from "../shared/StayConnected";
 import Testimonials from "../shared/Testimonials";
 import Welcome from "./components/Welcome";
 import type { HomeViewModel } from "../../models/site";
