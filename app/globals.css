@@ -2191,3 +2191,40 @@ main > section {
   .artist-story-video { margin-top: 54px; }
   .artist-story-cursor { width: 48px; }
 }
+.artist-pricing { min-height: 1090px; padding: 68px 0 80px; border-radius: 20px; background: #f5f5f5; color: #555; }
+.artist-pricing-header { text-align: center; }
+.artist-pricing-header h2 { margin: 0; font-size: 48px; font-weight: 400; line-height: 1.12; letter-spacing: .2px; }
+.artist-pricing-header p { margin: 23px 0 0; font-size: 16px; line-height: 1.4; }
+.artist-pricing-grid { display: grid; margin-top: 57px; grid-template-columns: repeat(4, 300px); justify-content: space-between; gap: 24px; }
+.artist-pricing-card { overflow: hidden; border-radius: 15px; background: #fff; }
+.artist-pricing-artwork { position: relative; height: 353px; }
+.artist-pricing-artwork > img:first-child { display: block; width: 100%; height: 100%; object-fit: cover; }
+.artist-pricing-popular { position: absolute; top: -1px; right: -1px; width: 104px; height: 44px; object-fit: contain; }
+.artist-pricing-details { min-height: 174px; padding: 25px 12px 15px; }
+.artist-pricing-details h3 { margin: 0; font-size: 29px; font-weight: 400; line-height: 1.15; }
+.artist-pricing-details p { margin: 15px 0 0; font-size: 16px; line-height: 1.38; }
+.artist-pricing-details strong { display: block; margin-top: 25px; font-size: 16px; font-weight: 400; }
+.artist-pricing-footer { display: flex; margin-top: 59px; align-items: center; justify-content: space-between; gap: 40px; }
+.artist-pricing-notes h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; line-height: 1.25; }
+.artist-pricing-notes h3:nth-of-type(2) { margin-top: 22px; }
+.artist-pricing-notes p { margin: 0; font-size: 13px; line-height: 1.45; }
+.artist-pricing-notes em { font-weight: 700; }
+.artist-pricing-action { display: flex; margin: 16px 8px 0 0; align-items: flex-end; gap: 16px; }
+.artist-pricing-action > img { width: 44px; height: 58px; }
+.artist-pricing-action a { display: inline-flex; min-width: 266px; min-height: 53px; align-items: center; justify-content: center; border-radius: 999px; background: #97ff77; box-shadow: 0 5px 5px rgb(35 52 63 / 27%); color: #263443; font-size: 16px; text-decoration: none; }
+@media (max-width: 1260px) {
+  .artist-pricing { padding-right: 24px; padding-left: 24px; }
+  .artist-pricing-grid { grid-template-columns: repeat(4, minmax(0, 300px)); }
+}
+@media (max-width: 900px) {
+  .artist-pricing-grid { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; }
+  .artist-pricing-footer { align-items: flex-start; flex-direction: column; }
+  .artist-pricing-action { align-self: flex-end; }
+}
+@media (max-width: 650px) {
+  .artist-pricing { min-height: 0; padding: 58px 18px 68px; border-radius: 16px; }
+  .artist-pricing-header h2 { font-size: 40px; }
+  .artist-pricing-grid { grid-template-columns: minmax(0, 300px); }
+  .artist-pricing-action { align-self: center; gap: 8px; }
+  .artist-pricing-action a { min-width: 225px; font-size: 14px; }
+}
