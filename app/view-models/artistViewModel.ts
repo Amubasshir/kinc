@@ -5,6 +5,7 @@ export type ArtistViewModel = {
   name: string;
   portrait: string;
   signature: string;
+  careerGallery: { src: string; alt: string; collectionShot: { src: string; title: string; credit: string } };
   pricing: {
     title: string;
     subtitle: string;
@@ -32,6 +33,7 @@ export function getArtistViewModel(): ArtistViewModel {
     name: "Zsofia Matrai",
     portrait: "/artist/zsofia.png",
     signature: "/artist/signature.png",
+    careerGallery: { src: "/artist/career-gallery.png", alt: "A visual gallery of Zsofia Matrai creative work", collectionShot: { src: "/artist/collection-shot.png", title: "Collection shot", credit: "Camilla" } },
     pricing: {
       title: "Sizes & Pricing",
       subtitle: "Worldwide shipping available soon.",

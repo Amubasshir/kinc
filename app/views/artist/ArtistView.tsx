@@ -1,6 +1,7 @@
 import type { ArtistViewModel } from "../../view-models/artistViewModel";
 import StayConnected from "../shared/StayConnected";
 import Testimonials from "../shared/Testimonials";
+import ArtistCareerGallery from "./components/ArtistCareerGallery";
 import ArtistHero from "./components/ArtistHero";
 import ArtistPricing from "./components/ArtistPricing";
 import ArtistStory from "./components/ArtistStory";
@@ -10,6 +11,7 @@ export default function ArtistView({ viewModel }: { viewModel: ArtistViewModel }
   return (
     <>
       <ArtistHero viewModel={viewModel} />
+      <ArtistCareerGallery gallery={viewModel.careerGallery} />
       <ArtistStory />
       <ArtistPricing pricing={viewModel.pricing} />
       <ArtistTestimonial testimonial={viewModel.testimonial} />
