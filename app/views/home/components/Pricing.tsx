@@ -13,12 +13,30 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
         {sizes.map((size) => (
           <article className="pricing-card" key={size.name}>
             <div className="pricing-image">
-              <Image src={size.image} alt={`${size.name} collage example`} width={1200} height={1412} sizes="(max-width: 700px) 90vw, (max-width: 1100px) 44vw, 299px" />
-              {size.popular && <Image className="pricing-popular" src="/pricing-popular.png" alt="Most popular" width={207} height={88} />}
+              <Image
+                src={size.image}
+                alt={`${size.name} collage example`}
+                width={1200}
+                height={1412}
+                sizes="(max-width: 700px) 90vw, (max-width: 1100px) 44vw, 299px"
+              />
+              {size.popular && (
+                <Image
+                  className="pricing-popular"
+                  src="/pricing-popular.png"
+                  alt="Most popular"
+                  width={207}
+                  height={88}
+                />
+              )}
             </div>
             <div className="pricing-card-copy">
               <h3>{size.name}</h3>
-              <p>{size.dimensions}<br />{size.minimum}</p>
+              <p>
+                {size.dimensions}
+                <br />
+                {size.minimum}
+              </p>
               <p className="pricing-price">{size.price}</p>
             </div>
           </article>
@@ -30,10 +48,17 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
           <div>
             <h3>NOTE</h3>
             <p>
-              Taxes and shipping are calculated separately.<br />
-              All artworks are made on canvas (no frame) and requires a non-refundable 50% deposit.<br />
-              <strong><em>Framing is an optional add-on</em></strong> (sourced locally).<br />
-              See more details upon starting the commission request process.<br />
+              Taxes and shipping are calculated separately.
+              <br />
+              All artworks are made on canvas (no frame) and requires a non-refundable 50% deposit.
+              <br />
+              <strong>
+                <em>Framing is an optional add-on</em>
+              </strong>{" "}
+              (sourced locally).
+              <br />
+              See more details upon starting the commission request process.
+              <br />
               EST timeframe is ~ 6weeks.
             </p>
           </div>

@@ -12,7 +12,29 @@ export default function Gallery({ columns }: { columns: number[][] }) {
                 src={`/gallery-${number}.png`}
                 alt={number === 27 || number === 34 ? "" : "KinCollage artwork and creative inspiration"}
                 width={208}
-                height={number === 22 || number === 26 || number === 31 || number === 36 ? 283 : number === 23 ? 397 : number === 24 || number === 28 ? 202 : number === 25 || number === 37 ? 229 : number === 27 ? 264 : number === 29 || number === 39 ? 311 : number === 30 ? 216 : number === 32 || number === 34 ? 191 : number === 33 ? 326 : number === 35 ? 394 : 314}
+                height={
+                  number === 22 || number === 26 || number === 31 || number === 36
+                    ? 283
+                    : number === 23
+                      ? 397
+                      : number === 24 || number === 28
+                        ? 202
+                        : number === 25 || number === 37
+                          ? 229
+                          : number === 27
+                            ? 264
+                            : number === 29 || number === 39
+                              ? 311
+                              : number === 30
+                                ? 216
+                                : number === 32 || number === 34
+                                  ? 191
+                                  : number === 33
+                                    ? 326
+                                    : number === 35
+                                      ? 394
+                                      : 314
+                }
                 sizes="(max-width: 520px) 44vw, (max-width: 900px) 29vw, 208px"
                 aria-hidden={number === 27 || number === 34 ? "true" : undefined}
               />
@@ -20,7 +42,9 @@ export default function Gallery({ columns }: { columns: number[][] }) {
           </div>
         ))}
       </div>
-      <Link className="gallery-cta" href="/gallery">SEE ALL WORK</Link>
+      <Link className="gallery-cta" href="/gallery">
+        SEE ALL WORK
+      </Link>
     </section>
   );
 }

@@ -9,7 +9,14 @@ export default function StartCommission() {
       <p>Create a beautiful statement piece for your home, or a deeply meaningful keepsake for grandparents.</p>
       <div className="start-commission-action">
         <Link href="#commission-heading">GET STARTED</Link>
-        <Image className="start-commission-cursor" src="/gallery-page/cursor-arrow.png" alt="" width={56} height={73} aria-hidden="true" />
+        <Image
+          className="start-commission-cursor"
+          src="/gallery-page/cursor-arrow.png"
+          alt=""
+          width={56}
+          height={73}
+          aria-hidden="true"
+        />
       </div>
     </section>
   );

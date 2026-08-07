@@ -8,12 +8,23 @@ export default function StayConnected() {
       </p>
       <form className="stay-connected-form">
         <div className="stay-connected-field">
-          <label htmlFor="subscriber-name">FULL NAME <span>*</span></label>
+          <label htmlFor="subscriber-name">
+            FULL NAME <span>*</span>
+          </label>
           <input id="subscriber-name" name="name" type="text" placeholder="Sammy Milson" autoComplete="name" required />
         </div>
         <div className="stay-connected-field">
-          <label htmlFor="subscriber-email">EMAIL <span>*</span></label>
-          <input id="subscriber-email" name="email" type="email" placeholder="yourname@email.com" autoComplete="email" required />
+          <label htmlFor="subscriber-email">
+            EMAIL <span>*</span>
+          </label>
+          <input
+            id="subscriber-email"
+            name="email"
+            type="email"
+            placeholder="yourname@email.com"
+            autoComplete="email"
+            required
+          />
         </div>
         <button type="submit">SECURE YOUR CREDIT</button>
       </form>

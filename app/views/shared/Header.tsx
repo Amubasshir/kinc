@@ -16,12 +16,24 @@ export default function Header() {
         <Image src="/logo.svg" alt="KinCollage" width={144} height={26} priority />
       </Link>
       <nav className="desktop-nav" aria-label="Primary navigation">
-        {navigation.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+        {navigation.map((item) => (
+          <Link key={item.href} href={item.href}>
+            {item.label}
+          </Link>
+        ))}
       </nav>
       <details className="mobile-nav">
-        <summary aria-label="Open navigation menu"><span /><span /><span /></summary>
+        <summary aria-label="Open navigation menu">
+          <span />
+          <span />
+          <span />
+        </summary>
         <nav aria-label="Mobile navigation">
-          {navigation.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+          {navigation.map((item) => (
+            <Link key={item.href} href={item.href}>
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </details>
     </header>

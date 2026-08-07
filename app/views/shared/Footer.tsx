@@ -17,8 +17,10 @@ export default function Footer() {
         <h2>ZSOFIA MATRAI</h2>
         <p className="footer-role">Designer &amp; Artist based in Sydney, Australia.</p>
         <p className="footer-acknowledgement">
-          We design, create and build on the Gadigal land. We acknowledge the<br />
-          people of the Eora Nation, the Traditional Custodians of the land, paying<br />
+          We design, create and build on the Gadigal land. We acknowledge the
+          <br />
+          people of the Eora Nation, the Traditional Custodians of the land, paying
+          <br />
           my respects to their Elders past, present, and emerging.
         </p>
         <p className="footer-email">ZSOFI.MATRAI@GMAIL.COM</p>

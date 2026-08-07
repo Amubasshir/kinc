@@ -1,1 +1,11 @@
-export default function ProductMenu({categories}:{categories:string[]}){return <section id="product-options" className="product-menu" aria-label="Commission product categories"><nav>{categories.map(category=><span key={category}>{category}</span>)}</nav></section>}
+export default function ProductMenu({ categories }: { categories: string[] }) {
+  return (
+    <section id="product-options" className="product-menu" aria-label="Commission product categories">
+      <nav>
+        {categories.map((category) => (
+          <span key={category}>{category}</span>
+        ))}
+      </nav>
+    </section>
+  );
+}
