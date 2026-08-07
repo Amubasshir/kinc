@@ -2174,3 +2174,20 @@ main > section {
   .artist-hero-portrait { order: 0; width: min(100%, 504px); }
   .artist-hero-signature { bottom: 12px; left: -12px; width: 42%; height: auto; }
 }
+.artist-story { min-height: 977px; padding: 72px 24px 79px; overflow: hidden; border-radius: 20px; background: #00d18f; color: #263443; text-align: center; }
+.artist-story h2 { margin: 0; font-size: 48px; line-height: 1.12; letter-spacing: .2px; }
+.artist-story-copy { margin-top: 20px; }
+.artist-story-copy p { margin: 0; font-size: 16px; line-height: 1.45; }
+.artist-story-copy p + p { margin-top: 20px; }
+.artist-story-copy mark { padding: 2px 4px; border-radius: 4px; background: #97ff77; color: inherit; }
+.artist-story-video { position: relative; width: min(990px, 100%); margin: 84px auto 0; }
+.artist-story-video > img:first-child { display: block; width: 100%; height: auto; border-radius: 18px; }
+.artist-story-cursor { position: absolute; top: 56%; left: 68%; width: 72px; height: auto; transform: rotate(35deg); }
+@media (max-width: 800px) {
+  .artist-story { min-height: auto; padding: 64px 20px 76px; border-radius: 16px; }
+  .artist-story h2 { font-size: clamp(38px, 11vw, 46px); }
+  .artist-story-copy p { font-size: 15px; line-height: 1.55; }
+  .artist-story-copy p br { display: none; }
+  .artist-story-video { margin-top: 54px; }
+  .artist-story-cursor { width: 48px; }
+}
