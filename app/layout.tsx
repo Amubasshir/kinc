@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Tenor_Sans } from "next/font/google";
+import BackToTop from "./views/shared/BackToTop";
 import Footer from "./views/shared/Footer";
 import Header from "./views/shared/Header";
 import "./globals.css";
@@ -16,12 +17,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className="h-full antialiased">
       <body
+        id="page-top"
         className={`${montserrat.variable} ${tenorSans.variable} min-h-full flex flex-col`}
         suppressHydrationWarning
       >
         <Header />
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );

@@ -43,14 +43,6 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
                     height={88}
                     aria-hidden="true"
                   />
-                  <Image
-                    className="merchandise-accent"
-                    src="/merch-accent.svg"
-                    alt=""
-                    width={86}
-                    height={84}
-                    aria-hidden="true"
-                  />
                 </>
               )}
             </div>
