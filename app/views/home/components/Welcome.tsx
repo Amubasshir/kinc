@@ -95,9 +95,7 @@ export default function Welcome() {
               <br /> child&apos;s legacy.
             </p>
             <p className="welcome-closing">
-              <strong>
-                <em>Don&apos;t hide their magic in a box. Elevate it.</em>
-              </strong>
+              <em>Don&apos;t hide their magic in a box. Elevate it.</em>
             </p>
           </div>
         </div>

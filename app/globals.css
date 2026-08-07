@@ -218,6 +218,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 .welcome-label-after span { background: #ffe500; }
 .welcome-outro { margin-top: 33px; }
 .welcome-outro .welcome-closing { margin-top: 22px; }
+.welcome-closing em { font-weight: 500; }
 
 @media (max-width: 1080px) {
   .welcome-label-before { left: -70px; }
@@ -2276,3 +2277,16 @@ main > section {
 .artist-collection-shot figcaption span { display: block; font-weight: 400; }
 .artist-collection-shot figcaption strong { font-size: clamp(7px, 1.05vw, 14px); }
 .artist-collection-shot figcaption span { margin-top: 5px; font-size: clamp(5px, .68vw, 9px); }
+/* Landing hero asset composition */
+.hero { position: relative; min-height: 812px; padding-right: calc(59.86% + 58px); overflow: hidden; }
+.hero-content { position: relative; z-index: 2; width: 446px; max-width: 100%; }
+.hero-showcase { position: absolute; top: 0; right: 0; display: block; width: 59.86%; height: 100%; border-radius: 20px; object-fit: cover; }
+.hero-action { position: relative; display: inline-flex; }
+.hero-action .hero-cta { flex: none; }
+.hero-eyelash { position: absolute; top: 12px; left: calc(100% + 1px); width: 51px; height: 85px; object-fit: contain; pointer-events: none; }
+@media (max-width: 820px) {
+  .hero { min-height: auto; padding: 0 0 72px; align-items: stretch; flex-direction: column; }
+  .hero-showcase { position: relative; top: auto; right: auto; order: -1; width: 100%; height: auto; border-radius: 16px; aspect-ratio: 838 / 812; }
+  .hero-content { width: auto; padding: 64px 24px 0; }
+  .hero-eyelash { width: 43px; height: auto; }
+}
