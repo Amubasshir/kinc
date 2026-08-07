@@ -17,12 +17,21 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
       <div className="testimonials-grid">
         {testimonials.map((testimonial) => (
           <article className="testimonial-card" key={testimonial.name}>
-            <Image className="testimonial-art" src={testimonial.image} alt={`Collage artwork commissioned by ${testimonial.name}`} width={352} height={454} sizes="(max-width: 760px) 92vw, 352px" />
+            <Image
+              className="testimonial-art"
+              src={testimonial.image}
+              alt={`Collage artwork commissioned by ${testimonial.name}`}
+              width={352}
+              height={454}
+              sizes="(max-width: 760px) 92vw, 352px"
+            />
             <div className="testimonial-copy">
               <blockquote>{testimonial.quote}</blockquote>
               <Stars />
               <div className="testimonial-review">
-                {testimonial.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {testimonial.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
               {testimonial.paragraphs.join(" ").length > 250 && <span className="testimonial-less">SEE LESS</span>}
               <footer>
@@ -34,7 +43,12 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         ))}
       </div>
       <div className="testimonial-pagination" aria-hidden="true">
-        <span className="active" /><span /><span /><span /><span /><span />
+        <span className="active" />
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
       </div>
     </section>
   );

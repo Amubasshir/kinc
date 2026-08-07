@@ -1,3 +1,6 @@
+import type { HomeViewModel } from "../models/site";
+import { getHomeViewModel } from "./homeViewModel";
+
 export type ArtistViewModel = {
   name: string;
   portrait: string;
@@ -14,6 +17,14 @@ export type ArtistViewModel = {
       popular?: boolean;
     }>;
   };
+  testimonial: {
+    rating: number;
+    paragraphs: string[];
+    highlightedText: string;
+    name: string;
+    location: string;
+  };
+  testimonials: HomeViewModel["testimonials"];
 };
 
 export function getArtistViewModel(): ArtistViewModel {
@@ -31,5 +42,16 @@ export function getArtistViewModel(): ArtistViewModel {
         { name: "The Grand", dimensions: "122 x 183 cm", minimum: "Min. 60 artwork required", price: "$6915 AUD", image: "/artist/pricing-grand.png" },
       ],
     },
+    testimonial: {
+      rating: 5,
+      paragraphs: [
+        "Thank you Sophie for our beautiful art, it has exceeded expectations!",
+        "The kids love seeing their art on proud display, much better than stored away in the cupboard. And we get so many compliments from visitors, it’s a real centrepiece!",
+      ],
+      highlightedText: "The kids love seeing their art on proud display,",
+      name: "Elizabeth",
+      location: "Sydney, Australia",
+    },
+    testimonials: getHomeViewModel().testimonials,
   };
 }
