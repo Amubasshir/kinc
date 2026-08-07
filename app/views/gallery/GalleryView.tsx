@@ -12,8 +12,9 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
 
   return (
     <>
-      <section className="gallery-page-hero" aria-label="Gallery introduction">
+      <section className="gallery-page-hero relative h-[651px] overflow-hidden rounded-[20px] bg-[#efefef] max-[800px]:h-auto max-[800px]:rounded-2xl max-[800px]:aspect-[174/192]" aria-label="Gallery introduction">
         <Image
+          className="block h-full w-full object-cover object-center"
           src="/gallery-page/hero.png"
           alt="A child holding a framed piece of colourful artwork"
           width={1400}
@@ -22,7 +23,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           sizes="100vw"
         />
         <Image
-          className="gallery-page-hero-accent gallery-page-hero-accent-left"
+          className="gallery-page-hero-accent gallery-page-hero-accent-left absolute top-[375px] left-[calc(50%_-_302px)] z-[2] block h-[82px] w-[61px] object-contain max-[800px]:top-1/2 max-[800px]:left-[24%] max-[800px]:h-auto max-[800px]:w-11 max-[700px]:hidden"
           src="/gallery-page/hero-accent-left.png"
           alt=""
           width={61}
@@ -30,7 +31,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           aria-hidden="true"
         />
         <Image
-          className="gallery-page-hero-accent gallery-page-hero-accent-right"
+          className="gallery-page-hero-accent gallery-page-hero-accent-right absolute top-[375px] right-[calc(50%_-_302px)] z-[2] block h-[82px] w-[61px] object-contain max-[800px]:top-1/2 max-[800px]:right-[24%] max-[800px]:h-auto max-[800px]:w-11 max-[700px]:hidden"
           src="/gallery-page/hero-accent-right.png"
           alt=""
           width={61}
@@ -38,12 +39,13 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           aria-hidden="true"
         />
       </section>
-      <section className="gallery-page-masonry" aria-label="KinCollage artwork gallery">
+      <section className="gallery-page-masonry grid grid-cols-4 gap-6 overflow-hidden rounded-[20px] bg-[#f5f5f5] px-3 pt-4 max-[800px]:grid-cols-2 max-[800px]:gap-2.5 max-[800px]:rounded-2xl max-[800px]:px-2.5 max-[800px]:pt-2.5 max-[700px]:hidden" aria-label="KinCollage artwork gallery">
         {viewModel.columns.map((column, columnIndex) => (
-          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1}`} key={columnIndex}>
+          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[800px]:gap-2.5`} key={columnIndex}>
             {column.map((item, itemIndex) => (
-              <div key={`${item.src}-${itemIndex}`} className="gallery-page-item">
+              <div key={`${item.src}-${itemIndex}`} className="gallery-page-item relative">
                 <Image
+                  className="block h-auto w-full rounded-[10px]"
                   src={item.src}
                   alt={item.alt}
                   width={item.width}
@@ -52,25 +54,26 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
                 />
                 {columnIndex === 2 && itemIndex === 6 && <GalleryCommissionCard />}
                 {columnIndex === 3 && itemIndex === 5 && (
-                  <div className="gallery-page-commission-spacer" aria-hidden="true" />
+                  <div className="gallery-page-commission-spacer mt-6 w-[calc(200%+24px)] aspect-[652/584] max-[800px]:mt-2.5 max-[800px]:w-[calc(200%+10px)]" aria-hidden="true" />
                 )}
                 {columnIndex === 0 && itemIndex === 14 && <GalleryCommissionCard />}
                 {columnIndex === 1 && itemIndex === 14 && (
-                  <div className="gallery-page-commission-spacer" aria-hidden="true" />
+                  <div className="gallery-page-commission-spacer mt-6 w-[calc(200%+24px)] aspect-[652/584] max-[800px]:mt-2.5 max-[800px]:w-[calc(200%+10px)]" aria-hidden="true" />
                 )}
               </div>
             ))}
           </div>
         ))}
       </section>
-      <section className="gallery-page-mobile" aria-label="KinCollage artwork gallery">
+      <section className="gallery-page-mobile hidden flex-col gap-[5px] rounded-none bg-[#f5f5f5] pb-4 max-[700px]:flex" aria-label="KinCollage artwork gallery">
         {mobileGroups.map((group, groupIndex) => (
-          <div className="gallery-page-mobile-block" key={groupIndex}>
-            <div className="gallery-page-mobile-group">
+          <div className="gallery-page-mobile-block contents" key={groupIndex}>
+            <div className="gallery-page-mobile-group grid grid-cols-2 gap-[5px]">
               {group.map((column, columnIndex) => (
-                <div className="gallery-page-mobile-column" key={columnIndex}>
+                <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
                   {column.map((item, itemIndex) => (
                     <Image
+                      className="block h-auto w-full rounded-[7px]"
                       key={`${item.src}-${itemIndex}`}
                       src={item.src}
                       alt={item.alt}
@@ -83,13 +86,13 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
               ))}
             </div>
             {groupIndex === 0 && (
-              <div className="gallery-page-mobile-card">
+              <div className="gallery-page-mobile-card w-full aspect-[174/194]">
                 <GalleryCommissionCard />
               </div>
             )}
           </div>
         ))}
-        <Link className="gallery-page-mobile-see-all" href="#page-top">
+        <Link className="gallery-page-mobile-see-all mt-[11px] inline-flex min-h-[23px] w-[88px] items-center self-center justify-center rounded-full border border-[#263443] text-[8px] text-[#263443] no-underline" href="#page-top">
           SEE ALL WORK
         </Link>
       </section>
