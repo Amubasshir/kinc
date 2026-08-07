@@ -14,6 +14,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
   return (
     <section id="testimonials" className="testimonials" aria-labelledby="testimonials-heading">
       <h2 id="testimonials-heading">Testimonials</h2>
+      <p className="testimonials-intro">Share the magic with family. Print your child&apos;s custom collage onto a limited collection of premium everyday objects, creating an unforgettable keepsake for grandparents and loved ones.</p>
       <div className="testimonials-grid">
         {testimonials.map((testimonial) => (
           <article className="testimonial-card" key={testimonial.name}>

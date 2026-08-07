@@ -5,7 +5,7 @@ export function getHomeViewModel(): HomeViewModel {
     howSteps: [
       {
         number: "1.",
-        title: "Inquiry form",
+        title: "Consultation",
         image: "/how-inquiry.png",
         alt: "A collection of children's artwork ready for a commission",
         paragraphs: [

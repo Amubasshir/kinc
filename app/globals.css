@@ -2303,3 +2303,214 @@ html { scroll-behavior: smooth; }
 @media (max-width: 700px) {
   .back-to-top { right: 12px; bottom: 10px; width: 55px; height: auto; }
 }
+.testimonials-intro, .footer-follow { display: none; }
+
+@media (max-width: 700px) {
+  html, body { max-width: 100%; overflow-x: hidden; }
+  body { padding: 12px; background: #f5f5f5; }
+  main { gap: 12px; }
+  main > section { margin-top: 0 !important; }
+
+  .site-header { min-height: 58px; padding: 0 16px; border-radius: 18px; }
+
+  .hero { display: flex; min-height: 0; padding: 0; overflow: visible; flex-direction: column; gap: 12px; border-radius: 0; background: transparent; }
+  .hero-showcase { position: relative; order: 0; width: 100%; height: 389px; border-radius: 18px; object-fit: cover; object-position: center; }
+  .hero-content { order: 1; width: 100%; min-height: 363px; box-sizing: border-box; padding: 70px 18px 48px; border-radius: 18px; background: #00d18f; text-align: center; }
+  .hero h1 { font-size: 25px; line-height: 1.25; letter-spacing: .1px; }
+  .hero h1 > span { display: inline; }
+  .hero h1 > span::after { content: " "; }
+  .hero h1 > span:nth-child(2)::after { content: "\A"; white-space: pre; }
+  .hero h1 em, .hero h1 mark { font-size: 1em; }
+  .hero p { margin-top: 17px; font-size: 15px; line-height: 1.45; }
+  .hero-action { margin-top: 7px; }
+  .hero-cta { min-width: 180px; min-height: 49px; margin-top: 16px; }
+  .hero-eyelash { top: 16px; width: 48px; }
+
+  .welcome { min-height: 0; padding: 0; border-radius: 0; background: transparent; }
+  .welcome-grid { display: flex; width: 100%; flex-direction: column; gap: 12px; }
+  .welcome-left, .welcome-right { display: contents; }
+  .welcome-intro { order: 1; padding: 30px 18px 27px; border-radius: 18px; background: #fff; }
+  .welcome h2 { font-size: 34px; }
+  .welcome p { font-size: 15px; line-height: 1.42; }
+  .welcome p br { display: none; }
+  .welcome-intro > p + p { margin-top: 26px; }
+  .welcome-before-wrap { order: 2; width: 100%; height: auto; box-sizing: border-box; margin: 0; padding: 28px 22px; overflow: visible; border-radius: 18px; background: #00d18f; }
+  .welcome-before-card { width: 100%; height: auto; aspect-ratio: 322 / 552; }
+  .welcome-before-photo { top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; border-radius: 15px; object-fit: cover; }
+  .welcome-tape, .welcome-label { display: none; }
+  .welcome-connector { display: block; right: auto; bottom: -100px; left: 36px; z-index: 5; width: 92px; height: auto; }
+  .welcome-after-wrap { order: 3; width: 100%; max-width: none; }
+  .welcome-after-photo { width: 100%; height: auto; border-radius: 18px; }
+  .welcome-outro { order: 4; margin: 0; padding: 29px 18px 31px; border-radius: 18px; background: #fff; }
+  .welcome-outro .welcome-closing { margin-top: 27px; }
+
+  .brand-logos { height: 130px; background: transparent; }
+  .brand-logos img { width: 350px; max-width: 100%; }
+
+  .how-it-works { min-height: 0; padding: 62px 28px 58px; border-radius: 18px; }
+  .how-it-works > h2 { font-size: 34px; }
+  .how-it-works > h2 mark { padding: 3px 10px 4px; border-radius: 11px; }
+  .how-steps { width: 100%; margin-top: 58px; gap: 62px; }
+  .how-step { gap: 23px; text-align: center; }
+  .how-photo { width: min(100%, 306px); height: auto; aspect-ratio: 1; }
+  .how-photo::before { inset: 13px -10px -13px 10px; }
+  .how-title-row { align-items: center; flex-direction: column; gap: 15px; }
+  .how-number { width: 43px; height: 43px; flex-basis: 43px; font-size: 20px; }
+  .how-title-row h3 { font-family: Georgia, "Times New Roman", serif; font-size: 30px; }
+  .how-body { margin-top: 21px; }
+  .how-body p { font-size: 15px; line-height: 1.52; }
+  .how-body p + p { margin-top: 24px; }
+  .how-cta { min-width: 230px; min-height: 49px; margin-top: 27px; font-size: 14px; }
+  .how-scribble { top: -86px; right: -9px; width: 73px; }
+
+  .pricing { min-height: 0; padding: 31px 0 42px; border-radius: 0; }
+  .pricing-header h2 { font-family: Georgia, "Times New Roman", serif; font-size: 31px; }
+  .pricing-header p { margin-top: 17px; font-size: 14px; }
+  .pricing-grid { display: flex; width: 100%; margin-top: 31px; flex-direction: column; gap: 0; }
+  .pricing-card { width: 100%; border-radius: 17px; }
+  .pricing-card:not(:first-child) { display: none; }
+  .pricing-card-copy { min-height: 193px; padding: 29px 43px 25px; border-radius: 0 0 17px 17px; }
+  .pricing-card-copy h3 { margin-bottom: 17px; font-family: Georgia, "Times New Roman", serif; font-size: 29px; }
+  .pricing-card-copy p { font-size: 15px; line-height: 1.45; }
+  .pricing-card-copy .pricing-price { margin-top: 26px; }
+  .pricing-grid::after { width: 57px; height: 8px; margin: 17px auto 0; background: radial-gradient(circle at 4px 4px,#777782 0 4px,transparent 4.5px),radial-gradient(circle at 20px 4px,#dedee3 0 4px,transparent 4.5px),radial-gradient(circle at 36px 4px,#dedee3 0 4px,transparent 4.5px),radial-gradient(circle at 52px 4px,#dedee3 0 4px,transparent 4.5px); content: ""; }
+  .pricing-footer { width: 100%; margin-top: 32px; padding: 0 22px; box-sizing: border-box; gap: 39px; }
+  .pricing-notes h3 { font-size: 15px; }
+  .pricing-notes p { font-size: 14px; line-height: 1.52; }
+  .pricing-custom { margin-top: 36px; }
+  .pricing-action a { width: 232px; min-width: 232px; min-height: 49px; font-size: 14px; }
+
+  .merchandise { min-height: 0; padding: 0 0 12px; border-radius: 0; background: transparent; }
+  .merchandise-header { padding: 41px 23px 0; text-align: left; }
+  .merchandise-header h2 { max-width: 320px; font-family: Georgia, "Times New Roman", serif; font-size: 31px; line-height: 1.15; }
+  .merchandise-header h2 mark { padding: 0; background: transparent; }
+  .merchandise-header p { margin-top: 24px; color: #777; font-size: 15px; line-height: 1.5; }
+  .merchandise-grid { display: flex; width: 100%; margin-top: 33px; flex-direction: column; gap: 0; }
+  .merchandise-card { width: 100%; min-height: 554px; box-sizing: border-box; padding: 48px 44px 27px; border-radius: 18px; background: #fff; }
+  .merchandise-card:not(:first-child) { display: none; }
+  .merchandise-image { width: 100%; aspect-ratio: 1; }
+  .merchandise-card h3 { margin-top: 77px; font-family: Georgia, "Times New Roman", serif; font-size: 29px; }
+  .merchandise-card > p { margin-top: 13px; font-size: 14px; }
+  .merchandise-bestseller, .merchandise-eyelash { display: none; }
+  .merchandise-grid::after { width: 57px; height: 8px; margin: 14px auto 0; background: radial-gradient(circle at 4px 4px,#777782 0 4px,transparent 4.5px),radial-gradient(circle at 20px 4px,#dedee3 0 4px,transparent 4.5px),radial-gradient(circle at 36px 4px,#fff 0 4px,transparent 4.5px),radial-gradient(circle at 52px 4px,#fff 0 4px,transparent 4.5px); content: ""; }
+
+  .gift-card { min-height: 0; padding: 31px 22px 34px; border-radius: 18px; }
+  .gift-card h2 { font-size: 34px; line-height: 1.08; }
+  .gift-card-content > p { margin-top: 20px; font-size: 15px; line-height: 1.48; }
+  .gift-card-form { margin-top: 13px; }
+  .gift-card-form input { height: 41px; }
+  .gift-card-form button { width: 232px; min-height: 49px; margin-top: 26px; font-size: 14px; }
+
+  .about { padding: 20px 16px 28px; gap: 29px; border-radius: 18px; }
+  .about-portrait { width: 100%; max-width: none; aspect-ratio: 334 / 537; }
+  .about-portrait > img:first-child { border-radius: 15px; object-fit: cover; }
+  .about-signature { display: none; }
+  .about h2 { font-family: Georgia, "Times New Roman", serif; font-size: 31px; }
+  .about-copy { margin-top: 23px; }
+  .about-copy p { font-size: 15px; line-height: 1.48; }
+  .about-copy p br { display: none; }
+  .about-copy p + p { margin-top: 26px; }
+  .about-copy mark { padding: 0; background: transparent; }
+  .about-cta { display: flex; width: 180px; min-height: 48px; margin: 27px auto 0; }
+
+  .testimonials { padding: 30px 0 43px; border-radius: 0; }
+  .testimonials > h2 { padding: 0 23px; text-align: left; font-family: Georgia, "Times New Roman", serif; font-size: 31px; }
+  .testimonials-intro { display: block; margin: 22px 23px 0; color: #777; font-size: 15px; line-height: 1.5; }
+  .testimonials-grid { display: block; width: 100%; margin-top: 34px; }
+  .testimonial-card { width: 100%; border-radius: 18px; }
+  .testimonial-card:not(:first-child) { display: none; }
+  .testimonial-art { width: 100%; height: auto; aspect-ratio: 352 / 454; }
+  .testimonial-copy { padding: 29px 43px 32px; }
+  .testimonial-copy blockquote { font-size: 25px; line-height: 1.08; }
+  .testimonial-review p { font-size: 17px; line-height: 1.35; }
+  .testimonial-review p:nth-child(n+2) { display: none; }
+  .testimonial-less { display: inline-block; }
+  .testimonial-copy cite { font-size: 31px; }
+  .testimonial-copy footer p { font-size: 15px; }
+  .testimonial-pagination { margin-top: 27px; }
+
+  .stats { padding: 43px 24px 54px; border-radius: 18px; }
+  .stats-grid { width: 100%; gap: 58px; }
+  .stat { text-align: left; }
+  .stat-value { width: 76px; height: 76px; margin: 0; font-size: 64px; }
+  .stat h2 { margin-top: 24px; font-size: 27px; }
+  .stat p { margin-top: 17px; font-size: 15px; line-height: 1.48; }
+
+  .gallery-section { min-height: 0; padding: 34px 4px 38px; border-radius: 0; }
+  .gallery-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+  .gallery-column { gap: 10px; }
+  .gallery-column:nth-child(n+3) { display: none; }
+  .gallery-column img { border-radius: 10px; }
+  .gallery-cta { min-width: 181px; min-height: 49px; margin-top: 33px; background: transparent; font-size: 14px; }
+
+  .faqs { min-height: 0; padding: 45px 22px 31px; border-radius: 18px; }
+  .faqs > h2 { font-family: Georgia, "Times New Roman", serif; font-size: 34px; }
+  .faq-list { margin-top: 39px; }
+  .faq-item:nth-child(n+4) { display: none; }
+  .faq-item summary { min-height: 83px; padding: 0; font-size: 16px; }
+  .faq-item[open] summary { min-height: 56px; }
+  .faq-item p { margin: 0 0 20px; font-size: 15px; line-height: 1.5; }
+  .faq-list::after { display: block; padding-top: 29px; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 16px; content: "SEE MORE"; }
+
+  .contact { min-height: 0; padding: 4px 4px 29px; border-radius: 18px; background: #008861; }
+  .contact-panel { min-height: 0; padding: 0; gap: 34px; }
+  .contact-shadow-layer, .contact-green-layer { display: none; }
+  .contact-form-card { order: 0; width: 100%; box-sizing: border-box; padding: 43px 21px 40px; border-radius: 15px; }
+  .contact-form-card h2 { font-family: Georgia, "Times New Roman", serif; font-size: 34px; }
+  .contact-form-card > p { margin-top: 17px; font-size: 15px; line-height: 1.48; }
+  .contact-form { margin-top: 24px; gap: 30px; }
+  .contact-field label { margin-bottom: 9px; font-size: 14px; }
+  .contact-field input { height: 40px; }
+  .contact-form button { width: 232px; min-height: 49px; margin: 0 auto; }
+  .contact-artwork { order: 1; width: calc(100% - 42px); margin: 0 auto; border-radius: 15px; aspect-ratio: 318 / 389; object-fit: cover; }
+
+  .stay-connected { min-height: 0; padding: 55px 23px 40px; border-radius: 18px; }
+  .stay-connected h2 { font-size: 34px; }
+  .stay-connected > p { margin-top: 29px; font-size: 15px; line-height: 1.5; }
+  .stay-connected-form { margin-top: 31px; gap: 30px; }
+  .stay-connected-field label { font-size: 14px; text-align: left; }
+  .stay-connected-field input { height: 40px; }
+  .stay-connected-form button { width: 232px; min-height: 49px; margin: 0 auto; }
+
+  .site-footer { min-height: 876px; margin-top: 12px; padding: 88px 12px 28px; border-radius: 18px; }
+  .footer-logo { width: 142px; }
+  .footer-profile h2 { margin-top: 32px; font-family: Georgia, "Times New Roman", serif; font-size: 31px; }
+  .footer-role { margin-top: 13px; font-size: 15px; }
+  .footer-acknowledgement { margin-top: 21px; font-size: 15px; line-height: 1.5; }
+  .footer-email { margin-top: 22px; font-size: 15px; }
+  .footer-follow { display: block; margin: 23px 0 0; color: #78788c; font-size: 15px; }
+  .footer-actions { display: flex; margin-top: 28px; align-items: stretch; flex-direction: column; gap: 39px; }
+  .footer-socials { width: 100%; justify-content: space-between; gap: 0; }
+  .footer-socials img { width: 31px; height: 31px; object-fit: contain; }
+  .footer-contact { width: 100%; height: 58px; box-sizing: border-box; }
+  .footer-bottom { margin-top: 66px; gap: 42px; }
+  .footer-bottom nav { align-items: flex-start; flex-direction: column; gap: 26px; font-size: 15px; }
+  .footer-bottom p { font-size: 14px; }
+  .back-to-top { right: 12px; bottom: 10px; }
+}
+.hero-showcase-mobile { display: none; }
+@media (max-width: 700px) {
+  body { width: 100%; box-sizing: border-box; }
+  main, main > section { width: 100%; min-width: 0; box-sizing: border-box; }
+  main > section > *, .welcome-grid, .welcome-left, .welcome-right, .how-steps, .pricing-footer,
+  .merchandise-header, .gift-card-content, .about-content, .testimonials-grid, .stats-grid,
+  .gallery-grid, .faq-list, .contact-panel, .stay-connected-form { min-width: 0; max-width: 100%; box-sizing: border-box; }
+  .hero-showcase { display: none; }
+  .hero-showcase-mobile { position: relative; display: block; order: 0; width: 100%; height: auto; border-radius: 18px; }
+  .hero h1 > span { display: block; }
+  .hero h1 > span::after, .hero h1 > span:nth-child(2)::after { content: none; }
+  .hero h1 em, .hero h1 mark { display: inline; margin-top: 0; }
+  .hero-content { overflow: hidden; }
+  .pricing-notes, .merchandise-header, .gift-card-content, .about-content,
+  .testimonials-intro, .testimonial-copy, .stat, .contact-form-card, .stay-connected { overflow-wrap: anywhere; }
+}
+@media (max-width: 700px) {
+  body { min-width: 0; }
+  .site-header, main, main > section, .site-footer { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
+  main { align-self: flex-start; }
+  main > section { flex: none; }
+  .hero-content, .hero-showcase-mobile, .welcome-grid, .how-steps, .pricing-grid,
+  .merchandise-grid, .gift-card-content, .about-content, .about-portrait,
+  .testimonials-grid, .stats-grid, .gallery-grid, .faq-list, .contact-panel,
+  .stay-connected-form { width: 100% !important; max-width: 100% !important; }
+}

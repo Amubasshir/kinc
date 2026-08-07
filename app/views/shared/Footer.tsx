@@ -26,6 +26,8 @@ export default function Footer() {
         <p className="footer-email">ZSOFI.MATRAI@GMAIL.COM</p>
       </div>
 
+      <p className="footer-follow">Follow me on:</p>
+
       <div className="footer-actions">
         <div className="footer-socials" aria-label="Social media">
           {socialIcons.map((icon) => (
