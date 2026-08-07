@@ -1,9 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { GalleryPageViewModel } from "../../models/site";
 import StayConnected from "../shared/StayConnected";
 import GalleryCommissionCard from "./components/GalleryCommissionCard";
 
 export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewModel }) {
+  const mobileGroups = [
+    [viewModel.columns[0].slice(0, 5), viewModel.columns[1].slice(0, 6)],
+    [viewModel.columns[0].slice(5, 11), viewModel.columns[1].slice(6, 12)],
+  ];
+
   return (
     <>
       <section className="gallery-page-hero" aria-label="Gallery introduction">
@@ -56,6 +62,36 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
             ))}
           </div>
         ))}
+      </section>
+      <section className="gallery-page-mobile" aria-label="KinCollage artwork gallery">
+        {mobileGroups.map((group, groupIndex) => (
+          <div className="gallery-page-mobile-block" key={groupIndex}>
+            <div className="gallery-page-mobile-group">
+              {group.map((column, columnIndex) => (
+                <div className="gallery-page-mobile-column" key={columnIndex}>
+                  {column.map((item, itemIndex) => (
+                    <Image
+                      key={`${item.src}-${itemIndex}`}
+                      src={item.src}
+                      alt={item.alt}
+                      width={item.width}
+                      height={item.height}
+                      sizes="47vw"
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+            {groupIndex === 0 && (
+              <div className="gallery-page-mobile-card">
+                <GalleryCommissionCard />
+              </div>
+            )}
+          </div>
+        ))}
+        <Link className="gallery-page-mobile-see-all" href="#page-top">
+          SEE ALL WORK
+        </Link>
       </section>
       <StayConnected />
     </>

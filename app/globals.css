@@ -2118,14 +2118,16 @@ main > section {
 .gallery-page-item > img { display: block; width: 100%; height: auto; border-radius: 10px; }
 .gallery-page-column > .gallery-page-item:last-child { display: flex; min-height: 0; flex: 1; }
 .gallery-page-column > .gallery-page-item:last-child > img { height: 100%; object-fit: cover; }
-.gallery-page-masonry + .stay-connected { margin-top: 0 !important; }
+.gallery-page-masonry + .stay-connected { margin-top: 16px !important; }
 .gallery-page-commission-card,
 .gallery-page-commission-spacer { width: calc(200% + 24px); margin-top: 24px; aspect-ratio: 652 / 584; }
 .gallery-page-commission-card { position: relative; z-index: 2; }
 .gallery-page-commission-card .start-commission { width: 100%; height: 100%; min-height: 0; justify-content: center; padding: 60px 24px; }
+.gallery-page-mobile { display: none; }
 
 @media (max-width: 800px) {
-  .gallery-page-hero { height: auto; border-radius: 16px; aspect-ratio: 1400 / 651; }
+  .gallery-page-hero { height: auto; border-radius: 16px; aspect-ratio: 174 / 192; }
+  .gallery-page-hero > img:first-child { object-fit: cover; object-position: center; }
   .gallery-page-hero-accent { top: 51%; width: 44px; height: auto; }
   .gallery-page-hero-accent-left { left: 24%; }
   .gallery-page-hero-accent-right { right: 24%; }
@@ -2141,10 +2143,18 @@ main > section {
 .gallery-page-hero-accent-right { right: calc(50% - 302px); }
 
 @media (max-width: 700px) {
-  .gallery-page-hero-accent { top: 57%; width: 40px; height: auto; }
-  .gallery-page-hero-accent-left { left: 24%; }
-  .gallery-page-hero-accent-right { right: 24%; }
-  
+  .gallery-page-hero-accent { display: none; }
+  .gallery-page-masonry { display: none; }
+  .gallery-page-mobile { display: flex; padding-bottom: 16px; flex-direction: column; gap: 5px; border-radius: 0; background: #f5f5f5; }
+  .gallery-page-mobile-block { display: contents; }
+  .gallery-page-mobile-group { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
+  .gallery-page-mobile-column { display: flex; min-width: 0; flex-direction: column; gap: 5px; }
+  .gallery-page-mobile-column img { display: block; width: 100%; height: auto; border-radius: 7px; }
+  .gallery-page-mobile-card { width: 100%; aspect-ratio: 174 / 194; }
+  .gallery-page-mobile-card .gallery-page-commission-card { width: 100%; height: 100%; margin: 0; aspect-ratio: auto; }
+  .gallery-page-mobile-card .start-commission { width: 100%; height: 100%; min-height: 0; box-sizing: border-box; padding: 34px 18px; border-radius: 7px; }
+  .gallery-page-mobile-see-all { display: inline-flex; width: 88px; min-height: 23px; align-items: center; align-self: center; justify-content: center; margin-top: 11px; border: 1px solid #263443; border-radius: 999px; color: #263443; font-family: var(--font-tenor-sans), Arial, sans-serif; font-size: 8px; text-decoration: none; }
+  .gallery-page-mobile + .stay-connected { margin-top: 16px !important; }
 }
 .artist-hero { min-height: 1401px; overflow: hidden; border-radius: 20px; background: #00d18f; color: #263443; }
 .artist-hero-inner { position: relative; width: min(1156px, calc(100% - 48px)); min-height: 900px; margin: 0 auto; }
@@ -2161,6 +2171,7 @@ main > section {
 .artist-hero-signature { position: absolute; bottom: 18px; left: -49px; width: 203px; height: 49px; object-fit: contain; }
 @media (max-width: 1050px) {
   .artist-hero { min-height: auto; padding: 80px 28px 100px; }
+  .artist-hero + .artist-career-gallery { margin-top: 6px !important; }
   .artist-hero-inner { display: grid; width: min(900px, 100%); min-height: 0; grid-template-columns: minmax(0, 1fr) minmax(340px, 44%); align-items: center; gap: 48px; }
   .artist-hero-copy, .artist-hero-portrait { position: relative; top: auto; right: auto; left: auto; width: 100%; }
   .artist-hero-copy h1 { font-size: 44px; }
@@ -2199,7 +2210,7 @@ main > section {
 .artist-pricing-header { text-align: center; }
 .artist-pricing-header h2 { margin: 0; font-size: 48px; font-weight: 400; line-height: 1.12; letter-spacing: .2px; }
 .artist-pricing-header p { margin: 23px 0 0; font-size: 16px; line-height: 1.4; }
-.artist-pricing-grid { display: grid; margin-top: 57px; grid-template-columns: repeat(4, 300px); justify-content: space-between; gap: 24px; }
+.artist-pricing-grid { display: grid; margin-top: 57px; grid-template-columns: repeat(4, 300px); justify-content: center; gap: 16px; }
 .artist-pricing-card { overflow: hidden; border-radius: 15px; background: #fff; }
 .artist-pricing-artwork { position: relative; height: 353px; }
 .artist-pricing-artwork > img:first-child { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -2236,11 +2247,11 @@ main > section {
 .artist-testimonial { position: relative; height: 743px; overflow: hidden; border-radius: 20px; color: #263443; }
 .artist-testimonial-background { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
 .artist-testimonial-stack { position: absolute; top: 132px; left: 50%; width: min(1240px, calc(100% - 112px)); height: 478px; transform: translateX(-50%); }
-.artist-testimonial-shadow { position: absolute; top: 24px; left: 26px; width: calc(100% - 7px); height: calc(100% - 24px); object-fit: fill; }
-.artist-testimonial-card { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; border-radius: 20px; }
+.artist-testimonial-shadow { position: absolute; top: 24px; left: 26px; z-index: 0; width: 100%; height: 100%; object-fit: fill; }
+.artist-testimonial-card { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; overflow: hidden; border-radius: 20px; }
 .artist-testimonial-card-background { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: fill; }
-.artist-testimonial-quote-mark { position: absolute; right: -3px; bottom: -8px; width: 188px; height: auto; opacity: .48; }
-.artist-testimonial blockquote { position: relative; z-index: 1; width: min(860px, calc(100% - 100px)); margin: 1px 0 0; text-align: center; }
+.artist-testimonial-quote-mark { position: absolute; right: 22px; bottom: -12px; z-index: 1; width: 236px; height: auto; opacity: 1; }
+.artist-testimonial blockquote { position: relative; z-index: 2; width: min(860px, calc(100% - 100px)); margin: 1px 0 0; text-align: center; }
 .artist-testimonial-stars { font-family: Arial, sans-serif; font-size: 15px; line-height: 1; letter-spacing: 1px; }
 .artist-testimonial blockquote p { margin: 24px 0 0; font-size: 24px; line-height: 1.22; }
 .artist-testimonial blockquote mark { padding: 2px 4px; border-radius: 3px; background: #00d18f; color: inherit; }
@@ -2250,7 +2261,7 @@ main > section {
 @media (max-width: 900px) {
   .artist-testimonial { height: auto; min-height: 520px; aspect-ratio: 1398 / 743; }
   .artist-testimonial-stack { top: 18%; width: calc(100% - 10%); height: 64%; }
-  .artist-testimonial-shadow { top: 5%; left: 2%; height: 95%; }
+  .artist-testimonial-shadow { top: 5%; left: 2%; width: 100%; height: 100%; }
   .artist-testimonial-quote-mark { width: 15%; }
   .artist-testimonial blockquote { width: calc(100% - 60px); }
   .artist-testimonial blockquote p { margin-top: 18px; font-size: clamp(16px, 2.1vw, 24px); }
@@ -2258,20 +2269,23 @@ main > section {
 }
 @media (max-width: 600px) {
   .artist-testimonial { min-height: 490px; border-radius: 16px; aspect-ratio: auto; }
-  .artist-testimonial-stack { top: 12%; width: calc(100% - 32px); height: 76%; }
+  .artist-testimonial-stack { top: 11%; width: calc(100% - 44px); height: 76%; }
+  .artist-testimonial-shadow { top: 12px; left: 12px; width: 100%; height: 100%; }
   .artist-testimonial-card { border-radius: 16px; }
-  .artist-testimonial blockquote { width: calc(100% - 36px); }
+  .artist-testimonial-quote-mark { right: 6px; bottom: -6px; width: 112px; opacity: 1; }
+  .artist-testimonial blockquote { width: calc(100% - 36px); padding: 0 2px; }
   .artist-testimonial blockquote p { font-size: 15px; line-height: 1.35; }
   .artist-testimonial blockquote p br { display: none; }
   .artist-testimonial-stars { font-size: 13px; }
   .artist-testimonial blockquote footer { margin-top: 16px; }
 }
-.artist-career-gallery { overflow: hidden; border-radius: 20px; background: #f5f5f5; }
+.artist-career-gallery { width: calc(100% - 24px); align-self: center; overflow: hidden; box-sizing: border-box; border-radius: 20px; background: linear-gradient(to bottom, #00d18f 0 430px, #f5f5f5 430px); }
 .artist-career-gallery img { display: block; width: 100%; height: auto; }
 @media (max-width: 700px) {
   .artist-career-gallery { border-radius: 16px; }
 }
 .artist-career-gallery { position: relative; }
+.artist-hero + .artist-career-gallery { position: relative; z-index: 2; margin-top: -430px !important; }
 .artist-career-gallery > .artist-career-gallery-master { display: block; width: 100%; height: auto; }
 .artist-career-gallery > .artist-collection-shot { position: absolute; top: 77.42%; left: 0; width: 18.98%; margin: 0; background: #f5f5f5; }
 .artist-career-gallery > .artist-collection-shot > img { display: block; width: 100%; height: auto; border-radius: 14px; }
@@ -2280,6 +2294,45 @@ main > section {
 .artist-collection-shot figcaption span { display: block; font-weight: 400; }
 .artist-collection-shot figcaption strong { font-size: clamp(7px, 1.05vw, 14px); }
 .artist-collection-shot figcaption span { margin-top: 5px; font-size: clamp(5px, .68vw, 9px); }
+.artist-career-mobile-see-all { display: none; }
+
+@media (max-width: 700px) {
+  .artist-hero { padding: 4px 4px 28px; }
+  .artist-hero-inner { gap: 0; }
+  .artist-hero-portrait { width: 100%; }
+  .artist-hero-copy { padding: 18px 4px 0; box-sizing: border-box; }
+  .artist-hero-copy h1 { font-size: 31px; line-height: 1.08; }
+  .artist-hero-body { margin-top: 17px; }
+  .artist-hero-body p { font-size: 14px; line-height: 1.5; }
+  .artist-hero-body p + p { margin-top: 20px; }
+
+  .artist-hero + .artist-career-gallery { position: relative; z-index: 2; margin-top: -8px !important; }
+  .artist-career-gallery { padding-bottom: 38px; background: linear-gradient(to bottom, #00d18f 0 8px, #f5f5f5 8px); }
+  .artist-career-mobile-see-all { position: absolute; bottom: 10px; left: 50%; display: inline-flex; width: 91px; min-height: 23px; align-items: center; justify-content: center; border: 1px solid #fff; border-radius: 999px; color: #fff; font-size: 8px; text-decoration: none; transform: translateX(-50%); }
+
+  .artist-story { display: flex; padding: 4px 14px 31px; flex-direction: column; }
+  .artist-story-video { order: 0; margin-top: 0; }
+  .artist-story h2 { order: 1; margin-top: 17px; font-size: 31px; }
+  .artist-story-copy { order: 2; margin-top: 14px; }
+  .artist-story-copy p { font-size: 14px; line-height: 1.5; }
+
+  .artist-pricing { padding: 31px 14px 35px; }
+  .artist-pricing-header h2 { font-size: 31px; }
+  .artist-pricing-header p { margin-top: 12px; font-size: 13px; }
+  .artist-pricing-grid { width: 100%; margin-top: 22px; grid-template-columns: 1fr; }
+  .artist-pricing-card { width: 100%; max-width: none; }
+  .artist-pricing-card:nth-child(n + 2) { display: none; }
+  .artist-pricing-artwork { height: auto; aspect-ratio: 300 / 353; }
+  .artist-pricing-details { min-height: 0; padding: 19px 13px 17px; }
+  .artist-pricing-details h3 { font-size: 27px; }
+  .artist-pricing-footer { margin-top: 26px; gap: 24px; }
+  .artist-pricing-action { align-self: center; margin: 0; }
+
+  .artist-testimonial { min-height: 420px; background: #00d18f; }
+  .artist-testimonial-background { display: none; }
+  .artist-testimonial-stack { top: 34px; width: calc(100% - 30px); height: calc(100% - 80px); }
+  .artist-testimonial-shadow { top: 11px; left: 10px; }
+}
 /* Landing hero asset composition */
 .hero { position: relative; min-height: 812px; padding-right: calc(59.86% + 58px); overflow: hidden; }
 .hero-content { position: relative; z-index: 2; width: 446px; max-width: 100%; }
@@ -2518,4 +2571,8 @@ html { scroll-behavior: smooth; }
 }
 @media (max-width: 360px) {
   .start-commission-burst { display: none; }
+}
+
+@media (max-width: 700px) {
+  main > section.artist-career-gallery { width: calc(100vw - 32px) !important; max-width: calc(100vw - 32px) !important; }
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ArtistViewModel } from "../../../view-models/artistViewModel";
 
 export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewModel["careerGallery"] }) {
@@ -12,6 +13,7 @@ export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewMo
           <span>{gallery.collectionShot.credit}</span>
         </figcaption>
       </figure>
+      <Link className="artist-career-mobile-see-all" href="#page-top">SEE ALL WORK</Link>
     </section>
   );
 }
