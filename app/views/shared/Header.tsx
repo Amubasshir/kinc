@@ -10,27 +10,30 @@ const navigation = [
 ];
 
 export default function Header() {
+  const navLinkClass =
+    "whitespace-nowrap font-[var(--font-tenor-sans)] text-[14px] leading-none font-normal text-[#858585] no-underline transition-colors duration-150 hover:text-[#008d60] focus-visible:text-[#008d60]";
+
   return (
-    <header className="site-header">
-      <Link className="site-logo" href="/" aria-label="KinCollage home">
+    <header className="site-header relative z-50 flex min-h-[61px] items-center justify-between overflow-hidden rounded-t-[20px] bg-white px-10 max-[820px]:min-h-[60px] max-[820px]:px-5 max-[700px]:!w-[calc(100vw-24px)] max-[700px]:!max-w-[calc(100vw-24px)] max-[700px]:min-h-[58px] max-[700px]:rounded-[18px] max-[700px]:px-4">
+      <Link className="site-logo flex shrink-0" href="/" aria-label="KinCollage home">
         <Image src="/logo.svg" alt="KinCollage" width={144} height={26} priority />
       </Link>
-      <nav className="desktop-nav" aria-label="Primary navigation">
+      <nav className="desktop-nav flex items-center gap-[33px] max-[820px]:hidden" aria-label="Primary navigation">
         {navigation.map((item) => (
-          <Link key={item.href} href={item.href}>
+          <Link className={navLinkClass} key={item.href} href={item.href}>
             {item.label}
           </Link>
         ))}
       </nav>
-      <details className="mobile-nav">
-        <summary aria-label="Open navigation menu">
-          <span />
-          <span />
-          <span />
+      <details className="mobile-nav group static hidden max-[820px]:block">
+        <summary className="grid h-9 w-9 cursor-pointer list-none place-content-center gap-[5px] [&::-webkit-details-marker]:hidden" aria-label="Open navigation menu">
+          <span className="block h-[1.5px] w-[22px] bg-[#008d60] transition-transform duration-150 group-open:translate-y-[6.5px] group-open:rotate-45" />
+          <span className="block h-[1.5px] w-[22px] bg-[#008d60] transition-opacity duration-150 group-open:opacity-0" />
+          <span className="block h-[1.5px] w-[22px] bg-[#008d60] transition-transform duration-150 group-open:-translate-y-[6.5px] group-open:-rotate-45" />
         </summary>
-        <nav aria-label="Mobile navigation">
+        <nav className="absolute top-[60px] right-0 left-0 flex flex-col border-t border-[#f0f0ed] bg-white px-5 pt-2.5 pb-5 shadow-[0_10px_24px_rgb(0_0_0/6%)]" aria-label="Mobile navigation">
           {navigation.map((item) => (
-            <Link key={item.href} href={item.href}>
+            <Link className={`${navLinkClass} py-[13px]`} key={item.href} href={item.href}>
               {item.label}
             </Link>
           ))}
