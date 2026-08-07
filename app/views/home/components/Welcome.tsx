@@ -2,10 +2,10 @@ import Image from "next/image";
 
 export default function Welcome() {
   return (
-    <section className="welcome" aria-labelledby="welcome-heading">
-      <div className="welcome-grid">
+    <section className="welcome min-h-[967px] rounded-[20px] bg-white px-6 pt-[87px] pb-[76px] text-[#777] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:bg-transparent max-[700px]:p-0" aria-labelledby="welcome-heading">
+      <div className="welcome-grid mx-auto grid w-full max-w-[844px] grid-cols-2 gap-[52px] max-[940px]:gap-9 max-[700px]:flex max-[700px]:flex-col max-[700px]:gap-3">
         <div className="welcome-left">
-          <div className="welcome-intro">
+          <div className="welcome-intro max-[700px]:order-1 max-[700px]:rounded-[18px] max-[700px]:bg-white max-[700px]:px-[18px] max-[700px]:pt-[30px] max-[700px]:pb-[27px]">
             <h2 id="welcome-heading">Welcome.</h2>
             <p>
               From my Kin &amp; Collage studio, I{" "}
@@ -37,7 +37,7 @@ export default function Welcome() {
             </p>
           </div>
 
-          <div className="welcome-before-wrap">
+          <div className="welcome-before-wrap relative mt-[33px] h-[454px] w-[398px] max-[700px]:order-2 max-[700px]:mt-0 max-[700px]:h-auto max-[700px]:w-full max-[700px]:rounded-[18px] max-[700px]:bg-[#00d18f] max-[700px]:px-[22px] max-[700px]:py-7">
             <div className="welcome-label welcome-label-before">
               <Image src="/cursor-before.svg" alt="" width={24} height={24} aria-hidden="true" />
               <span>Before</span>
