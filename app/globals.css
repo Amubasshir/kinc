@@ -2134,20 +2134,17 @@ main > section {
   .gallery-page-commission-card, .gallery-page-commission-spacer { margin-top: 10px; }
   .gallery-page-commission-card, .gallery-page-commission-spacer { width: calc(200% + 10px); }
   .gallery-page-commission-card .start-commission { padding: 42px 18px; }
-}.start-commission-accent { position: absolute; top: 0; left: calc(100% + 27px); width: 43px; height: 53px; }
-.start-commission-accent::before, .start-commission-accent::after { position: absolute; top: 25px; left: 0; width: 20px; height: 3px; border-radius: 3px; background: #263443; content: ""; transform-origin: left center; }
-.start-commission-accent::before { transform: translateY(-10px) rotate(-30deg); box-shadow: 2px 19px 0 #263443; }
-.start-commission-accent::after { transform: translateX(5px); }.start-commission-mark { position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 50%; background: #fff; }
+}.start-commission-mark { position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 50%; background: #fff; }
 .start-commission-mark b { color: #008d60; font-size: 22px; font-weight: 700; }
 .start-commission-mark i { position: absolute; right: 8px; width: 11px; height: 22px; border-radius: 11px 0 0 11px; background: #ffe500; }.gallery-page-hero-accent { position: absolute; top: 375px; z-index: 2; display: block; width: 61px; height: 82px; object-fit: contain; }
 .gallery-page-hero-accent-left { left: calc(50% - 302px); }
 .gallery-page-hero-accent-right { right: calc(50% - 302px); }
-.start-commission-action .start-commission-cursor { position: absolute; top: -10px; left: calc(100% + 18px); width: 56px; height: 73px; object-fit: contain; }
+
 @media (max-width: 700px) {
   .gallery-page-hero-accent { top: 57%; width: 40px; height: auto; }
   .gallery-page-hero-accent-left { left: 24%; }
   .gallery-page-hero-accent-right { right: 24%; }
-  .start-commission-action .start-commission-cursor { left: calc(100% + 8px); width: 42px; height: auto; }
+  
 }
 .artist-hero { min-height: 1401px; overflow: hidden; border-radius: 20px; background: #00d18f; color: #263443; }
 .artist-hero-inner { position: relative; width: min(1156px, calc(100% - 48px)); min-height: 900px; margin: 0 auto; }
@@ -2507,10 +2504,18 @@ html { scroll-behavior: smooth; }
 @media (max-width: 700px) {
   body { min-width: 0; }
   .site-header, main, main > section, .site-footer { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
-  main { align-self: flex-start; }
+  main { align-self: flex-start; margin-top: 12px; }
   main > section { flex: none; }
   .hero-content, .hero-showcase-mobile, .welcome-grid, .how-steps, .pricing-grid,
   .merchandise-grid, .gift-card-content, .about-content, .about-portrait,
   .testimonials-grid, .stats-grid, .gallery-grid, .faq-list, .contact-panel,
   .stay-connected-form { width: 100% !important; max-width: 100% !important; }
+}
+.start-commission-burst { position: absolute; top: calc(50% + 9px); left: calc(100% + 7px); width: 51px; height: 85px; object-fit: contain; transform: translateY(-50%); pointer-events: none; }
+
+@media (max-width: 700px) {
+  .start-commission-burst { left: calc(100% + 7px); width: 39px; transform: translateY(-50%) scale(.86); transform-origin: left center; }
+}
+@media (max-width: 360px) {
+  .start-commission-burst { display: none; }
 }
