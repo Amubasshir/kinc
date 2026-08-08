@@ -3,15 +3,15 @@ import Link from "next/link";
 import type { PricingSizeModel } from "../../../models/site";
 export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
   return (
-    <section className="pricing" aria-labelledby="pricing-heading">
-      <header className="pricing-header">
-        <h2 id="pricing-heading">Sizes &amp; Pricing</h2>
-        <p>Worldwide shipping available soon.</p>
+    <section className="pricing min-h-[1090px] rounded-[20px] bg-[#f5f5f5] px-0 pt-[68px] pb-20 text-[#555] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:pt-[31px] max-[700px]:pb-[42px]" aria-labelledby="pricing-heading">
+      <header className="pricing-header text-center">
+        <h2 className="text-[48px] max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="pricing-heading">Sizes &amp; Pricing</h2>
+        <p className="mt-[23px] text-[16px] max-[700px]:mt-[17px] max-[700px]:text-[14px]">Worldwide shipping available soon.</p>
       </header>
 
-      <div className="pricing-grid">
+      <div className="pricing-grid mt-[57px] grid grid-cols-4 justify-center gap-4 max-[900px]:grid-cols-2 max-[700px]:mt-[31px] max-[700px]:flex max-[700px]:w-full max-[700px]:flex-col max-[700px]:gap-0">
         {sizes.map((size) => (
-          <article className="pricing-card" key={size.name}>
+          <article className="pricing-card w-[299px] overflow-hidden rounded-[15px] bg-white max-[700px]:w-full max-[700px]:rounded-[17px] max-[700px]:[&:not(:first-child)]:hidden" key={size.name}>
             <div className="pricing-image">
               <Image
                 src={size.image}
@@ -43,7 +43,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
         ))}
       </div>
 
-      <div className="pricing-footer">
+      <div className="pricing-footer mx-auto mt-[59px] flex w-full max-w-[1240px] items-center justify-between gap-10 max-[700px]:mt-8 max-[700px]:box-border max-[700px]:flex-col max-[700px]:items-start max-[700px]:gap-[39px] max-[700px]:px-[22px]">
         <div className="pricing-notes">
           <div>
             <h3>NOTE</h3>

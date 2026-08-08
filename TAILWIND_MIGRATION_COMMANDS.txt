@@ -1,0 +1,176 @@
+KINCOLLAGE — SECTION-BY-SECTION TAILWIND MIGRATION
+
+Run every command from:
+C:\Users\ASUS\Desktop\teams\kinc
+
+
+1. CREATE A MIGRATION BRANCH
+
+git switch -c refactor/tailwind-migration
+npm install
+npm run dev
+
+
+2. SHARED COMPONENTS
+
+Migrate these components first:
+- Header and mobile navigation
+- Footer and social links
+- Back-to-top button
+- Shared buttons and links
+- Stay Connected form
+- Testimonials
+- Start Commission card
+
+After completing the shared components, run:
+
+npm run lint
+npx tsc --noEmit
+npm run build
+git add -A
+git commit -m "Refactor shared components to Tailwind"
+
+
+3. HOME PAGE
+
+Migrate one section at a time in this order:
+- Hero
+- Welcome
+- Brand logos
+- How It Works
+- Pricing
+- Merchandise
+- Gift Card
+- About
+- Testimonials
+- Statistics
+- Gallery
+- FAQs
+- Contact
+- Stay Connected
+
+After each major section, run:
+
+npm run lint
+npx tsc --noEmit
+
+After the complete Home page, run:
+
+npm run build
+git add -A
+git commit -m "Refactor Home page to Tailwind"
+
+
+4. COMMISSIONS PAGE
+
+Migrate in this order:
+- Commission introduction
+- Product menu
+- Phone Case
+- Tote Bag
+- Travel Tumbler
+- T-Shirt
+- Linen Journal
+- Special Card
+- Postcard
+- Start Commission
+- Testimonials
+
+Then run:
+
+npm run lint
+npx tsc --noEmit
+npm run build
+git add -A
+git commit -m "Refactor Commissions page to Tailwind"
+
+
+5. GALLERY PAGE
+
+Migrate in this order:
+- Gallery hero
+- Desktop masonry layout
+- Mobile gallery layout
+- Start Commission card
+- See All Work control
+- Stay Connected spacing
+
+Then run:
+
+npm run lint
+npx tsc --noEmit
+npm run build
+git add -A
+git commit -m "Refactor Gallery page to Tailwind"
+
+
+6. ARTIST PAGE
+
+Migrate in this order:
+- Artist hero
+- Career gallery
+- Story section
+- Pricing cards
+- Featured testimonial
+- Testimonials
+- Stay Connected
+
+Then run:
+
+npm run lint
+npx tsc --noEmit
+npm run build
+git add -A
+git commit -m "Refactor Artist page to Tailwind"
+
+
+7. CLEAN UP GLOBAL CSS
+
+Keep only:
+- Tailwind import
+- Root variables
+- Font defaults that cannot live in the layout
+- Global reset rules
+- Reusable keyframes or rules that Tailwind cannot express cleanly
+
+Delete only CSS selectors that have already been replaced and verified.
+
+Then run:
+
+npm run lint
+npx tsc --noEmit
+npm run build
+git diff --check
+git add -A
+git commit -m "Remove obsolete global CSS"
+
+
+8. FINAL VERIFICATION
+
+Test these routes at desktop and mobile widths:
+- http://localhost:3000/
+- http://localhost:3000/commissions
+- http://localhost:3000/gallery
+- http://localhost:3000/the-artist
+
+Final commands:
+
+npm run lint
+npx tsc --noEmit
+npm run build
+git status --short
+
+
+9. PUSH THE MIGRATION BRANCH
+
+git push -u origin refactor/tailwind-migration
+
+
+IMPORTANT RULES
+
+- Do not migrate every page in one edit.
+- Do not remove a CSS rule until the related component is visually verified.
+- Preserve the current MVVM structure.
+- Keep data in view models and presentation in view components.
+- Preserve all desktop and mobile reference layouts.
+- Use the current main branch commit as the rollback point.

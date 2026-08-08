@@ -4,11 +4,11 @@ import type { HowStepModel } from "../../../models/site";
 
 export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
   return (
-    <section className="how-it-works" aria-labelledby="how-heading">
+    <section className="how-it-works min-h-[2350px] rounded-[20px] bg-[#00d18f] px-6 pt-[91px] pb-24 text-[#263443] max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-7 max-[700px]:pt-[62px] max-[700px]:pb-[58px]" aria-labelledby="how-heading">
       <h2 id="how-heading">
         <mark>How</mark> it works
       </h2>
-      <div className="how-steps">
+      <div className="how-steps relative mx-auto mt-[86px] flex w-full max-w-[1010px] flex-col gap-[110px] max-[700px]:mt-[58px] max-[700px]:gap-[62px]">
         {steps.map((step, index) => (
           <article className={`how-step how-step-${index + 1}`} key={step.number}>
             <div className="how-photo">
