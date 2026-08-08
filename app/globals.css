@@ -876,6 +876,16 @@ main > section {
   margin-top: 16px !important;
 }
 
+.commission-story-video {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .commission-story-video {
+    margin-top: -12px !important;
+  }
+}
+
 
 
 

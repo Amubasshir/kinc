@@ -9,7 +9,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
         <p className="mt-[23px] text-[16px] max-[700px]:mt-[17px] max-[700px]:text-[14px]">Worldwide shipping available soon.</p>
       </header>
 
-      <div className="pricing-grid mt-[57px] grid grid-cols-4 justify-center gap-4 max-[900px]:grid-cols-2 max-[700px]:mt-[31px] max-[700px]:flex max-[700px]:w-full max-[700px]:flex-col max-[700px]:gap-0">
+      <div className="pricing-grid mt-[57px] grid grid-cols-[repeat(4,299px)] justify-center gap-4 max-[1250px]:grid-cols-[repeat(2,299px)] max-[700px]:mt-[31px] max-[700px]:flex max-[700px]:w-full max-[700px]:flex-col max-[700px]:gap-0">
         {sizes.map((size) => (
           <article className="pricing-card w-[299px] overflow-hidden rounded-[15px] bg-white max-[700px]:w-full max-[700px]:rounded-[17px] max-[700px]:[&:not(:first-child)]:hidden" key={size.name}>
             <div className="pricing-image">
@@ -70,7 +70,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
 
         <div className="pricing-action">
           <Image src="/pricing-cursor.svg" alt="" width={44} height={58} aria-hidden="true" />
-          <Link href="/commissions">START YOUR COMMISSION</Link>
+          <Link href="/start-your-commission">START YOUR COMMISSION</Link>
         </div>
       </div>
     </section>

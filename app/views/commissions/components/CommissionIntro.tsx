@@ -12,7 +12,7 @@ export default function CommissionIntro() {
           grandparents and loved ones.
         </p>
         <p className="commission-intro-note mt-[21px] text-[15px] leading-[1.38]">Start your commission to add any of these below as add ons.</p>
-        <Link className="commission-intro-cta mt-[25px] inline-flex min-h-[53px] min-w-[264px] items-center justify-center rounded-full bg-[#97ff77] text-[15px] text-[#344153] no-underline shadow-[0_4px_5px_rgb(25_93_69/22%)] transition hover:-translate-y-0.5 max-[800px]:min-w-[min(264px,100%)]" href="#product-options">
+        <Link className="commission-intro-cta mt-[25px] inline-flex min-h-[53px] min-w-[264px] items-center justify-center rounded-full bg-[#97ff77] text-[15px] text-[#344153] no-underline shadow-[0_4px_5px_rgb(25_93_69/22%)] transition hover:-translate-y-0.5 max-[800px]:min-w-[min(264px,100%)]" href="/start-your-commission">
           START YOUR COMMISSION
         </Link>
       </div>

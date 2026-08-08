@@ -1,6 +1,6 @@
 export default function GiftCard() {
   return (
-    <section className="gift-card min-h-[449px] rounded-[20px] bg-[#ffe500] px-6 pt-[79px] pb-[68px] text-center text-[#263443] max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-[22px] max-[700px]:pt-[31px] max-[700px]:pb-[34px]" aria-labelledby="gift-card-heading">
+    <section className="gift-card min-h-[449px] rounded-[20px] bg-[#97ff77] px-6 pt-[79px] pb-[68px] text-center text-[#263443] max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-[22px] max-[700px]:pt-[31px] max-[700px]:pb-[34px]" aria-labelledby="gift-card-heading">
       <div className="gift-card-content mx-auto w-full max-w-[780px]">
         <h2 className="text-[48px] leading-[1.1] max-[700px]:text-[34px] max-[700px]:leading-[1.08]" id="gift-card-heading">Gift of a commission</h2>
         <p className="mt-[22px] text-[17px] leading-[1.45] max-[700px]:mt-5 max-[700px]:text-[15px] max-[700px]:leading-[1.48] [&>br]:max-[700px]:hidden">

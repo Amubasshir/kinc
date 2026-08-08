@@ -1,6 +1,35 @@
 import Image from "next/image";
 
-export default function ArtistStory() {
+export default function ArtistStory({ videoOnly = false }: { videoOnly?: boolean }) {
+  const video = (
+    <div className={`artist-story-video relative mx-auto w-full max-w-[990px] ${videoOnly ? "" : "mt-[84px] max-[800px]:mt-[54px] max-[700px]:order-first max-[700px]:mt-0"}`}>
+      <Image
+        className="block h-auto w-full rounded-[18px]"
+        src="/artist/story-video.png"
+        alt="Trailer for the KinCollage studio story"
+        width={990}
+        height={558}
+        sizes="(max-width: 800px) 94vw, 990px"
+      />
+      <Image
+        className="artist-story-cursor absolute top-[56%] left-[68%] h-auto w-[72px] rotate-[35deg] max-[800px]:w-12"
+        src="/gallery-page/cursor-arrow.png"
+        alt=""
+        width={56}
+        height={73}
+        aria-hidden="true"
+      />
+    </div>
+  );
+
+  if (videoOnly) {
+    return (
+      <section className="commission-story-video rounded-t-none rounded-b-[20px] bg-[url('/contact-background.png')] bg-cover bg-center px-6 py-[92px] max-[700px]:rounded-t-none max-[700px]:rounded-b-[18px] max-[700px]:px-3 max-[700px]:py-10" aria-label="Watch our story">
+        {video}
+      </section>
+    );
+  }
+
   return (
     <section className="artist-story min-h-[977px] overflow-hidden rounded-[20px] bg-[#00d18f] px-6 pt-[72px] pb-[79px] text-center text-[#263443] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-5 max-[800px]:pt-16 max-[800px]:pb-[76px] max-[700px]:flex max-[700px]:flex-col max-[700px]:px-[14px] max-[700px]:pt-1 max-[700px]:pb-[31px]" aria-labelledby="artist-story-heading">
       <h2 className="text-[48px] leading-[1.12] tracking-[.2px] max-[800px]:text-[clamp(38px,11vw,46px)] max-[700px]:order-1 max-[700px]:mt-[17px] max-[700px]:text-[31px]" id="artist-story-heading">Watch our Story</h2>
@@ -22,24 +51,7 @@ export default function ArtistStory() {
           cupboard and apply the precision of high design to transform them into modern family heirlooms.
         </p>
       </div>
-      <div className="artist-story-video relative mx-auto mt-[84px] w-full max-w-[990px] max-[800px]:mt-[54px] max-[700px]:order-first max-[700px]:mt-0">
-        <Image
-          className="block h-auto w-full rounded-[18px]"
-          src="/artist/story-video.png"
-          alt="Trailer for the KinCollage studio story"
-          width={990}
-          height={558}
-          sizes="(max-width: 800px) 94vw, 990px"
-        />
-        <Image
-          className="artist-story-cursor absolute top-[56%] left-[68%] h-auto w-[72px] rotate-[35deg] max-[800px]:w-12"
-          src="/gallery-page/cursor-arrow.png"
-          alt=""
-          width={56}
-          height={73}
-          aria-hidden="true"
-        />
-      </div>
+      {video}
     </section>
   );
 }

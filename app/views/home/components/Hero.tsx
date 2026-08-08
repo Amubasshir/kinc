@@ -15,7 +15,7 @@ export default function Hero() {
           <br className="hero-desktop-break" />{" "}children&apos;s memories
         </p>
         <div className="hero-action relative inline-flex max-[700px]:mt-[7px]">
-          <Link className="hero-cta mt-7 inline-flex min-h-[52px] min-w-[187px] items-center justify-center rounded-full bg-[#97ff77] font-[Georgia] text-[16px] text-[#283544] no-underline shadow-[0_3px_4px_rgb(25_93_69/28%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_5px_10px_rgb(25_93_69/30%)] max-[700px]:mt-4 max-[700px]:min-h-[49px] max-[700px]:min-w-[180px]" href="/commissions">GET STARTED</Link>
+          <Link className="hero-cta mt-7 inline-flex min-h-[52px] min-w-[187px] items-center justify-center rounded-full bg-[#97ff77] font-[Georgia] text-[16px] text-[#283544] no-underline shadow-[0_3px_4px_rgb(25_93_69/28%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_5px_10px_rgb(25_93_69/30%)] max-[700px]:mt-4 max-[700px]:min-h-[49px] max-[700px]:min-w-[180px]" href="/start-your-commission">GET STARTED</Link>
           <Image className="hero-eyelash pointer-events-none absolute top-3 left-[calc(100%+1px)] h-[85px] w-[51px] object-contain max-[820px]:h-auto max-[820px]:w-[43px] max-[700px]:top-4 max-[700px]:w-12" src="/hero-eyelash.svg" alt="" width={51} height={85} aria-hidden="true" />
         </div>
       </div>
