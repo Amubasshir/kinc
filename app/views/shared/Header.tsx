@@ -6,7 +6,7 @@ const navigation = [
   { label: "THE ARTIST", href: "/the-artist" },
   { label: "GALLERY", href: "/gallery" },
   { label: "TESTIMONIALS", href: "/testimonials" },
-  { label: "CONTACT", href: "/contact" },
+  { label: "CONTACT", href: "/#contact" },
 ];
 
 export default function Header() {
