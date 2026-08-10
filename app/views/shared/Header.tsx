@@ -14,7 +14,7 @@ export default function Header() {
     "whitespace-nowrap font-[var(--font-tenor-sans)] text-[14px] leading-none font-normal text-[#858585] no-underline transition-colors duration-150 hover:text-[#008d60] focus-visible:text-[#008d60]";
 
   return (
-    <header className="site-header relative z-50 flex min-h-[61px] items-center justify-between overflow-hidden rounded-t-[20px] bg-white px-10 max-[820px]:min-h-[60px] max-[820px]:px-5 max-[700px]:!w-[calc(100vw-24px)] max-[700px]:!max-w-[calc(100vw-24px)] max-[700px]:min-h-[58px] max-[700px]:rounded-[18px] max-[700px]:px-4">
+    <header className="site-header relative z-50 flex min-h-[61px] items-center justify-between rounded-t-[20px] bg-white px-10 max-[820px]:min-h-[60px] max-[820px]:px-5 max-[700px]:!w-[calc(100vw-24px)] max-[700px]:!max-w-[calc(100vw-24px)] max-[700px]:min-h-[58px] max-[700px]:rounded-[18px] max-[700px]:px-4">
       <Link className="site-logo flex shrink-0" href="/" aria-label="KinCollage home">
         <Image src="/logo.svg" alt="KinCollage" width={144} height={26} priority />
       </Link>
