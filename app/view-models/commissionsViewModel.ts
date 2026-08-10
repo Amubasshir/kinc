@@ -98,6 +98,21 @@ export function getCommissionsViewModel(): CommissionsViewModel {
       galleryImages: [1, 2, 3, 4].map((n) => `/postcard-product-${n}.png`),
       galleryAlt: (index) => (index === 0 ? "Custom printed postcard" : "Postcard colour option"),
     },
+    {
+      ...shared,
+      id: "canvas-prints",
+      title: "Canvas Prints",
+      layout: "gallery-right",
+      sectionClassName: "tshirt-product canvas-prints-product",
+      contentClassName: "tote-bag-content tshirt-content",
+      descriptionClassName: "tote-bag-description",
+      swatchesClassName: "tote-bag-swatches",
+      detailsClassName: "tote-bag-details",
+      galleryClassName: "canvas-prints-gallery",
+      toneClassName: "canvas-prints-tone-card",
+      galleryImages: ["/canvas-prints-1.png", "", ""],
+      galleryAlt: (index) => (index === 0 ? "Custom canvas print displayed on a brick wall" : ""),
+    },
   ];
 
   return {

@@ -15,17 +15,21 @@ function Content({ product }: { product: CommissionProductModel }) {
 function Gallery({ product }: { product: CommissionProductModel }) {
   return (
     <div className={`${product.galleryClassName} grid grid-cols-2 grid-rows-2 gap-x-4 gap-y-[14px] max-[800px]:order-first max-[800px]:grid-rows-none max-[480px]:grid-cols-1`}>
-      {product.galleryImages?.map((src, index) => (
-        <Image unoptimized
-          className="block h-[306px] w-full rounded-[15px] object-cover max-[800px]:h-auto max-[800px]:aspect-[385/306]"
-          key={src}
-          src={src}
-          alt={product.galleryAlt(index)}
-          width={385}
-          height={306}
-          sizes="(max-width: 800px) 46vw, 28vw"
-        />
-      ))}
+      {product.galleryImages?.map((src, index) =>
+        src ? (
+          <Image unoptimized
+            className="block h-[306px] w-full rounded-[15px] object-cover max-[800px]:h-auto max-[800px]:aspect-[385/306]"
+            key={src}
+            src={src}
+            alt={product.galleryAlt(index)}
+            width={385}
+            height={306}
+            sizes="(max-width: 800px) 46vw, 28vw"
+          />
+        ) : (
+          <div className={`${product.toneClassName} h-[306px] w-full rounded-[15px] max-[800px]:h-auto max-[800px]:aspect-[385/306]`} key={`placeholder-${index}`} />
+        ),
+      )}
     </div>
   );
 }
