@@ -12,7 +12,7 @@ export default function ArtistStory({ videoOnly = false }: { videoOnly?: boolean
         preload="metadata"
         aria-label="Trailer for the KinCollage studio story"
       >
-        <source src="/KC_Intro_16x9_1.mp4" type="video/mp4" />
+        <source src={videoOnly ? "/KC_Commision.mp4" : "/KC_Intro_16x9_1.mp4"} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <Image unoptimized
