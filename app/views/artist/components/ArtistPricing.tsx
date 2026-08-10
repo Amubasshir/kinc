@@ -9,7 +9,7 @@ export default function ArtistPricing({ pricing }: { pricing: ArtistViewModel["p
         <h2 className="text-[48px] leading-[1.12] max-[650px]:text-[40px] max-[700px]:text-[31px]" id="artist-pricing-heading">{pricing.title}</h2>
         <p className="mt-[23px] text-[16px] leading-[1.4] max-[700px]:mt-3 max-[700px]:text-[13px]">{pricing.subtitle}</p>
       </header>
-      <div className="artist-pricing-grid mt-[57px] grid grid-cols-4 justify-center gap-4 max-[900px]:grid-cols-2 max-[650px]:grid-cols-1 max-[700px]:mt-[22px]">
+      <div className="artist-pricing-grid mt-[57px] grid grid-cols-[repeat(4,300px)] justify-center gap-4 max-[1300px]:grid-cols-[repeat(2,300px)] max-[650px]:grid-cols-1 max-[700px]:mt-[22px]">
         {pricing.sizes.map((size) => (
           <article className="artist-pricing-card w-[300px] overflow-hidden rounded-[15px] bg-white max-[700px]:w-full max-[700px]:[&:nth-child(n+2)]:hidden" key={size.name}>
             <div className="artist-pricing-artwork relative h-[353px] max-[700px]:h-auto max-[700px]:aspect-[300/353]">
@@ -35,7 +35,7 @@ export default function ArtistPricing({ pricing }: { pricing: ArtistViewModel["p
           </article>
         ))}
       </div>
-      <div className="artist-pricing-footer mt-[59px] flex items-center justify-between gap-10 max-[900px]:items-start max-[900px]:flex-col max-[700px]:mt-[26px] max-[700px]:gap-6">
+      <div className="artist-pricing-footer mx-auto mt-[59px] flex w-full max-w-[1248px] items-center justify-between gap-10 max-[1300px]:max-w-[616px] max-[1300px]:items-start max-[1300px]:flex-col max-[700px]:mt-[26px] max-[700px]:gap-6">
         <div className="artist-pricing-notes">
           <h3>NOTE</h3>
           <p>
@@ -52,7 +52,7 @@ export default function ArtistPricing({ pricing }: { pricing: ArtistViewModel["p
           <h3>NEED A DIFFERENT SIZE ARTWORK OR MATERIAL?</h3>
           <p>Custom sizes available upon request.</p>
         </div>
-        <div className="artist-pricing-action">
+        <div className="artist-pricing-action max-[1300px]:self-end">
           <Image src="/artist/commission-arrow.svg" alt="" width={44} height={58} aria-hidden="true" />
           <Link href="/start-your-commission">START YOUR COMMISSION</Link>
         </div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 export default function CommissionIntro() {
   return (
-    <section className="commission-intro relative min-h-[356px] rounded-[20px] bg-white px-6 pt-[59px] pb-[54px] text-center text-[#5b5b5d] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-[22px] max-[800px]:pt-16 max-[800px]:pb-[46px]" aria-labelledby="commission-heading">
+    <section className="commission-intro relative min-h-[356px] rounded-[20px] px-6 pt-[59px] pb-[54px] text-center text-[#5b5b5d] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-[22px] max-[800px]:pt-16 max-[800px]:pb-[46px]" aria-labelledby="commission-heading">
       <div className="commission-intro-copy">
         <h1 className="text-[48px] leading-[1.12] tracking-[.2px] max-[800px]:text-[clamp(38px,11vw,48px)]" id="commission-heading">Commission it. Print it. Love it</h1>
         <p className="mt-7 text-[15px] leading-[1.38] max-[800px]:text-[14px] max-[800px]:leading-[1.5] [&>br]:max-[800px]:hidden">

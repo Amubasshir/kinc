@@ -45,7 +45,11 @@ function Visual({ product }: { product: CommissionProductModel }) {
       </div>
       <div className={`${prefix}-colour-grid grid grid-rows-2 gap-[14px] max-[800px]:grid-cols-2 max-[800px]:grid-rows-none`} aria-hidden="true">
         <Image className="block h-[306px] w-full rounded-[15px] object-cover max-[800px]:h-auto max-[800px]:aspect-[385/306]" src={product.secondaryImage!} alt="" width={385} height={306} />
-        <div className={`${product.toneClassName} h-[306px] w-full rounded-[15px] max-[800px]:h-auto max-[800px]:aspect-[385/306]`} />
+        {product.id === "phone-case" ? (
+          <Image className="block h-[306px] w-full rounded-[15px] object-cover max-[800px]:h-auto max-[800px]:aspect-[385/306]" src={product.secondaryImage!} alt="" width={385} height={306} />
+        ) : (
+          <div className={`${product.toneClassName} h-[306px] w-full rounded-[15px] max-[800px]:h-auto max-[800px]:aspect-[385/306]`} />
+        )}
       </div>
     </>
   );
@@ -55,8 +59,13 @@ export default function CommissionProductSection({ product }: { product: Commiss
   const media = product.galleryImages ? <Gallery product={product} /> : <Visual product={product} />;
   const contentFirst = product.layout === "visual-right" || product.layout === "gallery-right";
   const isGallery = Boolean(product.galleryImages);
+  const gridColumns = isGallery
+    ? contentFirst
+      ? "grid-cols-[385px_786px]"
+      : "grid-cols-[786px_385px]"
+    : "grid-cols-[repeat(3,385px)] max-[1250px]:grid-cols-3";
   return (
-    <section className={`${product.sectionClassName} grid min-h-[736px] justify-center gap-4 overflow-hidden rounded-[20px] bg-white px-6 py-[55px] text-[#5b5b5d] ${isGallery ? "grid-cols-[minmax(0,786px)_minmax(0,385px)]" : "grid-cols-3"} max-[800px]:flex max-[800px]:min-h-0 max-[800px]:flex-col max-[800px]:gap-[22px] max-[800px]:rounded-2xl max-[800px]:p-[22px]`} aria-labelledby={`${product.id}-heading`}>
+    <section className={`${product.sectionClassName} grid min-h-[736px] justify-center gap-4 overflow-hidden rounded-[20px] bg-white px-6 py-[55px] text-[#5b5b5d] ${gridColumns} max-[800px]:flex max-[800px]:min-h-0 max-[800px]:flex-col max-[800px]:gap-[22px] max-[800px]:rounded-2xl max-[800px]:p-[22px]`} aria-labelledby={`${product.id}-heading`}>
       {contentFirst ? content : media}
       {contentFirst ? media : content}
     </section>

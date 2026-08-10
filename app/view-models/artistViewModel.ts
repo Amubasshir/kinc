@@ -50,7 +50,7 @@ export function getArtistViewModel(): ArtistViewModel {
         "Thank you Sophie for our beautiful art, it has exceeded expectations!",
         "The kids love seeing their art on proud display, much better than stored away in the cupboard. And we get so many compliments from visitors, it’s a real centrepiece!",
       ],
-      highlightedText: "The kids love seeing their art on proud display,",
+      highlightedText: "proud display",
       name: "Elizabeth",
       location: "Sydney, Australia",
     },
