@@ -14,10 +14,17 @@ function Stars() {
   );
 }
 
+const PAGE_SIZE = 3;
+
 export default function Testimonials({ testimonials }: { testimonials: TestimonialModel[] }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activePage, setActivePage] = useState(0);
   const [expandedStates, setExpandedStates] = useState<boolean[]>(() => testimonials.map(() => false));
   const previewLength = 150;
+  const pageCount = testimonials.length > PAGE_SIZE ? testimonials.length : 1;
+  const visibleTestimonials = Array.from(
+    { length: Math.min(PAGE_SIZE, testimonials.length) },
+    (_, offset) => testimonials[(activePage + offset) % testimonials.length],
+  );
 
   const toggleExpanded = (index: number) => {
     setExpandedStates((current) => current.map((isExpanded, currentIndex) => (currentIndex === index ? !isExpanded : isExpanded)));
@@ -28,8 +35,10 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
       <h2 className="text-center text-[48px] leading-[1.15] font-light tracking-[.2px] max-[800px]:text-[42px] max-[700px]:px-[23px] max-[700px]:text-left max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="testimonials-heading">Testimonials</h2>
       <p className="testimonials-intro mx-[23px] mt-[22px] hidden text-[15px] leading-[1.5] text-[#777] max-[700px]:block [overflow-wrap:anywhere]">Share the magic with family. Print your child&apos;s custom collage onto a limited collection of premium everyday objects, creating an unforgettable keepsake for grandparents and loved ones.</p>
       <div className="testimonials-grid mx-auto mt-[69px] grid w-full max-w-[1154px] grid-cols-3 items-start gap-[49px] max-[1200px]:max-w-[960px] max-[1200px]:gap-7 max-[800px]:mt-[52px] max-[800px]:max-w-[420px] max-[800px]:grid-cols-1 max-[800px]:gap-9 max-[700px]:mt-[34px] max-[700px]:block max-[700px]:max-w-full" aria-live="polite">
-        {testimonials.map((testimonial, index) => (
-          <article className={`testimonial-card overflow-hidden rounded-[17px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[15px] max-[700px]:w-full max-[700px]:rounded-[18px] ${index === activeIndex ? "max-[700px]:block" : "max-[700px]:hidden"}`} key={testimonial.name}>
+        {visibleTestimonials.map((testimonial, localIndex) => {
+          const index = (activePage + localIndex) % testimonials.length;
+          return (
+            <article className="testimonial-card overflow-hidden rounded-[17px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[15px] max-[700px]:w-full max-[700px]:rounded-[18px]" key={testimonial.name}>
             <Image unoptimized
               className="testimonial-art block h-[454px] w-[352px] object-cover max-[1200px]:h-auto max-[1200px]:w-full max-[700px]:aspect-[352/454]"
               src={testimonial.image}
@@ -76,20 +85,23 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
               </footer>
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
-      <div className="testimonial-pagination mt-[45px] flex items-center justify-center gap-2 max-[800px]:mt-[38px] max-[700px]:mt-[27px]" aria-label="Choose a testimonial">
-        {testimonials.map((testimonial, index) => (
-          <button
-            aria-label={`Show testimonial from ${testimonial.name}`}
-            aria-pressed={index === activeIndex}
-            className={`h-3 w-3 cursor-pointer rounded-full border-0 p-0 transition duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] ${index === activeIndex ? "bg-[#777782]" : "bg-[#dedee3]"}`}
-            key={testimonial.name}
-            onClick={() => setActiveIndex(index)}
-            type="button"
-          />
-        ))}
-      </div>
+      {pageCount > 1 && (
+        <div className="testimonial-pagination mt-[45px] flex items-center justify-center gap-2 max-[800px]:mt-[38px] max-[700px]:mt-[27px]" aria-label="Choose a set of testimonials">
+          {Array.from({ length: pageCount }, (_, page) => (
+            <button
+              aria-label={`Show testimonials starting with ${testimonials[page].name}`}
+              aria-pressed={page === activePage}
+              className={`h-3 w-3 cursor-pointer rounded-full border-0 p-0 transition duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] ${page === activePage ? "bg-[#777782]" : "bg-[#dedee3]"}`}
+              key={page}
+              onClick={() => setActivePage(page)}
+              type="button"
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

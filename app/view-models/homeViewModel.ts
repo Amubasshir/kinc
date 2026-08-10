@@ -113,6 +113,17 @@ export function getHomeViewModel(): HomeViewModel {
           "It’s not one persons artwork it’s a collage of multiple people, these special people are my brother and sister.",
         ],
       },
+      {
+        name: "Marie",
+        location: "Sydney, Australia",
+        image: "/testimonial-catherine.png",
+        quote: "“de minim veniam, quis nostrud exercitation ullamco”",
+        paragraphs: [
+          "Not just paper, colour and glue it’s layers of laughter, joy, smiles, mess, tears memories the art work makes my heart glow.",
+          "Friends stop and look it offers a moment to pause and look into the joy of childhood, the one my family has created.",
+          "Sophie has artistically brought together moments of my mothering journey. My love, my time with my individual children to one canvas to delve into remembering to reflect to see the moments on one canvas is magical.",
+        ],
+      },
     ],
     stats: [
       {
