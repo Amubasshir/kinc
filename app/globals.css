@@ -1430,16 +1430,16 @@ main > section {
 @media (max-width: 800px) {
   .gallery-page-hero > img:first-child { object-fit: cover; object-position: center; }
   .gallery-page-hero-accent { top: 51%; width: 44px; height: auto; }
-  .gallery-page-hero-accent-left { left: 24%; }
-  .gallery-page-hero-accent-right { right: 24%; }
+  .gallery-page-hero-accent-left { left: 22%; }
+  .gallery-page-hero-accent-right { right: 22%; }
   .gallery-page-commission-card, .gallery-page-commission-spacer { margin-top: 10px; }
   .gallery-page-commission-card, .gallery-page-commission-spacer { width: calc(200% + 10px); }
   .gallery-page-commission-card .start-commission { padding: 42px 18px; }
 }.start-commission-mark { position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 50%; background: #fff; }
 .start-commission-mark b { color: #008d60; font-size: 22px; font-weight: 700; }
 .start-commission-mark i { position: absolute; right: 8px; width: 11px; height: 22px; border-radius: 11px 0 0 11px; background: #ffe500; }.gallery-page-hero-accent { position: absolute; top: 375px; z-index: 2; display: block; width: 61px; height: 82px; object-fit: contain; }
-.gallery-page-hero-accent-left { left: calc(50% - 302px); }
-.gallery-page-hero-accent-right { right: calc(50% - 302px); }
+.gallery-page-hero-accent-left { left: calc(50% - 404px); }
+.gallery-page-hero-accent-right { right: calc(50% - 356px); }
 
 @media (max-width: 700px) {
   .gallery-page-hero-accent { display: none; }
