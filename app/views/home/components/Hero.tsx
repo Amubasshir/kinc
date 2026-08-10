@@ -10,7 +10,7 @@ export default function Hero() {
           <span>CHILD&apos;S ARTWORK INTO</span>
           <span><em>a family</em> <mark>heirloom</mark></span>
         </h1>
-        <p className="text-[17px] leading-[1.28] tracking-[.05px] max-[820px]:max-w-[480px] max-[820px]:text-[16px] max-[700px]:mt-[17px] max-[700px]:text-[15px] max-[700px]:leading-[1.45]">
+        <p className="text-[15px] leading-[1.28] tracking-[.05px] max-[820px]:max-w-[480px] max-[820px]:text-[16px] max-[700px]:mt-[17px] max-[700px]:text-[15px] max-[700px]:leading-[1.45]">
           Custom made collages by Zsófia Mátrai to preserve your
           <br className="hero-desktop-break" />{" "}children&apos;s memories
         </p>
@@ -34,7 +34,7 @@ export default function Hero() {
         alt="A child standing beside two colourful KinCollage artworks"
         width={366}
         height={389}
-        sizes="calc(100vw - 24px)"
+        sizes="calc(100vw - 28px)"
         priority
       />
     </section>

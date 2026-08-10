@@ -1,7 +1,7 @@
 import type { StatModel } from "../../../models/site";
 export default function Stats({ stats }: { stats: StatModel[] }) {
   return (
-    <section className="stats min-h-[534px] rounded-[20px] bg-[#00d18f] px-6 pt-[111px] pb-20 text-[#263443] max-[700px]:rounded-[18px] max-[700px]:px-6 max-[700px]:pt-[43px] max-[700px]:pb-[54px]" aria-label="KinCollage statistics">
+    <section className="stats min-h-[534px] rounded-[20px] bg-white px-6 pt-[111px] pb-20 text-[#263443] max-[700px]:rounded-[18px] max-[700px]:px-6 max-[700px]:pt-[43px] max-[700px]:pb-[54px]" aria-label="KinCollage statistics">
       <div className="stats-grid mx-auto grid w-full max-w-[1120px] grid-cols-3 gap-16 max-[700px]:grid-cols-1 max-[700px]:gap-[58px]">
         {stats.map((stat) => (
           <article className="stat text-center max-[700px]:text-left [overflow-wrap:anywhere]" key={stat.title}>

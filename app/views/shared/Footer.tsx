@@ -11,7 +11,7 @@ const socialIcons = [
 
 export default function Footer() {
   return (
-    <footer className="site-footer relative mt-4 min-h-[548px] overflow-hidden rounded-[20px] bg-white px-[39px] pt-[143px] pb-[39px] text-[#5d5d60] max-[800px]:min-h-0 max-[800px]:px-6 max-[800px]:pt-[70px] max-[800px]:pb-[34px] max-[700px]:mt-3 max-[700px]:!w-[calc(100vw-24px)] max-[700px]:!max-w-[calc(100vw-24px)] max-[700px]:min-h-[876px] max-[700px]:rounded-[18px] max-[700px]:px-3 max-[700px]:pt-[88px] max-[700px]:pb-7">
+    <footer className="site-footer relative mt-4 min-h-[548px] overflow-hidden rounded-[20px] bg-white px-[39px] pt-[143px] pb-[39px] text-[#5d5d60] max-[800px]:min-h-0 max-[800px]:px-6 max-[800px]:pt-[70px] max-[800px]:pb-[34px] max-[700px]:mt-3 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[876px] max-[700px]:rounded-[18px] max-[700px]:px-3 max-[700px]:pt-[88px] max-[700px]:pb-7">
       <div className="footer-profile">
         <Image
           className="footer-logo block h-auto w-36 max-[700px]:w-[142px]"

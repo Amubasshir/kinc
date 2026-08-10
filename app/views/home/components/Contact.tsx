@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Contact() {
   return (
-    <section id="contact" className="contact min-h-[870px] rounded-[20px] bg-[#008861] px-10 py-16 max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-1 max-[700px]:pt-1 max-[700px]:pb-[29px]" aria-labelledby="contact-heading">
+    <section id="contact" className="contact min-h-[870px] rounded-[20px] bg-[#008861] bg-[url('/contact-background.png')] bg-cover bg-center bg-no-repeat px-10 py-16 max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-1 max-[700px]:pt-1 max-[700px]:pb-[29px]" aria-labelledby="contact-heading">
       <div className="contact-panel relative mx-auto flex min-h-[743px] max-w-[1212px] items-center gap-10 max-[700px]:flex-col max-[700px]:gap-[34px]">
         <Image
           className="contact-shadow-layer"
