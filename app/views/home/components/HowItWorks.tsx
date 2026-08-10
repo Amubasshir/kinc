@@ -12,7 +12,7 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
         {steps.map((step, index) => (
           <article className={`how-step how-step-${index + 1}`} key={step.number}>
             <div className="how-photo">
-              <Image
+              <Image unoptimized
                 src={step.image}
                 alt={step.alt}
                 width={1320}
@@ -36,7 +36,7 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
                 </Link>
               )}
               {step.scribble && (
-                <Image
+                <Image unoptimized
                   className="how-scribble"
                   src="/how-scribble.png"
                   alt=""
@@ -48,7 +48,7 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
             </div>
           </article>
         ))}
-        <Image
+        <Image unoptimized
           className="how-path how-path-1"
           src="/how-path-1.svg"
           alt=""
@@ -56,7 +56,7 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
           height={190}
           aria-hidden="true"
         />
-        <Image
+        <Image unoptimized
           className="how-path how-path-2"
           src="/how-path-2.svg"
           alt=""
@@ -64,7 +64,7 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
           height={193}
           aria-hidden="true"
         />
-        <Image
+        <Image unoptimized
           className="how-path how-path-3"
           src="/how-path-3.svg"
           alt=""

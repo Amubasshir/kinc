@@ -4,7 +4,7 @@ export default function Contact() {
   return (
     <section id="contact" className="contact min-h-[870px] rounded-[20px] bg-[#008861] bg-[url('/contact-background.png')] bg-cover bg-center bg-no-repeat px-10 py-16 max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-1 max-[700px]:pt-1 max-[700px]:pb-[29px]" aria-labelledby="contact-heading">
       <div className="contact-panel relative mx-auto flex min-h-[743px] max-w-[1212px] items-center gap-10 max-[700px]:flex-col max-[700px]:gap-[34px]">
-        <Image
+        <Image unoptimized
           className="contact-shadow-layer"
           src="/contact-panel-shadow.png"
           alt=""
@@ -12,7 +12,7 @@ export default function Contact() {
           height={678}
           aria-hidden="true"
         />
-        <Image
+        <Image unoptimized
           className="contact-green-layer"
           src="/contact-panel-green.png"
           alt=""
@@ -68,7 +68,7 @@ export default function Contact() {
           </form>
         </div>
 
-        <Image
+        <Image unoptimized
           className="contact-artwork relative z-[2] w-[455px] rounded-[18px] object-cover max-[700px]:order-last max-[700px]:mx-auto max-[700px]:w-[calc(100%-42px)] max-[700px]:aspect-[318/389]"
           src="/contact-artwork.png"
           alt="A finished KinCollage artwork displayed outdoors"

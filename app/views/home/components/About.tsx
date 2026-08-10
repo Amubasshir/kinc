@@ -63,14 +63,14 @@ export default function About() {
       </div>
 
       <div className="about-portrait relative w-[504px] max-w-[45%] max-[800px]:order-first max-[800px]:max-w-full max-[700px]:w-full max-[700px]:aspect-[334/537]">
-        <Image
+        <Image unoptimized
           src="/about-zsofia.png"
           alt="Zsofia Matrai, founder and artist at KinCollage"
           width={2016}
           height={2528}
           sizes="(max-width: 800px) 92vw, 504px"
         />
-        <Image
+        <Image unoptimized
           className="about-signature"
           src="/about-signature.svg"
           alt="Zsofia Matrai signature"

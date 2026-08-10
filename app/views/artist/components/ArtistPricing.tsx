@@ -13,9 +13,9 @@ export default function ArtistPricing({ pricing }: { pricing: ArtistViewModel["p
         {pricing.sizes.map((size) => (
           <article className="artist-pricing-card w-[300px] overflow-hidden rounded-[15px] bg-white max-[700px]:w-full max-[700px]:[&:nth-child(n+2)]:hidden" key={size.name}>
             <div className="artist-pricing-artwork relative h-[353px] max-[700px]:h-auto max-[700px]:aspect-[300/353]">
-              <Image src={size.image} alt={size.name + " KinCollage example"} width={300} height={353} />
+              <Image unoptimized src={size.image} alt={size.name + " KinCollage example"} width={300} height={353} />
               {size.popular && (
-                <Image
+                <Image unoptimized
                   className="artist-pricing-popular"
                   src="/artist/most-popular.png"
                   alt="Most popular"
@@ -53,7 +53,7 @@ export default function ArtistPricing({ pricing }: { pricing: ArtistViewModel["p
           <p>Custom sizes available upon request.</p>
         </div>
         <div className="artist-pricing-action max-[1300px]:self-end">
-          <Image src="/artist/commission-arrow.svg" alt="" width={44} height={58} aria-hidden="true" />
+          <Image unoptimized src="/artist/commission-arrow.svg" alt="" width={44} height={58} aria-hidden="true" />
           <Link href="/start-your-commission">START YOUR COMMISSION</Link>
         </div>
       </div>

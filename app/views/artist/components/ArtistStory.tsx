@@ -3,15 +3,19 @@ import Image from "next/image";
 export default function ArtistStory({ videoOnly = false }: { videoOnly?: boolean }) {
   const video = (
     <div className={`artist-story-video relative mx-auto w-full max-w-[990px] ${videoOnly ? "" : "mt-[84px] max-[800px]:mt-[54px] max-[700px]:order-first max-[700px]:mt-0"}`}>
-      <Image
+      <video
         className="block h-auto w-full rounded-[18px]"
-        src="/artist/story-video.png"
-        alt="Trailer for the KinCollage studio story"
-        width={990}
-        height={558}
-        sizes="(max-width: 800px) 94vw, 990px"
-      />
-      <Image
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        aria-label="Trailer for the KinCollage studio story"
+      >
+        <source src="/KC_Intro_16x9_1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <Image unoptimized
         className="artist-story-cursor absolute top-[56%] left-[68%] h-auto w-[72px] rotate-[35deg] max-[800px]:w-12"
         src="/gallery-page/cursor-arrow.png"
         alt=""

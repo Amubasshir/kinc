@@ -13,7 +13,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
         {sizes.map((size) => (
           <article className="pricing-card w-[299px] overflow-hidden rounded-[15px] bg-white max-[700px]:w-full max-[700px]:rounded-[17px] max-[700px]:[&:not(:first-child)]:hidden" key={size.name}>
             <div className="pricing-image">
-              <Image
+              <Image unoptimized
                 src={size.image}
                 alt={`${size.name} collage example`}
                 width={1200}
@@ -21,7 +21,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
                 sizes="(max-width: 700px) 90vw, (max-width: 1100px) 44vw, 299px"
               />
               {size.popular && (
-                <Image
+                <Image unoptimized
                   className="pricing-popular"
                   src="/pricing-popular.png"
                   alt="Most popular"
@@ -69,7 +69,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
         </div>
 
         <div className="pricing-action">
-          <Image src="/pricing-cursor.svg" alt="" width={44} height={58} aria-hidden="true" />
+          <Image unoptimized src="/pricing-cursor.svg" alt="" width={44} height={58} aria-hidden="true" />
           <Link href="/start-your-commission">START YOUR COMMISSION</Link>
         </div>
       </div>

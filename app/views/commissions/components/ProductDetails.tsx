@@ -12,7 +12,7 @@ export default function ProductDetails({
     <>
       <div className={`${swatchesClassName} mt-7 flex items-center`} aria-label="Available colours">
         {[1, 2, 3, 4, 5].map((n) => (
-          <Image className="-mr-[5px] block h-6 w-6" key={n} src={`/phone-case-swatch-${n}.svg`} alt={`Colour option ${n}`} width={24} height={24} />
+          <Image unoptimized className="-mr-[5px] block h-6 w-6" key={n} src={`/phone-case-swatch-${n}.svg`} alt={`Colour option ${n}`} width={24} height={24} />
         ))}
       </div>
       <div className={`${className} mt-[30px]`}>

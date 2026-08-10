@@ -213,6 +213,10 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   background: #00d18f;
   content: "";
 }
+.how-step-2 .how-photo::before,
+.how-step-4 .how-photo::before {
+  inset: 15px 17px -15px -17px;
+}
 .how-photo img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
 .how-copy {
   position: relative;
@@ -282,6 +286,10 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .how-body p br { display: none; }
   .how-path { opacity: 0.65; transform: scaleX(0.8); }
   .how-step-2 .how-photo, .how-step-4 .how-photo { transform: translateX(-20px); }
+  .how-step-2 .how-photo::before,
+  .how-step-4 .how-photo::before {
+    inset: 15px 17px -15px -17px;
+  }
 }
 
 @media (max-width: 760px) {
@@ -443,7 +451,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   position: absolute;
   z-index: 5;
   top: 51px;
-  left: 237px;
+  left: 220px;
   width: 197px;
   height: 97px;
   max-width: none;
@@ -471,7 +479,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 
 @media (max-width: 1100px) {
   .merchandise-card h3 { margin-top: 28px; }
-  .merchandise-bestseller { left: auto; right: -76px; }
+  .merchandise-bestseller { left: auto; right: -86px; }
   .merchandise-eyelash { left: auto; right: -60px; }
   .merchandise-accent { display: none; }
 }
@@ -483,7 +491,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .merchandise-header p br { display: none; }
   .merchandise-card h3 { margin-top: 23px; font-size: 30px; }
   .merchandise-card > p { margin-top: 12px; font-size: 16px; }
-  .merchandise-bestseller { top: 42px; right: -12px; width: 185px; }
+  .merchandise-bestseller { top: 42px; right: -22px; width: 185px; }
   .merchandise-eyelash { top: 8px; right: -2px; width: 65px; }
 }
 .gift-card h2 {
@@ -606,6 +614,12 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   display: block;
   width: 504px;
   height: 633px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+.about-video {
+  width: 100%;
+  height: 100%;
   border-radius: 14px;
   object-fit: cover;
 }
@@ -1018,7 +1032,11 @@ main > section {
   display: block;
   width: 24px;
   height: 24px;
-  margin-right: -5px;
+  margin-right: -9px;
+}
+
+.phone-case-swatches img:first-child {
+  margin-left: -4px;
 }
 
 .phone-case-details {
@@ -1149,7 +1167,11 @@ main > section {
   display: block;
   width: 24px;
   height: 24px;
-  margin-right: -5px;
+  margin-right: -9px;
+}
+
+.tote-bag-swatches img:first-child {
+  margin-left: -4px;
 }
 
 .tote-bag-main-visual {

@@ -19,7 +19,7 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
         {products.map((product) => (
           <article className="merchandise-card rounded-[18px] bg-white p-8 max-[700px]:min-h-[554px] max-[700px]:w-full max-[700px]:px-11 max-[700px]:pt-12 max-[700px]:pb-[27px] max-[700px]:[&:not(:first-child)]:hidden" key={product.name}>
             <div className="merchandise-image">
-              <Image
+              <Image unoptimized
                 src={product.image}
                 alt={product.name}
                 width={306}
@@ -28,8 +28,9 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
               />
               {product.bestseller && (
                 <>
-                  <Image
+                  <Image unoptimized
                     className="merchandise-bestseller"
+                    style={{ left: "204px" }}
                     src="/merch-bestseller.png"
                     alt="Bestseller"
                     width={197}

@@ -103,9 +103,9 @@ export function getCommissionsViewModel(): CommissionsViewModel {
   return {
     categories: [
       "TRAVEL TUMBLER",
-      "POSTCARD",
-      "SPECIAL CARD",
-      "CANVAS PRINTS",
+    "POSTCARD",
+    "SPECIAL CARD",
+    "CANVAS PRINTS",
       "PHONE CASE",
       "LINEN JOURNAL",
       "T-SHIRT",

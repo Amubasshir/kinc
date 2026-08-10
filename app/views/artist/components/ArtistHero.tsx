@@ -59,7 +59,7 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
           </div>
         </div>
         <div className="artist-hero-portrait absolute top-[132px] right-0 h-[632px] w-[504px] max-[1050px]:relative max-[1050px]:top-auto max-[1050px]:right-auto max-[1050px]:h-auto max-[1050px]:w-full max-[1050px]:aspect-[504/632] max-[760px]:order-first max-[760px]:w-[min(100%,504px)] max-[700px]:w-full">
-          <Image
+          <Image unoptimized
             className="block h-full w-full rounded-[15px] object-cover"
             src={viewModel.portrait}
             alt={`${viewModel.name}, artist and founder of KinCollage`}
@@ -68,7 +68,7 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
             priority
             sizes="(max-width: 800px) 92vw, 504px"
           />
-          <Image
+          <Image unoptimized
             className="artist-hero-signature"
             src={viewModel.signature}
             alt={`${viewModel.name} signature`}

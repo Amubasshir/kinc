@@ -8,7 +8,7 @@ function Stars() {
   return (
     <div className="testimonial-stars mt-4 flex items-center gap-1" aria-label="5 out of 5 stars">
       {Array.from({ length: 5 }, (_, index) => (
-        <Image className="h-4 w-4" key={index} src="/testimonial-star.svg" alt="" width={16} height={16} aria-hidden="true" />
+        <Image unoptimized className="h-4 w-4" key={index} src="/testimonial-star.svg" alt="" width={16} height={16} aria-hidden="true" />
       ))}
     </div>
   );
@@ -16,6 +16,12 @@ function Stars() {
 
 export default function Testimonials({ testimonials }: { testimonials: TestimonialModel[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [expandedStates, setExpandedStates] = useState<boolean[]>(() => testimonials.map(() => false));
+  const previewLength = 150;
+
+  const toggleExpanded = (index: number) => {
+    setExpandedStates((current) => current.map((isExpanded, currentIndex) => (currentIndex === index ? !isExpanded : isExpanded)));
+  };
 
   return (
     <section id="testimonials" className="testimonials min-h-[1520px] rounded-[20px] bg-transparent px-6 pt-[95px] pb-[66px] text-[#5b5b5d] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-[22px] max-[800px]:pt-[70px] max-[800px]:pb-[76px] max-[700px]:rounded-none max-[700px]:px-0 max-[700px]:pt-[30px] max-[700px]:pb-[43px]" aria-labelledby="testimonials-heading">
@@ -24,7 +30,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
       <div className="testimonials-grid mx-auto mt-[69px] grid w-full max-w-[1154px] grid-cols-3 items-start gap-[49px] max-[1200px]:max-w-[960px] max-[1200px]:gap-7 max-[800px]:mt-[52px] max-[800px]:max-w-[420px] max-[800px]:grid-cols-1 max-[800px]:gap-9 max-[700px]:mt-[34px] max-[700px]:block max-[700px]:max-w-full" aria-live="polite">
         {testimonials.map((testimonial, index) => (
           <article className={`testimonial-card overflow-hidden rounded-[17px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[15px] max-[700px]:w-full max-[700px]:rounded-[18px] ${index === activeIndex ? "max-[700px]:block" : "max-[700px]:hidden"}`} key={testimonial.name}>
-            <Image
+            <Image unoptimized
               className="testimonial-art block h-[454px] w-[352px] object-cover max-[1200px]:h-auto max-[1200px]:w-full max-[700px]:aspect-[352/454]"
               src={testimonial.image}
               alt={`Collage artwork commissioned by ${testimonial.name}`}
@@ -36,11 +42,34 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
               <blockquote className="m-0 text-[25px] leading-[1.08] font-bold tracking-[-.2px] text-[#59595b] max-[1200px]:text-[22px] max-[800px]:text-[24px] max-[700px]:text-[25px]">{testimonial.quote}</blockquote>
               <Stars />
               <div className="testimonial-review mt-[18px]">
-                {testimonial.paragraphs.map((paragraph) => (
-                  <p className="m-0 text-[17px] leading-[1.32] text-[#858587] [&+p]:mt-6 max-[700px]:leading-[1.35] max-[700px]:[&:nth-child(n+2)]:hidden" key={paragraph}>{paragraph}</p>
-                ))}
+                {(() => {
+                  const fullText = testimonial.paragraphs.join(" ");
+                  const isExpanded = expandedStates[index];
+                  const showToggle = fullText.length > previewLength;
+                  const previewText = fullText.slice(0, previewLength).trimEnd();
+                  const displayText = isExpanded || !showToggle ? fullText : previewText;
+
+                  return (
+                    <>
+                      <p className="m-0 text-[17px] leading-[1.32] text-[#858587] max-[700px]:leading-[1.35]">
+                        {displayText}
+                        {!isExpanded && showToggle && fullText.length > previewText.length && "..."}
+                      </p>
+                      {showToggle && (
+                        <button
+                          className="testimonial-less mt-[17px] border-0 bg-transparent p-0 font-[Georgia] text-[16px] text-[#008d91] cursor-pointer"
+                          onClick={() => toggleExpanded(index)}
+                          type="button"
+                          aria-expanded={isExpanded}
+                          aria-controls={`testimonial-${index}-text`}
+                        >
+                          {isExpanded ? "SEE LESS" : "SEE MORE"}
+                        </button>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
-              {testimonial.paragraphs.join(" ").length > 250 && <span className="testimonial-less mt-[17px] inline-block font-[Georgia] text-[16px] text-[#008d91]">SEE LESS</span>}
               <footer className="mt-[22px]">
                 <cite className="block font-[Georgia] text-[38px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[31px]">{testimonial.name}</cite>
                 <p className="mt-2 text-[17px] leading-[1.2] text-[#555] max-[700px]:text-[15px]">{testimonial.location}</p>

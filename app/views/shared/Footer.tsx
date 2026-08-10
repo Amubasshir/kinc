@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="site-footer relative mt-4 min-h-[548px] overflow-hidden rounded-[20px] bg-white px-[39px] pt-[143px] pb-[39px] text-[#5d5d60] max-[800px]:min-h-0 max-[800px]:px-6 max-[800px]:pt-[70px] max-[800px]:pb-[34px] max-[700px]:mt-3 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[876px] max-[700px]:rounded-[18px] max-[700px]:px-3 max-[700px]:pt-[88px] max-[700px]:pb-7">
       <div className="footer-profile">
-        <Image
+        <Image unoptimized
           className="footer-logo block h-auto w-36 max-[700px]:w-[142px]"
           src="/logo.svg"
           alt="KinCollage"
@@ -51,7 +51,7 @@ export default function Footer() {
               key={icon.name}
               title={icon.name}
             >
-              <Image
+              <Image unoptimized
                 className="block max-[700px]:h-[31px] max-[700px]:w-[31px] max-[700px]:object-contain"
                 src={icon.src}
                 alt={icon.name}
@@ -65,7 +65,7 @@ export default function Footer() {
           className="footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full border-[7px] border-[rgba(72,222,171,.42)] bg-[#00d28e] font-[Georgia] text-[16px] text-[#121212] no-underline transition duration-150 hover:-translate-y-[3px] hover:bg-[#97ff77] hover:shadow-[0_7px_14px_rgb(25_93_69/24%)] focus-visible:-translate-y-[3px] focus-visible:bg-[#97ff77] focus-visible:shadow-[0_7px_14px_rgb(25_93_69/24%)] max-[800px]:h-[60px] max-[800px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
           href="#contact"
         >
-          CONTACT <Image src="/footer-arrow.svg" alt="" width={11} height={11} aria-hidden="true" />
+          CONTACT <Image unoptimized src="/footer-arrow.svg" alt="" width={11} height={11} aria-hidden="true" />
         </Link>
       </div>
 

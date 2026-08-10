@@ -39,11 +39,11 @@ export default function Welcome() {
 
           <div className="welcome-before-wrap relative mt-[33px] h-[454px] w-[398px] max-[700px]:order-2 max-[700px]:mt-0 max-[700px]:h-auto max-[700px]:w-full max-[700px]:rounded-[18px] max-[700px]:bg-[#00d18f] max-[700px]:px-[22px] max-[700px]:py-7">
             <div className="welcome-label welcome-label-before">
-              <Image src="/cursor-before.svg" alt="" width={24} height={24} aria-hidden="true" />
+              <Image unoptimized src="/cursor-before.svg" alt="" width={24} height={24} aria-hidden="true" />
               <span>Before</span>
             </div>
             <div className="welcome-before-card">
-              <Image
+              <Image unoptimized
                 className="welcome-tape"
                 src="/welcome-tape.png"
                 alt=""
@@ -51,7 +51,7 @@ export default function Welcome() {
                 height={120}
                 aria-hidden="true"
               />
-              <Image
+              <Image unoptimized
                 className="welcome-before-photo"
                 src="/welcome-before.png"
                 alt="Children's artwork collected on a fridge"
@@ -59,7 +59,7 @@ export default function Welcome() {
                 sizes="(max-width: 760px) 82vw, 307px"
               />
             </div>
-            <Image
+            <Image unoptimized
               className="welcome-connector"
               src="/welcome-connector.svg"
               alt=""
@@ -72,7 +72,7 @@ export default function Welcome() {
 
         <div className="welcome-right">
           <div className="welcome-after-wrap">
-            <Image
+            <Image unoptimized
               className="welcome-after-photo"
               src="/welcome-after.png"
               alt="Children viewing their finished heirloom collage"
@@ -81,7 +81,7 @@ export default function Welcome() {
               sizes="(max-width: 760px) 100vw, 398px"
             />
             <div className="welcome-label welcome-label-after">
-              <Image src="/cursor-after.svg" alt="" width={24} height={24} aria-hidden="true" />
+              <Image unoptimized src="/cursor-after.svg" alt="" width={24} height={24} aria-hidden="true" />
               <span>After</span>
             </div>
           </div>

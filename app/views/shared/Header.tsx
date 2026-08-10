@@ -23,7 +23,7 @@ export default function Header() {
   return (
     <header className="site-header relative z-50 flex min-h-[61px] items-center justify-between rounded-t-[20px] bg-white px-10 max-[820px]:min-h-[60px] max-[820px]:px-5 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[58px] max-[700px]:rounded-[18px] max-[700px]:px-4">
       <Link className="site-logo flex shrink-0" href="/" aria-label="KinCollage home">
-        <Image src="/logo.svg" alt="KinCollage" width={144} height={26} priority />
+        <Image unoptimized src="/logo.svg" alt="KinCollage" width={144} height={26} priority />
       </Link>
       <nav className="desktop-nav flex items-center gap-[33px] max-[820px]:hidden" aria-label="Primary navigation">
         {navigation.map((item) => (

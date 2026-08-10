@@ -13,7 +13,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
   return (
     <>
       <section className="gallery-page-hero relative h-[651px] overflow-hidden rounded-[20px] bg-[#efefef] max-[800px]:h-auto max-[800px]:rounded-2xl max-[800px]:aspect-[174/192]" aria-label="Gallery introduction">
-        <Image
+        <Image unoptimized
           className="block h-full w-full object-cover object-center"
           src="/gallery-page/hero.png"
           alt="A child holding a framed piece of colourful artwork"
@@ -22,7 +22,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           priority
           sizes="100vw"
         />
-        <Image
+        <Image unoptimized
           className="gallery-page-hero-accent gallery-page-hero-accent-left absolute top-[375px] left-[calc(50%_-_302px)] z-[2] block h-[82px] w-[61px] object-contain max-[800px]:top-1/2 max-[800px]:left-[24%] max-[800px]:h-auto max-[800px]:w-11 max-[700px]:hidden"
           src="/gallery-page/hero-accent-left.png"
           alt=""
@@ -30,7 +30,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           height={82}
           aria-hidden="true"
         />
-        <Image
+        <Image unoptimized
           className="gallery-page-hero-accent gallery-page-hero-accent-right absolute top-[375px] right-[calc(50%_-_302px)] z-[2] block h-[82px] w-[61px] object-contain max-[800px]:top-1/2 max-[800px]:right-[24%] max-[800px]:h-auto max-[800px]:w-11 max-[700px]:hidden"
           src="/gallery-page/hero-accent-right.png"
           alt=""
@@ -44,7 +44,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[800px]:gap-2.5`} key={columnIndex}>
             {column.map((item, itemIndex) => (
               <div key={`${item.src}-${itemIndex}`} className="gallery-page-item relative">
-                <Image
+                <Image unoptimized
                   className="block h-auto w-full rounded-[10px]"
                   src={item.src}
                   alt={item.alt}
@@ -72,7 +72,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
               {group.map((column, columnIndex) => (
                 <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
                   {column.map((item, itemIndex) => (
-                    <Image
+                    <Image unoptimized
                       className="block h-auto w-full rounded-[7px]"
                       key={`${item.src}-${itemIndex}`}
                       src={item.src}
