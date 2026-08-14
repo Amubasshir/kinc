@@ -36,7 +36,7 @@ export function getArtistViewModel(): ArtistViewModel {
     careerGallery: { src: "/artist/career-gallery.png", alt: "A visual gallery of Zsofia Matrai creative work", collectionShot: { src: "/artist/collection-shot.png", title: "Collection shot", credit: "Camilla" } },
     pricing: {
       title: "Sizes & Pricing",
-      subtitle: "Worldwide shipping available soon.",
+      subtitle: "Asia Pacific worldwide shipping available",
       sizes: [
         { name: "The Mini", dimensions: "30 x 40 cm", minimum: "Min. 10 artwork required", price: "$950 AUD", image: "/artist/pricing-mini.png" },
         { name: "The Statement", dimensions: "60x80cm", minimum: "Min. 15 artwork required", price: "$1750 AUD", image: "/artist/pricing-statement.png" },

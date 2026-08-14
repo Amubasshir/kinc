@@ -5,6 +5,9 @@ import type { ArtistViewModel } from "../../../view-models/artistViewModel";
 export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewModel["careerGallery"] }) {
   return (
     <section className="artist-career-gallery relative w-[calc(100%-24px)] self-center overflow-hidden rounded-[20px] bg-[linear-gradient(to_bottom,#00d18f_0_430px,#f5f5f5_430px)] max-[700px]:!w-[calc(100vw-36px)] max-[700px]:!max-w-[calc(100vw-36px)] max-[700px]:rounded-2xl max-[700px]:bg-[linear-gradient(to_bottom,#00d18f_0_8px,#f5f5f5_8px)] max-[700px]:pb-[38px]" aria-label="Selected creative work">
+      <div className="artist-career-gallery-heading px-10 pt-9 pb-2 max-[700px]:px-5 max-[700px]:pt-6 max-[700px]:pb-1">
+        <h2 className="m-0 text-[34px] leading-tight text-[#263443] max-[700px]:text-[26px]">Some of my previous design work:</h2>
+      </div>
       <Image unoptimized className="artist-career-gallery-master block h-auto w-full" src={gallery.src} alt={gallery.alt} width={1317} height={1634} sizes="calc(100vw - 16px)" />
       <figure className="artist-collection-shot absolute top-[77.42%] left-0 m-0 w-[18.98%] bg-[#f5f5f5]">
         <Image unoptimized className="block h-auto w-full rounded-[14px]" src={gallery.collectionShot.src} alt="Camilla collection fashion campaign" width={750} height={960} sizes="19vw" />
