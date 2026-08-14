@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ContactForm from "./ContactForm";
 
 export default function Contact() {
   return (
@@ -31,41 +32,7 @@ export default function Contact() {
             <br /> about the partnering or anything else?
           </p>
 
-          <form className="contact-form mt-8 grid grid-cols-2 gap-6 max-[700px]:mt-6 max-[700px]:grid-cols-1 max-[700px]:gap-[30px]">
-            <div className="contact-field">
-              <label htmlFor="contact-name">
-                FULL NAME <span>*</span>
-              </label>
-              <input
-                id="contact-name"
-                name="name"
-                type="text"
-                placeholder="Sammy Gordon"
-                autoComplete="name"
-                required
-              />
-            </div>
-            <div className="contact-field">
-              <label htmlFor="contact-email">
-                EMAIL <span>*</span>
-              </label>
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
-                placeholder="yourname@email.com"
-                autoComplete="email"
-                required
-              />
-            </div>
-            <div className="contact-field contact-message">
-              <label htmlFor="contact-message">
-                MESSAGE <span>*</span>
-              </label>
-              <input id="contact-message" name="message" type="text" placeholder="hello" required />
-            </div>
-            <button type="submit">SEND</button>
-          </form>
+          <ContactForm />
         </div>
 
         <Image unoptimized
