@@ -1,13 +1,14 @@
 import Image from "next/image";
 
-export default function ArtistStory({ videoOnly = false }: { videoOnly?: boolean }) {
+export default function ArtistStory({ videoOnly = false, controls = false }: { videoOnly?: boolean; controls?: boolean }) {
   const video = (
     <div className={`artist-story-video relative mx-auto w-full max-w-[990px] ${videoOnly ? "" : "mt-[84px] max-[800px]:mt-[54px] max-[700px]:order-first max-[700px]:mt-0"}`}>
       <video
         className="block h-auto w-full rounded-[18px]"
-        autoPlay
-        loop
-        muted
+        autoPlay={!controls}
+        loop={!controls}
+        muted={!controls}
+        controls={controls}
         playsInline
         preload="metadata"
         aria-label="Trailer for the KinCollage studio story"

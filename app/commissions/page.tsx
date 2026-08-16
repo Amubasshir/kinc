@@ -1,6 +1,5 @@
-import CommissionsView from "../views/commissions/CommissionsView";
-import { getCommissionsViewModel } from "../view-models/commissionsViewModel";
-import { getHomeViewModel } from "../view-models/homeViewModel";
+import CommissionFormView from "../views/commission-form/CommissionFormView";
+
 export default function CommissionsPage() {
-  return <CommissionsView viewModel={getCommissionsViewModel()} testimonials={getHomeViewModel().testimonials} />;
+  return <CommissionFormView />;
 }

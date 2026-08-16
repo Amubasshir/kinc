@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRef } from "react";
 
 const navigation = [
+  { label: "PRODUCTS", href: "/products" },
   { label: "COMMISSIONS", href: "/commissions" },
   { label: "THE ARTIST", href: "/the-artist" },
   { label: "GALLERY", href: "/gallery" },
