@@ -17,14 +17,7 @@ export default function CommissionFormView() {
           <p>Prefer to have a free chat first?<br />Get in touch with me <Link href="/#contact">here</Link>.</p>
         </div>
         <div className="commission-order-hero-art" aria-hidden="true">
-          <Image unoptimized className="commission-order-accent" src="/commission/hero-accent.svg" alt="" width={158} height={57} priority />
-          <Image unoptimized className="commission-order-paper" src="/commission/hero-artwork.png" alt="" width={1316} height={1316} priority />
-          <Image unoptimized className="commission-order-scissors" src="/commission/scissors.svg" alt="" width={287} height={386} priority />
-          <div className="commission-order-polaroid">
-            <Image unoptimized className="commission-order-polaroid-photo" src="/commission/hero-family.png" alt="" width={1232} height={1245} priority />
-            <Image unoptimized className="commission-order-polaroid-frame" src="/commission/polaroid-frame.png" alt="" width={334} height={397} priority />
-          </div>
-          <Image unoptimized className="commission-order-scribble" src="/commission/scribble.png" alt="" width={70} height={68} priority />
+          <Image unoptimized className="commission-order-composition" src="/commission/hero-composition.png" alt="" width={573} height={539} priority />
         </div>
       </section>
 
