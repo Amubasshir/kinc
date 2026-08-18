@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { TestimonialModel } from "../../models/site";
 
 function Stars() {
@@ -16,27 +16,66 @@ function Stars() {
 
 const PAGE_SIZE = 3;
 
+function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const textId = useId();
+  const fullText = paragraphs.join(" ");
+
+  useEffect(() => {
+    const text = textRef.current;
+    if (!text || isExpanded) return;
+
+    const checkOverflow = () => {
+      setIsOverflowing(text.scrollHeight > text.clientHeight + 1);
+    };
+
+    checkOverflow();
+    const resizeObserver = new ResizeObserver(checkOverflow);
+    resizeObserver.observe(text);
+
+    return () => resizeObserver.disconnect();
+  }, [fullText, isExpanded]);
+
+  return (
+    <div className="testimonial-review mt-[18px]">
+      <p
+        className={`m-0 text-[17px] leading-[1.32] text-[#858587] max-[700px]:leading-[1.35] ${isExpanded ? "" : "overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:5]"}`}
+        id={textId}
+        ref={textRef}
+      >
+        {fullText}
+      </p>
+      {(isOverflowing || isExpanded) && (
+        <button
+          className="testimonial-less mt-[17px] cursor-pointer border-0 bg-transparent p-0 font-[Georgia] text-[16px] text-[#008d91]"
+          onClick={() => setIsExpanded((current) => !current)}
+          type="button"
+          aria-expanded={isExpanded}
+          aria-controls={textId}
+        >
+          {isExpanded ? "SEE LESS" : "SEE MORE"}
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function Testimonials({ testimonials }: { testimonials: TestimonialModel[] }) {
   const [activePage, setActivePage] = useState(0);
-  const [expandedStates, setExpandedStates] = useState<boolean[]>(() => testimonials.map(() => false));
-  const previewLength = 150;
   const pageCount = testimonials.length > PAGE_SIZE ? testimonials.length : 1;
   const visibleTestimonials = Array.from(
     { length: Math.min(PAGE_SIZE, testimonials.length) },
     (_, offset) => testimonials[(activePage + offset) % testimonials.length],
   );
 
-  const toggleExpanded = (index: number) => {
-    setExpandedStates((current) => current.map((isExpanded, currentIndex) => (currentIndex === index ? !isExpanded : isExpanded)));
-  };
-
   return (
     <section id="testimonials" className="testimonials min-h-[1520px] rounded-[20px] bg-transparent px-6 pt-[95px] pb-[66px] text-[#5b5b5d] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-[22px] max-[800px]:pt-[70px] max-[800px]:pb-[76px] max-[700px]:rounded-none max-[700px]:px-0 max-[700px]:pt-[30px] max-[700px]:pb-[43px]" aria-labelledby="testimonials-heading">
       <h2 className="text-center text-[48px] leading-[1.15] font-light tracking-[.2px] max-[800px]:text-[42px] max-[700px]:px-[23px] max-[700px]:text-left max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="testimonials-heading">Testimonials</h2>
       <p className="testimonials-intro mx-[23px] mt-[22px] hidden text-[15px] leading-[1.5] text-[#777] max-[700px]:block [overflow-wrap:anywhere]">Share the magic with family. Print your child&apos;s custom collage onto a limited collection of premium everyday objects, creating an unforgettable keepsake for grandparents and loved ones.</p>
       <div className="testimonials-grid mx-auto mt-[69px] grid w-full max-w-[1154px] grid-cols-3 items-start gap-[49px] max-[1200px]:max-w-[960px] max-[1200px]:gap-7 max-[800px]:mt-[52px] max-[800px]:max-w-[420px] max-[800px]:grid-cols-1 max-[800px]:gap-9 max-[700px]:mt-[34px] max-[700px]:block max-[700px]:max-w-full" aria-live="polite">
-        {visibleTestimonials.map((testimonial, localIndex) => {
-          const index = (activePage + localIndex) % testimonials.length;
+        {visibleTestimonials.map((testimonial) => {
           return (
             <article className="testimonial-card overflow-hidden rounded-[17px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[15px] max-[700px]:w-full max-[700px]:rounded-[18px]" key={testimonial.name}>
             <Image unoptimized
@@ -50,35 +89,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
             <div className="testimonial-copy px-9 pt-[31px] pb-[25px] max-[1200px]:px-[25px] max-[800px]:px-[26px] max-[800px]:pt-[27px] max-[800px]:pb-[30px] max-[700px]:px-[43px] max-[700px]:pt-[29px] max-[700px]:pb-8 [overflow-wrap:anywhere]">
               <blockquote className="m-0 text-[25px] leading-[1.08] font-bold tracking-[-.2px] text-[#59595b] max-[1200px]:text-[22px] max-[800px]:text-[24px] max-[700px]:text-[25px]">{testimonial.quote}</blockquote>
               <Stars />
-              <div className="testimonial-review mt-[18px]">
-                {(() => {
-                  const fullText = testimonial.paragraphs.join(" ");
-                  const isExpanded = expandedStates[index];
-                  const showToggle = fullText.length > previewLength;
-                  const previewText = fullText.slice(0, previewLength).trimEnd();
-                  const displayText = isExpanded || !showToggle ? fullText : previewText;
-
-                  return (
-                    <>
-                      <p className="m-0 text-[17px] leading-[1.32] text-[#858587] max-[700px]:leading-[1.35]">
-                        {displayText}
-                        {!isExpanded && showToggle && fullText.length > previewText.length && "..."}
-                      </p>
-                      {showToggle && (
-                        <button
-                          className="testimonial-less mt-[17px] border-0 bg-transparent p-0 font-[Georgia] text-[16px] text-[#008d91] cursor-pointer"
-                          onClick={() => toggleExpanded(index)}
-                          type="button"
-                          aria-expanded={isExpanded}
-                          aria-controls={`testimonial-${index}-text`}
-                        >
-                          {isExpanded ? "SEE LESS" : "SEE MORE"}
-                        </button>
-                      )}
-                    </>
-                  );
-                })()}
-              </div>
+              <TestimonialReview paragraphs={testimonial.paragraphs} />
               <footer className="mt-[22px]">
                 <cite className="block font-[Georgia] text-[38px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[31px]">{testimonial.name}</cite>
                 <p className="mt-2 text-[17px] leading-[1.2] text-[#555] max-[700px]:text-[15px]">{testimonial.location}</p>
