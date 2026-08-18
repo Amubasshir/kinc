@@ -731,6 +731,11 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   border-radius: 13px;
   object-fit: cover;
 }
+.gallery-image-trigger, .gallery-page-image-trigger { overflow: hidden; border-radius: 10px; }
+.gallery-image-trigger:focus-visible, .gallery-page-image-trigger:focus-visible {
+  outline: 3px solid #008861;
+  outline-offset: 3px;
+}
 .gallery-cta:hover, .gallery-cta:focus-visible {
   transform: translateY(-2px);
   border-color: #00a875;
@@ -1503,9 +1508,13 @@ main > section {
 
 .gallery-page-hero > img:first-child { display: block; width: 100%; height: 100%; object-fit: cover; }
 .gallery-page-item { position: relative; }
-.gallery-page-item > img { display: block; width: 100%; height: auto; border-radius: 10px; }
+.gallery-page-item > img,
+.gallery-page-item > .gallery-page-image-trigger,
+.gallery-page-item > .gallery-page-image-trigger > img { display: block; width: 100%; height: auto; border-radius: 10px; }
 .gallery-page-column > .gallery-page-item:last-child { display: flex; min-height: 0; flex: 1; }
-.gallery-page-column > .gallery-page-item:last-child > img { height: 100%; object-fit: cover; }
+.gallery-page-column > .gallery-page-item:last-child > img,
+.gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger,
+.gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger > img { height: 100%; object-fit: cover; }
 .gallery-page-masonry + .stay-connected { margin-top: 16px !important; }
 .gallery-page-commission-card,
 .gallery-page-commission-spacer { width: calc(200% + 24px); margin-top: 24px; aspect-ratio: 652 / 584; }

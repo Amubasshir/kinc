@@ -1,10 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import type { GalleryPageViewModel } from "../../models/site";
+import GalleryLightbox from "../shared/GalleryLightbox";
 import StayConnected from "../shared/StayConnected";
 import GalleryCommissionCard from "./components/GalleryCommissionCard";
 
 export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewModel }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const galleryImages = viewModel.columns.flat();
+  const columnOffsets = viewModel.columns.map((_, index) => viewModel.columns.slice(0, index).reduce((total, column) => total + column.length, 0));
   const mobileGroups = [
     [viewModel.columns[0].slice(0, 5), viewModel.columns[1].slice(0, 6)],
     [viewModel.columns[0].slice(5, 11), viewModel.columns[1].slice(6, 12)],
@@ -44,14 +51,16 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[800px]:gap-2.5`} key={columnIndex}>
             {column.map((item, itemIndex) => (
               <div key={`${item.src}-${itemIndex}`} className="gallery-page-item relative">
-                <Image unoptimized
-                  className="block h-auto w-full rounded-[10px]"
-                  src={item.src}
-                  alt={item.alt}
-                  width={item.width}
-                  height={item.height}
-                  sizes="(max-width: 700px) 47vw, 23vw"
-                />
+                <button className="gallery-page-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(columnOffsets[columnIndex] + itemIndex)} aria-label="Open artwork in gallery viewer">
+                  <Image unoptimized
+                    className="block h-auto w-full rounded-[10px] transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
+                    src={item.src}
+                    alt={item.alt}
+                    width={item.width}
+                    height={item.height}
+                    sizes="(max-width: 700px) 47vw, 23vw"
+                  />
+                </button>
                 {columnIndex === 2 && itemIndex === 6 && <GalleryCommissionCard />}
                 {columnIndex === 3 && itemIndex === 5 && (
                   <div className="gallery-page-commission-spacer mt-6 w-[calc(200%+24px)] aspect-[652/584] max-[800px]:mt-2.5 max-[800px]:w-[calc(200%+10px)]" aria-hidden="true" />
@@ -72,15 +81,22 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
               {group.map((column, columnIndex) => (
                 <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
                   {column.map((item, itemIndex) => (
-                    <Image unoptimized
-                      className="block h-auto w-full rounded-[7px]"
+                    <button
+                      className="group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
                       key={`${item.src}-${itemIndex}`}
-                      src={item.src}
-                      alt={item.alt}
-                      width={item.width}
-                      height={item.height}
-                      sizes="47vw"
-                    />
+                      type="button"
+                      onClick={() => setActiveIndex(galleryImages.indexOf(item))}
+                      aria-label="Open artwork in gallery viewer"
+                    >
+                      <Image unoptimized
+                        className="block h-auto w-full rounded-[7px] transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
+                        src={item.src}
+                        alt={item.alt}
+                        width={item.width}
+                        height={item.height}
+                        sizes="47vw"
+                      />
+                    </button>
                   ))}
                 </div>
               ))}
@@ -96,6 +112,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           SEE ALL WORK
         </Link>
       </section>
+      <GalleryLightbox images={galleryImages} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />
       <StayConnected />
     </>
   );
