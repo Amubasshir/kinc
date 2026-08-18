@@ -425,7 +425,24 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   line-height: 1.28;
   letter-spacing: 0.05px;
 }
-.merchandise-card { position: relative; min-width: 0; }
+.merchandise-card {
+  position: relative;
+  min-width: 0;
+  border: 1px solid #e1e5df;
+  box-shadow: 0 10px 28px rgba(38, 52, 67, 0.1);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.merchandise-card:hover {
+  transform: translateY(-5px);
+  border-color: #a9c9bc;
+  box-shadow: 0 18px 38px rgba(38, 52, 67, 0.16);
+}
+.merchandise-card:focus-visible {
+  outline: 3px solid #008861;
+  outline-offset: 4px;
+}
 .merchandise-image {
   position: relative;
   width: 100%;
@@ -435,9 +452,9 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 13px;
   object-fit: cover;
 }
+.merchandise-card-copy { padding: 0 32px 32px; }
 .merchandise-card h3 {
   margin: 44px 0 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -446,7 +463,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   line-height: 1.08;
   letter-spacing: 0.2px;
 }
-.merchandise-card > p { margin: 17px 0 0; font-size: 17px; line-height: 1.2; }
+.merchandise-card-copy > p { margin: 17px 0 0; font-size: 17px; line-height: 1.2; }
 .merchandise-bestseller {
   position: absolute;
   z-index: 5;
@@ -490,7 +507,8 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   .merchandise-header p { font-size: 16px; line-height: 1.42; }
   .merchandise-header p br { display: none; }
   .merchandise-card h3 { margin-top: 23px; font-size: 30px; }
-  .merchandise-card > p { margin-top: 12px; font-size: 16px; }
+  .merchandise-card-copy { padding: 0 32px 28px; }
+  .merchandise-card-copy > p { margin-top: 12px; font-size: 16px; }
   .merchandise-bestseller { top: 42px; right: -22px; width: 185px; }
   .merchandise-eyelash { top: 8px; right: -2px; width: 65px; }
 }
@@ -1709,11 +1727,12 @@ html { scroll-behavior: smooth; }
   .merchandise-header h2 { max-width: 320px; font-family: Georgia, "Times New Roman", serif; font-size: 31px; line-height: 1.15; }
   .merchandise-header h2 mark { padding: 0; background: transparent; }
   .merchandise-header p { margin-top: 24px; color: #777; font-size: 15px; line-height: 1.5; }
-  .merchandise-card { width: 100%; min-height: 554px; box-sizing: border-box; padding: 48px 44px 27px; border-radius: 18px; background: #fff; }
+  .merchandise-card { width: 100%; min-height: 554px; box-sizing: border-box; border-radius: 18px; background: #fff; }
   .merchandise-card:not(:first-child) { display: none; }
   .merchandise-image { width: 100%; aspect-ratio: 1; }
   .merchandise-card h3 { margin-top: 77px; font-family: Georgia, "Times New Roman", serif; font-size: 29px; }
-  .merchandise-card > p { margin-top: 13px; font-size: 14px; }
+  .merchandise-card-copy { padding: 0 44px 27px; }
+  .merchandise-card-copy > p { margin-top: 13px; font-size: 14px; }
   .merchandise-bestseller, .merchandise-eyelash { display: none; }
   .merchandise-grid::after { width: 57px; height: 8px; margin: 14px auto 0; background: radial-gradient(circle at 4px 4px,#777782 0 4px,transparent 4.5px),radial-gradient(circle at 20px 4px,#dedee3 0 4px,transparent 4.5px),radial-gradient(circle at 36px 4px,#fff 0 4px,transparent 4.5px),radial-gradient(circle at 52px 4px,#fff 0 4px,transparent 4.5px); content: ""; }
 
