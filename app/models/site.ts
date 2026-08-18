@@ -21,6 +21,7 @@ export type MerchandiseProductModel = {
   name: string;
   price: string;
   image: string;
+  href: string;
   bestseller?: boolean;
 };
 

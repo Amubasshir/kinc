@@ -74,14 +74,14 @@ export function getHomeViewModel(): HomeViewModel {
       },
     ],
     merchandiseProducts: [
-      { name: "Phone Case", price: "$70 AUD", image: "/merch-phone-case.png", bestseller: true },
-      { name: "Tote Bag", price: "$70 AUD", image: "/merch-tote-bag.png" },
-      { name: "Travel Tumbler", price: "$70 AUD", image: "/merch-tumbler.png" },
-      { name: "T-shirt", price: "$70 AUD", image: "/merch-tshirt.png" },
-      { name: "Linen Journal", price: "$70 AUD", image: "/merch-journal.png" },
-      { name: "Canvas prints", price: "$70 AUD", image: "/merch-canvas.png" },
-      { name: "Special Card", price: "$70 AUD", image: "/merch-card.png" },
-      { name: "Postcard", price: "$70 AUD", image: "/merch-postcard.png" },
+      { name: "Phone Case", price: "$70 AUD", image: "/merch-phone-case.png", href: "/products#phone-case", bestseller: true },
+      { name: "Tote Bag", price: "$70 AUD", image: "/merch-tote-bag.png", href: "/products#tote-bag" },
+      { name: "Travel Tumbler", price: "$70 AUD", image: "/merch-tumbler.png", href: "/products#travel-tumbler" },
+      { name: "T-shirt", price: "$70 AUD", image: "/merch-tshirt.png", href: "/products#tshirt" },
+      { name: "Linen Journal", price: "$70 AUD", image: "/merch-journal.png", href: "/products#linen-journal" },
+      { name: "Canvas prints", price: "$70 AUD", image: "/merch-canvas.png", href: "/products#canvas-prints" },
+      { name: "Special Card", price: "$70 AUD", image: "/merch-card.png", href: "/products#special-card" },
+      { name: "Postcard", price: "$70 AUD", image: "/merch-postcard.png", href: "/products#postcard" },
     ],
     testimonials: [
       {

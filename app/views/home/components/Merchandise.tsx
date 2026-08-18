@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { MerchandiseProductModel } from "../../../models/site";
 export default function Merchandise({ products }: { products: MerchandiseProductModel[] }) {
   return (
@@ -17,7 +18,12 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
 
       <div className="merchandise-grid mx-auto mt-[60px] grid w-full max-w-[1280px] grid-cols-4 gap-6 max-[700px]:mt-[33px] max-[700px]:flex max-[700px]:flex-col max-[700px]:gap-0">
         {products.map((product) => (
-          <article className="merchandise-card rounded-[18px] bg-white p-8 max-[700px]:min-h-[554px] max-[700px]:w-full max-[700px]:px-11 max-[700px]:pt-12 max-[700px]:pb-[27px] max-[700px]:[&:not(:first-child)]:hidden" key={product.name}>
+          <Link
+            className="merchandise-card block rounded-[18px] bg-white p-8 max-[700px]:min-h-[554px] max-[700px]:w-full max-[700px]:px-11 max-[700px]:pt-12 max-[700px]:pb-[27px] max-[700px]:[&:not(:first-child)]:hidden"
+            href={product.href}
+            key={product.name}
+            aria-label={`View ${product.name} product details`}
+          >
             <div className="merchandise-image">
               <Image unoptimized
                 src={product.image}
@@ -42,7 +48,7 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
             </div>
             <h3>{product.name}</h3>
             <p>{product.price}</p>
-          </article>
+          </Link>
         ))}
       </div>
     </section>
