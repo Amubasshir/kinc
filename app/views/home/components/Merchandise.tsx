@@ -19,7 +19,7 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
       <div className="merchandise-grid mx-auto mt-[60px] grid w-full max-w-[1280px] grid-cols-4 gap-6 max-[700px]:mt-[33px] max-[700px]:flex max-[700px]:flex-col max-[700px]:gap-0">
         {products.map((product) => (
           <Link
-            className="merchandise-card block overflow-hidden rounded-[18px] bg-white max-[700px]:min-h-[554px] max-[700px]:w-full max-[700px]:[&:not(:first-child)]:hidden"
+            className="merchandise-card block rounded-[18px] bg-white max-[700px]:min-h-[554px] max-[700px]:w-full max-[700px]:[&:not(:first-child)]:hidden"
             href={product.href}
             key={product.name}
             aria-label={`View ${product.name} product details`}

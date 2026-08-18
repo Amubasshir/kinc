@@ -443,15 +443,22 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   outline: 3px solid #008861;
   outline-offset: 4px;
 }
+.merchandise-card:has(.merchandise-bestseller) { z-index: 2; }
 .merchandise-image {
   position: relative;
   width: 100%;
   aspect-ratio: 1;
+  border-radius: 17px 17px 0 0;
+  background: #fff;
 }
 .merchandise-image > img:first-child {
   display: block;
   width: 100%;
   height: 100%;
+  border-top-left-radius: 17px;
+  border-top-right-radius: 17px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
   object-fit: cover;
 }
 .merchandise-card-copy { padding: 0 32px 32px; }
