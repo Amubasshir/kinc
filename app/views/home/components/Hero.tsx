@@ -24,6 +24,7 @@ export default function Hero() {
         autoPlay
         loop
         muted
+        controls
         playsInline
         preload="metadata"
         aria-label="Hero background video"
@@ -37,6 +38,7 @@ export default function Hero() {
         autoPlay
         loop
         muted
+        controls
         playsInline
         preload="metadata"
         aria-label="Hero background video"

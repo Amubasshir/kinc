@@ -19,7 +19,7 @@ export default function ArtistView({
     <>
       <ArtistHero viewModel={viewModel} />
       <ArtistCareerGallery gallery={viewModel.careerGallery} />
-      <ArtistStory />
+      <ArtistStory controls />
       <ArtistPricing pricing={viewModel.pricing} />
       <ArtistTestimonial testimonial={viewModel.testimonial} />
       <Testimonials testimonials={testimonials} />
