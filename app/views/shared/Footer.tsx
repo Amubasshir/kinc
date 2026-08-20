@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
 
 const socialIcons = [
   { src: "/footer-instagram.svg", name: "Instagram", width: 40 },
@@ -10,6 +14,19 @@ const socialIcons = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  const scrollToHomeSection = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    if (pathname !== "/" || !href.startsWith("/#")) return;
+
+    const id = href.slice(2);
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    event.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", `#${id}`);
+  };
+
   return (
     <footer className="site-footer relative mt-4 min-h-[548px] overflow-hidden rounded-[20px] bg-white px-[39px] pt-[143px] pb-[39px] text-[#5d5d60] max-[800px]:min-h-0 max-[800px]:px-6 max-[800px]:pt-[70px] max-[800px]:pb-[34px] max-[700px]:mt-3 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[876px] max-[700px]:rounded-[18px] max-[700px]:px-3 max-[700px]:pt-[88px] max-[700px]:pb-7">
       <div className="footer-profile">
@@ -63,7 +80,8 @@ export default function Footer() {
         </div>
         <Link
           className="footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full border-[7px] border-[rgba(72,222,171,.42)] bg-[#00d28e] font-[Georgia] text-[16px] text-[#121212] no-underline transition duration-150 hover:-translate-y-[3px] hover:bg-[#97ff77] hover:shadow-[0_7px_14px_rgb(25_93_69/24%)] focus-visible:-translate-y-[3px] focus-visible:bg-[#97ff77] focus-visible:shadow-[0_7px_14px_rgb(25_93_69/24%)] max-[800px]:h-[60px] max-[800px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
-          href="#contact"
+          href="/#contact"
+          onClick={scrollToHomeSection("/#contact")}
         >
           CONTACT <Image unoptimized src="/footer-arrow.svg" alt="" width={11} height={11} aria-hidden="true" />
         </Link>
@@ -84,7 +102,11 @@ export default function Footer() {
           <Link className="transition-colors hover:text-[#008d60]" href="/legal#terms">
             TERMS &amp; CONDITIONS
           </Link>
-          <Link className="transition-colors hover:text-[#008d60]" href="/#faqs">
+          <Link
+            className="transition-colors hover:text-[#008d60]"
+            href="/#faqs"
+            onClick={scrollToHomeSection("/#faqs")}
+          >
             FAQ
           </Link>
         </nav>

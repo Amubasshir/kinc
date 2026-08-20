@@ -1,12 +1,19 @@
 "use client";
 
 import { useActionState } from "react";
+import type { FormEvent } from "react";
 import { sendContactMessage, type ContactFormState } from "@/app/actions/contact";
 
 const initialState: ContactFormState = { status: "idle" };
 
 export default function ContactForm() {
   const [state, formAction, isPending] = useActionState(sendContactMessage, initialState);
+
+  const autoGrow = (event: FormEvent<HTMLTextAreaElement>) => {
+    const textarea = event.currentTarget;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
 
   return (
     <form
@@ -44,7 +51,14 @@ export default function ContactForm() {
         <label htmlFor="contact-message">
           MESSAGE <span>*</span>
         </label>
-        <input id="contact-message" name="message" type="text" placeholder="hello" required />
+        <textarea
+          id="contact-message"
+          name="message"
+          placeholder="hello"
+          rows={1}
+          onInput={autoGrow}
+          required
+        />
       </div>
       <button type="submit" disabled={isPending}>
         {isPending ? "SENDING…" : "SEND"}

@@ -7,8 +7,6 @@ import { useRef } from "react";
 import type { MouseEvent } from "react";
 
 const navigation = [
-  { label: "PRODUCTS", href: "/products" },
-  { label: "COMMISSIONS", href: "/commissions" },
   { label: "HOW IT WORKS", href: "/#how-it-works" },
   { label: "THE ARTIST", href: "/the-artist" },
   { label: "GALLERY", href: "/gallery" },
