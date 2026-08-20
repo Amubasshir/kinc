@@ -24,15 +24,7 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
           height={454}
           aria-hidden="true"
         />
-        <div className="artist-testimonial-card absolute inset-0 z-[1] grid place-items-center overflow-hidden rounded-[20px] max-[600px]:rounded-2xl">
-          <Image unoptimized
-            className="artist-testimonial-card-background absolute inset-0 block h-full w-full object-fill"
-            src="/artist/testimonial-card.png"
-            alt=""
-            width={1240}
-            height={478}
-            aria-hidden="true"
-          />
+        <div className="artist-testimonial-card absolute inset-0 z-[1] grid place-items-center overflow-hidden rounded-[20px] bg-white max-[600px]:rounded-2xl">
           <Image unoptimized
             className="artist-testimonial-quote-mark absolute right-[22px] bottom-[-12px] z-[1] h-auto w-[236px] max-[900px]:w-[15%] max-[600px]:right-1.5 max-[600px]:bottom-[-6px] max-[600px]:w-28"
             src="/artist/testimonial-quote.png"
