@@ -62,13 +62,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
                   />
                 </button>
                 {columnIndex === 2 && itemIndex === 6 && <GalleryCommissionCard />}
-                {columnIndex === 3 && itemIndex === 5 && (
-                  <div className="gallery-page-commission-spacer mt-6 w-[calc(200%+24px)] aspect-[652/584] max-[800px]:mt-2.5 max-[800px]:w-[calc(200%+10px)]" aria-hidden="true" />
-                )}
                 {columnIndex === 0 && itemIndex === 14 && <GalleryCommissionCard />}
-                {columnIndex === 1 && itemIndex === 14 && (
-                  <div className="gallery-page-commission-spacer mt-6 w-[calc(200%+24px)] aspect-[652/584] max-[800px]:mt-2.5 max-[800px]:w-[calc(200%+10px)]" aria-hidden="true" />
-                )}
               </div>
             ))}
           </div>

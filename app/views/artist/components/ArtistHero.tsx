@@ -28,7 +28,7 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
               <br />
               artworks that were transformed into digital prints and worn by women worldwide.
               <br />
-              Today, I design <a href="#digital-products">digital products</a>, but my most fulfilling work happens in
+              Today, I design <a className="underline" href="#digital-products">digital products</a>, but my most fulfilling work happens in
               my studio,
               <br />
               <strong>
