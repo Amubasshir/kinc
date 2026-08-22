@@ -18,8 +18,8 @@ export default function HomeView({ viewModel }: { viewModel: HomeViewModel }) {
   return (
     <>
       <Hero />
-      <Welcome />
       <BrandLogos />
+      <Welcome />
       <HowItWorks steps={viewModel.howSteps} />
       <Pricing sizes={viewModel.pricingSizes} />
       <Merchandise products={viewModel.merchandiseProducts} />
