@@ -79,6 +79,19 @@ export type CommissionsViewModel = {
   products: CommissionProductModel[];
 };
 
+// Keyed to CommissionProductModel.id so a "Buy Now" link's ?addOn= query param
+// can both pre-check the matching add-on below and, later, resolve to its Stripe price ID.
+export const ADD_ON_PRODUCTS = [
+  { id: "phone-case", label: "Phone Case" },
+  { id: "tote-bag", label: "Tote Bag" },
+  { id: "travel-tumbler", label: "Travel Tumbler" },
+  { id: "tshirt", label: "T-shirt" },
+  { id: "linen-journal", label: "Linen Journal" },
+  { id: "canvas-prints", label: "Digital Canvas Prints" },
+  { id: "special-card", label: "Greeting Card" },
+  { id: "postcard", label: "Postcard Sets" },
+] as const;
+
 export type GalleryTileModel = {
   src: string;
   width: number;

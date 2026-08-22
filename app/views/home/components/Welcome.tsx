@@ -3,37 +3,25 @@ import Image from "next/image";
 export default function Welcome() {
   return (
     <section className="welcome min-h-[967px] rounded-[20px] bg-white px-6 pt-[87px] pb-[76px] text-[#515151] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:bg-transparent max-[700px]:p-0" aria-labelledby="welcome-heading">
-      <div className="welcome-grid mx-auto grid w-full max-w-[844px] grid-cols-2 gap-[52px] max-[940px]:gap-9 max-[700px]:flex max-[700px]:flex-col max-[700px]:gap-3">
+      <div className="welcome-grid mx-auto grid w-full max-w-[1024px] grid-cols-2 gap-[52px] max-[940px]:gap-9 max-[700px]:flex max-[700px]:flex-col max-[700px]:gap-3">
         <div className="welcome-left">
           <div className="welcome-intro max-[700px]:order-1 max-[700px]:rounded-[18px] max-[700px]:bg-white max-[700px]:px-[18px] max-[700px]:pt-[30px] max-[700px]:pb-[27px]">
-            <h2 id="welcome-heading">Welcome.</h2>
+            <h2 id="welcome-heading">Drowning in Kid Art?</h2>
             <p>
-              From my Kin &amp; Collage studio, I{" "}
-              <em>
-                help you
-                <br /> transform your children&apos;s
-              </em>{" "}
-              <strong>precious scribbles</strong>
+              <strong>Love their artwork, but hate the clutter?</strong>
               <br />
-              from the <strong>clutter into</strong> a modern family{" "}
-              <strong>
-                heirloom
-                <br /> collage
-              </strong>{" "}
-              for your home.
+              Constant chaos. Fridge mess. You can&apos;t throw your kid&apos;s
+              <br /> scribbles away, but keeping them means constant clutter.
             </p>
             <p>
-              Between the school bags and the busy
-              <br /> schedules, our children&apos;s most creative moments
-              <br /> often end up buried in shoeboxes or cluttering
-              <br /> the kitchen fridge.
-              <br />
-              We know the{" "}
-              <strong>
-                <em>&quot;parent guilt&quot;</em>
-              </strong>{" "}
-              of wanting to keep
-              <br /> everything but having nowhere to put it.
+              <strong>Every child is an artist, but every parent runs out of storage space.</strong>
+            </p>
+            <p>
+              Between busy schedules and endless paper piles,
+              <br /> organizing years of artwork feels impossible.
+            </p>
+            <p>
+              But it <em>doesn&apos;t have to stay</em> like that.
             </p>
           </div>
 
@@ -87,15 +75,22 @@ export default function Welcome() {
           </div>
           <div className="welcome-outro">
             <p>
-              I transform the fleeting <em>&quot;fridge-door phase&quot;</em> into a<br /> permanent{" "}
-              <strong>modern fine art</strong> that fits seamlessly
-              <br /> into your home, moving their magic from the
-              <br /> bottom of a drawer to the centre of your feature
-              <br /> wall. Perfect for family gifts to carry on with your
-              <br /> child&apos;s legacy.
+              KinCollage turns the memories of childhood into a custom,{" "}
+              <strong>modern fine art family heirloom</strong>. You provide the
+              <br /> drawings by mail, and I curate them into a single, cohesive
+              <br /> collage.
+            </p>
+            <p className="mt-[25px]">
+              <strong>No more &apos;messy rooms&apos;.</strong>
+              <br />
+              <strong>No more &apos;we can only keep one&apos;.</strong>
+              <br />
+              <strong>No more parent guilt about throwing them out.</strong>
             </p>
             <p className="welcome-closing">
-              <em>Don&apos;t hide their magic in a box. Elevate it.</em>
+              <em>Don&apos;t hide their magic in a box.</em>
+              <br />
+              <strong>Elevate it. Make them proud.</strong>
             </p>
           </div>
         </div>

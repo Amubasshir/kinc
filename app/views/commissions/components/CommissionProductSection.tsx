@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CommissionProductModel } from "../../../models/site";
 import ProductDetails from "./ProductDetails";
 const description =
@@ -9,6 +10,12 @@ function Content({ product }: { product: CommissionProductModel }) {
       <h2 className="text-[34px] leading-[1.15] max-[800px]:text-[32px]" id={`${product.id}-heading`}>{product.title}</h2>
       <p className={`${product.descriptionClassName} mt-[29px] max-w-[365px] text-[15px] leading-[1.48] text-[#515151] max-[800px]:mt-[22px] max-[800px]:max-w-none`}>{description}</p>
       <ProductDetails className={product.detailsClassName} swatchesClassName={product.swatchesClassName} />
+      <Link
+        className="commission-buy-now mx-auto mt-[30px] flex min-h-[52px] min-w-[187px] items-center justify-center rounded-full bg-[#97ff77] font-[Georgia] text-[15px] text-[#263443] no-underline shadow-[0_4px_5px_rgb(25_93_69/28%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/30%)]"
+        href={`/start-your-commission?addOn=${product.id}`}
+      >
+        Buy Now — $45
+      </Link>
     </div>
   );
 }

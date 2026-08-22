@@ -20,13 +20,13 @@ export default function HomeView({ viewModel }: { viewModel: HomeViewModel }) {
       <Hero />
       <BrandLogos />
       <Welcome />
+      <Stats stats={viewModel.stats} />
       <HowItWorks steps={viewModel.howSteps} />
       <Pricing sizes={viewModel.pricingSizes} />
       <Merchandise products={viewModel.merchandiseProducts} />
       <GiftCard />
       <About />
       <Testimonials testimonials={viewModel.testimonials} />
-      <Stats stats={viewModel.stats} />
       <Gallery columns={viewModel.galleryColumns} />
       <Faqs faqs={viewModel.faqs} />
       <Contact />

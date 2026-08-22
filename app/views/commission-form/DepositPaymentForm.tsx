@@ -1,0 +1,96 @@
+"use client";
+
+import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import type { FormEvent } from "react";
+import { useState } from "react";
+import { getStripe } from "../../lib/stripeClient";
+
+const money = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
+
+function PayButton({ depositCents, onSuccess }: { depositCents: number; onSuccess: () => void }) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isPaying, setIsPaying] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handlePay = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!stripe || !elements) return;
+    setIsPaying(true);
+    setError(null);
+
+    const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      redirect: "if_required",
+    });
+
+    if (confirmError) {
+      setError(confirmError.message ?? "Payment failed. Please check your card details and try again.");
+      setIsPaying(false);
+      return;
+    }
+
+    if (paymentIntent?.status === "succeeded") {
+      onSuccess();
+    } else {
+      setError("Payment did not complete. Please try again.");
+      setIsPaying(false);
+    }
+  };
+
+  return (
+    <form className="commission-payment-form mt-6" onSubmit={handlePay}>
+      <PaymentElement />
+      {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
+      <button className="commission-order-submit mt-6" type="submit" disabled={!stripe || isPaying}>
+        {isPaying ? "Processing…" : `Pay deposit — ${money.format(depositCents / 100)}`}
+      </button>
+    </form>
+  );
+}
+
+export default function DepositPaymentForm({
+  clientSecret,
+  depositCents,
+  totalCents,
+  onSuccess,
+}: {
+  clientSecret: string;
+  depositCents: number;
+  totalCents: number;
+  onSuccess: () => void;
+}) {
+  return (
+    <div className="commission-payment mt-8 rounded-[18px] border border-[#e6e6eb] bg-white p-6 max-[700px]:p-5">
+      <h3 className="text-[20px]">Secure your studio slot</h3>
+      <p className="mt-2 text-[14px] text-[#515151]">
+        Estimated total {money.format(totalCents / 100)} — 50% deposit due now:{" "}
+        <strong>{money.format(depositCents / 100)}</strong>. The remaining balance is due upon completion.
+      </p>
+      <Elements
+        stripe={getStripe()}
+        options={{
+          clientSecret,
+          appearance: {
+            theme: "flat",
+            variables: {
+              colorPrimary: "#00b982",
+              colorText: "#263443",
+              colorDanger: "#ad3127",
+              fontFamily: "var(--font-montserrat), Arial, sans-serif",
+              borderRadius: "10px",
+              spacingUnit: "4px",
+            },
+            rules: {
+              ".Input": { border: "2px solid #aaaab5", padding: "10px 14px" },
+              ".Input:focus": { border: "2px solid #00b982", boxShadow: "0 0 0 3px rgb(0 209 143 / 17%)" },
+              ".Label": { fontSize: "13px", textTransform: "uppercase", color: "#565661" },
+            },
+          },
+        }}
+      >
+        <PayButton depositCents={depositCents} onSuccess={onSuccess} />
+      </Elements>
+    </div>
+  );
+}
