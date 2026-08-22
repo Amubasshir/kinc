@@ -7,7 +7,7 @@ function Content({ product }: { product: CommissionProductModel }) {
   return (
     <div className={`${product.contentClassName} pt-[7px] max-[800px]:px-0 max-[800px]:pt-7 max-[800px]:pb-[14px]`}>
       <h2 className="text-[34px] leading-[1.15] max-[800px]:text-[32px]" id={`${product.id}-heading`}>{product.title}</h2>
-      <p className={`${product.descriptionClassName} mt-[29px] max-w-[365px] text-[15px] leading-[1.48] text-[#8a8a8d] max-[800px]:mt-[22px] max-[800px]:max-w-none`}>{description}</p>
+      <p className={`${product.descriptionClassName} mt-[29px] max-w-[365px] text-[15px] leading-[1.48] text-[#515151] max-[800px]:mt-[22px] max-[800px]:max-w-none`}>{description}</p>
       <ProductDetails className={product.detailsClassName} swatchesClassName={product.swatchesClassName} />
     </div>
   );

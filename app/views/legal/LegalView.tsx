@@ -16,7 +16,7 @@ export default function LegalView({ viewModel }: { viewModel: LegalViewModel }) 
       </nav>
       {viewModel.sections.map((section) => (
         <section
-          className="scroll-mt-4 rounded-[20px] bg-white px-8 pt-[66px] pb-[70px] text-[#8a8a8d] max-[700px]:rounded-[18px] max-[700px]:px-5 max-[700px]:pt-10 max-[700px]:pb-12"
+          className="scroll-mt-4 rounded-[20px] bg-white px-8 pt-[66px] pb-[70px] text-[#515151] max-[700px]:rounded-[18px] max-[700px]:px-5 max-[700px]:pt-10 max-[700px]:pb-12"
           id={section.id}
           key={section.id}
         >

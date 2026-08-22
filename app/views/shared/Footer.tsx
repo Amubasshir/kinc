@@ -40,22 +40,22 @@ export default function Footer() {
         <h2 className="mt-[31px] text-[34px] leading-none font-light max-[800px]:text-[29px] max-[700px]:mt-8 max-[700px]:font-[Georgia] max-[700px]:text-[31px]">
           ZSOFIA MATRAI
         </h2>
-        <p className="footer-role mt-[11px] text-[21px] leading-[1.25] max-[800px]:text-[18px] max-[700px]:mt-[13px] max-[700px]:text-[15px]">
+        <p className="footer-role mt-[11px] text-[21px] leading-[1.25] text-[#515151] max-[800px]:text-[18px] max-[700px]:mt-[13px] max-[700px]:text-[15px]">
           Designer &amp; Artist based in Sydney, Australia.
         </p>
-        <p className="footer-acknowledgement mt-[18px] text-[15.5px] leading-[1.48] text-[#78788c] max-[700px]:mt-[21px] max-[700px]:text-[15px] max-[700px]:leading-[1.5] [&>br]:max-[800px]:hidden">
+        <p className="footer-acknowledgement mt-[18px] text-[15.5px] leading-[1.48] text-[#515151] max-[700px]:mt-[21px] max-[700px]:text-[15px] max-[700px]:leading-[1.5] [&>br]:max-[800px]:hidden">
           We design, create and build on the Gadigal land. We acknowledge the
           <br />
           people of the Eora Nation, the Traditional Custodians of the land, paying
           <br />
           my respects to their Elders past, present, and emerging.
         </p>
-        <p className="footer-email mt-[19px] text-[15px] text-[#78788c] max-[700px]:mt-[22px]">
+        <p className="footer-email mt-[19px] text-[15px] text-[#515151] max-[700px]:mt-[22px]">
           ZSOFI.MATRAI@GMAIL.COM
         </p>
       </div>
 
-      <p className="footer-follow mt-[23px] hidden text-[15px] text-[#78788c] max-[700px]:block">Follow me on:</p>
+      <p className="footer-follow mt-[23px] hidden text-[15px] text-[#515151] max-[700px]:block">Follow me on:</p>
 
       <div className="footer-actions absolute top-[327px] right-[39px] flex items-center gap-[35px] max-[800px]:static max-[800px]:mt-[38px] max-[800px]:flex-wrap max-[800px]:gap-7 max-[700px]:mt-7 max-[700px]:items-stretch max-[700px]:flex-col max-[700px]:gap-[39px]">
         <div
@@ -87,10 +87,10 @@ export default function Footer() {
         </Link>
       </div>
 
-      <div className="footer-bottom absolute right-[39px] bottom-[39px] left-[39px] flex items-center justify-between text-[15px] text-[#78788c] max-[800px]:static max-[800px]:mt-[58px] max-[800px]:items-start max-[800px]:flex-col-reverse max-[800px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
-        <p className="m-0 max-[700px]:text-[14px]">©2026 KinCollage. All rights reserved.</p>
+      <div className="footer-bottom absolute right-[39px] bottom-[39px] left-[39px] flex items-center justify-between text-[15px] max-[800px]:static max-[800px]:mt-[58px] max-[800px]:items-start max-[800px]:flex-col-reverse max-[800px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
+        <p className="m-0 text-[#515151] max-[700px]:text-[14px]">©2026 KinCollage. All rights reserved.</p>
         <nav
-          className="flex items-center gap-[27px] font-[Georgia] text-[15px] max-[800px]:flex-wrap max-[800px]:gap-x-6 max-[800px]:gap-y-[15px] max-[700px]:items-start max-[700px]:flex-col max-[700px]:gap-[26px]"
+          className="flex items-center gap-[27px] font-[Georgia] text-[15px] text-[#78788c] max-[800px]:flex-wrap max-[800px]:gap-x-6 max-[800px]:gap-y-[15px] max-[700px]:items-start max-[700px]:flex-col max-[700px]:gap-[26px]"
           aria-label="Legal information"
         >
           <Link className="transition-colors hover:text-[#008d60]" href="/legal#shipping">

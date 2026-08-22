@@ -248,7 +248,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   letter-spacing: 0.4px;
 }
 .how-body { margin: 31px 0 0 60px; }
-.how-body p { margin: 0; font-size: 17px; line-height: 1.29; letter-spacing: 0.05px; }
+.how-body p { margin: 0; color: #515151; font-size: 17px; line-height: 1.29; letter-spacing: 0.05px; }
 .how-body p + p { margin-top: 25px; }
 .how-cta {
   display: inline-flex;
@@ -352,7 +352,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   line-height: 1;
   letter-spacing: 0.2px;
 }
-.pricing-card-copy p { margin: 0; font-size: 17px; line-height: 1.28; }
+.pricing-card-copy p { margin: 0; color: #515151; font-size: 17px; line-height: 1.28; }
 .pricing-card-copy .pricing-price { margin-top: 25px; }
 .pricing-notes h3 {
   margin: 0 0 6px;
@@ -420,7 +420,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 }
 .merchandise-header p {
   margin: 27px 0 0;
-  color: #888;
+  color: #515151;
   font-size: 17px;
   line-height: 1.28;
   letter-spacing: 0.05px;
@@ -470,7 +470,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   line-height: 1.08;
   letter-spacing: 0.2px;
 }
-.merchandise-card-copy > p { margin: 17px 0 0; font-size: 17px; line-height: 1.2; }
+.merchandise-card-copy > p { margin: 17px 0 0; color: #515151; font-size: 17px; line-height: 1.2; }
 .merchandise-bestseller {
   position: absolute;
   z-index: 5;
@@ -700,7 +700,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 .stat p {
   max-width: 300px;
   margin: 20px 0 0;
-  color: #858587;
+  color: #515151;
   font-size: 17px;
   line-height: 1.32;
   letter-spacing: 0.03px;
@@ -1053,7 +1053,7 @@ main > section {
 .phone-case-description {
   max-width: 365px;
   margin: 29px 0 0;
-  color: #8a8a8d;
+  color: #515151;
   font-size: 15px;
   line-height: 1.48;
 }
@@ -1123,7 +1123,7 @@ main > section {
 .phone-case-details details p {
   margin: 0;
   padding: 0 28px 21px 0;
-  color: #858589;
+  color: #515151;
   font-size: 13px;
   line-height: 1.42;
 }
@@ -1189,7 +1189,7 @@ main > section {
 .tote-bag-description {
   max-width: 365px;
   margin: 29px 0 0;
-  color: #8a8a8d;
+  color: #515151;
   font-size: 15px;
   line-height: 1.48;
 }
@@ -1295,7 +1295,7 @@ main > section {
 .tote-bag-details details p {
   margin: 0;
   padding: 0 28px 21px 0;
-  color: #858589;
+  color: #515151;
   font-size: 13px;
   line-height: 1.42;
 }
@@ -1598,7 +1598,7 @@ main > section {
 .artist-pricing-popular { position: absolute; top: -1px; right: -1px; width: 104px; height: 44px; object-fit: contain; }
 .artist-pricing-details { min-height: 174px; padding: 25px 12px 15px; }
 .artist-pricing-details h3 { margin: 0; font-size: 29px; font-weight: 400; line-height: 1.15; }
-.artist-pricing-details p { margin: 15px 0 0; font-size: 16px; line-height: 1.38; }
+.artist-pricing-details p { margin: 15px 0 0; color: #515151; font-size: 16px; line-height: 1.38; }
 .artist-pricing-details strong { display: block; margin-top: 25px; font-size: 16px; font-weight: 400; }
 .artist-pricing-notes h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; line-height: 1.25; }
 .artist-pricing-notes h3:nth-of-type(2) { margin-top: 22px; }
@@ -1754,7 +1754,7 @@ html { scroll-behavior: smooth; }
 
   .merchandise-header h2 { max-width: 320px; font-family: Georgia, "Times New Roman", serif; font-size: 31px; line-height: 1.15; }
   .merchandise-header h2 mark { padding: 0; background: transparent; }
-  .merchandise-header p { margin-top: 24px; color: #777; font-size: 15px; line-height: 1.5; }
+  .merchandise-header p { margin-top: 24px; color: #515151; font-size: 15px; line-height: 1.5; }
   .merchandise-card { width: 100%; min-height: 554px; box-sizing: border-box; border-radius: 18px; background: #fff; }
   .merchandise-card:not(:first-child) { display: none; }
   .merchandise-image { width: 100%; aspect-ratio: 1; }

@@ -31,10 +31,10 @@ export function renderContactConfirmationHtml(name: string): string {
                 <h1 style="margin:0 0 20px; font-family:${HEADING_FONT}; font-weight:400; font-size:30px; line-height:1.2; color:#515151;">
                   We've received your message
                 </h1>
-                <p style="margin:0 0 18px; font-family:${BODY_FONT}; font-size:16px; line-height:1.6; color:#7B7B7B;">
+                <p style="margin:0 0 18px; font-family:${BODY_FONT}; font-size:16px; line-height:1.6; color:#515151;">
                   Hi ${firstName},
                 </p>
-                <p style="margin:0 0 18px; font-family:${BODY_FONT}; font-size:16px; line-height:1.6; color:#7B7B7B;">
+                <p style="margin:0 0 18px; font-family:${BODY_FONT}; font-size:16px; line-height:1.6; color:#515151;">
                   Thank you so much for reaching out about your KinCollage. I've received your message and will get back to you soon — usually within 1&ndash;2 business days.
                 </p>
                 <table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 28px; border-left:3px solid #97FF77; background-color:#F9F9F9; border-radius:0 10px 10px 0;">

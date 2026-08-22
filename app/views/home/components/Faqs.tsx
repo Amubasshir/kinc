@@ -10,7 +10,7 @@ export default function Faqs({ faqs }: { faqs: FaqModel[] }) {
               <span>{faq.question}</span>
               <i aria-hidden="true" />
             </summary>
-            <p className="mb-6 text-[15px] leading-[1.5]">{faq.answer}</p>
+            <p className="mb-6 text-[15px] leading-[1.5] text-[#515151]">{faq.answer}</p>
           </details>
         ))}
       </div>
