@@ -28,9 +28,9 @@ export default function HomeView({ viewModel }: { viewModel: HomeViewModel }) {
       <About />
       <Testimonials testimonials={viewModel.testimonials} />
       <Gallery columns={viewModel.galleryColumns} />
+      <StayConnected />
       <Faqs faqs={viewModel.faqs} />
       <Contact />
-      <StayConnected />
     </>
   );
 }

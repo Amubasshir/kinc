@@ -6,13 +6,12 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
     <section id="merchandise" className="merchandise min-h-[1100px] rounded-[20px] bg-white pt-[75px] pb-20 text-[#555] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:bg-transparent max-[700px]:pt-0 max-[700px]:pb-3" aria-labelledby="merchandise-heading">
       <header className="merchandise-header text-center max-[700px]:px-[23px] max-[700px]:pt-[41px] max-[700px]:text-left">
         <h2 id="merchandise-heading">
-          Commission it. Print it. <mark>Use it.</mark>
+          Order it. Get it printed. <mark>Use it.</mark>
         </h2>
         <p>
-          Share the magic with family. Print your child&apos;s custom collage onto a limited collection of
-          <br />
-          premium everyday objects, creating an unforgettable keepsake for grandparents and loved
-          <br /> ones.
+          Share the joy with loved ones. As an exclusive add-on to your core artwork commission, have
+          <br /> your child&apos;s custom collage printed onto a curated collection of
+          <br /> premium everyday items.
         </p>
       </header>
 

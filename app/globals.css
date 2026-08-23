@@ -249,7 +249,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 }
 .how-body { margin: 31px 0 0 60px; }
 .how-body p { margin: 0; color: #515151; font-size: 17px; line-height: 1.29; letter-spacing: 0.05px; }
-.how-body p + p { margin-top: 25px; }
+/* .how-body p + p { margin-top: 25px; } */
 .how-cta {
   display: inline-flex;
   min-width: 264px;
@@ -332,10 +332,10 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 .pricing-popular {
   position: absolute;
   z-index: 3;
-  top: 10px;
-  right: -52px;
-  width: 207px;
-  height: 88px;
+  top: -34px;
+  right: -32px;
+  width: 150px;
+  height: 64px;
   object-fit: contain;
 }
 .pricing-card-copy {
@@ -361,43 +361,15 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   line-height: 1.1;
 }
 .pricing-notes p { margin: 0; font-size: 13px; line-height: 1.45; }
-.pricing-custom { margin-top: 24px; }
-.pricing-action {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding-top: 27px;
-}
-.pricing-action > img { width: 44px; height: 58px; }
-.pricing-action a {
-  display: inline-flex;
-  min-width: 265px;
-  min-height: 54px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: #97ff77;
-  box-shadow: 0 5px 0 rgb(46 46 56 / 20%), 0 9px 10px rgb(46 46 56 / 15%);
-  color: #263443;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 16px;
-  text-decoration: none;
-  transition: transform 160ms ease, box-shadow 160ms ease;
-}
-.pricing-action a:hover, .pricing-action a:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 rgb(46 46 56 / 18%), 0 11px 14px rgb(46 46 56 / 16%);
-}
 
 @media (max-width: 1100px) {
-  .pricing-popular { right: -32px; }
-  .pricing-action { flex: 0 0 auto; padding-bottom: 12px; }
+  .pricing-popular { right: -14px; }
 }
 
 @media (max-width: 700px) {
   .pricing-header h2 { font-size: 42px; }
   .pricing-header p { font-size: 15px; }
-  .pricing-popular { top: 8px; right: -16px; width: 190px; }
+  .pricing-popular { top: -26px; right: -18px; width: 138px; }
   .pricing-card-copy { min-height: 166px; }
   .pricing-notes p br { display: none; }
   .pricing-action { justify-content: center; padding-top: 0; }
@@ -804,6 +776,9 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
   letter-spacing: 0.05px;
 }
 .faq-item[open] summary { min-height: 49px; padding-top: 2px; }
+.faq-list { column-count: 2; column-gap: 64px; }
+.faq-item { break-inside: avoid; }
+.faq-item:nth-child(6) { break-after: column; }
 
 @media (max-width: 700px) {
   .faqs > h2 { font-size: 42px; }
@@ -850,7 +825,7 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 .contact-message { grid-column: 1 / -1; }
 .contact-form button {
   min-height: 53px; grid-column: 1 / -1; margin-top: 16px; border: 0; border-radius: 999px;
-  background: #97FF77; box-shadow: 0 4px 5px rgb(25 93 69 / 22%); color: #263443;
+  background: #d9d9d9; box-shadow: 0 4px 5px rgb(25 93 69 / 12%); color: #555;
   cursor: pointer; font-family: Georgia, "Times New Roman", serif; font-size: 16px;
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
@@ -1735,7 +1710,7 @@ html { scroll-behavior: smooth; }
   .how-title-row h3 { font-family: Georgia, "Times New Roman", serif; font-size: 30px; }
   .how-body { margin-top: 21px; }
   .how-body p { font-size: 15px; line-height: 1.52; }
-  .how-body p + p { margin-top: 24px; }
+  /* .how-body p + p { margin-top: 24px; } */
   .how-cta { min-width: 230px; min-height: 49px; margin-top: 27px; font-size: 14px; }
   .how-scribble { top: -86px; right: -9px; width: 73px; }
 
@@ -1789,6 +1764,7 @@ html { scroll-behavior: smooth; }
   .gallery-column img { border-radius: 10px; }
 
   .faqs > h2 { font-family: Georgia, "Times New Roman", serif; font-size: 34px; }
+  .faq-list { column-count: 1; }
   .faq-item:nth-child(n+4) { display: none; }
   .faq-item summary { min-height: 83px; padding: 0; font-size: 16px; }
   .faq-item[open] summary { min-height: 56px; }

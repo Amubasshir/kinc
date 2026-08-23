@@ -6,7 +6,7 @@ export default function StayConnected() {
       <h2 className="text-[32px] leading-[1.15] tracking-[.3px] max-[700px]:text-[34px]" id="stay-connected-heading">Stay connected</h2>
       <p className="mt-[22px] text-[17px] leading-[1.7] tracking-[.03px] max-[850px]:leading-[1.45] max-[700px]:mt-[29px] max-[700px]:text-[15px] max-[700px]:leading-[1.5] [&>br]:max-[850px]:hidden">
         Sign up for exclusive studio updates and curation tips, and receive a<br />
-        complimentary <mark className="rounded-sm bg-[#97ff77] px-[3px] pt-px pb-0.5 text-inherit">$50 framing credit</mark> toward your first collage order.
+        <mark className="rounded-sm bg-[#ffe500] px-[3px] pt-px pb-0.5 text-inherit">complimentary printed card</mark> toward your first collage order.
       </p>
       <form className="stay-connected-form mx-auto mt-6 grid w-full max-w-[790px] grid-cols-[230px_231px_264px] items-end gap-8 text-left max-[850px]:mt-8 max-[850px]:max-w-[460px] max-[850px]:grid-cols-1 max-[850px]:gap-5 max-[700px]:mt-[31px] max-[700px]:gap-[30px]">
         <div className="stay-connected-field">
@@ -29,7 +29,7 @@ export default function StayConnected() {
             required
           />
         </div>
-        <button className="min-h-[53px] cursor-pointer rounded-full border-0 bg-[#97ff77] font-[Georgia] text-[16px] text-[#263443] shadow-[0_4px_5px_rgb(25_93_69/28%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/30%)] focus-visible:-translate-y-0.5 focus-visible:shadow-[0_6px_10px_rgb(25_93_69/30%)] max-[850px]:mt-2 max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">SECURE YOUR CREDIT</button>
+        <button className="min-h-[53px] cursor-pointer rounded-full border-0 bg-[#d9d9d9] font-[Georgia] text-[16px] text-[#555] shadow-[0_4px_5px_rgb(25_93_69/12%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/18%)] focus-visible:-translate-y-0.5 focus-visible:shadow-[0_6px_10px_rgb(25_93_69/18%)] max-[850px]:mt-2 max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">SECURE YOUR GIFT</button>
       </form>
     </section>
   );

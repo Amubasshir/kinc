@@ -104,7 +104,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
   const goToNext = () => changePage((activePage + 1) % pageCount, 1);
 
   return (
-    <section id="testimonials" className="testimonials min-h-[1520px] rounded-[20px] bg-transparent px-6 pt-[95px] pb-[33px] text-[#5b5b5d] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-[22px] max-[800px]:pt-[70px] max-[800px]:pb-[38px] max-[700px]:rounded-none max-[700px]:px-0 max-[700px]:pt-[30px] max-[700px]:pb-[22px]" aria-labelledby="testimonials-heading">
+    <section id="testimonials" className="testimonials rounded-[20px] bg-transparent px-6 pt-[95px] pb-[33px] text-[#5b5b5d] max-[800px]:rounded-2xl max-[800px]:px-[22px] max-[800px]:pt-[70px] max-[800px]:pb-[38px] max-[700px]:rounded-none max-[700px]:px-0 max-[700px]:pt-[30px] max-[700px]:pb-[22px]" aria-labelledby="testimonials-heading">
       <h2 className="text-center text-[48px] leading-[1.15] font-light tracking-[.2px] max-[800px]:text-[42px] max-[700px]:px-[23px] max-[700px]:text-left max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="testimonials-heading">Testimonials</h2>
       <p className="testimonials-intro mx-[23px] mt-[22px] hidden text-[15px] leading-[1.5] text-[#777] max-[700px]:block [overflow-wrap:anywhere]">Share the magic with family. Print your child&apos;s custom collage onto a limited collection of premium everyday objects, creating an unforgettable keepsake for grandparents and loved ones.</p>
       <div className="testimonials-grid relative mx-auto mt-[69px] w-full max-w-[1154px] max-[1200px]:max-w-[960px] max-[800px]:mt-[52px] max-[800px]:max-w-[420px] max-[700px]:mt-[34px] max-[700px]:max-w-full">

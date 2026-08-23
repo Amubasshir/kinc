@@ -11,7 +11,7 @@ export default function About() {
             I&apos;m Zsofi Matrai - <mark>artist, designer, and mother of two</mark> based in Sydney, Australia.
           </p>
           <p>
-            I created <strong>KinCollage</strong> to rescue your children&apos;s precious scribbles from the
+            I created <strong>KinCollage</strong>{" "}to rescue your children&apos;s precious scribbles from the
             &quot;guilt pile&quot; and elevate them into modern, family heirlooms. From raw artwork to
             ready-to-hang fine art, everything you need to preserve your children&apos;s memory is right here.
           </p>

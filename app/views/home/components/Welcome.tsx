@@ -2,7 +2,10 @@ import Image from "next/image";
 
 export default function Welcome() {
   return (
-    <section className="welcome min-h-[967px] rounded-[20px] bg-white px-6 pt-[87px] pb-[76px] text-[#515151] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:bg-transparent max-[700px]:p-0" aria-labelledby="welcome-heading">
+    <section
+      className="welcome min-h-[967px] rounded-[20px] bg-white px-6 pt-[87px] pb-[76px] text-[#515151] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:bg-transparent max-[700px]:p-0"
+      aria-labelledby="welcome-heading"
+    >
       <div className="welcome-grid mx-auto grid w-full max-w-[1024px] grid-cols-2 gap-[52px] max-[940px]:gap-9 max-[700px]:flex max-[700px]:flex-col max-[700px]:gap-3">
         <div className="welcome-left">
           <div className="welcome-intro max-[700px]:order-1 max-[700px]:rounded-[18px] max-[700px]:bg-white max-[700px]:px-[18px] max-[700px]:pt-[30px] max-[700px]:pb-[27px]">
@@ -31,15 +34,8 @@ export default function Welcome() {
               <span>Before</span>
             </div>
             <div className="welcome-before-card">
-              <Image unoptimized
-                className="welcome-tape"
-                src="/welcome-tape.png"
-                alt=""
-                width={148}
-                height={120}
-                aria-hidden="true"
-              />
-              <Image unoptimized
+              <Image
+                unoptimized
                 className="welcome-before-photo"
                 src="/welcome-before.png"
                 alt="Children's artwork collected on a fridge"
@@ -47,7 +43,8 @@ export default function Welcome() {
                 sizes="(max-width: 760px) 82vw, 307px"
               />
             </div>
-            <Image unoptimized
+            <Image
+              unoptimized
               className="welcome-connector"
               src="/welcome-connector.svg"
               alt=""
@@ -60,7 +57,8 @@ export default function Welcome() {
 
         <div className="welcome-right">
           <div className="welcome-after-wrap">
-            <Image unoptimized
+            <Image
+              unoptimized
               className="welcome-after-photo"
               src="/welcome-after.png"
               alt="Children viewing their finished heirloom collage"
@@ -75,13 +73,11 @@ export default function Welcome() {
           </div>
           <div className="welcome-outro">
             <p>
-              KinCollage turns the memories of childhood into a custom,{" "}
-              <strong>modern fine art family heirloom</strong>. You provide the
-              <br /> drawings by mail, and I curate them into a single, cohesive
-              <br /> collage.
+              KinCollage turns the memories of childhood into a custom, <strong>modern fine art family heirloom</strong>
+              . You provide the drawings by mail, and I curate them into a single, cohesive collage.
             </p>
-            <p className="mt-[25px]">
-              <strong>No more &apos;messy rooms&apos;.</strong>
+            <p>
+              <strong className="mt-6">No more &apos;messy rooms&apos;.</strong>
               <br />
               <strong>No more &apos;we can only keep one&apos;.</strong>
               <br />

@@ -54,8 +54,8 @@ export default function ContactForm() {
         <textarea
           id="contact-message"
           name="message"
-          placeholder="hello"
-          rows={1}
+          placeholder="Tell us about your project or question..."
+          rows={2}
           onInput={autoGrow}
           required
         />

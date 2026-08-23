@@ -23,7 +23,7 @@ export default function GiftCard({ commission = false }: { commission?: boolean 
             placeholder="$ [ Enter Amount ] AUD"
             required
           />
-          <button className="mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 bg-[#97ff77] text-[15px] shadow-[0_4px_5px_rgb(25_93_69/28%)] transition hover:-translate-y-0.5 max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">PURCHASE VOUCHER</button>
+          <button className="mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 bg-[#d9d9d9] text-[15px] text-[#263443] shadow-[0_4px_5px_rgb(25_93_69/18%)] transition hover:-translate-y-0.5 max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">PURCHASE VOUCHER</button>
         </form>
       </div>
     </section>

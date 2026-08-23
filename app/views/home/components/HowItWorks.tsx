@@ -32,7 +32,7 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
               </div>
               {step.action && (
                 <Link className="how-cta" href="/start-your-commission">
-                  START YOUR COMMISSION
+                  START YOUR ORDER
                 </Link>
               )}
               {step.scribble && (

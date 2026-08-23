@@ -50,9 +50,9 @@ export default function Footer() {
           <br />
           my respects to their Elders past, present, and emerging.
         </p>
-        <p className="footer-email mt-[19px] text-[15px] text-[#515151] max-[700px]:mt-[22px]">
-          ZSOFI.MATRAI@GMAIL.COM
-        </p>
+        <a className="footer-email mt-[19px] block text-[15px] text-[#515151] transition-colors hover:text-[#008d60] max-[700px]:mt-[22px]" href="mailto:hello@kincollage.com">
+          hello@kincollage.com
+        </a>
       </div>
 
       <p className="footer-follow mt-[23px] hidden text-[15px] text-[#515151] max-[700px]:block">Follow me on:</p>
