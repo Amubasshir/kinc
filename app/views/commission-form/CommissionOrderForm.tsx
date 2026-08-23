@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useActionState, useEffect, useMemo, useState } from "react";
 import { ADD_ON_PRODUCTS } from "../../models/site";
-import { SIZES, computeCommissionTotals } from "../../lib/commissionPricing";
+import { ADD_ON_PRICE, SIZES, computeCommissionTotals } from "../../lib/commissionPricing";
 import { createCommissionDeposit, type CommissionDepositState } from "../../actions/commissionDeposit";
 import DepositPaymentForm from "./DepositPaymentForm";
 
@@ -89,7 +89,7 @@ export default function CommissionOrderForm({ requestedAddOnId }: { requestedAdd
         <fieldset>
           <legend>Choose any add-on products with your collage printed on them</legend>
           <small>We can beautifully adapt your child&apos;s custom collage layout into a limited collection of premium everyday essentials. Select any pieces you would like to include for your household or as gifts for your family. <Link href="/products">See product range here</Link>.</small>
-          <div className="commission-options" id="commission-addon-options">{ADD_ON_PRODUCTS.map((item, index) => <label key={item.id}><input type="checkbox" name="addOns" value={item.label} checked={selectedAddOns.includes(item.label)} onChange={() => toggle(item.label, setSelectedAddOns)} /> <span>{item.label} — $45 {index === 0 && <em>(Our bestseller)</em>}</span></label>)}</div>
+          <div className="commission-options" id="commission-addon-options">{ADD_ON_PRODUCTS.map((item, index) => <label key={item.id}><input type="checkbox" name="addOns" value={item.label} checked={selectedAddOns.includes(item.label)} onChange={() => toggle(item.label, setSelectedAddOns)} /> <span>{item.label} — ${ADD_ON_PRICE} {index === 0 && <em>(Our bestseller)</em>}</span></label>)}</div>
         </fieldset>
 
         <fieldset>

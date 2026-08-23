@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ArtistViewModel } from "../../../view-models/artistViewModel";
 
 export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }) {
@@ -8,55 +9,42 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
         <div className="artist-hero-copy absolute top-[197px] left-0 w-[590px] max-[1050px]:relative max-[1050px]:top-auto max-[1050px]:left-auto max-[1050px]:w-full max-[760px]:order-1 max-[700px]:box-border max-[700px]:px-1 max-[700px]:pt-[18px]">
           <h1 className="text-[48px] leading-[1.12] tracking-[.2px] max-[1050px]:text-[44px] max-[760px]:text-[clamp(38px,11vw,46px)] max-[700px]:text-[31px] max-[700px]:leading-[1.08]" id="artist-heading">About {viewModel.name}</h1>
           <div className="artist-hero-body mt-[27px] max-[700px]:mt-[17px] [&>p]:text-[15px] [&>p]:leading-[1.48] [&>p+p]:mt-[25px] max-[700px]:[&>p]:text-[14px] max-[700px]:[&>p]:leading-[1.5] max-[700px]:[&>p+p]:mt-5">
-            <p>
-              I am a <mark>Sydney-based Australian-Hungarian</mark>{" "}
-              <strong>
-                <em>artist, designer,</em>
-              </strong>{" "}
-              and{" "}
-              <strong>
-                <em>mother of two.</em>
-              </strong>
-              <br />I inherited my artistic hands from my parents, growing up in a home where creativity
-              <br />
-              was our primary language.
+            <p className="font-bold">
+              I am a <mark>Sydney-based Australian-Hungarian artist, designer, and mother</mark>
+              <br />of two. I inherited my artistic ability from my parents, growing up in a
+              <br />home where creativity was our primary language.
             </p>
             <p>
-              My professional career has always been a blend of fine art and high design. As a former
-              <br />
-              Textile Designer for Camilla, I spent my days hand-drawing and painting intricate
-              <br />
-              artworks that were transformed into digital prints and worn by women worldwide.
-              <br />
-              Today, I design <a className="underline" href="#digital-products">digital products</a>, but my most fulfilling work happens in
-              my studio,
-              <br />
-              <strong>
-                <em>inspired by the creativity of my own children.</em>
-              </strong>
+              My professional career has always been a blend of fine art and product
+              <br />design. As a former Textile Print Designer for Camilla, I spent my days
+              <br />hand-drawing and painting intricate artworks that were transformed into
+              <br />digital prints and worn by women worldwide. Alongside my textile work, I
+              <br />also founded and ran my bridal label. Today, I design digital products, but
+              <br />my <strong>most fulfilling work happens in my studio, inspired by the creativity
+              <br />of my own children.</strong>
             </p>
             <p>
-              The <strong>KinCollage studio</strong> was born from a desire to rescue my children&apos;s fleeting
-              scribbles
-              <br />
-              from the &apos;guilt pile&apos; and elevate them into something permanent.
-              <br />
-              Drawing on my background in textile construction and mixed media, I <mark>sort, layer</mark> and
-              <br />
-              <mark>compose</mark> these precious marks into modern family heirloom collages.
+              <strong>KinCollage studio</strong>{" "}was born from a desire to rescue my children&apos;s fleeting
+              <br />scribbles from the &apos;guilt pile&apos; and elevate them into something permanent.
+              <br />Drawing on my background in textile construction and mixed media, I
+              <br /><mark>sort, layer, and compose</mark> these precious drawings into modern family
+              <br />heirloom collages.
             </p>
             <p>
-              I treat every commission with the same precision I&apos;ve given my award-winning fashion
-              <br />
-              label &amp; my gallery exhibitions.
-              <br />
-              My goal is to help you <mark>preserve your child&apos;s art</mark>, transforming everyday drawings into a
-              <br />
-              <strong>
-                <em>timeless family legacy.</em>
-              </strong>
+              I treat every commission with the same precision I&apos;ve given my award-
+              <br />winning fashion label &amp; my gallery exhibitions.
+            </p>
+            <p className="font-bold">
+              My goal is to help you <mark>preserve your child&apos;s art,</mark> transforming everyday
+              <br />drawings into a <strong>timeless family legacy.</strong>
             </p>
           </div>
+          <Link
+            className="artist-hero-cta mt-[28px] inline-flex min-h-[53px] w-[187px] items-center justify-center rounded-full bg-[#97ff77] font-[var(--font-tenor-sans)] text-[15px] text-[#263443] no-underline shadow-[0_4px_5px_rgb(35_52_63/27%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/27%)] focus-visible:-translate-y-0.5 focus-visible:shadow-[0_6px_10px_rgb(25_93_69/27%)] max-[700px]:mx-auto max-[700px]:mt-7 max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]"
+            href="/#how-it-works"
+          >
+            GET STARTED
+          </Link>
         </div>
         <div className="artist-hero-portrait absolute top-[132px] right-0 h-[632px] w-[504px] max-[1050px]:relative max-[1050px]:top-auto max-[1050px]:right-auto max-[1050px]:h-auto max-[1050px]:w-full max-[1050px]:aspect-[504/632] max-[760px]:order-first max-[760px]:w-[min(100%,504px)] max-[700px]:w-full">
           <Image unoptimized

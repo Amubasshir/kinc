@@ -1,18 +1,20 @@
 import type { ArtistViewModel } from "../../view-models/artistViewModel";
-import type { TestimonialModel } from "../../models/site";
+import type { PricingSizeModel, TestimonialModel } from "../../models/site";
 import StayConnected from "../shared/StayConnected";
 import Testimonials from "../shared/Testimonials";
+import Pricing from "../home/components/Pricing";
 import ArtistCareerGallery from "./components/ArtistCareerGallery";
 import ArtistHero from "./components/ArtistHero";
-import ArtistPricing from "./components/ArtistPricing";
 import ArtistStory from "./components/ArtistStory";
 import ArtistTestimonial from "./components/ArtistTestimonial";
 
 export default function ArtistView({
   viewModel,
+  pricingSizes,
   testimonials,
 }: {
   viewModel: ArtistViewModel;
+  pricingSizes: PricingSizeModel[];
   testimonials: TestimonialModel[];
 }) {
   return (
@@ -20,7 +22,7 @@ export default function ArtistView({
       <ArtistHero viewModel={viewModel} />
       <ArtistCareerGallery gallery={viewModel.careerGallery} />
       <ArtistStory controls />
-      <ArtistPricing pricing={viewModel.pricing} />
+      <Pricing sizes={pricingSizes} />
       <ArtistTestimonial testimonial={viewModel.testimonial} />
       <Testimonials testimonials={testimonials} />
       <StayConnected />

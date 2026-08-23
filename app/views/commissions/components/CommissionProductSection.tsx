@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CommissionProductModel } from "../../../models/site";
+import { ADD_ON_PRICE } from "../../../lib/commissionPricing";
 import ProductDetails from "./ProductDetails";
 const description =
   "Put your unique spin on a wardrobe essential and order your shirt designs - available as an exclusive add-on when you book your commission.";
@@ -14,7 +15,7 @@ function Content({ product }: { product: CommissionProductModel }) {
         className="commission-buy-now mx-auto mt-[30px] flex min-h-[52px] min-w-[187px] items-center justify-center rounded-full bg-[#97ff77] font-[Georgia] text-[15px] text-[#263443] no-underline shadow-[0_4px_5px_rgb(25_93_69/28%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/30%)]"
         href={`/start-your-commission?addOn=${product.id}`}
       >
-        Buy Now — $45
+        Buy Now — ${ADD_ON_PRICE}
       </Link>
     </div>
   );

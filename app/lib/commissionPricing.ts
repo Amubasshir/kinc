@@ -11,7 +11,7 @@ export const SIZES = [
   { id: "122x183", label: "122 x 183 cm", price: 6915, minimum: 80 },
 ] as const;
 
-export const ADD_ON_PRICE = 45;
+export const ADD_ON_PRICE = 70;
 export const RUSH_FEE_RATE = 0.3;
 
 export type CommissionTotals = {

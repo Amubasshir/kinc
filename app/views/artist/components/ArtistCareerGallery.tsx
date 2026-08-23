@@ -24,8 +24,8 @@ export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewMo
 
   return (
     <section className="artist-career-gallery relative w-[calc(100%-24px)] self-center overflow-hidden rounded-[20px] bg-[linear-gradient(to_bottom,#00d18f_0_430px,#f5f5f5_430px)] max-[700px]:!w-[calc(100vw-36px)] max-[700px]:!max-w-[calc(100vw-36px)] max-[700px]:rounded-2xl max-[700px]:bg-[linear-gradient(to_bottom,#00d18f_0_8px,#f5f5f5_8px)] max-[700px]:pb-[38px]" aria-label="Selected creative work">
-      <div className="artist-career-gallery-heading px-10 pt-9 pb-2 max-[700px]:px-5 max-[700px]:pt-6 max-[700px]:pb-1">
-        <h2 className="m-0 text-[34px] leading-tight text-[#263443] max-[700px]:text-[26px]">Some of my previous design work:</h2>
+      <div className="artist-career-gallery-heading px-10 pt-[53px] pb-[39px] text-center max-[700px]:px-5 max-[700px]:pt-6 max-[700px]:pb-4">
+        <h2 className="m-0 text-[26px] leading-[1.15] tracking-[0.2px] text-[#263443] max-[700px]:text-[23px]">Selected past works &amp; archives</h2>
       </div>
       <button className="group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(0)} aria-label="Open artwork in gallery viewer">
         <Image unoptimized className="artist-career-gallery-master block h-auto w-full transition duration-300 ease-out group-hover:scale-[1.008] group-focus-visible:scale-[1.008]" src={gallery.src} alt={gallery.alt} width={1317} height={1634} sizes="calc(100vw - 16px)" />

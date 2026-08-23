@@ -48,10 +48,9 @@ export default function ArtistStory({ videoOnly = false, controls = false }: { v
         </p>
         <p>
           In this short video,{" "}
-          <em>
-            I take you <mark>behind the scenes of KinCollage.</mark>
-          </em>{" "}
-          See how we rescue those messy scribbles from the
+          <strong>I take you </strong>
+          <mark><strong>behind the scenes of KinCollage.</strong> See</mark>{" "}
+          how we rescue those messy scribbles from the
           <br />
           cupboard and apply the precision of high design to transform them into modern family heirlooms.
         </p>
