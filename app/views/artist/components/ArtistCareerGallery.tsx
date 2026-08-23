@@ -3,11 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import type { MouseEvent } from "react";
 import type { ArtistViewModel } from "../../../view-models/artistViewModel";
 import GalleryLightbox from "../../shared/GalleryLightbox";
 
 export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewModel["careerGallery"] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const scrollToPageTop = (event: MouseEvent<HTMLAnchorElement>) => {
+    const target = document.getElementById("page-top");
+    if (!target) return;
+
+    event.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", "#page-top");
+  };
   const images = [
     { src: gallery.src, alt: gallery.alt, width: 1317, height: 1634 },
     { src: gallery.collectionShot.src, alt: "Camilla collection fashion campaign", width: 750, height: 960 },
@@ -30,7 +39,7 @@ export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewMo
           <span>{gallery.collectionShot.credit}</span>
         </figcaption>
       </figure>
-      <Link className="artist-career-mobile-see-all absolute bottom-2.5 left-1/2 hidden min-h-[23px] w-[91px] -translate-x-1/2 items-center justify-center rounded-full border border-white text-[8px] text-white no-underline max-[700px]:inline-flex" href="#page-top">SEE ALL WORK</Link>
+      <Link className="artist-career-mobile-see-all absolute bottom-2.5 left-1/2 hidden min-h-[23px] w-[91px] -translate-x-1/2 items-center justify-center rounded-full border border-white text-[8px] text-white no-underline max-[700px]:inline-flex" href="#page-top" onClick={scrollToPageTop}>SEE ALL WORK</Link>
       <GalleryLightbox images={images} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />
     </section>
   );

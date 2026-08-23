@@ -2,6 +2,7 @@
 
 import Stripe from "stripe";
 import { computeCommissionTotals, SIZES } from "../lib/commissionPricing";
+import { ADD_ON_PRODUCTS } from "../models/site";
 
 export type CommissionDepositState =
   | { status: "idle" }
@@ -38,6 +39,7 @@ export async function createCommissionDeposit(
   }
 
   const totals = computeCommissionTotals({ sizeIds, addOnCount: addOns.length, rushRequested: Boolean(priorityDate) });
+  const addOnPriceIds = ADD_ON_PRODUCTS.filter((product) => addOns.includes(product.label)).map((product) => product.priceId);
 
   if (totals.total === 0) {
     // Only a custom ("other") size was selected — that needs a manual quote, not a card charge yet.
@@ -60,6 +62,7 @@ export async function createCommissionDeposit(
         email,
         sizes: sizeIds.join(", ") || "custom",
         addOns: addOns.join(", ") || "none",
+        addOnPriceIds: addOnPriceIds.join(", ") || "none",
         addOnReference,
         rushRequested: String(Boolean(priorityDate)),
         artworkCents: String(totals.artwork * 100),
