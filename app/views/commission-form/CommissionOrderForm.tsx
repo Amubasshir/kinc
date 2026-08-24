@@ -6,13 +6,16 @@ import { ADD_ON_PRODUCTS } from "../../models/site";
 import { ADD_ON_PRICE, SIZES, computeCommissionTotals } from "../../lib/commissionPricing";
 import { createCommissionDeposit, type CommissionDepositState } from "../../actions/commissionDeposit";
 import DepositPaymentForm from "./DepositPaymentForm";
+import ModernDatePicker from "./ModernDatePicker";
 
 const money = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
 const initialDepositState: CommissionDepositState = { status: "idle" };
 
 function revealThanks() {
   const confirmation = document.getElementById("commission-order-thanks");
+  const orderMain = document.getElementById("commission-order-main");
   if (confirmation) {
+    if (orderMain) orderMain.hidden = true;
     confirmation.hidden = false;
     window.setTimeout(() => confirmation.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
@@ -102,7 +105,7 @@ export default function CommissionOrderForm({ requestedAddOnId }: { requestedAdd
           {needsBox === "yes" && <input className="commission-round-input" name="boxDetails" aria-label="Collection box details" required placeholder="Number of artworks and largest artwork size" />}
         </fieldset>
 
-        <label className="commission-field">Priority order request<small>If you require your piece by a specific date, a 30% rush fee guarantees your chosen completion date.</small><input name="priorityDate" type="date" value={priorityDate} onChange={(event) => setPriorityDate(event.target.value)} /></label>
+        <div className="commission-field">Priority order request<small>If you require your piece by a specific date, a 30% rush fee guarantees your chosen completion date.</small><ModernDatePicker name="priorityDate" value={priorityDate} onChange={setPriorityDate} /></div>
         <label className="commission-field">Coupon or voucher code<input name="coupon" /></label>
         <label className="commission-field">Your note or question<small>Include any special requests you may have.</small><textarea name="note" rows={4} placeholder="Tell us about your project or question..." /></label>
         <label className="commission-confirm"><input type="checkbox" name="confirmation" required /> <span>I understand that upon submitting this form, I will receive an email confirmation and an order summary for the 50% deposit and remaining balance. Studio creation begins once original artwork and deposit are received.</span></label>

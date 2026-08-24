@@ -3,6 +3,7 @@
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { completeCommissionOrder } from "../../actions/commissionDeposit";
 import { getStripe } from "../../lib/stripeClient";
 
 const money = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
@@ -12,12 +13,24 @@ function PayButton({ depositCents, onSuccess }: { depositCents: number; onSucces
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paidPaymentIntentId, setPaidPaymentIntentId] = useState<string | null>(null);
 
   const handlePay = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!stripe || !elements) return;
     setIsPaying(true);
     setError(null);
+
+    if (paidPaymentIntentId) {
+      const completion = await completeCommissionOrder(paidPaymentIntentId);
+      if (completion.success) {
+        onSuccess();
+        return;
+      }
+      setError(completion.message ?? "The order confirmation could not be completed. Please try again.");
+      setIsPaying(false);
+      return;
+    }
 
     const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
       elements,
@@ -31,6 +44,13 @@ function PayButton({ depositCents, onSuccess }: { depositCents: number; onSucces
     }
 
     if (paymentIntent?.status === "succeeded") {
+      setPaidPaymentIntentId(paymentIntent.id);
+      const completion = await completeCommissionOrder(paymentIntent.id);
+      if (!completion.success) {
+        setError(completion.message ?? "Your payment succeeded, but the order confirmation could not be completed. Please try again.");
+        setIsPaying(false);
+        return;
+      }
       onSuccess();
     } else {
       setError("Payment did not complete. Please try again.");
@@ -43,7 +63,7 @@ function PayButton({ depositCents, onSuccess }: { depositCents: number; onSucces
       <PaymentElement />
       {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
       <button className="commission-order-submit mt-6" type="submit" disabled={!stripe || isPaying}>
-        {isPaying ? "Processing…" : `Pay deposit — ${money.format(depositCents / 100)}`}
+        {isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `Pay deposit — ${money.format(depositCents / 100)}`}
       </button>
     </form>
   );

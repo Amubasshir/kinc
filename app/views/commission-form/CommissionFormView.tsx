@@ -21,7 +21,7 @@ export default function CommissionFormView({ requestedAddOnId }: { requestedAddO
         </div>
       </section>
 
-      <section className="commission-order-main" aria-labelledby="commission-details-title">
+      <section className="commission-order-main" id="commission-order-main" aria-labelledby="commission-details-title">
         <div className="commission-order-container">
           <h2 id="commission-details-title">Share the details</h2>
           <div className="commission-order-information">
@@ -45,9 +45,9 @@ export default function CommissionFormView({ requestedAddOnId }: { requestedAddO
           <h2 id="commission-thanks-title">Thank You!<br />Your order is received</h2>
           <p>I&apos;m so excited to help you turn these precious scribbles into a lasting work of art!</p>
           <h3><mark>Check your inbox</mark></h3>
-          <p>Look out for a confirmation email coming your way shortly. It will contain your order summary along with simple instructions on how to send your child&apos;s original artwork to the studio, so we can move straight into the curation phase. The remaining 50% balance will be due upon completion of your piece.</p>
+          <p>Look out for a <strong>confirmation email</strong> coming your way shortly. It will contain your order summary along with simple instructions on how to send your child&apos;s original artwork to the studio, so we can move straight into the curation phase. <strong>The remaining 50% balance will be due upon completion of your piece.</strong></p>
           <h3><mark>Optional: Book Your Design Consultation</mark></h3>
-          <p>If you&apos;d like to discuss your vision, align on colours, or ask any questions before sending your art, feel free to pick a time for a complimentary 15-minute chat:<br /><Link href="/#contact">Schedule your 15-minute consultation here</Link></p>
+          <p>If you&apos;d like to discuss your vision, align on colours, or ask any questions before sending your art, feel free to pick a time for a complimentary 15-minute chat:<br /><Link className="underline underline-offset-2" href="/#contact">Schedule your 15-minute consultation here</Link></p>
           <p>I can&apos;t wait to see the magic your little artists have created and begin crafting your family heirloom!</p>
           <Image unoptimized src="/artist/signature.png" alt="Zsofia Matrai" width={207} height={49} />
         </div>
