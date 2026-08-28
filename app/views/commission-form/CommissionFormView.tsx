@@ -4,7 +4,7 @@ import ArtistStory from "../artist/components/ArtistStory";
 import GiftCard from "../home/components/GiftCard";
 import CommissionOrderForm from "./CommissionOrderForm";
 
-export default function CommissionFormView({ requestedAddOnId }: { requestedAddOnId?: string }) {
+export default function CommissionFormView({ requestedAddOnId, requestedSizeId }: { requestedAddOnId?: string; requestedSizeId?: string }) {
   return (
     <>
       <section className="commission-order-hero" aria-labelledby="commission-order-title">
@@ -36,7 +36,7 @@ export default function CommissionFormView({ requestedAddOnId }: { requestedAddO
             <p><strong>Thank you so much for trusting me with your child&apos;s precious artwork. Saving these scribbles and turning them into modern family heirlooms is at the heart of what I do.</strong></p>
             <p><strong>I am deeply honoured to preserve their creations and craft a bespoke piece of fine art for your home!</strong></p>
           </div>
-          <CommissionOrderForm requestedAddOnId={requestedAddOnId} />
+          <CommissionOrderForm requestedAddOnId={requestedAddOnId} requestedSizeId={requestedSizeId} />
         </div>
       </section>
 

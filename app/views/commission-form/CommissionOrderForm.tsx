@@ -21,11 +21,12 @@ function revealThanks() {
   }
 }
 
-export default function CommissionOrderForm({ requestedAddOnId }: { requestedAddOnId?: string }) {
+export default function CommissionOrderForm({ requestedAddOnId, requestedSizeId }: { requestedAddOnId?: string; requestedSizeId?: string }) {
   const requestedAddOn = ADD_ON_PRODUCTS.find((item) => item.id === requestedAddOnId);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const requestedSize = SIZES.find((item) => item.id === requestedSizeId);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>(requestedSize ? [requestedSize.id] : []);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>(requestedAddOn ? [requestedAddOn.label] : []);
-  const [product, setProduct] = useState(requestedAddOn ? "KinCollage artwork and add-on products" : "");
+  const [product, setProduct] = useState(requestedAddOn ? "KinCollage artwork and add-on products" : requestedSize ? "Original KinCollage artwork" : "");
   const [otherSize, setOtherSize] = useState(false);
   const [sizeError, setSizeError] = useState(false);
   const [framing, setFraming] = useState("");
@@ -37,6 +38,11 @@ export default function CommissionOrderForm({ requestedAddOnId }: { requestedAdd
     if (!requestedAddOn) return;
     document.getElementById("commission-addon-options")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [requestedAddOn]);
+
+  useEffect(() => {
+    if (!requestedSize) return;
+    document.getElementById("commission-size-options")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [requestedSize]);
 
   useEffect(() => {
     if (depositState.status === "quote-only") revealThanks();

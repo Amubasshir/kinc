@@ -6,6 +6,8 @@ export default async function StartYourCommissionPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { addOn } = await searchParams;
+  const { size } = await searchParams;
   const requestedAddOnId = Array.isArray(addOn) ? addOn[0] : addOn;
-  return <CommissionFormView requestedAddOnId={requestedAddOnId} />;
+  const requestedSizeId = Array.isArray(size) ? size[0] : size;
+  return <CommissionFormView requestedAddOnId={requestedAddOnId} requestedSizeId={requestedSizeId} />;
 }

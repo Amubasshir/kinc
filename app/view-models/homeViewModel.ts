@@ -1,6 +1,6 @@
-import type { HomeViewModel } from "../models/site";
+import type { HomeViewModel, PricingSizeModel } from "../models/site";
 
-export function getHomeViewModel(): HomeViewModel {
+export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewModel {
   return {
     howSteps: [
       {
@@ -44,7 +44,7 @@ export function getHomeViewModel(): HomeViewModel {
         action: true,
       },
     ],
-    pricingSizes: [
+    pricingSizes: pricingSizes ?? [
       {
         name: "Mini",
         dimensions: "30 x 40 cm",
