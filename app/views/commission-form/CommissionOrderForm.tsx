@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useActionState, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ADD_ON_PRODUCTS } from "../../models/site";
 import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../../lib/commissionPricing";
 import type { StripeCommissionProduct } from "../../lib/stripePricing";
@@ -10,23 +11,8 @@ import ModernDatePicker from "./ModernDatePicker";
 
 const initialDepositState: CommissionDepositState = { status: "idle" };
 
-function revealThanks(quoteOnly: boolean) {
-  const confirmation = document.getElementById("commission-order-thanks");
-  const orderMain = document.getElementById("commission-order-main");
-  const headingDetail = document.getElementById("commission-thanks-heading-detail");
-  const paidNote = document.getElementById("commission-thanks-paid-note");
-  const quoteNote = document.getElementById("commission-thanks-quote-note");
-  if (confirmation) {
-    if (orderMain) orderMain.hidden = true;
-    if (headingDetail) headingDetail.textContent = quoteOnly ? "Your request has been received" : "Your order is received";
-    if (paidNote) paidNote.hidden = quoteOnly;
-    if (quoteNote) quoteNote.hidden = !quoteOnly;
-    confirmation.hidden = false;
-    window.setTimeout(() => confirmation.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
-  }
-}
-
 export default function CommissionOrderForm({ commissionProducts, requestedAddOnId, requestedProductId }: { commissionProducts: StripeCommissionProduct[]; requestedAddOnId?: string; requestedProductId?: string }) {
+  const router = useRouter();
   const requestedAddOn = ADD_ON_PRODUCTS.find((item) => item.id === requestedAddOnId);
   const requestedSize = commissionProducts.find((item) => item.productId === requestedProductId);
   const [selectedSizes, setSelectedSizes] = useState<string[]>(requestedSize ? [requestedSize.priceId] : []);
@@ -50,8 +36,8 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
   }, [requestedSize]);
 
   useEffect(() => {
-    if (depositState.status === "quote-only") revealThanks(true);
-  }, [depositState.status]);
+    if (depositState.status === "quote-only") router.push("/thank-you?type=quote");
+  }, [depositState.status, router]);
 
   const currency = commissionProducts[0]?.currency ?? "usd";
   const money = useMemo(() => new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }), [currency]);
@@ -155,7 +141,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
           depositCents={depositState.depositCents}
           totalCents={depositState.totalCents}
           currency={depositState.currency}
-          onSuccess={() => revealThanks(false)}
+          onSuccess={() => router.push("/thank-you?type=payment")}
         />
       )}
     </>
