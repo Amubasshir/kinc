@@ -34,8 +34,10 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
             aria-hidden="true"
           />
           <blockquote className="relative z-[2] m-0 w-[min(860px,calc(100%-100px))] text-center max-[900px]:w-[calc(100%-60px)] max-[600px]:w-[calc(100%-36px)]">
-            <div className="artist-testimonial-stars text-[15px] tracking-px max-[600px]:text-[13px]" aria-label={testimonial.rating + " out of 5 stars"}>
-              {"★".repeat(testimonial.rating)}
+            <div className="artist-testimonial-stars flex items-center justify-center gap-1" aria-label={testimonial.rating + " out of 5 stars"}>
+              {Array.from({ length: testimonial.rating }, (_, index) => (
+                <Image unoptimized key={index} src="/star-3.svg" alt="" width={15} height={15} aria-hidden="true" />
+              ))}
             </div>
             <p className="mt-6 text-[24px] leading-[1.22] max-[900px]:mt-[18px] max-[900px]:text-[clamp(16px,2.1vw,24px)] max-[600px]:text-[15px] max-[600px]:leading-[1.35]">
               {intro}

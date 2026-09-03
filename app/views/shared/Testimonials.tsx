@@ -139,7 +139,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
               <Stars />
               <TestimonialReview paragraphs={testimonial.paragraphs} />
               <footer className="mt-[22px]">
-                <cite className="block font-[Georgia] text-[38px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[31px]">{testimonial.name}</cite>
+                <cite className="block font-[Georgia] text-[28px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[24px]">{testimonial.name}</cite>
                 <p className="mt-2 text-[17px] leading-[1.2] text-[#515151] max-[700px]:text-[15px]">{testimonial.location}</p>
               </footer>
             </div>

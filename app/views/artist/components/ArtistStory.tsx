@@ -16,14 +16,6 @@ export default function ArtistStory({ videoOnly = false, controls = false }: { v
         <source src={videoOnly ? "/KC_Commision.mp4" : "/KC_Intro_16x9_1.mp4"} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <Image unoptimized
-        className="artist-story-cursor absolute top-[56%] left-[68%] h-auto w-[72px] rotate-[35deg] max-[800px]:w-12"
-        src="/gallery-page/cursor-arrow.png"
-        alt=""
-        width={56}
-        height={73}
-        aria-hidden="true"
-      />
     </div>
   );
 

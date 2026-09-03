@@ -49,8 +49,8 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
         ))}
       </div>
 
-      <div className="pricing-footer mx-auto mt-[59px] w-full max-w-[1240px] max-[700px]:mt-8 max-[700px]:px-[22px]">
-        <div className="pricing-notes grid grid-cols-3 gap-10 max-[800px]:grid-cols-1 max-[800px]:gap-[39px]">
+      <div className="pricing-footer mx-auto mt-[59px] w-full max-w-[1240px] max-[1100px]:px-8 max-[700px]:mt-8 max-[700px]:px-[22px]">
+        <div className="pricing-notes grid grid-cols-3 gap-10 max-[700px]:grid-cols-1 max-[700px]:justify-items-center max-[700px]:gap-[39px] max-[700px]:px-8 max-[700px]:text-center">
           <div>
             <h3>COSTS</h3>
             <p>
