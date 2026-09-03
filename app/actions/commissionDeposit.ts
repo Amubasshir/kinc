@@ -152,7 +152,7 @@ export async function createCommissionDeposit(
 
   const addOnPriceIds = ADD_ON_PRODUCTS.filter((product) => addOns.includes(product.label)).map((product) => product.priceId);
 
-  if (sizePriceIds.length === 0) {
+  if (otherSize) {
     try {
       const emailDetails = buildEmailDetails(formData, [], addOns);
       const quoteDetails: CommissionEmailDetails = { ...emailDetails, total: "Manual quote required", deposit: "No payment taken", paymentReference: "Manual quote", quoteOnly: true };

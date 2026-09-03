@@ -43,10 +43,11 @@ export default function CommissionFormView({ commissionProducts, requestedAddOnI
 
       <section className="commission-order-thanks" id="commission-order-thanks" aria-labelledby="commission-thanks-title" hidden>
         <div>
-          <h2 id="commission-thanks-title">Thank You!<br />Your order is received</h2>
+          <h2 id="commission-thanks-title">Thank You!<br /><span id="commission-thanks-heading-detail">Your order is received</span></h2>
           <p>I&apos;m so excited to help you turn these precious scribbles into a lasting work of art!</p>
           <h3><mark>Check your inbox</mark></h3>
-          <p>Look out for a <strong>confirmation email</strong> coming your way shortly. It will contain your order summary along with simple instructions on how to send your child&apos;s original artwork to the studio, so we can move straight into the curation phase. <strong>The remaining 50% balance will be due upon completion of your piece.</strong></p>
+          <p id="commission-thanks-paid-note">Look out for a <strong>confirmation email</strong> coming your way shortly. It will contain your order summary along with simple instructions on how to send your child&apos;s original artwork to the studio, so we can move straight into the curation phase. <strong>The remaining 50% balance will be due upon completion of your piece.</strong></p>
+          <p id="commission-thanks-quote-note" hidden>Look out for a <strong>confirmation email</strong> coming your way shortly. We&apos;ll review your custom size request and follow up with a personalised quote within 24–48 hours, before any payment is taken.</p>
           <h3><mark>Optional: Book Your Design Consultation</mark></h3>
           <p>If you&apos;d like to discuss your vision, align on colours, or ask any questions before sending your art, feel free to pick a time for a complimentary 15-minute chat:<br /><Link className="underline underline-offset-2" href="/#contact">Schedule your 15-minute consultation here</Link></p>
           <p>I can&apos;t wait to see the magic your little artists have created and begin crafting your family heirloom!</p>

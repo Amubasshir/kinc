@@ -1,7 +1,6 @@
-import CommissionsView from "../views/commissions/CommissionsView";
-import { getCommissionsViewModel } from "../view-models/commissionsViewModel";
-import { getHomeViewModel } from "../view-models/homeViewModel";
+import { redirect } from "next/navigation";
 
+// Temporarily disabled at the client's request. Remove this redirect to reopen the page.
 export default function ProductsPage() {
-  return <CommissionsView viewModel={getCommissionsViewModel()} testimonials={getHomeViewModel().testimonials} />;
+  redirect("/");
 }

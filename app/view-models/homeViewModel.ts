@@ -30,7 +30,6 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         paragraphs: [
           "Every piece is hand-selected through a multi-step physical layout process: planning the composition, layering the story, applying archival varnish for permanent protection, adding signature hand-drawn patterns, and professional framing.",
         ],
-        scribble: true,
       },
       {
         number: "4.",

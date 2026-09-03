@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useActionState, useEffect, useMemo, useState } from "react";
 import { ADD_ON_PRODUCTS } from "../../models/site";
 import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../../lib/commissionPricing";
@@ -11,11 +10,17 @@ import ModernDatePicker from "./ModernDatePicker";
 
 const initialDepositState: CommissionDepositState = { status: "idle" };
 
-function revealThanks() {
+function revealThanks(quoteOnly: boolean) {
   const confirmation = document.getElementById("commission-order-thanks");
   const orderMain = document.getElementById("commission-order-main");
+  const headingDetail = document.getElementById("commission-thanks-heading-detail");
+  const paidNote = document.getElementById("commission-thanks-paid-note");
+  const quoteNote = document.getElementById("commission-thanks-quote-note");
   if (confirmation) {
     if (orderMain) orderMain.hidden = true;
+    if (headingDetail) headingDetail.textContent = quoteOnly ? "Your request has been received" : "Your order is received";
+    if (paidNote) paidNote.hidden = quoteOnly;
+    if (quoteNote) quoteNote.hidden = !quoteOnly;
     confirmation.hidden = false;
     window.setTimeout(() => confirmation.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
@@ -45,7 +50,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
   }, [requestedSize]);
 
   useEffect(() => {
-    if (depositState.status === "quote-only") revealThanks();
+    if (depositState.status === "quote-only") revealThanks(true);
   }, [depositState.status]);
 
   const currency = commissionProducts[0]?.currency ?? "usd";
@@ -103,7 +108,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
 
         <fieldset>
           <legend>Choose any add-on products with your collage printed on them</legend>
-          <small>We can beautifully adapt your child&apos;s custom collage layout into a limited collection of premium everyday essentials. Select any pieces you would like to include for your household or as gifts for your family. <Link href="/products">See product range here</Link>.</small>
+          <small>We can beautifully adapt your child&apos;s custom collage layout into a limited collection of premium everyday essentials. Select any pieces you would like to include for your household or as gifts for your family.</small>
           <div className="commission-options" id="commission-addon-options">{ADD_ON_PRODUCTS.map((item, index) => <label key={item.id}><input type="checkbox" name="addOns" value={item.label} checked={selectedAddOns.includes(item.label)} onChange={() => toggle(item.label, setSelectedAddOns)} /> <span>{item.label} — ${ADD_ON_PRICE} {index === 0 && <em>(Our bestseller)</em>}</span></label>)}</div>
         </fieldset>
 
@@ -122,15 +127,19 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
         <label className="commission-field">Your note or question<small>Include any special requests you may have.</small><textarea name="note" rows={4} placeholder="Tell us about your project or question..." /></label>
         <label className="commission-confirm"><input type="checkbox" name="confirmation" required /> <span>I understand that upon submitting this form, I will receive an email confirmation and an order summary for the 50% deposit and remaining balance. Studio creation begins once original artwork and deposit are received.</span></label>
 
-        <aside className="commission-price-summary" aria-live="polite">
-          <h3>Order summary</h3>
-          <dl><div><dt>Artwork</dt><dd>{money.format(pricing.artwork)}</dd></div><div><dt>Add-ons</dt><dd>{money.format(pricing.extras)}</dd></div>{pricing.rush > 0 && <div><dt>Priority fee (30%)</dt><dd>{money.format(pricing.rush)}</dd></div>}<div className="commission-total"><dt>Estimated total</dt><dd>{money.format(pricing.total)}</dd></div><div><dt>50% deposit</dt><dd>{money.format(pricing.deposit)}</dd></div></dl>
-          {(framing.startsWith("Yes") || needsBox === "yes") && <p>Framing and/or collection-box pricing will be added after review. Shipping is calculated from your address.</p>}
-        </aside>
+        {!otherSize && (
+          <aside className="commission-price-summary" aria-live="polite">
+            <h3>Order summary</h3>
+            <dl><div><dt>Artwork</dt><dd>{money.format(pricing.artwork)}</dd></div><div><dt>Add-ons</dt><dd>{money.format(pricing.extras)}</dd></div>{pricing.rush > 0 && <div><dt>Priority fee (30%)</dt><dd>{money.format(pricing.rush)}</dd></div>}<div className="commission-total"><dt>Estimated total</dt><dd>{money.format(pricing.total)}</dd></div><div><dt>50% deposit</dt><dd>{money.format(pricing.deposit)}</dd></div></dl>
+            {(framing.startsWith("Yes") || needsBox === "yes") && <p>Framing and/or collection-box pricing will be added after review. Shipping is calculated from your address.</p>}
+          </aside>
+        )}
 
         {depositState.status !== "ready" && (
           <button className="commission-order-submit" type="submit" disabled={isCreatingDeposit}>
-            {isCreatingDeposit ? "Preparing payment…" : "Continue to payment"}
+            {otherSize
+              ? (isCreatingDeposit ? "Sending request…" : "Request custom quote")
+              : (isCreatingDeposit ? "Preparing payment…" : "Continue to payment")}
           </button>
         )}
         {depositState.status === "error" && <p className="commission-field-error" role="alert">{depositState.message}</p>}
@@ -146,7 +155,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
           depositCents={depositState.depositCents}
           totalCents={depositState.totalCents}
           currency={depositState.currency}
-          onSuccess={revealThanks}
+          onSuccess={() => revealThanks(false)}
         />
       )}
     </>

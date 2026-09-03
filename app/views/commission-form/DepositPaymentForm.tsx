@@ -93,13 +93,14 @@ export default function DepositPaymentForm({
         stripe={getStripe()}
         options={{
           clientSecret,
+          fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" }],
           appearance: {
             theme: "flat",
             variables: {
               colorPrimary: "#00b982",
               colorText: "#263443",
               colorDanger: "#ad3127",
-              fontFamily: "var(--font-montserrat), Arial, sans-serif",
+              fontFamily: "'Tenor Sans', Arial, sans-serif",
               borderRadius: "10px",
               spacingUnit: "4px",
             },

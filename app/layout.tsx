@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Montserrat, Tenor_Sans } from "next/font/google";
+import { Tenor_Sans } from "next/font/google";
 import BackToTop from "./views/shared/BackToTop";
 import Footer from "./views/shared/Footer";
 import Header from "./views/shared/Header";
 import "./globals.css";
 
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
 const tenorSans = Tenor_Sans({ subsets: ["latin"], weight: "400", variable: "--font-tenor-sans" });
 
 export const metadata: Metadata = {
@@ -18,7 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className="h-full antialiased">
       <body
         id="page-top"
-        className={`${montserrat.variable} ${tenorSans.variable} min-h-full flex flex-col`}
+        className={`${tenorSans.variable} min-h-full flex flex-col`}
         suppressHydrationWarning
       >
         <Header />

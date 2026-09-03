@@ -6,7 +6,6 @@ import Gallery from "./components/Gallery";
 import GiftCard from "./components/GiftCard";
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
-import Merchandise from "./components/Merchandise";
 import Pricing from "./components/Pricing";
 import Stats from "./components/Stats";
 import StayConnected from "../shared/StayConnected";
@@ -23,7 +22,6 @@ export default function HomeView({ viewModel }: { viewModel: HomeViewModel }) {
       <Stats stats={viewModel.stats} />
       <HowItWorks steps={viewModel.howSteps} />
       <Pricing sizes={viewModel.pricingSizes} />
-      <Merchandise products={viewModel.merchandiseProducts} />
       <GiftCard />
       <About />
       <Testimonials testimonials={viewModel.testimonials} />
