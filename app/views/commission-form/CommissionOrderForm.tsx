@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { FormEvent, useActionState, useEffect, useMemo, useState } from "react";
 import { ADD_ON_PRODUCTS } from "../../models/site";
-import { ADD_ON_PRICE, SIZES, computeCommissionTotals } from "../../lib/commissionPricing";
+import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../../lib/commissionPricing";
+import type { StripeCommissionProduct } from "../../lib/stripePricing";
 import { createCommissionDeposit, type CommissionDepositState } from "../../actions/commissionDeposit";
 import DepositPaymentForm from "./DepositPaymentForm";
 import ModernDatePicker from "./ModernDatePicker";
 
-const money = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
 const initialDepositState: CommissionDepositState = { status: "idle" };
 
 function revealThanks() {
@@ -21,10 +21,10 @@ function revealThanks() {
   }
 }
 
-export default function CommissionOrderForm({ requestedAddOnId, requestedSizeId }: { requestedAddOnId?: string; requestedSizeId?: string }) {
+export default function CommissionOrderForm({ commissionProducts, requestedAddOnId, requestedProductId }: { commissionProducts: StripeCommissionProduct[]; requestedAddOnId?: string; requestedProductId?: string }) {
   const requestedAddOn = ADD_ON_PRODUCTS.find((item) => item.id === requestedAddOnId);
-  const requestedSize = SIZES.find((item) => item.id === requestedSizeId);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>(requestedSize ? [requestedSize.id] : []);
+  const requestedSize = commissionProducts.find((item) => item.productId === requestedProductId);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>(requestedSize ? [requestedSize.priceId] : []);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>(requestedAddOn ? [requestedAddOn.label] : []);
   const [product, setProduct] = useState(requestedAddOn ? "KinCollage artwork and add-on products" : requestedSize ? "Original KinCollage artwork" : "");
   const [otherSize, setOtherSize] = useState(false);
@@ -48,10 +48,15 @@ export default function CommissionOrderForm({ requestedAddOnId, requestedSizeId 
     if (depositState.status === "quote-only") revealThanks();
   }, [depositState.status]);
 
-  const pricing = useMemo(
-    () => computeCommissionTotals({ sizeIds: selectedSizes, addOnCount: selectedAddOns.length, rushRequested: Boolean(priorityDate) }),
-    [priorityDate, selectedAddOns, selectedSizes]
-  );
+  const currency = commissionProducts[0]?.currency ?? "usd";
+  const money = useMemo(() => new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }), [currency]);
+  const pricing = useMemo(() => {
+    const artworkCents = commissionProducts.filter((item) => selectedSizes.includes(item.priceId)).reduce((sum, item) => sum + item.unitAmount, 0);
+    const extrasCents = selectedAddOns.length * ADD_ON_PRICE * 100;
+    const rushCents = priorityDate ? Math.round((artworkCents + extrasCents) * RUSH_FEE_RATE) : 0;
+    const totalCents = artworkCents + extrasCents + rushCents;
+    return { artwork: artworkCents / 100, extras: extrasCents / 100, rush: rushCents / 100, total: totalCents / 100, deposit: Math.round(totalCents / 2) / 100 };
+  }, [commissionProducts, priorityDate, selectedAddOns.length, selectedSizes]);
 
   const toggle = (value: string, setter: React.Dispatch<React.SetStateAction<string[]>>) => setter((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
 
@@ -80,11 +85,12 @@ export default function CommissionOrderForm({ requestedAddOnId, requestedSizeId 
 
         <fieldset>
           <legend>Which size(s) are you ordering? <span>*</span></legend>
-          <small>Note: AUD prices below reflect design curation, materials and collage work on canvas. Framing can be added in the next step.</small>
+          <small>Prices below are loaded from Stripe and reflect design curation, materials and collage work on canvas. Framing can be added in the next step.</small>
           <div className="commission-options" id="commission-size-options" tabIndex={-1}>
-            {SIZES.map((size) => <label key={size.id}><input type="checkbox" name="sizes" value={size.id} checked={selectedSizes.includes(size.id)} onChange={() => { toggle(size.id, setSelectedSizes); setSizeError(false); }} /> <span>{size.label} — {money.format(size.price)} + shipping <em>(Minimum {size.minimum} pieces of art)</em></span></label>)}
+            {commissionProducts.map((size) => <label key={size.priceId}><input type="checkbox" name="sizes" value={size.priceId} checked={selectedSizes.includes(size.priceId)} onChange={() => { toggle(size.priceId, setSelectedSizes); setSizeError(false); }} /> <span>{size.name} — {size.dimensions} — {money.format(size.unitAmount / 100)} {size.currency.toUpperCase()} + shipping <em>{size.minimum}</em></span></label>)}
             <label><input type="checkbox" name="sizes" value="other" checked={otherSize} onChange={(event) => { setOtherSize(event.target.checked); setSizeError(false); }} /> <span>Other, or if you need 2 of the same, please specify</span></label>
           </div>
+          {commissionProducts.length === 0 && <p className="commission-field-error" role="alert">Current sizes could not be loaded from Stripe. Please try again shortly.</p>}
           {otherSize && <input className="commission-round-input" name="otherSize" aria-label="Other size details" required placeholder="Please specify size and quantity" />}
           {sizeError && <p className="commission-field-error" role="alert">Please choose at least one canvas size.</p>}
         </fieldset>
@@ -139,6 +145,7 @@ export default function CommissionOrderForm({ requestedAddOnId, requestedSizeId 
           clientSecret={depositState.clientSecret}
           depositCents={depositState.depositCents}
           totalCents={depositState.totalCents}
+          currency={depositState.currency}
           onSuccess={revealThanks}
         />
       )}

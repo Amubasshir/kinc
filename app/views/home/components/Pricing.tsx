@@ -2,13 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { PricingSizeModel } from "../../../models/site";
 export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
-  const sizeIds: Record<string, string> = {
-    mini: "30x40",
-    statement: "80x100",
-    master: "90x120",
-    grand: "122x183",
-  };
-
   return (
     <section className="pricing min-h-[1090px] rounded-[20px] bg-[#f5f5f5] px-0 pt-[68px] pb-20 text-[#555] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:pt-[31px] max-[700px]:pb-[42px]" aria-labelledby="pricing-heading">
       <header className="pricing-header text-center">
@@ -47,7 +40,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
               <p className="pricing-price">{size.price}</p>
               <Link
                 className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-[#97ff77] px-6 text-[14px] font-semibold text-[#344153] no-underline transition hover:-translate-y-0.5 hover:bg-[#7ff45d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60]"
-                href={`/start-your-commission?size=${sizeIds[size.name.toLowerCase()] ?? "other"}`}
+                href={`/start-your-commission${size.purchaseId ? `?product=${size.purchaseId}` : ""}`}
               >
                 Buy Now
               </Link>

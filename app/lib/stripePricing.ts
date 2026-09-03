@@ -4,6 +4,18 @@ import { unstable_cache } from "next/cache";
 import Stripe from "stripe";
 import type { PricingSizeModel } from "../models/site";
 
+export type StripeCommissionProduct = {
+  productId: string;
+  priceId: string;
+  name: string;
+  dimensions: string;
+  minimum: string;
+  unitAmount: number;
+  currency: string;
+  image: string;
+  popular?: boolean;
+};
+
 const PRODUCT_PRESENTATION = [
   { key: "mini", dimensions: "30 x 40 cm", minimum: "(Min. 20 art required)", image: "/pricing-mini.png" },
   { key: "statement", dimensions: "80 x 100 cm", minimum: "(Min. 50 art required)", image: "/pricing-statement.png" },
@@ -25,8 +37,8 @@ function formatPrice(unitAmount: number, currency: string) {
   return `${value} ${currencyCode}`;
 }
 
-const loadStripePricingSizes = unstable_cache(
-  async (): Promise<PricingSizeModel[]> => {
+const loadStripeCommissionProducts = unstable_cache(
+  async (): Promise<StripeCommissionProduct[]> => {
     if (!process.env.STRIPE_SECRET_KEY) throw new Error("STRIPE_SECRET_KEY is not configured.");
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -43,10 +55,13 @@ const loadStripePricingSizes = unstable_cache(
       if (!product || !price || !price.active || price.type !== "one_time" || price.unit_amount === null) return [];
 
       return [{
+        productId: product.id,
+        priceId: price.id,
         name: product.name.replace(/^KinCollage\s+/i, "").replace(/\s+\d.*$/, ""),
         dimensions: presentation.dimensions,
         minimum: presentation.minimum,
-        price: formatPrice(price.unit_amount, price.currency),
+        unitAmount: price.unit_amount,
+        currency: price.currency,
         image: presentation.image,
         popular: "popular" in presentation ? presentation.popular : undefined,
       }];
@@ -58,10 +73,29 @@ const loadStripePricingSizes = unstable_cache(
 
 export async function getStripePricingSizes(fallback: PricingSizeModel[]) {
   try {
-    const sizes = await loadStripePricingSizes();
-    return sizes.length === PRODUCT_PRESENTATION.length ? sizes : fallback;
+    const products = await loadStripeCommissionProducts();
+    if (products.length !== PRODUCT_PRESENTATION.length) return fallback;
+    return products.map((product) => ({
+      name: product.name,
+      dimensions: product.dimensions,
+      minimum: product.minimum,
+      price: formatPrice(product.unitAmount, product.currency),
+      image: product.image,
+      popular: product.popular,
+      purchaseId: product.productId,
+    }));
   } catch (error) {
     console.error("Failed to load Stripe pricing; using the website fallback prices.", error);
     return fallback;
+  }
+}
+
+export async function getStripeCommissionProducts() {
+  try {
+    const products = await loadStripeCommissionProducts();
+    return products.length === PRODUCT_PRESENTATION.length ? products : [];
+  } catch (error) {
+    console.error("Failed to load Stripe products for the commission form.", error);
+    return [];
   }
 }

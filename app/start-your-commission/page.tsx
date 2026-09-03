@@ -1,13 +1,13 @@
 import CommissionFormView from "../views/commission-form/CommissionFormView";
+import { getStripeCommissionProducts } from "../lib/stripePricing";
 
 export default async function StartYourCommissionPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { addOn } = await searchParams;
-  const { size } = await searchParams;
+  const [{ addOn, product }, commissionProducts] = await Promise.all([searchParams, getStripeCommissionProducts()]);
   const requestedAddOnId = Array.isArray(addOn) ? addOn[0] : addOn;
-  const requestedSizeId = Array.isArray(size) ? size[0] : size;
-  return <CommissionFormView requestedAddOnId={requestedAddOnId} requestedSizeId={requestedSizeId} />;
+  const requestedProductId = Array.isArray(product) ? product[0] : product;
+  return <CommissionFormView commissionProducts={commissionProducts} requestedAddOnId={requestedAddOnId} requestedProductId={requestedProductId} />;
 }

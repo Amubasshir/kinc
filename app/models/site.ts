@@ -15,6 +15,7 @@ export type PricingSizeModel = {
   price: string;
   image: string;
   popular?: boolean;
+  purchaseId?: string;
 };
 
 export type MerchandiseProductModel = {

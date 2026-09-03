@@ -2,7 +2,7 @@
 
 import { Resend } from "resend";
 import Stripe from "stripe";
-import { computeCommissionTotals, SIZES } from "../lib/commissionPricing";
+import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../lib/commissionPricing";
 import { ADD_ON_PRODUCTS } from "../models/site";
 import {
   type CommissionEmailDetails,
@@ -16,10 +16,12 @@ export type CommissionDepositState =
   | { status: "idle" }
   | { status: "error"; message: string }
   | { status: "quote-only"; message: string }
-  | { status: "ready"; clientSecret: string; depositCents: number; totalCents: number };
+  | { status: "ready"; clientSecret: string; depositCents: number; totalCents: number; currency: string };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const money = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
+function formatMoney(amount: number, currency: string) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
+}
 
 function field(formData: FormData, name: string) {
   return String(formData.get(name) ?? "").trim();
@@ -29,7 +31,7 @@ function metadataValue(value: string) {
   return value.slice(0, 450);
 }
 
-function buildEmailDetails(formData: FormData, sizeIds: string[], addOns: string[]): CommissionEmailDetails {
+function buildEmailDetails(formData: FormData, sizeLabels: string[], addOns: string[]): CommissionEmailDetails {
   const customSizeSelected = formData.getAll("sizes").includes("other");
   return {
     firstName: field(formData, "firstName"),
@@ -37,7 +39,7 @@ function buildEmailDetails(formData: FormData, sizeIds: string[], addOns: string
     email: field(formData, "email"),
     address: field(formData, "address"),
     product: field(formData, "product"),
-    sizes: sizeIds.map((id) => SIZES.find((size) => size.id === id)?.label ?? id).join(", ") || (customSizeSelected ? "Custom size" : ""),
+    sizes: sizeLabels.join(", ") || (customSizeSelected ? "Custom size" : ""),
     otherSize: field(formData, "otherSize"),
     addOns: addOns.join(", ") || "None",
     framing: field(formData, "framing"),
@@ -98,8 +100,8 @@ function detailsFromPaymentIntent(paymentIntent: Stripe.PaymentIntent): Commissi
     story: metadata.story ?? "",
     note: metadata.note ?? "",
     coupon: metadata.coupon ?? "",
-    total: money.format(Number(metadata.totalCents ?? paymentIntent.amount * 2) / 100),
-    deposit: money.format(paymentIntent.amount_received / 100),
+    total: formatMoney(Number(metadata.totalCents ?? paymentIntent.amount * 2) / 100, paymentIntent.currency),
+    deposit: formatMoney(paymentIntent.amount_received / 100, paymentIntent.currency),
     paymentReference: paymentIntent.id,
   };
 }
@@ -136,23 +138,23 @@ export async function createCommissionDeposit(
   const firstName = field(formData, "firstName");
   const lastName = field(formData, "lastName");
   const email = field(formData, "email");
-  const sizeIds = formData.getAll("sizes").map(String).filter((id) => SIZES.some((size) => size.id === id));
+  const sizePriceIds = [...new Set(formData.getAll("sizes").map(String).filter((id) => id.startsWith("price_")))];
   const otherSize = formData.getAll("sizes").includes("other");
-  const addOns = formData.getAll("addOns").map(String);
+  const requestedAddOns = formData.getAll("addOns").map(String);
+  const addOns = ADD_ON_PRODUCTS.filter((product) => requestedAddOns.includes(product.label)).map((product) => product.label);
   const priorityDate = field(formData, "priorityDate");
   const addOnReference = field(formData, "addOnReference");
 
   if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) {
     return { status: "error", message: "Please fill in your name and a valid email before continuing to payment." };
   }
-  if (sizeIds.length === 0 && !otherSize) return { status: "error", message: "Please choose at least one canvas size." };
+  if (sizePriceIds.length === 0 && !otherSize) return { status: "error", message: "Please choose at least one canvas size." };
 
-  const totals = computeCommissionTotals({ sizeIds, addOnCount: addOns.length, rushRequested: Boolean(priorityDate) });
   const addOnPriceIds = ADD_ON_PRODUCTS.filter((product) => addOns.includes(product.label)).map((product) => product.priceId);
-  const emailDetails = buildEmailDetails(formData, sizeIds, addOns);
 
-  if (totals.total === 0) {
+  if (sizePriceIds.length === 0) {
     try {
+      const emailDetails = buildEmailDetails(formData, [], addOns);
       const quoteDetails: CommissionEmailDetails = { ...emailDetails, total: "Manual quote required", deposit: "No payment taken", paymentReference: "Manual quote", quoteOnly: true };
       await sendCustomerEmail(quoteDetails);
       await sendBusinessEmail(quoteDetails);
@@ -170,9 +172,25 @@ export async function createCommissionDeposit(
 
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const prices = await Promise.all(sizePriceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+    const invalidPrice = prices.some((price) => {
+      const product = typeof price.product === "string" ? null : price.product;
+      return !price.active || price.type !== "one_time" || price.unit_amount === null || !product || product.deleted || !product.active;
+    });
+    const currencies = new Set(prices.map((price) => price.currency));
+    if (invalidPrice || currencies.size !== 1) return { status: "error", message: "One of the selected Stripe products is no longer available. Please refresh and try again." };
+
+    const currency = prices[0].currency;
+    const artworkCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
+    const extrasCents = addOns.length * ADD_ON_PRICE * 100;
+    const rushCents = priorityDate ? Math.round((artworkCents + extrasCents) * RUSH_FEE_RATE) : 0;
+    const totalCents = artworkCents + extrasCents + rushCents;
+    const depositCents = Math.round(totalCents / 2);
+    const sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name);
+    const emailDetails = buildEmailDetails(formData, sizeLabels, addOns);
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: totals.deposit * 100,
-      currency: "aud",
+      amount: depositCents,
+      currency,
       automatic_payment_methods: { enabled: true },
       receipt_email: email,
       description: `KinCollage commission deposit - ${firstName} ${lastName}`,
@@ -195,14 +213,15 @@ export async function createCommissionDeposit(
         addOnPriceIds: addOnPriceIds.join(", ") || "none",
         addOnReference,
         rushRequested: String(Boolean(priorityDate)),
-        artworkCents: String(totals.artwork * 100),
-        extrasCents: String(totals.extras * 100),
-        rushCents: String(totals.rush * 100),
-        totalCents: String(totals.total * 100),
+        sizePriceIds: sizePriceIds.join(", "),
+        artworkCents: String(artworkCents),
+        extrasCents: String(extrasCents),
+        rushCents: String(rushCents),
+        totalCents: String(totalCents),
       },
     });
     if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
-    return { status: "ready", clientSecret: paymentIntent.client_secret, depositCents: totals.deposit * 100, totalCents: totals.total * 100 };
+    return { status: "ready", clientSecret: paymentIntent.client_secret, depositCents, totalCents, currency };
   } catch (error) {
     console.error("Failed to create commission deposit PaymentIntent:", error);
     return { status: "error", message: "Something went wrong setting up payment. Please try again." };

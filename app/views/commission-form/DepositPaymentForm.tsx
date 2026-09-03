@@ -6,14 +6,13 @@ import { useState } from "react";
 import { completeCommissionOrder } from "../../actions/commissionDeposit";
 import { getStripe } from "../../lib/stripeClient";
 
-const money = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 0 });
-
-function PayButton({ depositCents, onSuccess }: { depositCents: number; onSuccess: () => void }) {
+function PayButton({ depositCents, currency, onSuccess }: { depositCents: number; currency: string; onSuccess: () => void }) {
   const stripe = useStripe();
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paidPaymentIntentId, setPaidPaymentIntentId] = useState<string | null>(null);
+  const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
 
   const handlePay = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -73,13 +72,16 @@ export default function DepositPaymentForm({
   clientSecret,
   depositCents,
   totalCents,
+  currency,
   onSuccess,
 }: {
   clientSecret: string;
   depositCents: number;
   totalCents: number;
+  currency: string;
   onSuccess: () => void;
 }) {
+  const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
   return (
     <div className="commission-payment mt-8 rounded-[18px] border border-[#e6e6eb] bg-white p-6 max-[700px]:p-5">
       <h3 className="text-[20px]">Secure your studio slot</h3>
@@ -109,7 +111,7 @@ export default function DepositPaymentForm({
           },
         }}
       >
-        <PayButton depositCents={depositCents} onSuccess={onSuccess} />
+        <PayButton depositCents={depositCents} currency={currency} onSuccess={onSuccess} />
       </Elements>
     </div>
   );
