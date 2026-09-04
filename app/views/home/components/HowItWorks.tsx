@@ -2,6 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import type { HowStepModel } from "../../../models/site";
 
+function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: number) {
+  if (stepIndex !== 0 || paragraphIndex !== 0) return paragraph;
+
+  const [beforeOrderForm, afterOrderForm] = paragraph.split("order form");
+  const [beforeHere, afterHere] = afterOrderForm.split("here");
+
+  return (
+    <>
+      {beforeOrderForm}
+      <strong>Order Form</strong>
+      {beforeHere}
+      <a className="font-bold" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
+        Here
+      </a>
+      {afterHere}
+    </>
+  );
+}
+
 export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
   return (
     <section id="how-it-works" className="how-it-works scroll-mt-6 rounded-[20px] bg-white px-6 pt-[91px] pb-24 text-[#263443] max-[700px]:rounded-[18px] max-[700px]:px-7 max-[700px]:pt-[62px] max-[700px]:pb-[58px]" aria-labelledby="how-heading">
@@ -26,8 +45,8 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
                 <h3>{step.title}</h3>
               </div>
               <div className="how-body">
-                {step.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
+                {step.paragraphs.map((paragraph, paragraphIndex) => (
+                  <p key={paragraph}>{renderParagraph(paragraph, index, paragraphIndex)}</p>
                 ))}
               </div>
               {step.action && (

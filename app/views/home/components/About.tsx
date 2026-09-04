@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <section className="about flex min-h-[765px] items-center justify-center gap-20 rounded-[20px] bg-[#00d18f] px-10 py-[70px] text-[#263443] max-[800px]:flex-col max-[700px]:rounded-[18px] max-[700px]:px-4 max-[700px]:pt-5 max-[700px]:pb-7 max-[700px]:gap-[29px]" aria-labelledby="about-heading">
-      <div className="about-content max-w-[650px] max-[700px]:w-full [overflow-wrap:anywhere]">
+    <section className="about flex min-h-[765px] items-center justify-center gap-20 rounded-[20px] bg-[#00d18f] px-10 py-[70px] text-[#263443] max-[1100px]:flex-col max-[1100px]:gap-10 max-[1100px]:text-center max-[700px]:rounded-[18px] max-[700px]:px-4 max-[700px]:pt-5 max-[700px]:pb-7 max-[700px]:gap-[29px]" aria-labelledby="about-heading">
+      <div className="about-content max-w-[650px] self-center max-[700px]:w-full [overflow-wrap:anywhere]">
         <h2 className="text-[48px] max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="about-heading">About Zsofia Matrai</h2>
         <div className="about-copy mt-7 max-[700px]:mt-[23px] [&>p]:text-[15px] [&>p]:leading-[1.48] [&>p+p]:mt-[26px]">
           <p>
@@ -21,7 +21,7 @@ export default function About() {
         </Link>
       </div>
 
-      <div className="about-portrait relative w-[504px] max-w-[45%] max-[800px]:order-first max-[800px]:max-w-full max-[700px]:w-full max-[700px]:aspect-[334/537]">
+      <div className="about-portrait relative w-[504px] max-w-[45%] self-center max-[1100px]:order-first max-[1100px]:max-w-full max-[700px]:w-full max-[700px]:aspect-[334/537]">
         <Image unoptimized
           src="/about-zsofia.png"
           alt="Zsofia Matrai, founder and artist at KinCollage"

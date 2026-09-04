@@ -57,9 +57,9 @@ export default function Footer() {
 
       <p className="footer-follow mt-[23px] hidden text-[15px] text-[#515151] max-[700px]:block">Follow me on:</p>
 
-      <div className="footer-actions absolute top-[327px] right-[39px] flex items-center gap-[35px] max-[800px]:static max-[800px]:mt-[38px] max-[800px]:flex-wrap max-[800px]:gap-7 max-[700px]:mt-7 max-[700px]:items-stretch max-[700px]:flex-col max-[700px]:gap-[39px]">
+      <div className="footer-actions absolute top-[327px] right-[39px] flex items-center gap-[35px] max-[1100px]:static max-[1100px]:mt-[38px] max-[1100px]:flex-wrap max-[1100px]:gap-7 max-[700px]:mt-7 max-[700px]:items-stretch max-[700px]:flex-col max-[700px]:gap-[39px]">
         <div
-          className="footer-socials flex items-center gap-9 max-[800px]:flex-wrap max-[800px]:gap-5 max-[700px]:w-full max-[700px]:justify-between max-[700px]:gap-0"
+          className="footer-socials flex items-center gap-9 max-[1100px]:flex-wrap max-[1100px]:gap-5 max-[700px]:w-full max-[700px]:justify-between max-[700px]:gap-0"
           aria-label="Social media"
         >
           {socialIcons.map((icon) => (
@@ -79,7 +79,7 @@ export default function Footer() {
           ))}
         </div>
         <Link
-          className="footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full border-[7px] border-[rgba(72,222,171,.42)] bg-[#00d28e] font-[Georgia] text-[16px] text-[#121212] no-underline transition duration-150 hover:-translate-y-[3px] hover:bg-[#97ff77] hover:shadow-[0_7px_14px_rgb(25_93_69/24%)] focus-visible:-translate-y-[3px] focus-visible:bg-[#97ff77] focus-visible:shadow-[0_7px_14px_rgb(25_93_69/24%)] max-[800px]:h-[60px] max-[800px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
+          className="footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full border-[7px] border-[rgba(72,222,171,.42)] bg-[#00d28e] font-[Georgia] text-[16px] text-[#121212] no-underline transition duration-150 hover:-translate-y-[3px] hover:bg-[#97ff77] hover:shadow-[0_7px_14px_rgb(25_93_69/24%)] focus-visible:-translate-y-[3px] focus-visible:bg-[#97ff77] focus-visible:shadow-[0_7px_14px_rgb(25_93_69/24%)] max-[1100px]:h-[60px] max-[1100px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
           href="/#contact"
           onClick={scrollToHomeSection("/#contact")}
         >
@@ -87,7 +87,7 @@ export default function Footer() {
         </Link>
       </div>
 
-      <div className="footer-bottom absolute right-[39px] bottom-[39px] left-[39px] flex items-center justify-between text-[15px] max-[800px]:static max-[800px]:mt-[58px] max-[800px]:items-start max-[800px]:flex-col-reverse max-[800px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
+      <div className="footer-bottom absolute right-[39px] bottom-[39px] left-[39px] flex items-center justify-between text-[15px] max-[1100px]:static max-[1100px]:mt-[58px] max-[1100px]:items-start max-[1100px]:flex-col-reverse max-[1100px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
         <p className="m-0 text-[#515151] max-[700px]:text-[14px]">©2026 KinCollage. All rights reserved.</p>
         <nav
           className="flex items-center gap-[27px] font-[Georgia] text-[15px] text-[#78788c] max-[800px]:flex-wrap max-[800px]:gap-x-6 max-[800px]:gap-y-[15px] max-[700px]:items-start max-[700px]:flex-col max-[700px]:gap-[26px]"

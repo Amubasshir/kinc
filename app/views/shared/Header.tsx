@@ -42,7 +42,7 @@ export default function Header() {
       <nav className="desktop-nav flex items-center gap-[33px] max-[820px]:hidden" aria-label="Primary navigation">
         {navigation.map((item) => (
           <Link
-            className={navLinkClass}
+            className={`${navLinkClass} ${!item.href.includes("#") && pathname === item.href ? "!font-semibold" : ""}`}
             key={item.href}
             href={item.href}
             onClick={item.href.startsWith("/#") ? scrollToHomeSection(item.href) : undefined}
@@ -60,7 +60,7 @@ export default function Header() {
         <nav className="absolute top-[60px] right-0 left-0 flex flex-col border-t border-[#f0f0ed] bg-white px-5 pt-2.5 pb-5 shadow-[0_10px_24px_rgb(0_0_0/6%)]" aria-label="Mobile navigation">
           {navigation.map((item) => (
             <Link
-              className={`${navLinkClass} py-[13px]`}
+              className={`${navLinkClass} py-[13px] ${!item.href.includes("#") && pathname === item.href ? "!font-semibold" : ""}`}
               key={item.href}
               href={item.href}
               onClick={(event) => {

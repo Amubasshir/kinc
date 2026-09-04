@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="hero-content relative z-[2] w-[446px] max-w-full translate-y-14 max-[820px]:w-auto max-[820px]:translate-y-0 max-[820px]:px-6 max-[820px]:pt-16 max-[700px]:order-1 max-[700px]:min-h-[363px] max-[700px]:w-full max-[700px]:overflow-hidden max-[700px]:rounded-[18px] max-[700px]:bg-[#00d18f] max-[700px]:px-[18px] max-[700px]:pt-[70px] max-[700px]:pb-12 max-[700px]:text-center">
         <h1 className="mb-[14px] text-[clamp(36px,3.08vw,43px)] leading-[1.09] font-light tracking-[-.8px] [&>span]:whitespace-nowrap max-[820px]:text-[clamp(31px,9vw,42px)] max-[700px]:text-[25px] max-[700px]:leading-[1.25] max-[700px]:tracking-[.1px] max-[700px]:[&>span]:whitespace-normal" id="hero-heading">
           <span>TURN YOUR CHILD&apos;S</span>
-          <span><em>scribbles</em> INTO A</span>
+          <span><em className="font-[var(--font-swanky-moo-moo)]">scribbles</em> INTO A</span>
           <span>FAMILY HEIRLOOM</span>
         </h1>
         <p className="text-[15px] leading-[1.28] tracking-[.05px] max-[820px]:max-w-[480px] max-[820px]:text-[16px] max-[700px]:mt-[17px] max-[700px]:text-[15px] max-[700px]:leading-[1.45]">
