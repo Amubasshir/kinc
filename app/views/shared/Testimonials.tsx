@@ -135,7 +135,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
               sizes="(max-width: 760px) 92vw, 352px"
             />
             <div className="testimonial-copy px-9 pt-[31px] pb-[25px] max-[1200px]:px-[25px] max-[800px]:px-[26px] max-[800px]:pt-[27px] max-[800px]:pb-[30px] max-[700px]:px-[43px] max-[700px]:pt-[29px] max-[700px]:pb-8 [overflow-wrap:anywhere]">
-              <blockquote className="m-0 text-[25px] leading-[1.08] font-bold tracking-[-.2px] text-[#59595b] max-[1200px]:text-[22px] max-[800px]:text-[24px] max-[700px]:text-[25px]">{testimonial.quote}</blockquote>
+              <blockquote className="m-0 font-[Montserrat] text-[18px] leading-[1.08] font-semibold text-[#515151]">{testimonial.quote}</blockquote>
               <Stars />
               <TestimonialReview paragraphs={testimonial.paragraphs} />
               <footer className="mt-[22px]">

@@ -29,7 +29,7 @@ export default function StayConnected() {
             required
           />
         </div>
-        <button className="min-h-[53px] cursor-pointer rounded-full border-0 bg-[#d9d9d9] font-[Georgia] text-[16px] text-[#555] shadow-[0_4px_5px_rgb(25_93_69/12%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/18%)] focus-visible:-translate-y-0.5 focus-visible:shadow-[0_6px_10px_rgb(25_93_69/18%)] max-[850px]:mt-2 max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">SECURE YOUR GIFT</button>
+        <button className="min-h-[53px] cursor-pointer rounded-full border-0 bg-[#d9d9d9] font-[Georgia] text-[16px] text-[#555] shadow-[0_4px_5px_rgb(25_93_69/12%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/18%)] focus-visible:-translate-y-0.5 focus-visible:shadow-[0_6px_10px_rgb(25_93_69/18%)] max-[850px]:mt-2 max-[850px]:w-full max-[850px]:max-w-[264px] max-[850px]:justify-self-center max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">SECURE YOUR GIFT</button>
       </form>
     </section>
   );

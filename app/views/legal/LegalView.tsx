@@ -5,7 +5,7 @@ export default function LegalView({ viewModel }: { viewModel: LegalViewModel }) 
   return (
     <>
       <nav
-        className="flex min-h-[78px] items-center justify-center gap-8 rounded-[20px] bg-white px-6 text-[14px] text-[#777] max-[700px]:min-h-0 max-[700px]:flex-col max-[700px]:gap-x-5 max-[700px]:gap-y-3 max-[700px]:rounded-[18px] max-[700px]:px-4 max-[700px]:py-6"
+        className="legal-navigation flex min-h-[78px] items-center justify-center gap-8 rounded-[20px] bg-white px-6 text-[14px] text-[#777] max-[700px]:min-h-0 max-[700px]:flex-col max-[700px]:gap-x-5 max-[700px]:gap-y-3 max-[700px]:rounded-[18px] max-[700px]:px-4 max-[700px]:py-6"
         aria-label="Legal policies"
       >
         {viewModel.navigation.map((item) => (

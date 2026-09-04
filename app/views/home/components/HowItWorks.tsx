@@ -11,7 +11,9 @@ function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: n
   return (
     <>
       {beforeOrderForm}
-      <strong>Order Form</strong>
+      <Link className="font-bold" href="/start-your-commission">
+        Order Form
+      </Link>
       {beforeHere}
       <a className="font-bold" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
         Here
@@ -31,13 +33,24 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
         {steps.map((step, index) => (
           <article className={`how-step how-step-${index + 1}`} key={step.number}>
             <div className="how-photo">
-              <Image unoptimized
-                src={step.image}
-                alt={step.alt}
-                width={1320}
-                height={1320}
-                sizes="(max-width: 760px) 82vw, 370px"
-              />
+              {step.image.toLowerCase().endsWith(".mov") ? (
+                <video
+                  src={step.image}
+                  aria-label={step.alt}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              ) : (
+                <Image unoptimized
+                  src={step.image}
+                  alt={step.alt}
+                  width={1320}
+                  height={1320}
+                  sizes="(max-width: 760px) 82vw, 370px"
+                />
+              )}
             </div>
             <div className="how-copy">
               <div className="how-title-row">

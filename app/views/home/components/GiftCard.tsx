@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
+
 export default function GiftCard({ commission = false }: { commission?: boolean }) {
+  const [amount, setAmount] = useState("");
+
   return (
     <section className="gift-card min-h-[449px] rounded-[20px] bg-[#97ff77] px-6 pt-[79px] pb-[68px] text-center text-[#263443] max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-[22px] max-[700px]:pt-[31px] max-[700px]:pb-[34px]" aria-labelledby="gift-card-heading">
       <div className="gift-card-content mx-auto w-full max-w-[780px]">
@@ -21,9 +27,11 @@ export default function GiftCard({ commission = false }: { commission?: boolean 
             step="1"
             inputMode="decimal"
             placeholder="$ [ Enter Amount ] AUD"
+            value={amount}
+            onChange={(event) => setAmount(event.target.value)}
             required
           />
-          <button className="mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 bg-[#d9d9d9] text-[15px] text-[#263443] shadow-[0_4px_5px_rgb(25_93_69/18%)] transition hover:-translate-y-0.5 max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">PURCHASE VOUCHER</button>
+          <button className="mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 bg-[#d9d9d9] text-[15px] text-[#263443] shadow-[0_4px_5px_rgb(25_93_69/18%)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!amount}>PURCHASE VOUCHER</button>
         </form>
       </div>
     </section>

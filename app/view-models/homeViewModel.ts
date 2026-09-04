@@ -25,7 +25,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       {
         number: "3.",
         title: "I craft your heirloom",
-        image: "/how-curation.png",
+        image: "/IMG_3456.MOV",
         alt: "Children's drawings cut out and arranged for curation",
         paragraphs: [
           "Every piece is hand-selected through a multi-step physical layout process: planning the composition, layering the story, applying archival varnish for permanent protection, adding signature hand-drawn patterns, and professional framing.",
