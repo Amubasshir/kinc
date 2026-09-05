@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
 
 const socialIcons = [
-  { src: "/footer-instagram.svg", name: "Instagram", width: 40 },
-  { src: "/footer-tiktok.svg", name: "TikTok", width: 40 },
-  { src: "/footer-facebook.svg", name: "Facebook", width: 40 },
-  { src: "/footer-pinterest.svg", name: "Pinterest", width: 40 },
-  { src: "/footer-youtube.svg", name: "YouTube", width: 41 },
+  { src: "/footer-instagram.svg", name: "Instagram", width: 40, href: "https://www.instagram.com/kincollageco/" },
+  { src: "/footer-tiktok.svg", name: "TikTok", width: 40, href: "https://www.tiktok.com/@kincollage" },
+  { src: "/footer-facebook.svg", name: "Facebook", width: 40, href: "https://www.facebook.com/people/KinCollage/61591932389089/" },
+  { src: "/footer-pinterest.svg", name: "Pinterest", width: 40, href: "https://au.pinterest.com/kincollage/" },
+  { src: "/footer-youtube.svg", name: "YouTube", width: 41, href: "https://www.youtube.com/@KinCollage" },
 ];
 
 export default function Footer() {
@@ -63,19 +63,27 @@ export default function Footer() {
           aria-label="Social media"
         >
           {socialIcons.map((icon) => (
-            <span
-              className="button-social cursor-pointer"
-              key={icon.name}
-              title={icon.name}
-            >
-              <Image unoptimized
-                className="block max-[700px]:h-[31px] max-[700px]:w-[31px] max-[700px]:object-contain"
-                src={icon.src}
-                alt={icon.name}
-                width={icon.width}
-                height={40}
-              />
-            </span>
+            icon.href ? (
+              <a className="button-social cursor-pointer" key={icon.name} href={icon.href} target="_blank" rel="noreferrer" aria-label={icon.name}>
+                <Image unoptimized
+                  className="block max-[700px]:h-[31px] max-[700px]:w-[31px] max-[700px]:object-contain"
+                  src={icon.src}
+                  alt={icon.name}
+                  width={icon.width}
+                  height={40}
+                />
+              </a>
+            ) : (
+              <span className="button-social cursor-pointer" key={icon.name} title={icon.name}>
+                <Image unoptimized
+                  className="block max-[700px]:h-[31px] max-[700px]:w-[31px] max-[700px]:object-contain"
+                  src={icon.src}
+                  alt={icon.name}
+                  width={icon.width}
+                  height={40}
+                />
+              </span>
+            )
           ))}
         </div>
         <Link
@@ -89,27 +97,29 @@ export default function Footer() {
 
       <div className="footer-bottom absolute right-[39px] bottom-[39px] left-[39px] flex items-center justify-between text-[15px] max-[1100px]:static max-[1100px]:mt-[58px] max-[1100px]:items-start max-[1100px]:flex-col-reverse max-[1100px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
         <p className="m-0 text-[#515151] max-[700px]:text-[14px]">©2026 KinCollage. All rights reserved.</p>
-        <nav
-          className="flex items-center gap-[27px] font-[Georgia] text-[15px] text-[#78788c] max-[800px]:flex-wrap max-[800px]:gap-x-6 max-[800px]:gap-y-[15px] max-[700px]:items-start max-[700px]:flex-col max-[700px]:gap-[26px]"
-          aria-label="Legal information"
-        >
-          <Link className="transition-colors hover:text-[#008d60]" href="/legal#shipping">
-            SHIPPING POLICY
-          </Link>
-          <Link className="transition-colors hover:text-[#008d60]" href="/legal#privacy">
-            PRIVACY POLICY
-          </Link>
-          <Link className="transition-colors hover:text-[#008d60]" href="/legal#terms">
-            TERMS &amp; CONDITIONS
-          </Link>
+        <div className="footer-legal-links">
+          <nav
+            className="footer-legal-nav flex flex-wrap items-center gap-[27px] font-[Georgia] text-[15px] text-[#78788c] max-[1100px]:gap-x-6 max-[1100px]:gap-y-[15px] max-[700px]:items-start max-[700px]:flex-col max-[700px]:gap-[26px]"
+            aria-label="Legal information"
+          >
+            <Link className="transition-colors hover:text-[#008d60]" href="/legal#shipping">
+              SHIPPING POLICY
+            </Link>
+            <Link className="transition-colors hover:text-[#008d60]" href="/legal#privacy">
+              PRIVACY POLICY
+            </Link>
+            <Link className="transition-colors hover:text-[#008d60]" href="/legal#terms">
+              TERMS &amp; CONDITIONS
+            </Link>
+          </nav>
           <Link
-            className="transition-colors hover:text-[#008d60]"
+            className="footer-faq-link transition-colors hover:text-[#008d60]"
             href="/#faqs"
             onClick={scrollToHomeSection("/#faqs")}
           >
             FAQ
           </Link>
-        </nav>
+        </div>
       </div>
     </footer>
   );

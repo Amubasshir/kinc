@@ -1909,6 +1909,78 @@ html { scroll-behavior: smooth; }
 .commission-story-video video[controls] { background: #222; }
 .commission-story-video video[controls] + .artist-story-cursor { display: none; }
 
+.footer-legal-links {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+  align-items: center;
+  gap: 27px;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.footer-bottom {
+  box-sizing: border-box;
+  padding-right: 90px;
+}
+
+.footer-legal-nav,
+.footer-faq-link {
+  min-width: 0;
+}
+
+.footer-faq-link {
+  flex: 0 0 auto;
+}
+
+.footer-legal-links a {
+  transition: color 150ms ease, font-weight 150ms ease;
+}
+
+.footer-legal-links a:hover,
+.footer-legal-links a:focus-visible {
+  color: #008d60;
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .footer-bottom {
+    width: 100%;
+  }
+
+  .footer-legal-links {
+    width: 100%;
+    max-width: none;
+    align-items: flex-start;
+    gap: 15px 24px;
+  }
+
+  .footer-legal-nav {
+    width: 100%;
+    gap: 15px 24px;
+  }
+
+  .footer-faq-link {
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer-legal-links {
+    width: 100%;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .footer-bottom {
+    padding-right: 70px;
+  }
+
+  .footer-faq-link {
+    flex-basis: auto;
+  }
+}
+
 /* Shared interactive states from the button reference. */
 .button-primary,
 .button-secondary,
@@ -1929,12 +2001,14 @@ html { scroll-behavior: smooth; }
 .button-secondary:hover,
 .button-secondary:focus-visible {
   background: #e1e1e5;
+  box-shadow: 0 5px 10px rgb(25 93 69 / 18%);
   color: #777782;
-  transform: none;
+  transform: translateY(-2px);
 }
 
 .button-secondary:active {
   background: #9f9fb7;
+  box-shadow: none;
   color: #51515d;
   transform: none;
 }
@@ -1958,8 +2032,8 @@ html { scroll-behavior: smooth; }
 .button-primary:focus-visible {
   background: #7dcc5d;
   color: #263443;
-  box-shadow: none;
-  transform: none;
+  box-shadow: 0 6px 10px rgb(25 93 69 / 28%);
+  transform: translateY(-2px);
 }
 
 .button-primary:active {
@@ -1991,7 +2065,8 @@ html { scroll-behavior: smooth; }
   border-color: #aaaab5;
   background: #e1e1e5;
   color: #51515d;
-  transform: none;
+  box-shadow: 0 5px 10px rgb(25 93 69 / 18%);
+  transform: translateY(-2px);
 }
 
 .button-tertiary:active {
@@ -2022,8 +2097,8 @@ html { scroll-behavior: smooth; }
   border-color: rgb(72 190 163 / 42%);
   background: #48bfa3;
   color: #121212;
-  box-shadow: none;
-  transform: none;
+  box-shadow: 0 7px 14px rgb(25 93 69 / 24%);
+  transform: translateY(-3px);
 }
 
 .button-contact:active {
@@ -2045,12 +2120,14 @@ html { scroll-behavior: smooth; }
 .button-social:hover,
 .button-social:focus-visible {
   background: #e1e1e5;
-  transform: none;
+  box-shadow: 0 6px 7px rgb(25 93 69 / 24%);
+  transform: translateY(-3px) scale(1.08);
 }
 
 .button-social:active {
   background: #9f9fb7;
-  transform: none;
+  box-shadow: none;
+  transform: scale(.96);
 }
 
 .testimonial-pagination button:active,

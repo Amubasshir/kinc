@@ -15,11 +15,11 @@ const navigation = [
 ];
 
 const socialIcons = [
-  { src: "/footer-instagram.svg", name: "Instagram" },
-  { src: "/footer-tiktok.svg", name: "TikTok" },
-  { src: "/footer-facebook.svg", name: "Facebook" },
-  { src: "/footer-pinterest.svg", name: "Pinterest" },
-  { src: "/footer-youtube.svg", name: "YouTube" },
+  { src: "/footer-instagram.svg", name: "Instagram", href: "https://www.instagram.com/kincollageco/" },
+  { src: "/footer-tiktok.svg", name: "TikTok", href: "https://www.tiktok.com/@kincollage" },
+  { src: "/footer-facebook.svg", name: "Facebook", href: "https://www.facebook.com/people/KinCollage/61591932389089/" },
+  { src: "/footer-pinterest.svg", name: "Pinterest", href: "https://au.pinterest.com/kincollage/" },
+  { src: "/footer-youtube.svg", name: "YouTube", href: "https://www.youtube.com/@KinCollage" },
 ];
 
 export default function Header() {
@@ -81,9 +81,15 @@ export default function Header() {
           ))}
           <div className="mt-[15px] flex items-center justify-between" aria-label="Social media">
             {socialIcons.map((icon) => (
-              <span className="button-social" key={icon.name} title={icon.name}>
-                <Image unoptimized className="h-[31px] w-[31px] object-contain" src={icon.src} alt={icon.name} width={31} height={31} />
-              </span>
+              icon.href ? (
+                <a className="button-social" key={icon.name} href={icon.href} target="_blank" rel="noreferrer" aria-label={icon.name}>
+                  <Image unoptimized className="h-[31px] w-[31px] object-contain" src={icon.src} alt={icon.name} width={31} height={31} />
+                </a>
+              ) : (
+                <span className="button-social" key={icon.name} title={icon.name}>
+                  <Image unoptimized className="h-[31px] w-[31px] object-contain" src={icon.src} alt={icon.name} width={31} height={31} />
+                </span>
+              )
             ))}
           </div>
           <Link
