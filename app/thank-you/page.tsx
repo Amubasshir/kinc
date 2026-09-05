@@ -27,9 +27,9 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
             <br />
             <span>{isQuote ? "Your request has been received" : "Your order is received"}</span>
           </h2>
-          <p>I&apos;m so excited to help you turn these precious scribbles into a lasting work of art!</p>
+          <p>I’m so excited to help you turn these precious scribbles into a lasting work of art!</p>
           <h3>
-            <mark>Check your inbox</mark>
+            <mark>CHECK your inbox</mark>
           </h3>
           {isQuote ? (
             <p>
@@ -38,17 +38,16 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
             </p>
           ) : (
             <p>
-              Look out for a <strong>confirmation email</strong> coming your way shortly. It will contain your order
-              summary along with simple instructions on how to send your child&apos;s original artwork to the studio, so
-              we can move straight into the curation phase.{" "}
-              <strong>The remaining 50% balance will be due upon completion of your piece.</strong>
+              Look out for a <strong>confirmation email</strong> coming your way shortly. It will contain your receipt
+              along with simple instructions on how to send your child’s original artwork to the studio, so we can
+              move straight into the curation phase.
             </p>
           )}
           <h3>
             <mark>Optional: Book Your Design Consultation</mark>
           </h3>
           <p>
-            If you&apos;d like to discuss your vision, align on colours, or ask any questions before sending your art,
+            If you’d like to discuss your vision, align on colours, or ask any questions before sending your art,
             feel free to pick a time for a complimentary 15-minute chat:
             <br />
             <Link className="underline underline-offset-2" href="/#contact">
@@ -63,7 +62,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
       </section>
 
       <ArtistStory videoOnly controls />
-      <GiftCard commission />
+      <GiftCard />
     </>
   );
 }

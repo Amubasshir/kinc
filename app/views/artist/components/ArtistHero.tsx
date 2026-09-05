@@ -24,18 +24,18 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
               <br />of my own children.</strong>
             </p>
             <p>
-              <strong>KinCollage studio</strong>{" "}was born from a desire to rescue my children&apos;s fleeting
+              <strong>KinCollage studio</strong>{" "}was born from a desire to rescue my children’s fleeting
               <br />scribbles from the &apos;guilt pile&apos; and elevate them into something permanent.
               <br />Drawing on my background in textile construction and mixed media, I
               <br /><mark>sort, layer, and compose</mark> these precious drawings into modern family
               <br />heirloom collages.
             </p>
             <p>
-              I treat every commission with the same precision I&apos;ve given my award-
+              I treat every commission with the same precision I’ve given my award-
               <br />winning fashion label &amp; my gallery exhibitions.
             </p>
             <p className="font-bold">
-              My goal is to help you <mark>preserve your child&apos;s art,</mark> transforming everyday
+              My goal is to help you <mark>preserve your child’s art,</mark> transforming everyday
               <br />drawings into a <strong>timeless family legacy.</strong>
             </p>
           </div>

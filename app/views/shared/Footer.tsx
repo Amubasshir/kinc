@@ -38,7 +38,7 @@ export default function Footer() {
           height={26}
         />
         <h2 className="mt-[31px] text-[34px] leading-none font-light max-[800px]:text-[29px] max-[700px]:mt-8 max-[700px]:font-[Georgia] max-[700px]:text-[31px]">
-          ZSOFIA MATRAI
+          Zsofia Matrai
         </h2>
         <p className="footer-role mt-[11px] text-[21px] leading-[1.25] text-[#515151] max-[800px]:text-[18px] max-[700px]:mt-[13px] max-[700px]:text-[15px]">
           Designer &amp; Artist based in Sydney, Australia.
@@ -48,7 +48,7 @@ export default function Footer() {
           <br />
           people of the Eora Nation, the Traditional Custodians of the land, paying
           <br />
-          my respects to their Elders past, present, and emerging.
+          our respects to their Elders past, present, and emerging.
         </p>
         <a className="footer-email mt-[19px] block text-[15px] text-[#515151] transition-colors hover:text-[#008d60] max-[700px]:mt-[22px]" href="mailto:hello@kincollage.com">
           hello@kincollage.com
@@ -91,7 +91,7 @@ export default function Footer() {
           href="/#contact"
           onClick={scrollToHomeSection("/#contact")}
         >
-          CONTACT <Image unoptimized src="/footer-arrow.svg" alt="" width={11} height={11} aria-hidden="true" />
+          Contact <Image unoptimized src="/footer-arrow.svg" alt="" width={11} height={11} aria-hidden="true" />
         </Link>
       </div>
 

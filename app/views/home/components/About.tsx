@@ -8,16 +8,16 @@ export default function About() {
         <h2 className="text-[48px] max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="about-heading">About Zsofia Matrai</h2>
         <div className="about-copy mt-7 max-[700px]:mt-[23px] [&>p]:text-[15px] [&>p]:leading-[1.48] [&>p+p]:mt-[26px]">
           <p>
-            I&apos;m Zsofi Matrai - <mark>artist, designer, and mother of two</mark> based in Sydney, Australia.
+            I’m Zsofi Matrai - <mark>artist, designer, and mother of two</mark> based in Sydney, Australia.
           </p>
           <p>
-            I created <strong>KinCollage</strong>{" "}to rescue your children&apos;s precious scribbles from the
+            I created <strong>KinCollage</strong>{" "}to rescue your children’s precious scribbles from the
             &quot;guilt pile&quot; and elevate them into modern, family heirlooms. From raw artwork to
-            ready-to-hang fine art, everything you need to preserve your children&apos;s memory is right here.
+            ready-to hang fine art, everything you need to preserve your children&apos;s memory is right here.
           </p>
         </div>
         <Link className="button-primary about-cta mt-8 inline-flex min-h-[53px] min-w-[180px] items-center justify-center rounded-full text-[15px] no-underline max-[700px]:mx-auto max-[700px]:mt-[27px] max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]" href="/the-artist">
-          MEET ZSOFI
+          Meet Zsofi
         </Link>
       </div>
 

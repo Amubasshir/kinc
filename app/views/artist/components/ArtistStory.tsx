@@ -63,9 +63,7 @@ export default function ArtistStory({
             {" "}
             <span className="font-semibold">behind the scenes of KinCollage.</span>{" "}
           </mark>{" "}
-          See how we rescue those messy scribbles from the
-          <br />
-          cupboard and apply the precision of high design to transform them into modern family heirlooms.
+          See how I turn those scribbles into modern family heirlooms.
         </p>
       </div>
       {video}

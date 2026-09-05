@@ -24,9 +24,7 @@ export default function Contact() {
         <div className="contact-form-card relative z-[2] w-[55%] rounded-[18px] bg-white p-12 max-[700px]:order-first max-[700px]:w-full max-[700px]:px-[21px] max-[700px]:pt-[43px] max-[700px]:pb-10 [overflow-wrap:anywhere]">
           <h2 className="text-[48px] max-[700px]:font-[Georgia] max-[700px]:text-[34px]" id="contact-heading">Contact us</h2>
           <p>
-            Have a question about a commission, brand
-            <br /> partnership, or custom collaboration? We&apos;d love to hear
-            <br /> from you.
+            Have a question about a commission, brand partnership, or custom collaboration? We’d love to hear from you.
           </p>
 
           <ContactForm />

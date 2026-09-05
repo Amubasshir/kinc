@@ -12,11 +12,11 @@ function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: n
     <>
       {beforeOrderForm}
       <Link className="font-bold" href="/start-your-commission">
-        Order Form
+        order form
       </Link>
       {beforeHere}
       <a className="font-bold" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
-        Here
+        here
       </a>
       {afterHere}
     </>
@@ -64,7 +64,7 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
               </div>
               {step.action && (
                 <Link className="button-primary how-cta" href="/start-your-commission">
-                  START YOUR ORDER
+                  Start your ORDER
                 </Link>
               )}
               {step.scribble && (

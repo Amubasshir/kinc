@@ -2098,15 +2098,16 @@ html { scroll-behavior: smooth; }
   border-color: rgb(72 222 171 / 42%);
   background: #00d28e;
   color: #121212;
-  box-shadow: 0 4px 8px rgb(25 93 69 / 15%);
+  box-shadow: 0 0 0 8px rgb(72 222 171 / 42%), 0 4px 8px rgb(25 93 69 / 15%);
 }
 
 .button-contact:hover,
 .button-contact:focus-visible {
+  outline: none;
   border-color: rgb(72 190 163 / 42%);
   background: #48bfa3;
   color: #121212;
-  box-shadow: 0 7px 14px rgb(25 93 69 / 24%);
+  box-shadow: 0 0 0 8px rgb(72 190 163 / 42%), 0 7px 14px rgb(25 93 69 / 24%);
   transform: translateY(-3px);
 }
 
@@ -2114,7 +2115,7 @@ html { scroll-behavior: smooth; }
   border-color: rgb(40 126 108 / 42%);
   background: #287e6c;
   color: #121212;
-  box-shadow: none;
+  box-shadow: 0 0 0 8px rgb(40 126 108 / 42%);
   transform: none;
 }
 

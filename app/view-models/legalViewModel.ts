@@ -21,43 +21,59 @@ export function getLegalViewModel(): LegalViewModel {
         title: "Terms and Conditions",
         updated: "Aug 2026",
         introduction: [
-          "Welcome to our website. By browsing this website, submitting an intake form, or purchasing a custom commission, you agree to be bound by the following Terms and Conditions, which together with our Privacy Policy govern our relationship with you.",
+          "Welcome to KinCollage. By browsing this website, submitting an intake form, or purchasing a custom commission, you agree to be bound by the following Terms and Conditions, which together with our Privacy Policy govern our relationship with you.",
         ],
         clauses: [
           {
-            heading: "1. CUSTOM COMMISSIONS & DESIGN APPROVALS",
+            heading: "1. Custom Commissions & Design Approvals",
             bullets: [
-              "The Intake Process: Commissions begin when an intake form is submitted and payment is secured.",
-              "Client Assets: You guarantee that you own the rights to or have permission to share all images, files, or drawings uploaded for your custom commission. You retain ownership of your original materials.",
-              "Design Approval Track: We will present a digital layout proof for your review. Once you provide explicit digital approval of the layout, the design is locked. No further modifications can be made, and the piece moves directly into physical manufacturing.",
+              "Payment & Booking: Full payment is required at the time of order to officially secure your studio slot. We will confirm your order via email within 24 hours of receipt.",
+              "Installment Option: If you opt for an installment plan, invoice payments will be split across scheduled milestones. All installments, along with any applicable shipping fees, must be paid completely prior to artwork dispatch.",
+              "Priority Scheduling: Priority orders (subject to a 30% priority fee) guarantee an expedited completion date. Priority fees are non-refundable once studio scheduling has commenced.",
             ],
           },
           {
-            heading: "2. INTELLECTUAL PROPERTY & STUDIO RIGHTS",
+            heading: "2. Client Artwork & Physical Assets",
             bullets: [
-              "The final aggregated collage layout, website content, branding assets, custom layouts, and overall visual expressions designed by our studio remain the intellectual property of the business.",
-              "We reserve the right to display digital mockups or process videos of finished commissions on our website and social media channels for marketing purposes. If your commission is highly sensitive or a private gift and you wish to opt out of marketing displays, please notify us explicitly during intake.",
+              "Rights & Ownership: You guarantee that you own or have explicit permission to use all artwork, sketches, or materials submitted. You retain ownership of your original materials and agree to indemnify KinCollage against any third-party claims regarding intellectual property or copyright within submitted assets.",
+              "Shipping Original Art: Clients are responsible for safely shipping original physical artwork to our Sydney studio. KinCollage is not liable for items lost or damaged in transit to us. We recommend using tracked or insured courier services.",
+              "Return of Originals: Unless otherwise agreed, original physical artwork used in the creation of your collage will be incorporated into the piece or returned alongside your completed frame.",
             ],
           },
           {
-            heading: "3. PAYMENT, PRICING, & ADD-ONS",
-            bullets: [
-              "All prices are listed in Australian Dollars (AUD) unless stated otherwise.",
-              "Full payment or an agreed deposit structure is required before design curation work begins.",
-              "Exclusive lifestyle add-on products can only be ordered in conjunction with a core custom art commission layout.",
-            ],
-          },
-          {
-            heading: "4. AUSTRALIAN CONSUMER LAW (REFUNDS & RETURNS)",
-            bullets: [
-              "Custom Goods: Because our products are entirely customized, handcrafted, and printed to order using your unique assets, we do not accept returns, cancellations, or refunds for change of mind once design work or manufacturing has commenced.",
-              "Consumer Guarantees: Our goods come with guarantees that cannot be excluded under the Australian Consumer Law (ACL). You are entitled to a replacement or refund for a major failure or defect in materials or manufacturing quality.",
-            ],
-          },
-          {
-            heading: "5. GOVERNING LAW",
+            heading: "3. Design Process, Approval & Artistic Discretion",
             paragraphs: [
-              "These terms are governed by and construed in accordance with the laws of New South Wales, Australia. Any disputes relating to these terms shall be subject to the exclusive jurisdiction of the courts of NSW.",
+              "Every piece undergoes a multi-step physical layout, layering, archival varnishing, and hand-drawn finishing process.",
+              "By commissioning KinCollage, you trust the artist’s aesthetic judgment and signature style. Any digital preview or layout review provided is subject to minor handcrafted variations during final assembly and varnishing.",
+            ],
+          },
+          {
+            heading: "4. Intellectual Property & Studio Rights",
+            bullets: [
+              "Artistic Rights: The final collage composition, layout, website content, branding, and custom visual expressions designed by our studio remain the intellectual property of KinCollage.",
+              "Studio Portfolio: We reserve the right to share digital mockups, process videos, and photos of finished commissions on our website, portfolio, and social media channels. If your commission is a surprise gift or requires privacy, please explicitly request to opt out during intake.",
+            ],
+          },
+          {
+            heading: "5. Pricing & Exclusive Add-Ons",
+            paragraphs: [
+              "All prices are listed in United States Dollar (USD) unless stated otherwise.",
+              "Exclusive lifestyle add-on products (e.g., secondary prints or frames) can only be purchased in conjunction with a core custom art commission layout.",
+            ],
+          },
+          {
+            heading: "6. Australian Consumer Law (Refunds & Returns)",
+            bullets: [
+              "Custom Goods: Because every piece is entirely customized, handcrafted, and created using your unique assets, we do not accept returns, cancellations, or refunds for change of mind once payment is made or curation work has commenced.",
+              "Consumer Guarantees: Our goods come with guarantees that cannot be excluded under Australian Consumer Law (ACL). You are entitled to a repair, replacement, or refund for a major defect or failure in materials or manufacturing quality.",
+            ],
+          },
+          {
+            heading: "7. Governing Law",
+            paragraphs: [
+              "Jurisdiction: These terms are governed by and construed in accordance with the laws of New South Wales, Australia. Any disputes shall be subject to the exclusive jurisdiction of the courts of NSW.",
+              "Force Majeure: KinCollage is not liable for any delay or failure in performance resulting from causes beyond our reasonable control, including courier disruptions, supply delays, or natural events.",
+              "Entire Agreement & Severability: This agreement constitutes the full understanding between both parties. If any provision is deemed unenforceable, all remaining provisions will remain in full force and effect.",
             ],
           },
         ],

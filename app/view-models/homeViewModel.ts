@@ -5,7 +5,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
     howSteps: [
       {
         number: "1.",
-        title: "Submit your request",
+        title: "Submit your order",
         image: "/how-inquiry.png",
         alt: "A collection of children's artwork ready for a commission",
         paragraphs: [
@@ -18,7 +18,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         image: "/how-collection.png",
         alt: "A mother and child gathering children's artwork",
         paragraphs: [
-          "Pack up your child's original artworks (30+ pieces) and ship them to our Sydney studio using your own box, or request an artwork collection kit from us via email.",
+          "Pack up your child’s original artworks (30+ pieces) and ship them to our Sydney studio using your own box, or request an artwork collection kit from us via email.",
           "From loose sketches and paintings to cards and paper cutouts, if you love it, send it in!",
         ],
       },
@@ -37,7 +37,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         image: "/how-delivery.png",
         alt: "A child proudly standing beside two finished collage artworks",
         paragraphs: [
-          "Receive your custom artwork, ready to hang proudly in your family home.",
+          "Receive your custom framed family heirloom artwork, ready to hang proudly in your family home.",
           "Delivery: Hand-crafted with care and delivered to your door in 6–8 weeks.",
         ],
         action: true,
@@ -57,7 +57,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         dimensions: "80 x 100 cm",
         inchDimensions: "32\" x 40\"",
         minimum: "(Min. 50 art required)",
-        price: "$1,950 USD",
+        price: "$1,500 USD",
         image: "/pricing-statement.png",
       },
       {
@@ -65,7 +65,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         dimensions: "90 x 120 cm",
         inchDimensions: "36\" x 48\"",
         minimum: "(Min. 60 art required)",
-        price: "$2,650 USD",
+        price: "$2,000 USD",
         image: "/pricing-master.png",
         popular: true,
       },
@@ -74,7 +74,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         dimensions: "122 x 183 cm",
         inchDimensions: "48\" x 72\"",
         minimum: "(Min. 80 art required)",
-        price: "$5,150 USD",
+        price: "$3,500 USD",
         image: "/pricing-grand.png",
       },
     ],
@@ -118,24 +118,13 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
           "It’s not one persons artwork it’s a collage of multiple people, these special people are my brother and sister.",
         ],
       },
-      {
-        name: "Marie",
-        location: "Sydney, Australia",
-        image: "/testimonial-catherine.png",
-        quote: "“de minim veniam, quis nostrud exercitation ullamco”",
-        paragraphs: [
-          "Not just paper, colour and glue it’s layers of laughter, joy, smiles, mess, tears memories the art work makes my heart glow.",
-          "Friends stop and look it offers a moment to pause and look into the joy of childhood, the one my family has created.",
-          "Sophie has artistically brought together moments of my mothering journey. My love, my time with my individual children to one canvas to delve into remembering to reflect to see the moments on one canvas is magical.",
-        ],
-      },
     ],
     stats: [
       {
         value: "55+",
         title: "Heirloom pieces created",
         description:
-          "From loose preschool sketches to everyday drawings, I’ve transformed hundreds of childhood drawings into permanent family heirlooms.",
+          "From loose preschool sketches to everyday drawings, I’ve transformed hundreds of childhood drawings into permanent framed family heirlooms.",
       },
       {
         value: "30+",
@@ -147,7 +136,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         value: "0",
         title: "Forgotten stories",
         description:
-          "Instead of sitting hidden in a storage bin or a dark drawer, these special moments of childhood are proudly displayed in family homes forever.",
+          "Instead of sitting hidden in a storage bin or a dark drawer, these special moments of childhood are proudly displayed in your family home forever.",
       },
     ],
     galleryColumns: [
@@ -160,60 +149,60 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
     ],
     faqs: [
       [
-        "HOW MANY PIECES OF ART SHOULD I PROVIDE?",
-        "Quantity depends on your chosen canvas size, but typically 20 to 50 pieces allow for a diverse range of colors and textures. During our consultation, we will discuss the ‘hero’ pieces you definitely want included versus the ‘texture’ pieces I can use for background layering.",
+        "How many pieces of art should I provide?",
+        "Quantity depends on your chosen canvas size, but typically 30 to 60 pieces allow for a diverse range of colors and textures.",
       ],
       [
-        "ARE CUSTOM SIZES OR BESPOKE FRAMING AVAILABLE?",
-        "Yes! Every standard commission already includes custom solid oak framing. If you need a specific custom canvas dimension or alternative timber finishes, we can easily accommodate custom requests. Contact us for more.",
-      ],
-      [
-        "WHY IS A KINCOLLAGE FINE ART A PREMIUM INVESTMENT?",
-        "Every collage is a bespoke piece of fine art developed over time. Your child's original drawings are individually hand-cut, thoughtfully curated, and physically montaged onto premium canvas. Finished on archival gallery stretchers and encased in custom solid oak framing, each commission is a museum-quality heirloom crafted to last for generations.",
-      ],
-      [
-        "IS THERE A ‘PERFECT’ AGE TO CAPTURE THEIR ART?",
-        "There is no perfect age. Any stage that holds meaning for your family can become a beautiful visual record, from early scribbles through to more detailed childhood artwork.",
-      ],
-      [
-        "CAN MULTIPLE CHILDREN BE FEATURED ON A SINGLE CANVAS?",
-        "Absolutely. Artwork from siblings can be thoughtfully combined into one cohesive family piece while preserving the personality of each child.",
-      ],
-      [
-        "WHAT TYPES OF MEDIA ARE SUITABLE FOR A COLLAGE?",
-        "Drawings, paintings, photographs, cards, fabric and lightweight sculptural pieces can all be considered. We will review your collection together before you send it.",
-      ],
-      [
-        "DO YOU OFFER INSTALLMENT OR SPLIT PAYMENT OPTIONS?",
-        "Yes! You can choose to pay in full upfront or select our 3 fortnightly installment option at checkout. Our 3-part installment plan allows you to split your commission over 4 weeks (3 fortnightly payments). A 15% plan & administration fee is included in the installment schedule to cover manual invoicing and extended studio scheduling. Your piece enters production immediately, with final dispatch following your third payment.",
-      ],
-      [
-        "DO YOU ADD YOUR OWN ARTISTIC MARKS OR PAINT TO THE WORK?",
+        "Do you add your own artistic marks or paint to the work?",
         "Yes. I may add subtle painted details and my handprint where needed to connect the composition and complete the story while keeping your child’s artwork at its heart.",
       ],
       [
-        "WHAT IS THE FINAL PIECE CREATED ON, AND IS IT READY TO HANG?",
+        "Are custom sizes or bespoke framing available?",
+        "Yes! Every standard commission already includes custom solid oak framing. If you need a specific custom canvas dimension or alternative timber finishes, we can easily accommodate custom requests. Contact us for more.",
+      ],
+      [
+        "What is the final piece created on, and is it ready to hang?",
         "The final artwork is created on professional-grade canvas and finished so it arrives ready to become a feature in your home. Framing can also be discussed separately.",
       ],
       [
-        "HOW DO YOU ENSURE THE ARTWORK IS PROTECTED OVER TIME?",
+        "Why is a KinCollage fine art a premium investment?",
+        "Every collage is a bespoke piece of fine art developed over time. Your child's original drawings are individually hand-cut, thoughtfully curated, and physically montaged onto premium canvas. Finished on archival gallery stretchers and encased in custom solid oak framing, each commission is a museum-quality heirloom crafted to last for generations.",
+      ],
+      [
+        "How do you ensure the artwork is protected over time?",
         "The completed collage is carefully sealed and varnished to protect its surface and preserve the colours and details for years to come.",
       ],
       [
-        "WHAT IS THE EXPECTED TIMELINE FOR A COMMISSION?",
+        "Is there a ‘perfect’ age to capture their art?",
+        "There is no perfect age. Any stage that holds meaning for your family can become a beautiful visual record, from early scribbles through to more detailed childhood artwork.",
+      ],
+      [
+        "What is the expected timeline for a commission?",
         "The estimated timeframe is approximately six weeks from the point the artwork and commission details are ready, depending on the scale and complexity of the piece.",
       ],
       [
-        "HOW DO LOGISTICS AND SHIPPING WORK?",
+        "Can multiple children be featured on a single canvas?",
+        "Absolutely. Artwork from siblings can be thoughtfully combined into one cohesive family piece while preserving the personality of each child.",
+      ],
+      [
+        "How do logistics and shipping work?",
         "After your consultation, you will receive guidance for securely packing and mailing the artwork. Delivery arrangements and shipping costs are confirmed as part of the commission process.",
       ],
       [
-        "DO YOU OFFER GIFT VOUCHERS?",
+        "Do you offer Gift Vouchers?",
         "Yes. Digital vouchers are available for any amount and make a thoughtful gift for milestone birthdays, Mother’s Day, baby showers and other special occasions.",
       ],
       [
-        "CAN I SEE THE LAYOUT BEFORE IT IS PERMANENTLY GLUED DOWN?",
+        "What types of media are suitable for a collage?",
+        "Drawings, paintings, photographs, cards, fabric and lightweight sculptural pieces can all be considered. We will review your collection together before you send it.",
+      ],
+      [
+        "Can I see the layout before it is permanently glued down?",
         "Yes. The proposed composition can be reviewed before the artwork is permanently assembled, giving you confidence in the final direction.",
+      ],
+      [
+        "Do you offer installment or split payment options?",
+        "Yes! You can choose to pay in full upfront or select our 3 fortnightly installment option at checkout. Our 3-part installment plan allows you to split your commission over 4 weeks (3 fortnightly payments). A 15% plan & administration fee is included in the installment schedule to cover manual invoicing and extended studio scheduling. Your piece enters production immediately, with final dispatch following your third payment.",
       ],
     ].map(([question, answer]) => ({ question, answer })),
   };

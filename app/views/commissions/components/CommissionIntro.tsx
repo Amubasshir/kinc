@@ -7,13 +7,13 @@ export default function CommissionIntro() {
         <p className="mt-7 text-[15px] leading-[1.38] max-[800px]:text-[14px] max-[800px]:leading-[1.5] [&>br]:max-[800px]:hidden">
           Share the joy with loved ones. As an exclusive add-on to your core
           <br />
-          artwork commission, have your child&apos;s custom collage printed onto a
+          artwork commission, have your child’s custom collage printed onto a
           <br />
           curated collection of premium everyday items.
         </p>
         <p className="commission-intro-note mt-[21px] text-[15px] leading-[1.38]">Select any of these exclusive lifestyle pieces when customising your <br/> commission order.</p>
         <Link className="button-primary commission-intro-cta mt-[25px] inline-flex min-h-[53px] min-w-[264px] items-center justify-center rounded-full text-[15px] no-underline max-[800px]:min-w-[min(264px,100%)]" href="/start-your-commission">
-          START YOUR ORDER
+          Start your ORDER
         </Link>
       </div>
     </section>

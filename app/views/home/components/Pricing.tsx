@@ -38,7 +38,7 @@ function PricingCard({ size }: { size: PricingSizeModel }) {
           className="button-primary mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-full px-6 text-[14px] font-semibold no-underline"
           href={`/start-your-commission${size.purchaseId ? `?product=${size.purchaseId}` : ""}`}
         >
-          Buy Now
+          buy now
         </Link>
       </div>
     </article>
@@ -108,11 +108,11 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
           <div>
             <h3>COSTS</h3>
             <p>
-              ✧ All commissions require a <strong>non-refundable 50% deposit</strong> at checkout.
+              ✧ Secure Checkout. Choose between Full Payment or 3 Fortnightly Installments on the next screen.
               <br />
-              ✧ Remaining balance, taxes, and shipping are calculated separately upon completion.
+              ✧ Prices reflect current 2026 rates and are subject to change for future booking windows.
               <br />
-              ✧ Professional framing fees are available as an optional add-on.
+              ✧ Remaining balance, taxes if applicable are calculated separately upon completion.
             </p>
           </div>
           <div>
@@ -130,15 +130,17 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
               <br />
               ✧ <strong>Rest of the world:</strong> 10 - 14 days
               <br />
-              ✧ For full shipping details please <Link href="/legal#shipping"><strong>click here</strong></Link>
+              ✧ For full shipping details, please <Link href="/legal#shipping"><strong>click here</strong></Link>
             </p>
           </div>
           <div>
-            <h3>NEED A DIFFERENT SIZE ARTWORK OR MATERIAL?</h3>
+            <h3>Need a different size artwork or material?</h3>
             <p>
               ✧ Additional custom sizes are available to select on the order form.
               <br />
-              ✧ Standard pieces are crafted on canvas (no frame). For custom surfaces or special requests, please reach out directly.
+              ✧ Standard pieces are crafted on canvas with oak frame.
+              <br />
+              ✧ For custom surfaces, sizes or special requests, please reach out directly.
             </p>
           </div>
         </div>

@@ -10,7 +10,7 @@ export default function Merchandise({ products }: { products: MerchandiseProduct
         </h2>
         <p>
           Share the joy with loved ones. As an exclusive add-on to your core artwork commission, have
-          <br /> your child&apos;s custom collage printed onto a curated collection of
+          <br /> your child’s custom collage printed onto a curated collection of
           <br /> premium everyday items.
         </p>
       </header>

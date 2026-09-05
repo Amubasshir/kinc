@@ -42,7 +42,7 @@ export default function CommissionFormView({ commissionProducts, requestedAddOnI
       </section>
 
       <ArtistStory videoOnly controls />
-      <GiftCard commission />
+      <GiftCard />
     </>
   );
 }

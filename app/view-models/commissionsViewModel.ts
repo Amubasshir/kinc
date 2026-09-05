@@ -101,7 +101,7 @@ export function getCommissionsViewModel(): CommissionsViewModel {
     {
       ...shared,
       id: "canvas-prints",
-      title: "Canvas Prints",
+      title: "Canvas prints",
       layout: "gallery-right",
       sectionClassName: "tshirt-product canvas-prints-product",
       contentClassName: "tote-bag-content tshirt-content",

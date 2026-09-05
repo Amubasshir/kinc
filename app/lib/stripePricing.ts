@@ -11,6 +11,7 @@ export type StripeCommissionProduct = {
   dimensions: string;
   inchDimensions?: string;
   minimum: string;
+  price: string;
   unitAmount: number;
   currency: string;
   image: string;
@@ -18,25 +19,11 @@ export type StripeCommissionProduct = {
 };
 
 const PRODUCT_PRESENTATION = [
-  { key: "mini", dimensions: "30 x 40 cm", inchDimensions: "12\" x 16\"", minimum: "(Min. 20 art required)", image: "/pricing-mini.png" },
-  { key: "statement", dimensions: "80 x 100 cm", inchDimensions: "32\" x 40\"", minimum: "(Min. 50 art required)", image: "/pricing-statement.png" },
-  { key: "master", dimensions: "90 x 120 cm", inchDimensions: "36\" x 48\"", minimum: "(Min. 60 art required)", image: "/pricing-master.png", popular: true },
-  { key: "grand", dimensions: "122 x 183 cm", inchDimensions: "48\" x 72\"", minimum: "(Min. 80 art required)", image: "/pricing-grand.png" },
+  { key: "mini", dimensions: "30 x 40 cm", inchDimensions: "12\" x 16\"", minimum: "(Min. 20 art required)", price: "$350 USD", image: "/pricing-mini.png" },
+  { key: "statement", dimensions: "80 x 100 cm", inchDimensions: "32\" x 40\"", minimum: "(Min. 50 art required)", price: "$1,500 USD", image: "/pricing-statement.png" },
+  { key: "master", dimensions: "90 x 120 cm", inchDimensions: "36\" x 48\"", minimum: "(Min. 60 art required)", price: "$2,000 USD", image: "/pricing-master.png", popular: true },
+  { key: "grand", dimensions: "122 x 183 cm", inchDimensions: "48\" x 72\"", minimum: "(Min. 80 art required)", price: "$3,500 USD", image: "/pricing-grand.png" },
 ] as const;
-
-function formatPrice(unitAmount: number, currency: string) {
-  const currencyCode = currency.toUpperCase();
-  const amount = unitAmount / 100;
-  const value = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currencyCode,
-    currencyDisplay: "narrowSymbol",
-    minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
-
-  return `${value} ${currencyCode}`;
-}
 
 const loadStripeCommissionProducts = unstable_cache(
   async (): Promise<StripeCommissionProduct[]> => {
@@ -62,6 +49,7 @@ const loadStripeCommissionProducts = unstable_cache(
         dimensions: presentation.dimensions,
         inchDimensions: presentation.inchDimensions,
         minimum: presentation.minimum,
+        price: presentation.price,
         unitAmount: price.unit_amount,
         currency: price.currency,
         image: presentation.image,
@@ -82,7 +70,7 @@ export async function getStripePricingSizes(fallback: PricingSizeModel[]) {
       dimensions: product.dimensions,
       inchDimensions: product.inchDimensions,
       minimum: product.minimum,
-      price: formatPrice(product.unitAmount, product.currency),
+      price: product.price,
       image: product.image,
       popular: product.popular,
       purchaseId: product.productId,

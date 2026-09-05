@@ -13,7 +13,7 @@ export default function Welcome() {
             <p>
               <strong>Love their artwork, but hate the clutter?</strong>
               <br />
-              Constant chaos. Fridge mess. You can&apos;t throw your kid&apos;s
+              Constant chaos. Fridge mess. You feel you can’t throw your kid’s
               <br /> scribbles away, but keeping them means constant clutter.
             </p>
             <p>
@@ -24,7 +24,7 @@ export default function Welcome() {
               <br /> organizing years of artwork feels impossible.
             </p>
             <p>
-              But it <em>doesn&apos;t have to stay</em> like that.
+              But it <em>doesn’t have to stay</em> like that.
             </p>
           </div>
 
@@ -73,18 +73,17 @@ export default function Welcome() {
           </div>
           <div className="welcome-outro">
             <p>
-              KinCollage turns the memories of childhood into a custom, <strong>modern fine art family heirloom</strong>
-              . You provide the drawings by mail, and I curate them into a single, cohesive collage.
+              KinCollage turns the memories of childhood into a custom, <strong>modern fine art family heirloom</strong>. You provide the drawings by mail, and I curate them into a single, cohesive collage.
             </p>
             <p>
-              <strong className="mt-6">No more &apos;messy rooms&apos;.</strong>
+              <strong className="mt-6">No more ‘messy rooms’.</strong>
               <br />
-              <strong>No more &apos;we can only keep one&apos;.</strong>
+              <strong>No more ‘we can only keep one’.</strong>
               <br />
               <strong>No more parent guilt about throwing them out.</strong>
             </p>
             <p className="welcome-closing">
-              <em>Don&apos;t hide their magic in a box.</em>
+              <em>Don’t hide their magic in a box.</em>
               <br />
               <strong>Elevate it. Make them proud.</strong>
             </p>
