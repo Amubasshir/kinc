@@ -161,11 +161,11 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       ],
       [
         "ARE CUSTOM SIZES OR BESPOKE FRAMING AVAILABLE?",
-        "Yes. Custom canvas sizes are available upon request, and bespoke framing can be arranged as an optional add-on sourced locally.",
+        "Yes! Every standard commission already includes custom solid oak framing. If you need a specific custom canvas dimension or alternative timber finishes, we can easily accommodate custom requests. Contact us for more.",
       ],
       [
-        "WHY IS A KIN & COLLAGE COMMISSION A PREMIUM INVESTMENT?",
-        "Every collage is individually curated, hand-cut and composed over many hours, then professionally finished as a unique piece of fine art designed to preserve your family’s story.",
+        "WHY IS A KINCOLLAGE FINE ART A PREMIUM INVESTMENT?",
+        "Every collage is a bespoke piece of fine art developed over time. Your child's original drawings are individually hand-cut, thoughtfully curated, and physically montaged onto premium canvas. Finished on archival gallery stretchers and encased in custom solid oak framing, each commission is a museum-quality heirloom crafted to last for generations.",
       ],
       [
         "IS THERE A ‘PERFECT’ AGE TO CAPTURE THEIR ART?",
@@ -178,6 +178,10 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       [
         "WHAT TYPES OF MEDIA ARE SUITABLE FOR A COLLAGE?",
         "Drawings, paintings, photographs, cards, fabric and lightweight sculptural pieces can all be considered. We will review your collection together before you send it.",
+      ],
+      [
+        "DO YOU OFFER INSTALLMENT OR SPLIT PAYMENT OPTIONS?",
+        "Yes! You can choose to pay in full upfront or select our 3 fortnightly installment option at checkout. Our 3-part installment plan allows you to split your commission over 4 weeks (3 fortnightly payments). A 15% plan & administration fee is included in the installment schedule to cover manual invoicing and extended studio scheduling. Your piece enters production immediately, with final dispatch following your third payment.",
       ],
       [
         "DO YOU ADD YOUR OWN ARTISTIC MARKS OR PAINT TO THE WORK?",

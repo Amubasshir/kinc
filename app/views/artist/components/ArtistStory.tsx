@@ -9,7 +9,7 @@ export default function ArtistStory({
 }) {
   const video = (
     <div
-      className={`artist-story-video relative mx-auto w-full max-w-[990px] ${videoOnly ? "" : "mt-[84px] max-[800px]:mt-[54px] max-[700px]:order-first max-[700px]:mt-0"}`}
+      className={`artist-story-video relative mx-auto w-full max-w-[990px] ${videoOnly ? "" : "mt-[84px] max-[800px]:mt-[54px] max-[700px]:order-first max-[700px]:mt-0 max-[700px]:pt-[14px]"}`}
     >
       <video
         className="block h-auto w-full rounded-[18px]"

@@ -3,7 +3,9 @@ import type { ArtistViewModel } from "../../../view-models/artistViewModel";
 
 export default function ArtistTestimonial({ testimonial }: { testimonial: ArtistViewModel["testimonial"] }) {
   const [intro, quote] = testimonial.paragraphs;
-  const [beforeHighlight, afterHighlight] = quote.split(testimonial.highlightedText);
+  const italicText = "kids love seeing their art on proud display";
+  const [beforeItalic, afterItalic] = quote.split(italicText);
+  const [italicBeforeHighlight, italicAfterHighlight] = italicText.split(testimonial.highlightedText);
 
   return (
     <section className="artist-testimonial relative h-[743px] overflow-hidden rounded-[20px] text-[#263443] max-[900px]:h-auto max-[900px]:min-h-[520px] max-[900px]:aspect-[1398/743] max-[600px]:min-h-[490px] max-[600px]:rounded-2xl max-[700px]:min-h-[420px] max-[700px]:bg-[#00d18f]" aria-label={"Testimonial from " + testimonial.name}>
@@ -42,9 +44,13 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
             <p className="mt-6 text-[24px] leading-[1.22] max-[900px]:mt-[18px] max-[900px]:text-[clamp(16px,2.1vw,24px)] max-[600px]:text-[15px] max-[600px]:leading-[1.35]">
               {intro}
               <br />
-              {beforeHighlight}
-              <mark>{testimonial.highlightedText}</mark>
-              {afterHighlight}
+              {beforeItalic}
+              <em>
+                {italicBeforeHighlight}
+                <mark>{testimonial.highlightedText}</mark>
+                {italicAfterHighlight}
+              </em>
+              {afterItalic}
             </p>
             <footer className="mt-[18px] flex flex-col items-center max-[600px]:mt-4">
               <strong className="text-[29px] leading-[1.1] font-normal max-[900px]:text-[clamp(23px,3vw,29px)]">{testimonial.name}</strong>

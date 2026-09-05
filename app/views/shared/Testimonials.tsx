@@ -70,10 +70,36 @@ function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
   );
 }
 
+function TestimonialCard({ testimonial }: { testimonial: TestimonialModel }) {
+  return (
+    <article className="testimonial-card overflow-hidden rounded-[17px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[15px] max-[700px]:w-full max-[700px]:rounded-[18px]">
+      <Image unoptimized
+        className="testimonial-art block h-[454px] w-[352px] object-cover max-[1200px]:h-auto max-[1200px]:w-full max-[700px]:aspect-[352/454]"
+        src={testimonial.image}
+        alt={`Collage artwork commissioned by ${testimonial.name}`}
+        width={352}
+        height={454}
+        sizes="(max-width: 760px) 92vw, 352px"
+      />
+      <div className="testimonial-copy px-9 pt-[31px] pb-[25px] max-[1200px]:px-[25px] max-[800px]:px-[26px] max-[800px]:pt-[27px] max-[800px]:pb-[30px] max-[700px]:px-[43px] max-[700px]:pt-[29px] max-[700px]:pb-8 [overflow-wrap:anywhere]">
+        <blockquote className="m-0 font-[Montserrat] text-[18px] leading-[1.08] font-semibold text-[#515151]">{testimonial.quote}</blockquote>
+        <Stars />
+        <TestimonialReview paragraphs={testimonial.paragraphs} />
+        <footer className="mt-[22px]">
+          <cite className="block font-[Georgia] text-[28px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[24px]">{testimonial.name}</cite>
+          <p className="mt-2 text-[17px] leading-[1.2] text-[#515151] max-[700px]:text-[15px]">{testimonial.location}</p>
+        </footer>
+      </div>
+    </article>
+  );
+}
+
 export default function Testimonials({ testimonials }: { testimonials: TestimonialModel[] }) {
   const [activePage, setActivePage] = useState(0);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
   const pageCount = testimonials.length > PAGE_SIZE ? testimonials.length : 1;
   const visibleTestimonials = Array.from(
     { length: Math.min(PAGE_SIZE, testimonials.length) },
@@ -102,12 +128,27 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
   };
   const goToPrevious = () => changePage((activePage - 1 + pageCount) % pageCount, -1);
   const goToNext = () => changePage((activePage + 1) % pageCount, 1);
+  const handleMobileScroll = () => {
+    const track = mobileTrackRef.current;
+    if (!track || !track.clientWidth) return;
+
+    const nextIndex = Math.round(track.scrollLeft / track.clientWidth);
+    if (nextIndex !== activeMobileIndex) setActiveMobileIndex(nextIndex);
+  };
+  const goToMobileTestimonial = (index: number) => {
+    const track = mobileTrackRef.current;
+    const slide = track?.children[index];
+    if (!slide) return;
+
+    setActiveMobileIndex(index);
+    slide.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  };
 
   return (
     <section id="testimonials" className="testimonials rounded-[20px] bg-transparent px-6 pt-[95px] pb-[33px] text-[#5b5b5d] max-[800px]:rounded-2xl max-[800px]:px-[22px] max-[800px]:pt-[70px] max-[800px]:pb-[38px] max-[700px]:rounded-none max-[700px]:px-0 max-[700px]:pt-[30px] max-[700px]:pb-[22px]" aria-labelledby="testimonials-heading">
       <h2 className="text-center text-[48px] leading-[1.15] font-light tracking-[.2px] max-[800px]:text-[42px] max-[700px]:px-[23px] max-[700px]:text-left max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="testimonials-heading">Testimonials</h2>
       <p className="testimonials-intro mx-[23px] mt-[22px] hidden text-[15px] leading-[1.5] text-[#777] max-[700px]:block [overflow-wrap:anywhere]">Share the magic with family. Print your child&apos;s custom collage onto a limited collection of premium everyday objects, creating an unforgettable keepsake for grandparents and loved ones.</p>
-      <div className="testimonials-grid relative mx-auto mt-[69px] w-full max-w-[1154px] max-[1200px]:max-w-[960px] max-[800px]:mt-[52px] max-[800px]:max-w-[420px] max-[700px]:mt-[34px] max-[700px]:max-w-full">
+      <div className="testimonials-grid relative mx-auto mt-[69px] w-full max-w-[1154px] max-[1200px]:max-w-[960px] max-[800px]:mt-[52px] max-[800px]:max-w-[420px] max-[700px]:hidden">
         {pageCount > 1 && (
           <button
             aria-label="Show previous testimonials"
@@ -124,27 +165,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           ref={trackRef}
         >
         {visibleTestimonials.map((testimonial) => {
-          return (
-            <article className="testimonial-card overflow-hidden rounded-[17px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[15px] max-[700px]:w-full max-[700px]:rounded-[18px]" key={testimonial.name}>
-            <Image unoptimized
-              className="testimonial-art block h-[454px] w-[352px] object-cover max-[1200px]:h-auto max-[1200px]:w-full max-[700px]:aspect-[352/454]"
-              src={testimonial.image}
-              alt={`Collage artwork commissioned by ${testimonial.name}`}
-              width={352}
-              height={454}
-              sizes="(max-width: 760px) 92vw, 352px"
-            />
-            <div className="testimonial-copy px-9 pt-[31px] pb-[25px] max-[1200px]:px-[25px] max-[800px]:px-[26px] max-[800px]:pt-[27px] max-[800px]:pb-[30px] max-[700px]:px-[43px] max-[700px]:pt-[29px] max-[700px]:pb-8 [overflow-wrap:anywhere]">
-              <blockquote className="m-0 font-[Montserrat] text-[18px] leading-[1.08] font-semibold text-[#515151]">{testimonial.quote}</blockquote>
-              <Stars />
-              <TestimonialReview paragraphs={testimonial.paragraphs} />
-              <footer className="mt-[22px]">
-                <cite className="block font-[Georgia] text-[28px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[24px]">{testimonial.name}</cite>
-                <p className="mt-2 text-[17px] leading-[1.2] text-[#515151] max-[700px]:text-[15px]">{testimonial.location}</p>
-              </footer>
-            </div>
-          </article>
-          );
+          return <TestimonialCard key={testimonial.name} testimonial={testimonial} />;
         })}
         </div>
         {pageCount > 1 && (
@@ -158,8 +179,22 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           </button>
         )}
       </div>
+      <div className="testimonials-mobile-carousel hidden max-[700px]:block max-[700px]:mt-[34px] max-[700px]:px-[23px]">
+        <div
+          className="flex w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="Swipe through testimonials"
+          onScroll={handleMobileScroll}
+          ref={mobileTrackRef}
+        >
+          {testimonials.map((testimonial) => (
+            <div className="w-full shrink-0 snap-start" key={testimonial.name}>
+              <TestimonialCard testimonial={testimonial} />
+            </div>
+          ))}
+        </div>
+      </div>
       {pageCount > 1 && (
-        <div className="testimonial-pagination mt-[45px] flex items-center justify-center gap-2 max-[800px]:mt-[38px] max-[700px]:mt-[27px]" aria-label="Choose a set of testimonials">
+        <div className="testimonial-pagination mt-[45px] flex items-center justify-center gap-2 max-[800px]:mt-[38px] max-[700px]:hidden" aria-label="Choose a set of testimonials">
           {Array.from({ length: pageCount }, (_, page) => (
             <button
               aria-label={`Show testimonials starting with ${testimonials[page].name}`}
@@ -167,6 +202,20 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
               className={`h-3 w-3 cursor-pointer rounded-full border-0 p-0 transition duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] ${page === activePage ? "bg-[#777782]" : "bg-[#dedee3]"}`}
               key={page}
               onClick={() => changePage(page, page > activePage ? 1 : -1)}
+              type="button"
+            />
+          ))}
+        </div>
+      )}
+      {testimonials.length > 1 && (
+        <div className="testimonial-pagination hidden items-center justify-center gap-2 max-[700px]:mt-[27px] max-[700px]:flex" aria-label="Choose a testimonial">
+          {testimonials.map((testimonial, index) => (
+            <button
+              aria-label={`Show ${testimonial.name}'s testimonial`}
+              aria-pressed={index === activeMobileIndex}
+              className={`h-3 w-3 cursor-pointer rounded-full border-0 p-0 transition duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] ${index === activeMobileIndex ? "bg-[#777782]" : "bg-[#dedee3]"}`}
+              key={testimonial.name}
+              onClick={() => goToMobileTestimonial(index)}
               type="button"
             />
           ))}

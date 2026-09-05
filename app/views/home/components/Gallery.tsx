@@ -65,7 +65,7 @@ export default function Gallery({ columns }: { columns: number[][] }) {
           </div>
         ))}
       </div>
-      <Link className="gallery-cta mx-auto mt-11 flex min-h-[53px] w-fit min-w-[200px] items-center justify-center rounded-full border border-[#263443] text-[15px] text-[#263443] no-underline transition duration-150 max-[700px]:mt-[33px] max-[700px]:min-h-[49px] max-[700px]:min-w-[181px] max-[700px]:text-[14px]" href="/gallery">
+      <Link className="gallery-cta mx-auto mt-11 flex h-[53px] w-[200px] shrink-0 items-center justify-center rounded-full border border-[#263443] text-[15px] leading-none text-[#263443] no-underline transition duration-150 max-[700px]:mt-[33px] max-[700px]:h-[49px] max-[700px]:w-[181px] max-[700px]:text-[14px]" href="/gallery">
         SEE ALL WORK
       </Link>
       <GalleryLightbox images={images} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />
