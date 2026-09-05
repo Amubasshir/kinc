@@ -111,7 +111,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
             )}
           </div>
         ))}
-        <Link className="gallery-page-mobile-see-all mt-[11px] inline-flex min-h-[23px] w-[88px] items-center self-center justify-center rounded-full border border-[#263443] text-[8px] text-[#263443] no-underline" href="#page-top" onClick={scrollToPageTop}>
+        <Link className="button-tertiary gallery-page-mobile-see-all mt-[11px] inline-flex min-h-[23px] w-[88px] items-center self-center justify-center rounded-full text-[8px] no-underline" href="#page-top" onClick={scrollToPageTop}>
           SEE ALL WORK
         </Link>
       </section>

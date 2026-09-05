@@ -99,7 +99,7 @@ export default function GalleryLightbox({ images, activeIndex, onChange, onClose
         </span>
         <button
           ref={closeButtonRef}
-          className="pointer-events-auto grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-black/30 text-white transition hover:scale-105 hover:bg-white hover:text-[#182028] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="pointer-events-auto grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-white/25 bg-black/30 text-white transition hover:scale-105 hover:bg-white hover:text-[#182028] active:bg-white/80 active:text-[#182028] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           type="button"
           onClick={onClose}
           aria-label="Close gallery"
@@ -112,10 +112,10 @@ export default function GalleryLightbox({ images, activeIndex, onChange, onClose
 
       {images.length > 1 && (
         <>
-          <button className="absolute bottom-5 left-1/2 z-10 grid h-12 w-12 -translate-x-[130%] cursor-pointer place-items-center rounded-full border border-white/25 bg-black/35 text-white shadow-xl backdrop-blur-sm transition hover:scale-105 hover:bg-white hover:text-[#182028] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:bottom-auto sm:left-6 sm:top-1/2 sm:-translate-x-0 sm:-translate-y-1/2" type="button" onClick={previous} aria-label="Previous artwork">
+          <button className="absolute bottom-5 left-1/2 z-10 grid h-12 w-12 -translate-x-[130%] cursor-pointer place-items-center rounded-full border border-white/25 bg-black/35 text-white shadow-xl backdrop-blur-sm transition hover:scale-105 hover:bg-white hover:text-[#182028] active:bg-white/80 active:text-[#182028] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:bottom-auto sm:left-6 sm:top-1/2 sm:-translate-x-0 sm:-translate-y-1/2" type="button" onClick={previous} aria-label="Previous artwork">
             <ArrowIcon direction="previous" />
           </button>
-          <button className="absolute right-1/2 bottom-5 z-10 grid h-12 w-12 translate-x-[130%] cursor-pointer place-items-center rounded-full border border-white/25 bg-black/35 text-white shadow-xl backdrop-blur-sm transition hover:scale-105 hover:bg-white hover:text-[#182028] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:top-1/2 sm:right-6 sm:bottom-auto sm:translate-x-0 sm:-translate-y-1/2" type="button" onClick={next} aria-label="Next artwork">
+          <button className="absolute right-1/2 bottom-5 z-10 grid h-12 w-12 translate-x-[130%] cursor-pointer place-items-center rounded-full border border-white/25 bg-black/35 text-white shadow-xl backdrop-blur-sm transition hover:scale-105 active:bg-white/80 active:text-[#182028] hover:text-[#182028] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:top-1/2 sm:right-6 sm:bottom-auto sm:translate-x-0 sm:-translate-y-1/2" type="button" onClick={next} aria-label="Next artwork">
             <ArrowIcon direction="next" />
           </button>
         </>

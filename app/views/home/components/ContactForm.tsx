@@ -60,7 +60,7 @@ export default function ContactForm() {
           required
         />
       </div>
-      <button type="submit" disabled={isPending}>
+      <button className="button-primary" type="submit" disabled={isPending}>
         {isPending ? "SENDING…" : "SEND"}
       </button>
       {state.status !== "idle" && (

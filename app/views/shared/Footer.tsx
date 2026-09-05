@@ -64,7 +64,7 @@ export default function Footer() {
         >
           {socialIcons.map((icon) => (
             <span
-              className="block cursor-pointer rounded-full transition duration-150 hover:-translate-y-1 hover:scale-[1.08] hover:drop-shadow-[0_6px_7px_rgb(25_93_69/24%)]"
+              className="button-social cursor-pointer"
               key={icon.name}
               title={icon.name}
             >
@@ -79,7 +79,7 @@ export default function Footer() {
           ))}
         </div>
         <Link
-          className="footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full border-[7px] border-[rgba(72,222,171,.42)] bg-[#00d28e] font-[Georgia] text-[16px] text-[#121212] no-underline transition duration-150 hover:-translate-y-[3px] hover:bg-[#97ff77] hover:shadow-[0_7px_14px_rgb(25_93_69/24%)] focus-visible:-translate-y-[3px] focus-visible:bg-[#97ff77] focus-visible:shadow-[0_7px_14px_rgb(25_93_69/24%)] max-[1100px]:h-[60px] max-[1100px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
+          className="button-contact footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full font-[Georgia] text-[16px] no-underline max-[1100px]:h-[60px] max-[1100px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
           href="/#contact"
           onClick={scrollToHomeSection("/#contact")}
         >

@@ -40,7 +40,7 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
             </p>
           </div>
           <Link
-            className="artist-hero-cta mt-[28px] inline-flex min-h-[53px] w-[187px] items-center justify-center rounded-full bg-[#97ff77] font-[var(--font-tenor-sans)] text-[15px] text-[#263443] no-underline shadow-[0_4px_5px_rgb(35_52_63/27%)] transition duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_rgb(25_93_69/27%)] focus-visible:-translate-y-0.5 focus-visible:shadow-[0_6px_10px_rgb(25_93_69/27%)] max-[700px]:mx-auto max-[700px]:mt-7 max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]"
+            className="button-primary artist-hero-cta mt-[28px] inline-flex min-h-[53px] w-[187px] items-center justify-center rounded-full font-[var(--font-tenor-sans)] text-[15px] no-underline max-[700px]:mx-auto max-[700px]:mt-7 max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]"
             href="/#how-it-works"
           >
             GET STARTED

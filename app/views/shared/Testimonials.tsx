@@ -57,7 +57,7 @@ function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
       </p>
       {(isOverflowing || isExpanded) && (
         <button
-          className="testimonial-less mt-[17px] cursor-pointer border-0 bg-transparent p-0 font-[Georgia] text-[16px] text-[#008d91]"
+          className="button-secondary testimonial-less mt-[17px] cursor-pointer px-3 py-2 font-[Georgia] text-[16px] text-[#008d91]"
           onClick={() => setIsExpanded((current) => !current)}
           type="button"
           aria-expanded={isExpanded}
@@ -152,7 +152,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         {pageCount > 1 && (
           <button
             aria-label="Show previous testimonials"
-            className="absolute top-1/2 left-[-64px] z-10 grid h-11 w-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-[#dedee3] bg-white text-[#777782] shadow-[0_4px_14px_rgba(0,0,0,0.1)] transition duration-150 hover:border-[#008d91] hover:text-[#008d91] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] max-[1200px]:left-[-52px] max-[1200px]:h-10 max-[1200px]:w-10 max-[800px]:left-[-48px] max-[800px]:h-9 max-[800px]:w-9 max-[700px]:hidden"
+            className="absolute top-1/2 left-[-64px] z-10 grid h-11 w-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-[#dedee3] bg-white text-[#777782] shadow-[0_4px_14px_rgba(0,0,0,0.1)] transition duration-150 hover:border-[#008d91] hover:text-[#008d91] active:border-[#85859d] active:bg-[#9f9fb7] active:text-[#51515d] active:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] max-[1200px]:left-[-52px] max-[1200px]:h-10 max-[1200px]:w-10 max-[800px]:left-[-48px] max-[800px]:h-9 max-[800px]:w-9 max-[700px]:hidden"
             onClick={goToPrevious}
             type="button"
           >
@@ -171,7 +171,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         {pageCount > 1 && (
           <button
             aria-label="Show next testimonials"
-            className="absolute top-1/2 right-[-64px] z-10 grid h-11 w-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-[#dedee3] bg-white text-[#777782] shadow-[0_4px_14px_rgba(0,0,0,0.1)] transition duration-150 hover:border-[#008d91] hover:text-[#008d91] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] max-[1200px]:right-[-52px] max-[1200px]:h-10 max-[1200px]:w-10 max-[800px]:right-[-48px] max-[800px]:h-9 max-[800px]:w-9 max-[700px]:hidden"
+            className="absolute top-1/2 right-[-64px] z-10 grid h-11 w-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-[#dedee3] bg-white text-[#777782] shadow-[0_4px_14px_rgba(0,0,0,0.1)] transition duration-150 hover:border-[#008d91] hover:text-[#008d91] active:border-[#85859d] active:bg-[#9f9fb7] active:text-[#51515d] active:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60] max-[1200px]:right-[-52px] max-[1200px]:h-10 max-[1200px]:w-10 max-[800px]:right-[-48px] max-[800px]:h-9 max-[800px]:w-9 max-[700px]:hidden"
             onClick={goToNext}
             type="button"
           >

@@ -12,7 +12,7 @@ export default function CommissionIntro() {
           curated collection of premium everyday items.
         </p>
         <p className="commission-intro-note mt-[21px] text-[15px] leading-[1.38]">Select any of these exclusive lifestyle pieces when customising your <br/> commission order.</p>
-        <Link className="commission-intro-cta mt-[25px] inline-flex min-h-[53px] min-w-[264px] items-center justify-center rounded-full bg-[#97ff77] text-[15px] text-[#344153] no-underline shadow-[0_4px_5px_rgb(25_93_69/22%)] transition hover:-translate-y-0.5 max-[800px]:min-w-[min(264px,100%)]" href="/start-your-commission">
+        <Link className="button-primary commission-intro-cta mt-[25px] inline-flex min-h-[53px] min-w-[264px] items-center justify-center rounded-full text-[15px] no-underline max-[800px]:min-w-[min(264px,100%)]" href="/start-your-commission">
           START YOUR ORDER
         </Link>
       </div>

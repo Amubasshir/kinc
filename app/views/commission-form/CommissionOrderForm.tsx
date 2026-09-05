@@ -122,7 +122,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
         )}
 
         {depositState.status !== "ready" && (
-          <button className="commission-order-submit" type="submit" disabled={isCreatingDeposit}>
+          <button className="button-primary commission-order-submit" type="submit" disabled={isCreatingDeposit}>
             {otherSize
               ? (isCreatingDeposit ? "Sending request…" : "Request custom quote")
               : (isCreatingDeposit ? "Preparing payment…" : "Continue to payment")}

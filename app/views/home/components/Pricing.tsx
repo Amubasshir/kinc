@@ -35,7 +35,7 @@ function PricingCard({ size }: { size: PricingSizeModel }) {
         </p>
         <p className="pricing-price">{size.price}</p>
         <Link
-          className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-[#97ff77] px-6 text-[14px] font-semibold text-[#344153] no-underline transition hover:-translate-y-0.5 hover:bg-[#7ff45d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d60]"
+          className="button-primary mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-full px-6 text-[14px] font-semibold no-underline"
           href={`/start-your-commission${size.purchaseId ? `?product=${size.purchaseId}` : ""}`}
         >
           Buy Now

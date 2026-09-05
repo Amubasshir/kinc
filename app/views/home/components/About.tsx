@@ -16,7 +16,7 @@ export default function About() {
             ready-to-hang fine art, everything you need to preserve your children&apos;s memory is right here.
           </p>
         </div>
-        <Link className="about-cta mt-8 inline-flex min-h-[53px] min-w-[180px] items-center justify-center rounded-full bg-[#97ff77] text-[15px] text-[#263443] no-underline shadow max-[700px]:mx-auto max-[700px]:mt-[27px] max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]" href="/the-artist">
+        <Link className="button-primary about-cta mt-8 inline-flex min-h-[53px] min-w-[180px] items-center justify-center rounded-full text-[15px] no-underline max-[700px]:mx-auto max-[700px]:mt-[27px] max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]" href="/the-artist">
           MEET ZSOFI
         </Link>
       </div>

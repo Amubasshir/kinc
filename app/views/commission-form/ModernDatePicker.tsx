@@ -93,10 +93,10 @@ export default function ModernDatePicker({
   };
 
   return (
-    <div className="relative mt-[7px]" ref={rootRef}>
+    <div className="modern-date-picker relative mt-[7px]" ref={rootRef}>
       <input name={name} type="hidden" value={value} readOnly style={{ display: "none" }} />
       <button
-        className="flex h-[48px] w-full items-center justify-between rounded-full border-2 border-[#aaaab5] bg-white px-4 text-left text-[14px] font-normal text-[#4f4f58] normal-case outline-none transition hover:border-[#00b982] focus-visible:border-[#00b982] focus-visible:shadow-[0_0_0_3px_rgb(0_209_143/16%)]"
+        className="flex h-[48px] w-full items-center justify-between rounded-full border-2 border-[#aaaab5] bg-white px-4 text-left text-[14px] font-normal text-[#4f4f58] normal-case outline-none transition hover:border-[#00b982] active:border-[#008d60] focus-visible:border-[#00b982] focus-visible:shadow-[0_0_0_3px_rgb(0_209_143/16%)]"
         type="button"
         aria-haspopup="dialog"
         aria-expanded={open}
@@ -116,7 +116,7 @@ export default function ModernDatePicker({
         <div className="absolute top-full left-0 z-30 mt-2 w-[min(360px,calc(100vw-40px))] rounded-[22px] border border-[#e5e5e8] bg-white p-4 normal-case shadow-[0_18px_45px_rgb(38_52_67/18%)]" role="dialog" aria-label="Choose a priority completion date">
           <div className="flex items-center justify-between px-1">
             <button
-              className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[#f3f3f4] text-xl text-[#555560] transition hover:bg-[#e7e7e9] disabled:cursor-not-allowed disabled:opacity-30"
+              className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[#f3f3f4] text-xl text-[#555560] transition hover:bg-[#e7e7e9] active:bg-[#9f9fb7] disabled:cursor-not-allowed disabled:opacity-30"
               type="button"
               disabled={!canGoBack}
               aria-label="Previous month"
@@ -126,7 +126,7 @@ export default function ModernDatePicker({
             </button>
             <strong className="text-[16px] font-semibold tracking-[-0.1px] text-[#34343c]">{monthFormatter.format(visibleMonth)}</strong>
             <button
-              className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[#f3f3f4] text-xl text-[#555560] transition hover:bg-[#e7e7e9]"
+              className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[#f3f3f4] text-xl text-[#555560] transition hover:bg-[#e7e7e9] active:bg-[#9f9fb7]"
               type="button"
               aria-label="Next month"
               onClick={() => setVisibleMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1))}
@@ -145,7 +145,7 @@ export default function ModernDatePicker({
 
               return (
                 <button
-                  className={`aspect-square rounded-full border-0 text-[13px] transition ${selected ? "bg-[#00d18f] font-bold text-[#17382f] shadow-[0_4px_10px_rgb(0_209_143/28%)]" : isToday ? "bg-[#eaffdf] font-semibold text-[#087b59]" : "bg-transparent text-[#555560] hover:bg-[#f0f0f1]"} disabled:cursor-not-allowed disabled:text-[#c9c9cf] disabled:hover:bg-transparent`}
+                  className={`aspect-square rounded-full border-0 text-[13px] transition ${selected ? "bg-[#00d18f] font-bold text-[#17382f] shadow-[0_4px_10px_rgb(0_209_143/28%)]" : isToday ? "bg-[#eaffdf] font-semibold text-[#087b59]" : "bg-transparent text-[#555560] hover:bg-[#f0f0f1]"} active:bg-[#9f9fb7] disabled:cursor-not-allowed disabled:text-[#c9c9cf] disabled:hover:bg-transparent`}
                   type="button"
                   disabled={disabled}
                   aria-pressed={selected}
@@ -160,8 +160,8 @@ export default function ModernDatePicker({
           </div>
 
           <div className="mt-4 flex items-center justify-between border-t border-[#ededf0] pt-3">
-            <button className="border-0 bg-transparent px-2 py-1 text-[12px] text-[#777781] underline-offset-2 hover:underline disabled:opacity-35" type="button" disabled={!value} onClick={() => onChange("")}>Clear</button>
-            <button className="rounded-full border-0 bg-[#eaffdf] px-4 py-2 text-[12px] font-semibold text-[#087b59] transition hover:bg-[#d9ffd0]" type="button" onClick={() => chooseDate(today)}>Today</button>
+            <button className="rounded-full border-0 bg-transparent px-2 py-1 text-[12px] text-[#777781] underline-offset-2 hover:underline active:bg-[#9f9fb7] active:text-[#51515d] disabled:opacity-35" type="button" disabled={!value} onClick={() => onChange("")}>Clear</button>
+            <button className="rounded-full border-0 bg-[#eaffdf] px-4 py-2 text-[12px] font-semibold text-[#087b59] transition hover:bg-[#d9ffd0] active:bg-[#9f9fb7] active:text-[#51515d]" type="button" onClick={() => chooseDate(today)}>Today</button>
           </div>
         </div>
       )}

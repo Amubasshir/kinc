@@ -61,7 +61,7 @@ function PayButton({ depositCents, currency, onSuccess }: { depositCents: number
     <form className="commission-payment-form mt-6" onSubmit={handlePay}>
       <PaymentElement />
       {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
-      <button className="commission-order-submit mt-6" type="submit" disabled={!stripe || isPaying}>
+      <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || isPaying}>
         {isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `Pay deposit — ${money.format(depositCents / 100)}`}
       </button>
     </form>

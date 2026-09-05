@@ -54,7 +54,7 @@ export default function ArtistPricing({ pricing }: { pricing: ArtistViewModel["p
         </div>
         <div className="artist-pricing-action max-[1300px]:self-end">
           <Image unoptimized src="/artist/commission-arrow.svg" alt="" width={44} height={58} aria-hidden="true" />
-          <Link href="/start-your-commission">START YOUR COMMISSION</Link>
+          <Link className="button-primary" href="/start-your-commission">START YOUR COMMISSION</Link>
         </div>
       </div>
     </section>
