@@ -357,6 +357,7 @@ p, label, small { font-family: var(--font-montserrat), Arial, Helvetica, sans-se
   letter-spacing: 0.2px;
 }
 .pricing-card-copy p { margin: 0; color: #515151; font-size: 17px; line-height: 1.28; }
+.pricing-card-copy .pricing-dimensions strong { font-weight: 600; }
 .pricing-card-copy .pricing-price { margin-top: 25px; }
 .pricing-notes h3 {
   margin: 0 0 6px;
@@ -776,12 +777,12 @@ p, label, small { font-family: var(--font-montserrat), Arial, Helvetica, sans-se
 .faq-item[open] summary i::after { transform: rotate(-45deg); }
 .faq-item p {
   max-width: 700px;
-  margin: 8px 24px 23px;
+  margin: 8px 72px 23px 24px;
   font-size: 17px;
   line-height: 1.29;
   letter-spacing: 0.05px;
 }
-.faq-item[open] summary { min-height: 49px; padding-top: 2px; }
+.faq-item[open] summary { min-height: 76px; padding-top: 0; }
 .faq-list { column-count: 2; column-gap: 64px; }
 .faq-item { break-inside: avoid; }
 .faq-item:nth-child(7) { break-after: column; }
@@ -789,8 +790,8 @@ p, label, small { font-family: var(--font-montserrat), Arial, Helvetica, sans-se
 @media (max-width: 700px) {
   .faqs > h2 { font-size: 42px; }
   .faq-item summary { min-height: 72px; padding: 0 8px; gap: 16px; font-size: 15px; }
-  .faq-item[open] summary { min-height: 58px; }
-  .faq-item p { margin: 8px 8px 22px; font-size: 16px; line-height: 1.42; }
+  .faq-item[open] summary { min-height: 72px; padding-top: 0; }
+  .faq-item p { margin: 8px 36px 22px 8px; font-size: 16px; line-height: 1.42; }
 }
 .contact-shadow-layer, .contact-green-layer { position: absolute; max-width: none; pointer-events: none; }
 .contact-shadow-layer { z-index: 0; top: 98px; left: 33px; width: 1199px; height: 678px; }
@@ -1743,8 +1744,8 @@ html { scroll-behavior: smooth; }
   .faq-list { column-count: 1; }
   .faq-item:nth-child(n+4) { display: none; }
   .faq-item summary { min-height: 83px; padding: 0; font-size: 16px; }
-  .faq-item[open] summary { min-height: 56px; }
-  .faq-item p { margin: 8px 0 20px; font-size: 15px; line-height: 1.5; }
+  .faq-item[open] summary { min-height: 83px; padding-top: 0; }
+  .faq-item p { margin: 8px 36px 20px 0; font-size: 15px; line-height: 1.5; }
   .faq-list::after { display: block; padding-top: 29px; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 16px; content: "SEE MORE"; }
 
   .contact-shadow-layer, .contact-green-layer { display: none; }
@@ -1979,6 +1980,14 @@ html { scroll-behavior: smooth; }
   .footer-faq-link {
     flex-basis: auto;
   }
+}
+
+/* Body copy on white surfaces uses the shared #515151 text color. */
+.bg-white p,
+.pricing-card-copy p,
+.contact-form-card > p,
+.commission-order-information p {
+  color: #515151;
 }
 
 /* Shared interactive states from the button reference. */

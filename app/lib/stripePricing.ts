@@ -9,6 +9,7 @@ export type StripeCommissionProduct = {
   priceId: string;
   name: string;
   dimensions: string;
+  inchDimensions?: string;
   minimum: string;
   unitAmount: number;
   currency: string;
@@ -17,10 +18,10 @@ export type StripeCommissionProduct = {
 };
 
 const PRODUCT_PRESENTATION = [
-  { key: "mini", dimensions: "30 x 40 cm", minimum: "(Min. 20 art required)", image: "/pricing-mini.png" },
-  { key: "statement", dimensions: "80 x 100 cm", minimum: "(Min. 50 art required)", image: "/pricing-statement.png" },
-  { key: "master", dimensions: "90 x 120 cm", minimum: "(Min. 60 art required)", image: "/pricing-master.png", popular: true },
-  { key: "grand", dimensions: "122 x 183 cm", minimum: "(Min. 80 art required)", image: "/pricing-grand.png" },
+  { key: "mini", dimensions: "30 x 40 cm", inchDimensions: "12\" x 16\"", minimum: "(Min. 20 art required)", image: "/pricing-mini.png" },
+  { key: "statement", dimensions: "80 x 100 cm", inchDimensions: "32\" x 40\"", minimum: "(Min. 50 art required)", image: "/pricing-statement.png" },
+  { key: "master", dimensions: "90 x 120 cm", inchDimensions: "36\" x 48\"", minimum: "(Min. 60 art required)", image: "/pricing-master.png", popular: true },
+  { key: "grand", dimensions: "122 x 183 cm", inchDimensions: "48\" x 72\"", minimum: "(Min. 80 art required)", image: "/pricing-grand.png" },
 ] as const;
 
 function formatPrice(unitAmount: number, currency: string) {
@@ -59,6 +60,7 @@ const loadStripeCommissionProducts = unstable_cache(
         priceId: price.id,
         name: product.name.replace(/^KinCollage\s+/i, "").replace(/\s+\d.*$/, ""),
         dimensions: presentation.dimensions,
+        inchDimensions: presentation.inchDimensions,
         minimum: presentation.minimum,
         unitAmount: price.unit_amount,
         currency: price.currency,
@@ -78,6 +80,7 @@ export async function getStripePricingSizes(fallback: PricingSizeModel[]) {
     return products.map((product) => ({
       name: product.name,
       dimensions: product.dimensions,
+      inchDimensions: product.inchDimensions,
       minimum: product.minimum,
       price: formatPrice(product.unitAmount, product.currency),
       image: product.image,

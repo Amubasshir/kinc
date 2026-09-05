@@ -28,8 +28,8 @@ function PricingCard({ size }: { size: PricingSizeModel }) {
       </div>
       <div className="pricing-card-copy">
         <h3>{size.name}</h3>
-        <p>
-          {size.dimensions}
+        <p className="pricing-dimensions">
+          <strong>{size.inchDimensions ?? size.dimensions}{size.inchDimensions ? ` (${size.dimensions})` : null}</strong>
           <br />
           {size.minimum}
         </p>

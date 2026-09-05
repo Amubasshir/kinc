@@ -47,6 +47,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       {
         name: "Mini",
         dimensions: "30 x 40 cm",
+        inchDimensions: "12\" x 16\"",
         minimum: "(Min. 20 art required)",
         price: "$350 USD",
         image: "/pricing-mini.png",
@@ -54,6 +55,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       {
         name: "Statement",
         dimensions: "80 x 100 cm",
+        inchDimensions: "32\" x 40\"",
         minimum: "(Min. 50 art required)",
         price: "$1,950 USD",
         image: "/pricing-statement.png",
@@ -61,6 +63,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       {
         name: "Master",
         dimensions: "90 x 120 cm",
+        inchDimensions: "36\" x 48\"",
         minimum: "(Min. 60 art required)",
         price: "$2,650 USD",
         image: "/pricing-master.png",
@@ -69,6 +72,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       {
         name: "Grand",
         dimensions: "122 x 183 cm",
+        inchDimensions: "48\" x 72\"",
         minimum: "(Min. 80 art required)",
         price: "$5,150 USD",
         image: "/pricing-grand.png",

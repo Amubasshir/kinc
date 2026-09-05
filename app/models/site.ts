@@ -11,6 +11,7 @@ export type HowStepModel = {
 export type PricingSizeModel = {
   name: string;
   dimensions: string;
+  inchDimensions?: string;
   minimum: string;
   price: string;
   image: string;
