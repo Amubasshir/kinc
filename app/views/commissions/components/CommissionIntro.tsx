@@ -13,7 +13,7 @@ export default function CommissionIntro() {
         </p>
         <p className="commission-intro-note mt-[21px] text-[15px] leading-[1.38]">Select any of these exclusive lifestyle pieces when customising your <br/> commission order.</p>
         <Link className="button-primary commission-intro-cta mt-[25px] inline-flex min-h-[53px] min-w-[264px] items-center justify-center rounded-full text-[15px] no-underline max-[800px]:min-w-[min(264px,100%)]" href="/start-your-commission">
-          Start your ORDER
+          START YOUR ORDER
         </Link>
       </div>
     </section>
