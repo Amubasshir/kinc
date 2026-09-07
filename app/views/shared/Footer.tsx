@@ -38,7 +38,7 @@ export default function Footer() {
           height={26}
         />
         <h2 className="mt-[31px] text-[34px] leading-none font-light max-[800px]:text-[29px] max-[700px]:mt-8 max-[700px]:font-[Georgia] max-[700px]:text-[31px]">
-          Zsofia Matrai
+          ZSOFIA MATRAI
         </h2>
         <p className="footer-role mt-[11px] text-[21px] leading-[1.25] text-[#515151] max-[800px]:text-[18px] max-[700px]:mt-[13px] max-[700px]:text-[15px]">
           Designer &amp; Artist based in Sydney, Australia.
@@ -64,7 +64,7 @@ export default function Footer() {
         >
           {socialIcons.map((icon) => (
             icon.href ? (
-              <a className="button-social cursor-pointer" key={icon.name} href={icon.href} target="_blank" rel="noreferrer" aria-label={icon.name}>
+              <a className="block cursor-pointer rounded-full transition duration-150 hover:-translate-y-1 hover:scale-[1.08] hover:drop-shadow-[0_6px_7px_rgb(25_93_69/24%)]" key={icon.name} href={icon.href} target="_blank" rel="noreferrer" aria-label={icon.name}>
                 <Image unoptimized
                   className="block max-[700px]:h-[31px] max-[700px]:w-[31px] max-[700px]:object-contain"
                   src={icon.src}
@@ -74,7 +74,7 @@ export default function Footer() {
                 />
               </a>
             ) : (
-              <span className="button-social cursor-pointer" key={icon.name} title={icon.name}>
+              <span className="block cursor-pointer rounded-full transition duration-150 hover:-translate-y-1 hover:scale-[1.08] hover:drop-shadow-[0_6px_7px_rgb(25_93_69/24%)]" key={icon.name} title={icon.name}>
                 <Image unoptimized
                   className="block max-[700px]:h-[31px] max-[700px]:w-[31px] max-[700px]:object-contain"
                   src={icon.src}
