@@ -346,7 +346,7 @@ p, label, small { font-family: var(--font-montserrat), Arial, Helvetica, sans-se
   min-height: 173px;
   padding: 25px 12px 13px;
   border-radius: 0 0 13px 13px;
-  background: #fff;
+  background: transparent;
 }
 .pricing-card-copy h3 {
   margin: 0 0 15px;
@@ -1517,10 +1517,10 @@ main > section {
 .artist-hero-body mark { padding: 2px 4px; border-radius: 4px; background: #97ff77; color: inherit; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .artist-hero-body strong { font-weight: 700; }
 .artist-hero-body a { color: inherit; text-underline-offset: 2px; }
-.artist-hero-portrait > img:first-child { display: block; width: 504px; height: 632px; border-radius: 15px; object-fit: cover; }
+.artist-hero-portrait > img:first-child { display: block; width: 490px; height: 615px; border-radius: 15px; object-fit: cover; }
 .artist-hero-signature { position: absolute; bottom: 18px; left: -49px; width: 203px; height: 49px; object-fit: contain; }
 @media (max-width: 1050px) {
-  .artist-hero + .artist-career-gallery { margin-top: 6px !important; }
+  .artist-hero + .artist-career-gallery { margin-top: -80px !important; }
   .artist-hero-copy, .artist-hero-portrait { position: relative; top: auto; right: auto; left: auto; width: 100%; }
   .artist-hero-copy h1 { font-size: 44px; }
   .artist-hero-body p br { display: none; }
@@ -1598,19 +1598,68 @@ main > section {
   .artist-testimonial-stars { font-size: 13px; }
   .artist-testimonial blockquote footer { margin-top: 16px; }
 }
-.artist-career-gallery img { display: block; width: 100%; height: auto; }
-@media (max-width: 700px) {
+.artist-career-gallery {
+  position: relative;
+  z-index: 2;
+  width: calc(100% - 24px);
+  margin: -518px auto 0 !important;
+  overflow: hidden;
+  border-radius: 20px;
+  background: transparent;
 }
-.artist-hero + .artist-career-gallery { position: relative; z-index: 2; margin-top: -430px !important; }
-.artist-career-gallery > .artist-career-gallery-master { display: block; width: 100%; height: auto; }
-.artist-career-gallery > .artist-collection-shot { position: absolute; top: 77.42%; left: 0; width: 18.98%; margin: 0; background: #f5f5f5; }
-.artist-career-gallery > .artist-collection-shot > img { display: block; width: 100%; height: auto; border-radius: 14px; }
-.artist-collection-shot figcaption { position: relative; z-index: 2; min-height: 52px; box-sizing: border-box; padding-top: 9px; background: #f5f5f5; color: #4b4b55; line-height: 1.1; }
-.artist-collection-shot figcaption strong,
-.artist-collection-shot figcaption span { display: block; font-weight: 400; }
-.artist-collection-shot figcaption strong { font-size: clamp(7px, 1.05vw, 14px); }
-.artist-collection-shot figcaption span { margin-top: 5px; font-size: clamp(5px, .68vw, 9px); }
+.artist-hero { min-height: 1401px !important; }
+.artist-career-gallery-heading { position: relative; z-index: 2; background: transparent; }
+.artist-career-gallery-canvas {
+  position: relative;
+  width: 94%;
+  margin: 0 auto;
+  aspect-ratio: 1317 / 1634;
+  background: linear-gradient(to bottom, transparent 0 27%, #f5f5f5 27%);
+}
+.artist-career-gallery-tile {
+  position: relative;
+  position: absolute;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0;
+  border-radius: 9px;
+  background: transparent;
+}
+.artist-career-gallery-tile > button { display: block; width: 100%; height: 100%; }
+.artist-career-gallery-tile-image { width: 100%; height: 100%; border-radius: 9px; object-fit: cover; }
+.artist-career-gallery-tile-captioned .artist-career-gallery-tile-image { object-position: center top; }
+.artist-career-gallery-tile-captioned { overflow: visible; border-radius: 9px 9px 0 0; }
+.artist-career-gallery-tile-captioned > button { height: calc(100% - 18px); }
+.artist-career-gallery-tile figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 18px;
+  box-sizing: border-box;
+  padding: 2px 0 0;
+  background: #f5f5f5;
+  color: #4b4b55;
+  line-height: 1.1;
+}
+.artist-career-gallery-tile figcaption strong,
+.artist-career-gallery-tile figcaption span { display: block; font-weight: 400; }
+.artist-career-gallery-tile figcaption strong { font-size: clamp(6px, .8vw, 11px); }
+.artist-career-gallery-tile figcaption span { margin-top: 2px; font-size: clamp(5px, .55vw, 8px); }
+.artist-career-gallery-tile-collection > button { height: calc(100% - 42px); }
+.artist-career-gallery-tile-collection figcaption { top: auto; bottom: 0; height: 42px; margin-top: 0; padding: 5px 0 0; }
+.artist-career-gallery-tile-print figcaption { top: 100%; bottom: auto; height: auto; margin-top: 10px; padding: 0; }
+.artist-career-gallery-tile-collection figcaption strong,
+.artist-career-gallery-tile-print figcaption strong { font-size: 20px; }
+.artist-career-gallery-tile-collection figcaption span,
+.artist-career-gallery-tile-print figcaption span { font-size: 12px; }
+.artist-career-gallery-swatches { position: absolute; top: 40.4%; left: 60.8%; display: flex; width: 19%; height: 4.5%; gap: 1.3%; }
+.artist-career-gallery-swatches span { flex: 1; border-radius: 7px; background: #5a351e; }
+.artist-career-gallery-swatches span:nth-child(2) { background: #d9c9a8; }
+.artist-career-gallery-swatches span:nth-child(3) { background: #b7a47b; }
 .artist-career-mobile-see-all { display: none; }
+.artist-career-gallery + .artist-story { margin-top: 44px !important; }
+.artist-career-gallery + .artist-story { padding-top: 28px !important; }
 
 @media (max-width: 700px) {
   .artist-hero-copy h1 { font-size: 31px; line-height: 1.08; }
@@ -1618,7 +1667,9 @@ main > section {
   .artist-hero-body p { font-size: 14px; line-height: 1.5; }
   .artist-hero-body p + p { margin-top: 20px; }
 
-  .artist-hero + .artist-career-gallery { position: relative; z-index: 2; margin-top: -8px !important; }
+  .artist-hero + .artist-career-gallery { position: relative; z-index: 2; margin-top: -24px !important; }
+  .artist-career-gallery + .artist-story { margin-top: 12px !important; }
+  .artist-career-gallery + .artist-story { padding-top: 1px !important; }
   .artist-career-mobile-see-all { position: absolute; bottom: 10px; left: 50%; display: inline-flex; width: 91px; min-height: 23px; align-items: center; justify-content: center; border: 1px solid #fff; border-radius: 999px; color: #fff; font-size: 8px; text-decoration: none; transform: translateX(-50%); }
 
   .artist-story h2 { order: 1; margin-top: 17px; font-size: 31px; }
@@ -2059,6 +2110,49 @@ html { scroll-behavior: smooth; }
   color: #9696ad;
   box-shadow: none;
   opacity: 1;
+  transform: none;
+}
+
+.stay-connected-submit {
+  background: #97ff77;
+  color: #263443;
+  box-shadow: 0 4px 5px rgb(25 93 69 / 22%);
+}
+
+.stay-connected-form:has(input:invalid) .stay-connected-submit {
+  cursor: not-allowed;
+  background: #dedee5;
+  color: #9696ad;
+  box-shadow: none;
+}
+
+.stay-connected-submit:hover,
+.stay-connected-submit:focus-visible {
+  background: #7dcc5d;
+  color: #263443;
+  box-shadow: 0 6px 10px rgb(25 93 69 / 28%);
+}
+
+.stay-connected-submit:active {
+  background: #5b9e43;
+  color: #263443;
+  box-shadow: none;
+}
+
+.stay-connected-submit:disabled {
+  cursor: not-allowed;
+  background: #dedee5;
+  color: #9696ad;
+  box-shadow: none;
+  transform: none;
+}
+
+.stay-connected-form:has(input:invalid) .stay-connected-submit:hover,
+.stay-connected-form:has(input:invalid) .stay-connected-submit:focus-visible,
+.stay-connected-form:has(input:invalid) .stay-connected-submit:active {
+  background: #dedee5;
+  color: #9696ad;
+  box-shadow: none;
   transform: none;
 }
 

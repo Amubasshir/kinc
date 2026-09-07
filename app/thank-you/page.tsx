@@ -57,7 +57,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
           <p>
             I can&apos;t wait to see the magic your little artists have created and begin crafting your family heirloom!
           </p>
-          <Image unoptimized src="/artist/signature.png" alt="Zsofia Matrai" width={207} height={49} />
+          <Image unoptimized src="/signature.svg" alt="Zsofia Matrai" width={207} height={49} />
         </div>
       </section>
 
