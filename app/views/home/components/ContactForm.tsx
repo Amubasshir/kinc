@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { sendContactMessage, type ContactFormState } from "@/app/actions/contact";
 
@@ -8,6 +8,16 @@ const initialState: ContactFormState = { status: "idle" };
 
 export default function ContactForm() {
   const [state, formAction, isPending] = useActionState(sendContactMessage, initialState);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const syncFormValidity = () => {
+    setIsFormValid(Boolean(formRef.current?.checkValidity()));
+  };
+
+  useEffect(() => {
+    syncFormValidity();
+  }, [state.status]);
 
   const autoGrow = (event: FormEvent<HTMLTextAreaElement>) => {
     const textarea = event.currentTarget;
@@ -19,6 +29,9 @@ export default function ContactForm() {
     <form
       key={state.status === "success" ? "sent" : "form"}
       action={formAction}
+      ref={formRef}
+      onInput={syncFormValidity}
+      onChange={syncFormValidity}
       className="contact-form mt-8 grid grid-cols-2 gap-6 max-[700px]:mt-6 max-[700px]:grid-cols-1 max-[700px]:gap-[30px]"
     >
       <div className="contact-field">
@@ -60,7 +73,7 @@ export default function ContactForm() {
           required
         />
       </div>
-      <button className="button-primary" type="submit" disabled={isPending}>
+      <button className="button-primary" type="submit" disabled={isPending || !isFormValid}>
         {isPending ? "Sending…" : "Send"}
       </button>
       {state.status !== "idle" && (

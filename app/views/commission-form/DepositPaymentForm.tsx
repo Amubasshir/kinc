@@ -10,6 +10,7 @@ function PayButton({ depositCents, currency, onSuccess }: { depositCents: number
   const stripe = useStripe();
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
+  const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paidPaymentIntentId, setPaidPaymentIntentId] = useState<string | null>(null);
   const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
@@ -59,9 +60,9 @@ function PayButton({ depositCents, currency, onSuccess }: { depositCents: number
 
   return (
     <form className="commission-payment-form mt-6" onSubmit={handlePay}>
-      <PaymentElement />
+      <PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} />
       {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
-      <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || isPaying}>
+      <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || !elements || !isPaymentComplete || isPaying}>
         {isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `Pay deposit — ${money.format(depositCents / 100)}`}
       </button>
     </form>

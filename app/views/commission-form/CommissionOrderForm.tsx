@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useActionState, useEffect, useMemo, useState } from "react";
+import { FormEvent, useActionState, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ADD_ON_PRODUCTS } from "../../models/site";
 import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../../lib/commissionPricing";
@@ -23,7 +23,15 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
   const [framing, setFraming] = useState("");
   const [needsBox, setNeedsBox] = useState("");
   const [priorityDate, setPriorityDate] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [depositState, formAction, isCreatingDeposit] = useActionState(createCommissionDeposit, initialDepositState);
+
+  const syncFormValidity = () => {
+    const form = formRef.current;
+    if (!form) return;
+    setIsFormValid(form.checkValidity() && (selectedSizes.length > 0 || otherSize));
+  };
 
   useEffect(() => {
     if (!requestedAddOn) return;
@@ -34,6 +42,10 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
     if (!requestedSize) return;
     document.getElementById("commission-size-options")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [requestedSize]);
+
+  useEffect(() => {
+    syncFormValidity();
+  }, [selectedSizes.length, otherSize, product, needsBox, priorityDate]);
 
   useEffect(() => {
     if (depositState.status === "quote-only") router.push("/thank-you?type=quote");
@@ -63,7 +75,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
 
   return (
     <>
-      <form className="commission-order-form" action={formAction} onSubmit={handleSubmit}>
+      <form className="commission-order-form" action={formAction} onSubmit={handleSubmit} ref={formRef} onInput={syncFormValidity} onChange={syncFormValidity}>
         <div className="commission-two-columns">
           <label className="commission-field">First name <span>*</span><input name="firstName" placeholder="Sammy" required /></label>
           <label className="commission-field">Last name <span>*</span><input name="lastName" placeholder="Gordon" required /></label>
@@ -122,7 +134,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
         )}
 
         {depositState.status !== "ready" && (
-          <button className="button-primary commission-order-submit" type="submit" disabled={isCreatingDeposit}>
+          <button className="button-primary commission-order-submit" type="submit" disabled={isCreatingDeposit || !isFormValid}>
             {otherSize
               ? (isCreatingDeposit ? "Sending request…" : "Request custom quote")
               : (isCreatingDeposit ? "Preparing payment…" : "Continue to payment")}

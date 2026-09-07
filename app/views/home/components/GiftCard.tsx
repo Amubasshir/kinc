@@ -4,6 +4,8 @@ import { useState } from "react";
 
 export default function GiftCard() {
   const [amount, setAmount] = useState("");
+  const amountValue = Number(amount);
+  const canSubmit = Number.isInteger(amountValue) && amountValue >= 1;
 
   return (
     <section className="gift-card min-h-[449px] rounded-[20px] bg-[#97ff77] px-6 pt-[79px] pb-[68px] text-center text-[#263443] max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-[22px] max-[700px]:pt-[31px] max-[700px]:pb-[34px]" aria-labelledby="gift-card-heading">
@@ -31,7 +33,7 @@ export default function GiftCard() {
             onChange={(event) => setAmount(event.target.value)}
             required
           />
-          <button className="button-primary mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 text-[15px] max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!amount}>PURCHASE VOUCHER</button>
+          <button className="button-primary mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 text-[15px] max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit}>PURCHASE VOUCHER</button>
         </form>
       </div>
     </section>

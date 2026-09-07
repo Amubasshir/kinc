@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function StayConnected() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const canSubmit = name.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const labelClass = "mb-[7px] block text-left text-[16px] leading-none max-[700px]:text-[14px]";
   const inputClass = "h-10 w-full rounded-full border-2 border-[#aaaab5] bg-white px-2.5 text-[15px] text-[#263443] outline-none transition duration-150 placeholder:text-[#aaaab5] focus:border-[#008d60] focus:shadow-[0_0_0_3px_rgb(151_255_119/25%)]";
   return (
@@ -38,7 +39,7 @@ export default function StayConnected() {
             required
           />
         </div>
-        <button className="button-primary stay-connected-submit min-h-[53px] cursor-pointer rounded-full border-0 font-[Georgia] text-[16px] tracking-[.03em] max-[850px]:mt-2 max-[850px]:w-full max-[850px]:max-w-[264px] max-[850px]:justify-self-center max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!name.trim() || !email.trim()}>SECURE MY GIFT</button>
+        <button className="button-primary stay-connected-submit min-h-[53px] cursor-pointer rounded-full border-0 font-[Georgia] text-[16px] tracking-[.03em] max-[850px]:mt-2 max-[850px]:w-full max-[850px]:max-w-[264px] max-[850px]:justify-self-center max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit}>SECURE MY GIFT</button>
       </form>
     </section>
   );

@@ -15,7 +15,7 @@ function Content({ product }: { product: CommissionProductModel }) {
         className="button-primary commission-buy-now mx-auto mt-[30px] flex min-h-[52px] min-w-[187px] items-center justify-center rounded-full font-[Georgia] text-[15px] no-underline"
         href={`/start-your-commission?addOn=${product.id}`}
       >
-        Buy Now — ${ADD_ON_PRICE}
+        BUY NOW — ${ADD_ON_PRICE}
       </Link>
     </div>
   );
