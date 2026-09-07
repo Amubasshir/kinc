@@ -90,35 +90,6 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
     ],
     testimonials: [
       {
-        name: "Elizabeth",
-        location: "Sydney, Australia",
-        image: "/testimonial-elizabeth.png",
-        quote: "“the kids love seeing their art on proud display”",
-        paragraphs: [
-          "Thank you Sophie for our beautiful art, it has exceeded expectations!",
-          "The kids love seeing their art on proud display, much better than stored away in the cupboard. And we get so many compliments from visitors, it’s a real centrepiece!",
-        ],
-      },
-      {
-        name: "Leila",
-        location: "Sydney, Australia",
-        image: "/testimonial-leila.png",
-        quote: "“it’s special seeing you capturing my drawings and handprints”",
-        paragraphs: [
-          "Thank you for creating this artwork for me, it’s special seeing you capturing my drawings and handprints. I love all the bugs and details you added, it’s soo beautiful!",
-        ],
-      },
-      {
-        name: "Reka",
-        location: "Budapest, Hungary",
-        image: "/testimonial-reka.png",
-        quote: "“this isn't just a beautiful picture, but a truly personal and irreplaceable keepsake of their childhood”",
-        paragraphs: [
-          "We’ve accumulated so many children's drawings over the years that we treasure, yet most of them end up tucked away in the back of drawers. A few favorites always make it onto the fridge with magnets, but unfortunately, space is limited. Yet how wonderful it would be if, instead of just putting them away, we could admire them every single day!",
-          "As an artist, Zsófi transforms kids' drawings into a single, extraordinary piece of fine art. She arranges them into a cohesive composition while preserving the charm and story of each individual piece, topping it off with her own artistic details. This way, our children's little drawings are no longer hidden in drawers, but can hang together in a worthy place on our home's wall. For us, this isn't just a beautiful picture, but a truly personal and irreplaceable keepsake of their childhood.",
-        ],
-      },
-      {
         name: "Catherine",
         location: "Sydney, Australia",
         image: "/testimonial-catherine.png",
