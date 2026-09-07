@@ -2743,10 +2743,10 @@ main > section {
   display: none;
 }
 .artist-career-gallery + .artist-story {
-  margin-top: 44px !important;
+  margin-top: 67px !important;
 }
 .artist-career-gallery + .artist-story {
-  padding-top: 28px !important;
+  padding-top: 73px !important;
 }
 
 @media (max-width: 700px) {
