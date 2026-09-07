@@ -57,7 +57,7 @@ function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
       </p>
       {(isOverflowing || isExpanded) && (
         <button
-          className="button-secondary testimonial-less mt-[17px] cursor-pointer px-3 py-2 font-[Georgia] text-[16px] text-[#008d91]"
+          className="testimonial-less mt-[17px] cursor-pointer border-0 bg-transparent p-0 font-[Georgia] text-[16px] text-[#008d91] transition-colors duration-150 hover:text-[#00797c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d91]"
           onClick={() => setIsExpanded((current) => !current)}
           type="button"
           aria-expanded={isExpanded}

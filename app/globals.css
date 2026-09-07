@@ -252,7 +252,8 @@ p, label, small { font-family: var(--font-montserrat), Arial, Helvetica, sans-se
 }
 .how-body { margin: 31px 0 0 60px; }
 .how-body p { margin: 0; color: #515151; font-size: 17px; line-height: 1.29; letter-spacing: 0.05px; }
-/* .how-body p + p { margin-top: 25px; } */
+.how-body p + p { margin-top: 25px; }
+.how-emoji { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; font-style: normal; font-weight: 400; }
 .how-cta {
   display: inline-flex;
   min-width: 264px;
@@ -786,6 +787,8 @@ p, label, small { font-family: var(--font-montserrat), Arial, Helvetica, sans-se
 .faq-list { column-count: 2; column-gap: 64px; }
 .faq-item { break-inside: avoid; }
 .faq-item:nth-child(7) { break-after: column; }
+.faq-item-mobile-hidden { display: block; }
+.faq-see-more { display: none; }
 
 @media (max-width: 700px) {
   .faqs > h2 { font-size: 42px; }
@@ -1739,7 +1742,7 @@ html { scroll-behavior: smooth; }
   .how-title-row h3 { font-family: Georgia, "Times New Roman", serif; font-size: 30px; }
   .how-body { margin-top: 21px; }
   .how-body p { font-size: 15px; line-height: 1.52; }
-  /* .how-body p + p { margin-top: 24px; } */
+  .how-body p + p { margin-top: 24px; }
   .how-cta { min-width: 230px; min-height: 49px; margin-top: 27px; font-size: 14px; }
   .how-scribble { top: -86px; right: -9px; width: 73px; }
 
@@ -1793,11 +1796,12 @@ html { scroll-behavior: smooth; }
 
   .faqs > h2 { font-family: Georgia, "Times New Roman", serif; font-size: 34px; }
   .faq-list { column-count: 1; }
-  .faq-item:nth-child(n+4) { display: none; }
+  .faq-item-mobile-hidden { display: none; }
   .faq-item summary { min-height: 83px; padding: 0; font-size: 16px; }
   .faq-item[open] summary { min-height: 83px; padding-top: 0; }
   .faq-item p { margin: 8px 36px 20px 0; font-size: 15px; line-height: 1.5; }
-  .faq-list::after { display: block; padding-top: 29px; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 16px; content: "SEE MORE"; }
+  .faq-see-more { display: block; margin: 29px auto 0; padding: 0; border: 0; background: transparent; color: #263443; cursor: pointer; font-family: Georgia, "Times New Roman", serif; font-size: 16px; }
+  .faq-see-more:hover, .faq-see-more:focus-visible { color: #00797c; text-decoration: underline; text-underline-offset: 4px; }
 
   .contact-shadow-layer, .contact-green-layer { display: none; }
   .contact-form-card { order: 0; width: 100%; box-sizing: border-box; padding: 43px 21px 40px; border-radius: 15px; }

@@ -2,23 +2,33 @@ import Image from "next/image";
 import Link from "next/link";
 import type { HowStepModel } from "../../../models/site";
 
+function renderEmojiText(text: string, keyPrefix: string) {
+  return text.split(/(🛡️|🚚)/u).map((part, index) => {
+    if (part === "🛡️" || part === "🚚") {
+      return <span className="how-emoji" key={`${keyPrefix}-${index}`}>{part}</span>;
+    }
+
+    return part;
+  });
+}
+
 function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: number) {
-  if (stepIndex !== 0 || paragraphIndex !== 0) return paragraph;
+  if (stepIndex !== 0 || paragraphIndex !== 0) return renderEmojiText(paragraph, `step-${stepIndex}-${paragraphIndex}`);
 
   const [beforeOrderForm, afterOrderForm] = paragraph.split("order form");
   const [beforeHere, afterHere] = afterOrderForm.split("here");
 
   return (
     <>
-      {beforeOrderForm}
+      {renderEmojiText(beforeOrderForm, "order-before")}
       <Link className="font-bold" href="/start-your-commission">
         order form
       </Link>
-      {beforeHere}
+      {renderEmojiText(beforeHere, "order-middle")}
       <a className="font-bold" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
         here
       </a>
-      {afterHere}
+      {renderEmojiText(afterHere, "order-after")}
     </>
   );
 }

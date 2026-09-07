@@ -9,7 +9,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         image: "/how-inquiry.png",
         alt: "A collection of children's artwork ready for a commission",
         paragraphs: [
-          "Start your commission by filling out the order form and paying for your collage to lock in your studio slot. If you have any question, contact me here to get your complimentary 15-minute consultation to discuss your vision.",
+          "Start your commission by filling out the order form and paying for your collage to lock in your studio slot. If you have any questions, contact me here to get your complimentary 15-minute consultation ($100 Value) to help you select artwork, pick the right size, and plan your custom layout.",
         ],
       },
       {
@@ -18,8 +18,8 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         image: "/how-collection.png",
         alt: "A mother and child gathering children's artwork",
         paragraphs: [
-          "Pack up your child’s original artworks (30+ pieces) and ship them to our Sydney studio using your own box, or request an artwork collection kit from us via email.",
-          "From loose sketches and paintings to cards and paper cutouts, if you love it, send it in!",
+          "Pack up your child's original artworks (30+ pieces) and mail them to our Sydney studio in your own mailing satchel.",
+          "🛡️ Every single piece is photographed on my phone for digital backup as soon as your package arrives.",
         ],
       },
       {
@@ -37,8 +37,8 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         image: "/how-delivery.png",
         alt: "A child proudly standing beside two finished collage artworks",
         paragraphs: [
-          "Receive your custom framed family heirloom artwork, ready to hang proudly in your family home.",
-          "Delivery: Hand-crafted with care and delivered to your door in 6–8 weeks.",
+          "Receive your custom framed family heirloom artwork, ready to hang in your family home.",
+          "🚚 Premium courier delivery: Hand-packed with care and safely delivered to your door in 6–8 weeks via top-rated courier partners along with tracking updates.",
         ],
         action: true,
       },
