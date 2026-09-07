@@ -1495,8 +1495,8 @@ main > section {
   .gallery-page-hero-accent-left { left: 22%; }
   .gallery-page-hero-accent-right { right: 22%; }
   .gallery-page-commission-card, .gallery-page-commission-spacer { margin-top: 10px; }
-  .gallery-page-commission-card, .gallery-page-commission-spacer { width: calc(100% + 5px); }
-  .gallery-page-commission-card .start-commission { padding: 21px 9px; }
+  .gallery-page-commission-card, .gallery-page-commission-spacer { width: 100%; }
+  .gallery-page-commission-card .start-commission { box-sizing: border-box; padding: 21px 9px; }
 }.start-commission-mark { position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 50%; background: #fff; }
 .start-commission-mark b { color: #008d60; font-size: 22px; font-weight: 700; }
 .start-commission-mark i { position: absolute; right: 8px; width: 11px; height: 22px; border-radius: 11px 0 0 11px; background: #ffe500; }.gallery-page-hero-accent { position: absolute; top: 375px; z-index: 2; display: block; width: 61px; height: 82px; object-fit: contain; }

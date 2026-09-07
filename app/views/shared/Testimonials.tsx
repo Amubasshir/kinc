@@ -100,7 +100,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
   const [direction, setDirection] = useState(1);
   const trackRef = useRef<HTMLDivElement>(null);
   const mobileTrackRef = useRef<HTMLDivElement>(null);
-  const pageCount = testimonials.length > PAGE_SIZE ? testimonials.length : 1;
+  const pageCount = testimonials.length > 1 ? testimonials.length : 1;
   const visibleTestimonials = Array.from(
     { length: Math.min(PAGE_SIZE, testimonials.length) },
     (_, offset) => testimonials[(activePage + offset) % testimonials.length],
