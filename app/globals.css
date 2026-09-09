@@ -2293,8 +2293,14 @@ main > section {
   object-fit: contain;
 }
 @media (max-width: 1050px) {
+  .artist-hero {
+    min-height: 0 !important;
+  }
+  .artist-hero-inner {
+    align-items: end;
+  }
   .artist-hero + .artist-career-gallery {
-    margin-top: -80px !important;
+    margin-top: -24px !important;
   }
   .artist-hero-copy,
   .artist-hero-portrait {
@@ -2333,6 +2339,29 @@ main > section {
     height: auto;
   }
 }
+
+@media (min-width: 701px) and (max-width: 900px) {
+  .artist-hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    align-items: center;
+  }
+  .artist-hero-portrait {
+    order: 1;
+    width: min(100%, 490px);
+    height: auto;
+    aspect-ratio: 490 / 615;
+  }
+  .artist-hero-copy {
+    order: 2;
+    width: 100%;
+  }
+  .artist-hero + .artist-career-gallery {
+    margin-top: -24px !important;
+  }
+}
+
 .artist-story h2 {
   margin: 0;
   font-size: 48px;
@@ -2630,8 +2659,16 @@ main > section {
   border-radius: 20px;
   background: transparent;
 }
-.artist-hero {
-  min-height: 1401px !important;
+@media (min-width: 1051px) {
+  .artist-hero {
+    min-height: 1401px !important;
+  }
+}
+
+@media (max-width: 1050px) {
+  .artist-hero + .artist-career-gallery {
+    margin-top: -24px !important;
+  }
 }
 .artist-career-gallery-heading {
   position: relative;
