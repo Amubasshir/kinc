@@ -1481,6 +1481,11 @@ small {
   font-family: var(--font-tenor-sans), Arial, sans-serif !important;
 }
 
+.promo-banner,
+.promo-banner * {
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
+}
+
 h1,
 h2,
 h3,

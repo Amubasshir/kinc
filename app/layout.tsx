@@ -8,7 +8,7 @@ import "./globals.css";
 
 const tenorSans = Tenor_Sans({ subsets: ["latin"], weight: "400", variable: "--font-tenor-sans" });
 const swankyAndMooMoo = Swanky_and_Moo_Moo({ subsets: ["latin"], weight: "400", variable: "--font-swanky-moo-moo" });
-const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "600", "700"], variable: "--font-montserrat" });
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-montserrat" });
 
 export const metadata: Metadata = {
   title: "KinCollage",
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       >
         <div className="sticky top-0 z-50">
           <Header />
-          <PromoBanner />
+          <PromoBanner fontClassName={montserrat.className} />
         </div>
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
