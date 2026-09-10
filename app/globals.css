@@ -1480,6 +1480,77 @@ small {
 * {
   font-family: var(--font-tenor-sans), Arial, sans-serif !important;
 }
+
+/* Keep the gallery CTA self-contained on narrow screens. */
+@media (max-width: 800px) {
+  .gallery-page-commission-card .start-commission {
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .gallery-page-commission-card {
+    height: auto;
+    aspect-ratio: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .gallery-page-mobile-card {
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .gallery-page-mobile-card .gallery-page-commission-card,
+  .gallery-page-mobile-card .start-commission {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+  .gallery-page-mobile-card .start-commission {
+    padding: 24px 12px 26px;
+  }
+}
+
+@media (max-width: 800px) {
+  .gallery-page-commission-card {
+    height: auto !important;
+    aspect-ratio: auto !important;
+  }
+  .gallery-page-commission-card .start-commission-action {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  .gallery-page-commission-card .start-commission-action a {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: 0 0 118px;
+    width: 118px !important;
+    min-width: 118px;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1000px) {
+  .gallery-page-commission-card,
+  .gallery-page-commission-spacer {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .stay-connected-form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    max-width: 620px;
+    gap: 20px;
+  }
+  .stay-connected-submit {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 264px;
+  }
+}
 .voucher-modal .voucher-modal-eyebrow {
   margin: 0 0 18px;
   color: #00a873;
@@ -2179,7 +2250,54 @@ main > section {
   }
   .gallery-page-commission-card .start-commission {
     box-sizing: border-box;
-    padding: 21px 9px;
+    min-height: 0;
+    padding: 22px 10px;
+  }
+  .gallery-page-commission-card .start-commission h2 {
+    margin-top: 12px;
+    font-size: 19px;
+    line-height: 1.12;
+  }
+  .gallery-page-commission-card .start-commission p {
+    margin-top: 8px;
+    max-width: 180px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+  .gallery-page-commission-card .start-commission-action {
+    margin-top: 12px;
+  }
+  .gallery-page-commission-card .start-commission-action a {
+    width: min(118px, 100%);
+    min-height: 32px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 700px) {
+  .gallery-page-mobile-card {
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .gallery-page-mobile-card .gallery-page-commission-card {
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .gallery-page-mobile-card .start-commission {
+    min-height: 0;
+    padding: 24px 12px 26px;
+  }
+  .gallery-page-mobile-card .start-commission-mark {
+    height: 28px;
+    width: 28px;
+  }
+  .gallery-page-mobile-card .start-commission h2 {
+    margin-top: 12px;
+    font-size: 22px;
+  }
+  .gallery-page-mobile-card .start-commission p {
+    max-width: 240px;
+    font-size: 11px;
   }
 }
 .start-commission-mark {
@@ -4274,5 +4392,27 @@ html {
   .commission-order-thanks p {
     font-size: 12px;
     line-height: 1.5;
+  }
+}
+
+/* Final narrow-screen override for the gallery CTA. */
+@media (max-width: 800px) {
+  .gallery-page-commission-card .start-commission {
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 700px) {
+  .gallery-page-mobile-card,
+  .gallery-page-mobile-card .gallery-page-commission-card,
+  .gallery-page-mobile-card .start-commission {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+  .gallery-page-mobile-card .start-commission {
+    padding: 24px 12px 26px;
   }
 }

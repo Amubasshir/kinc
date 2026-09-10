@@ -55,9 +55,9 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           aria-hidden="true"
         />
       </section>
-      <section className="gallery-page-masonry grid grid-cols-4 gap-6 overflow-hidden rounded-[20px] bg-[#f5f5f5] px-3 pt-4 max-[800px]:grid-cols-2 max-[800px]:gap-2.5 max-[800px]:rounded-2xl max-[800px]:px-2.5 max-[800px]:pt-2.5 max-[700px]:hidden" aria-label="KinCollage artwork gallery">
+      <section className="gallery-page-masonry grid grid-cols-4 gap-6 overflow-hidden rounded-[20px] bg-[#f5f5f5] px-3 pt-4 max-[1000px]:grid-cols-2 max-[1000px]:gap-2.5 max-[1000px]:rounded-2xl max-[1000px]:px-2.5 max-[1000px]:pt-2.5 max-[700px]:hidden" aria-label="KinCollage artwork gallery">
         {viewModel.columns.map((column, columnIndex) => (
-          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[800px]:gap-2.5`} key={columnIndex}>
+          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[1000px]:gap-2.5`} key={columnIndex}>
             {column.map((item, itemIndex) => (
               <div key={`${item.src}-${itemIndex}`} className="gallery-page-item relative">
                 <button className="gallery-page-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(columnOffsets[columnIndex] + itemIndex)} aria-label="Open artwork in gallery viewer">
