@@ -8,6 +8,7 @@ import type { StripeCommissionProduct } from "../../lib/stripePricing";
 import { createCommissionDeposit, type CommissionDepositState } from "../../actions/commissionDeposit";
 import DepositPaymentForm from "./DepositPaymentForm";
 import ModernDatePicker from "./ModernDatePicker";
+import { validateCoupon } from "../../actions/giftCoupon";
 
 const initialDepositState: CommissionDepositState = { status: "idle" };
 
@@ -23,6 +24,10 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
   const [framing, setFraming] = useState("");
   const [needsBox, setNeedsBox] = useState("");
   const [priorityDate, setPriorityDate] = useState("");
+  const [coupon, setCoupon] = useState("");
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponMessage, setCouponMessage] = useState("");
+  const [isCheckingCoupon, setIsCheckingCoupon] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const [isFormValid, setIsFormValid] = useState(false);
   const [depositState, formAction, isCreatingDeposit] = useActionState(createCommissionDeposit, initialDepositState);
@@ -58,8 +63,24 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
     const extrasCents = selectedAddOns.length * ADD_ON_PRICE * 100;
     const rushCents = priorityDate ? Math.round((artworkCents + extrasCents) * RUSH_FEE_RATE) : 0;
     const totalCents = artworkCents + extrasCents + rushCents;
-    return { artwork: artworkCents / 100, extras: extrasCents / 100, rush: rushCents / 100, total: totalCents / 100, deposit: Math.round(totalCents / 2) / 100 };
-  }, [commissionProducts, priorityDate, selectedAddOns.length, selectedSizes]);
+    const discount = Math.min(couponDiscount, totalCents);
+    const discountedTotal = totalCents - discount;
+    return { artwork: artworkCents / 100, extras: extrasCents / 100, rush: rushCents / 100, discount: discount / 100, total: discountedTotal / 100, deposit: Math.round(discountedTotal / 2) / 100 };
+  }, [commissionProducts, couponDiscount, priorityDate, selectedAddOns.length, selectedSizes]);
+
+  const applyCoupon = async () => {
+    setIsCheckingCoupon(true);
+    setCouponMessage("");
+    const result = await validateCoupon(coupon);
+    if (!result) {
+      setCouponDiscount(0);
+      setCouponMessage("That coupon is invalid or has already been used.");
+    } else {
+      setCouponDiscount(result.discount_cents);
+      setCouponMessage("Coupon applied: $50 off.");
+    }
+    setIsCheckingCoupon(false);
+  };
 
   const toggle = (value: string, setter: React.Dispatch<React.SetStateAction<string[]>>) => setter((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
 
@@ -121,14 +142,14 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
         </fieldset>
 
         <div className="commission-field">Priority order request<small>If you require your piece by a specific date, a 30% rush fee guarantees your chosen completion date.</small><ModernDatePicker name="priorityDate" value={priorityDate} onChange={setPriorityDate} /></div>
-        <label className="commission-field">Coupon or voucher code<input name="coupon" /></label>
+        <div className="commission-field"><label htmlFor="commission-coupon">Coupon or voucher code</label><div className="flex gap-2"><input id="commission-coupon" name={couponDiscount ? undefined : "coupon"} value={coupon} readOnly={Boolean(couponDiscount)} onChange={(event) => { setCoupon(event.target.value.toUpperCase()); setCouponDiscount(0); setCouponMessage(""); }} />{couponDiscount > 0 && <input type="hidden" name="coupon" value={coupon} />}<button className="button-secondary rounded-full px-4" type="button" onClick={applyCoupon} disabled={!coupon.trim() || isCheckingCoupon || couponDiscount > 0}>{isCheckingCoupon ? "Checking…" : couponDiscount > 0 ? "Applied" : "Apply"}</button></div>{couponMessage && <small className={couponDiscount ? "text-[#008d60]" : "commission-field-error"} role={couponDiscount ? "status" : "alert"}>{couponMessage}</small>}</div>
         <label className="commission-field">Your note or question<small>Include any special requests you may have.</small><textarea name="note" rows={4} placeholder="Tell us about your project or question..." /></label>
         <label className="commission-confirm"><input type="checkbox" name="confirmation" required /> <span>I understand that upon submitting this form, I will receive an email confirmation and an order summary for the 50% deposit and remaining balance. Studio creation begins once original artwork and deposit are received.</span></label>
 
         {!otherSize && (
           <aside className="commission-price-summary" aria-live="polite">
             <h3>Order summary</h3>
-            <dl><div><dt>Artwork</dt><dd>{money.format(pricing.artwork)}</dd></div><div><dt>Add-ons</dt><dd>{money.format(pricing.extras)}</dd></div>{pricing.rush > 0 && <div><dt>Priority fee (30%)</dt><dd>{money.format(pricing.rush)}</dd></div>}<div className="commission-total"><dt>Estimated total</dt><dd>{money.format(pricing.total)}</dd></div><div><dt>50% deposit</dt><dd>{money.format(pricing.deposit)}</dd></div></dl>
+            <dl><div><dt>Artwork</dt><dd>{money.format(pricing.artwork)}</dd></div><div><dt>Add-ons</dt><dd>{money.format(pricing.extras)}</dd></div>{pricing.rush > 0 && <div><dt>Priority fee (30%)</dt><dd>{money.format(pricing.rush)}</dd></div>}{pricing.discount > 0 && <div><dt>Coupon discount</dt><dd>-{money.format(pricing.discount)}</dd></div>}<div className="commission-total"><dt>Estimated total</dt><dd>{money.format(pricing.total)}</dd></div><div><dt>50% deposit</dt><dd>{money.format(pricing.deposit)}</dd></div></dl>
             {(framing.startsWith("Yes") || needsBox === "yes") && <p>Framing and/or collection-box pricing will be added after review. Shipping is calculated from your address.</p>}
           </aside>
         )}
@@ -153,7 +174,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedAddOn
           depositCents={depositState.depositCents}
           totalCents={depositState.totalCents}
           currency={depositState.currency}
-          onSuccess={() => router.push("/thank-you?type=payment")}
+          onSuccess={(paymentIntentId) => router.push(`/thank-you?type=payment&paymentId=${encodeURIComponent(paymentIntentId)}`)}
         />
       )}
     </>

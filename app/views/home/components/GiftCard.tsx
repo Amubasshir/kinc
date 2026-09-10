@@ -1,11 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
+import { createVoucherPayment, type VoucherPaymentState } from "../../../actions/voucher";
+import VoucherPaymentForm from "./VoucherPaymentForm";
+
+const initialVoucherState: VoucherPaymentState = { status: "idle" };
 
 export default function GiftCard() {
   const [amount, setAmount] = useState("");
   const amountValue = Number(amount);
   const canSubmit = Number.isInteger(amountValue) && amountValue >= 1;
+  const [isOpen, setIsOpen] = useState(false);
+  const [voucherCode, setVoucherCode] = useState("");
+  const [paymentState, paymentAction, isCreatingPayment] = useActionState(createVoucherPayment, initialVoucherState);
 
   return (
     <section className="gift-card min-h-[449px] rounded-[20px] bg-[#97ff77] px-6 pt-[79px] pb-[68px] text-center text-[#263443] max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-[22px] max-[700px]:pt-[31px] max-[700px]:pb-[34px]" aria-labelledby="gift-card-heading">
@@ -18,7 +25,7 @@ export default function GiftCard() {
           <br />
           childhood memories into a bespoke work of fine art.
         </p>
-        <form className="gift-card-form mx-auto mt-6 flex max-w-[480px] flex-col items-center">
+        <form className="gift-card-form mx-auto mt-6 flex max-w-[480px] flex-col items-center" onSubmit={(event) => { event.preventDefault(); setIsOpen(true); }}>
           <label className="text-[14px]" htmlFor="voucher-amount">Voucher amount in Australian dollars</label>
           <input
             className="mt-3 h-10 w-full rounded-full border-2 border-[#aaaab5] bg-white px-4 text-[15px] outline-none"
@@ -36,6 +43,12 @@ export default function GiftCard() {
           <button className="button-primary mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 text-[15px] max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit}>PURCHASE VOUCHER</button>
         </form>
       </div>
+      {isOpen && <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#263443]/60 px-4 py-8" role="dialog" aria-modal="true" aria-labelledby="voucher-modal-title">
+        <div className="relative max-h-full w-full max-w-[520px] overflow-y-auto rounded-[24px] bg-white p-7 text-left text-[#263443] shadow-2xl max-[600px]:p-5">
+          <button type="button" className="absolute right-5 top-4 text-2xl text-[#515151]" onClick={() => setIsOpen(false)} aria-label="Close voucher purchase">×</button>
+          {voucherCode ? <div className="py-8 text-center"><h2 id="voucher-modal-title" className="text-[30px]">Your voucher is ready</h2><p className="mt-4">Your digital voucher has been emailed to you.</p><p className="mt-5 rounded-xl bg-[#97ff77] px-4 py-3 text-[22px] font-bold tracking-wider">{voucherCode}</p></div> : paymentState.status === "ready" ? <><h2 id="voucher-modal-title" className="text-[28px]">Complete your voucher</h2><VoucherPaymentForm clientSecret={paymentState.clientSecret!} amountCents={paymentState.amountCents!} onComplete={setVoucherCode} /></> : <><h2 id="voucher-modal-title" className="text-[30px]">Where should we send it?</h2><p className="mt-2 text-[15px] text-[#515151]">Enter the recipient email, then continue securely to payment.</p><form action={paymentAction} className="mt-6"><input type="hidden" name="amount" value={amountValue} /><label className="block text-[14px]">EMAIL ADDRESS<input className="mt-2 h-11 w-full rounded-full border-2 border-[#aaaab5] px-4 outline-none focus:border-[#008d60]" name="email" type="email" placeholder="you@example.com" required /></label>{paymentState.status === "error" && <p className="commission-field-error mt-3" role="alert">{paymentState.message}</p>}<button className="button-primary mt-6 min-h-[51px] w-full rounded-full border-0" type="submit" disabled={isCreatingPayment}>{isCreatingPayment ? "Preparing secure payment…" : "Continue to payment"}</button></form></>}
+        </div>
+      </div>}
     </section>
   );
 }

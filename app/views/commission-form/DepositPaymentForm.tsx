@@ -6,7 +6,7 @@ import { useState } from "react";
 import { completeCommissionOrder } from "../../actions/commissionDeposit";
 import { getStripe } from "../../lib/stripeClient";
 
-function PayButton({ depositCents, currency, onSuccess }: { depositCents: number; currency: string; onSuccess: () => void }) {
+function PayButton({ depositCents, currency, onSuccess }: { depositCents: number; currency: string; onSuccess: (paymentIntentId: string) => void }) {
   const stripe = useStripe();
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
@@ -24,7 +24,7 @@ function PayButton({ depositCents, currency, onSuccess }: { depositCents: number
     if (paidPaymentIntentId) {
       const completion = await completeCommissionOrder(paidPaymentIntentId);
       if (completion.success) {
-        onSuccess();
+        onSuccess(paidPaymentIntentId);
         return;
       }
       setError(completion.message ?? "The order confirmation could not be completed. Please try again.");
@@ -51,7 +51,7 @@ function PayButton({ depositCents, currency, onSuccess }: { depositCents: number
         setIsPaying(false);
         return;
       }
-      onSuccess();
+      onSuccess(paymentIntent.id);
     } else {
       setError("Payment did not complete. Please try again.");
       setIsPaying(false);
@@ -80,7 +80,7 @@ export default function DepositPaymentForm({
   depositCents: number;
   totalCents: number;
   currency: string;
-  onSuccess: () => void;
+  onSuccess: (paymentIntentId: string) => void;
 }) {
   const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
   return (

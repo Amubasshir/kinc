@@ -1,6 +1,31 @@
 const HEADING_FONT = "'Tenor Sans', Georgia, 'Times New Roman', serif";
 const BODY_FONT = "'Montserrat', Arial, Helvetica, sans-serif";
 
+export function renderGiftCouponHtml(name: string, code: string): string {
+  const safeName = name.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  return `<!doctype html><html lang="en"><body style="margin:0;padding:40px 16px;background:#f7f7f7;color:#515151;font-family:${BODY_FONT};"><table role="presentation" width="100%" style="max-width:600px;margin:auto;background:#fff;border:1px solid #e5e5e5;border-radius:20px;overflow:hidden;"><tr><td style="padding:34px;text-align:center;background:#00d18f;font-family:${HEADING_FONT};font-size:27px;color:#263443;">KinCollage</td></tr><tr><td style="padding:42px;text-align:center;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">Your $50 gift is here!</h1><p>Hi ${safeName}, thank you for signing up. Use this coupon on your first commission:</p><p style="display:inline-block;padding:14px 22px;background:#97ff77;border-radius:10px;font-size:24px;font-weight:700;letter-spacing:2px;color:#263443;">${code}</p><p>This coupon is valid once for a $50 discount and can be entered on the commission page.</p><p style="font-family:${HEADING_FONT};font-size:19px;">Warmly,<br />Zsofia</p></td></tr></table></body></html>`;
+}
+
+export function renderGiftCouponText(name: string, code: string): string {
+  return `Hi ${name},\n\nThank you for signing up! Your $50 KinCollage gift coupon is:\n\n${code}\n\nEnter this code on the commission page. It is valid once for a $50 discount.\n\nWarmly,\nZsofia`;
+}
+
+export function renderGiftCouponNotificationHtml(name: string, email: string, code: string): string {
+  return `<!doctype html><html lang="en"><body style="font-family:${BODY_FONT};color:#34343c;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">New KinCollage gift coupon signup</h1><p>A new subscriber received a $50 first-commission coupon.</p><table cellpadding="8" cellspacing="0" style="border-collapse:collapse;"><tr><td><strong>Name</strong></td><td>${name}</td></tr><tr><td><strong>Email</strong></td><td>${email}</td></tr><tr><td><strong>Coupon</strong></td><td>${code}</td></tr><tr><td><strong>Discount</strong></td><td>$50</td></tr></table></body></html>`;
+}
+
+export function renderGiftCouponNotificationText(name: string, email: string, code: string): string {
+  return `New KinCollage gift coupon signup\n\nName: ${name}\nEmail: ${email}\nCoupon: ${code}\nDiscount: $50`;
+}
+
+export function renderVoucherHtml(email: string, code: string, amount: string): string {
+  return `<!doctype html><html lang="en"><body style="margin:0;padding:40px 16px;background:#f7f7f7;color:#515151;font-family:${BODY_FONT};"><table role="presentation" width="100%" style="max-width:600px;margin:auto;background:#fff;border:1px solid #e5e5e5;border-radius:20px;overflow:hidden;"><tr><td style="padding:34px;text-align:center;background:#00d18f;font-family:${HEADING_FONT};font-size:27px;color:#263443;">KinCollage</td></tr><tr><td style="padding:42px;text-align:center;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">A gift of memories</h1><p>Your digital KinCollage voucher is ready.</p><p style="font-size:20px;">Voucher value: <strong>${amount} AUD</strong></p><p style="display:inline-block;padding:14px 22px;background:#97ff77;border-radius:10px;font-size:23px;font-weight:700;letter-spacing:2px;color:#263443;">${code}</p><p>Use this code when booking a KinCollage commission.</p><p style="font-family:${HEADING_FONT};font-size:19px;">Warmly,<br />Zsofia</p></td></tr></table></body></html>`;
+}
+
+export function renderVoucherText(email: string, code: string, amount: string): string {
+  return `Your KinCollage digital voucher is ready!\n\nVoucher value: ${amount} AUD\nVoucher code: ${code}\n\nUse this code when booking a KinCollage commission.\n\nWarmly,\nZsofia`;
+}
+
 export function renderContactConfirmationHtml(name: string): string {
   const firstName = name.split(" ")[0] || name;
 

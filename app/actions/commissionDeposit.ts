@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import Stripe from "stripe";
 import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../lib/commissionPricing";
 import { ADD_ON_PRODUCTS } from "../models/site";
+import { findAvailableCoupon, findAvailableVoucher, redeemCoupon, redeemVoucher, type CouponRecord, type VoucherRecord } from "../lib/supabaseAdmin";
 import {
   type CommissionEmailDetails,
   renderCommissionConfirmationHtml,
@@ -124,6 +125,11 @@ export async function completeCommissionOrder(paymentIntentId: string): Promise<
       await sendBusinessEmail(details);
       await stripe.paymentIntents.update(paymentIntent.id, { metadata: { businessEmailSent: "true" } });
     }
+    if (paymentIntent.metadata.couponId && paymentIntent.metadata.couponRedeemed !== "true") {
+      if (paymentIntent.metadata.couponType === "voucher") await redeemVoucher(paymentIntent.metadata.couponId);
+      else await redeemCoupon(paymentIntent.metadata.couponId, paymentIntent.id);
+      await stripe.paymentIntents.update(paymentIntent.id, { metadata: { couponRedeemed: "true" } });
+    }
     return { success: true };
   } catch (error) {
     console.error("Failed to complete commission order:", error);
@@ -144,6 +150,7 @@ export async function createCommissionDeposit(
   const addOns = ADD_ON_PRODUCTS.filter((product) => requestedAddOns.includes(product.label)).map((product) => product.label);
   const priorityDate = field(formData, "priorityDate");
   const addOnReference = field(formData, "addOnReference");
+  const couponCode = field(formData, "coupon").toUpperCase();
 
   if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) {
     return { status: "error", message: "Please fill in your name and a valid email before continuing to payment." };
@@ -184,8 +191,20 @@ export async function createCommissionDeposit(
     const artworkCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
     const extrasCents = addOns.length * ADD_ON_PRICE * 100;
     const rushCents = priorityDate ? Math.round((artworkCents + extrasCents) * RUSH_FEE_RATE) : 0;
-    const totalCents = artworkCents + extrasCents + rushCents;
-    const depositCents = Math.round(totalCents / 2);
+  const totalCents = artworkCents + extrasCents + rushCents;
+    let coupon: CouponRecord | VoucherRecord | null = null;
+    let couponType = "coupon";
+    if (couponCode) {
+      coupon = await findAvailableCoupon(couponCode);
+      if (!coupon && /^VOUCHER\d{8}$/.test(couponCode)) {
+        coupon = await findAvailableVoucher(couponCode);
+        couponType = "voucher";
+      }
+      if (!coupon) return { status: "error", message: "That coupon is invalid or has already been used." };
+    }
+    const discountCents = Math.min(coupon?.discount_cents ?? 0, totalCents);
+    const discountedTotalCents = totalCents - discountCents;
+    const depositCents = Math.round(discountedTotalCents / 2);
     const sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name);
     const emailDetails = buildEmailDetails(formData, sizeLabels, addOns);
     const paymentIntent = await stripe.paymentIntents.create({
@@ -210,6 +229,8 @@ export async function createCommissionDeposit(
         story: metadataValue(emailDetails.story),
         note: metadataValue(emailDetails.note),
         coupon: metadataValue(emailDetails.coupon),
+        couponId: coupon?.id ?? "",
+        couponType,
         addOnPriceIds: addOnPriceIds.join(", ") || "none",
         addOnReference,
         rushRequested: String(Boolean(priorityDate)),
@@ -217,11 +238,12 @@ export async function createCommissionDeposit(
         artworkCents: String(artworkCents),
         extrasCents: String(extrasCents),
         rushCents: String(rushCents),
-        totalCents: String(totalCents),
+        totalCents: String(discountedTotalCents),
+        discountCents: String(discountCents),
       },
     });
     if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
-    return { status: "ready", clientSecret: paymentIntent.client_secret, depositCents, totalCents, currency };
+    return { status: "ready", clientSecret: paymentIntent.client_secret, depositCents, totalCents: discountedTotalCents, currency };
   } catch (error) {
     console.error("Failed to create commission deposit PaymentIntent:", error);
     return { status: "error", message: "Something went wrong setting up payment. Please try again." };
