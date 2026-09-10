@@ -26,6 +26,14 @@ export function renderVoucherText(email: string, code: string, amount: string): 
   return `Your KinCollage digital voucher is ready!\n\nVoucher value: ${amount} AUD\nVoucher code: ${code}\n\nUse this code when booking a KinCollage commission.\n\nWarmly,\nZsofia`;
 }
 
+export function renderVoucherNotificationHtml(email: string, code: string, amount: string, paymentIntentId: string): string {
+  return `<!doctype html><html lang="en"><body style="font-family:${BODY_FONT};color:#34343c;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">New KinCollage voucher purchase</h1><p>A digital voucher has been paid for and created.</p><table cellpadding="8" cellspacing="0"><tr><td><strong>Recipient email</strong></td><td>${email}</td></tr><tr><td><strong>Amount</strong></td><td>${amount} AUD</td></tr><tr><td><strong>Voucher code</strong></td><td>${code}</td></tr><tr><td><strong>Payment ID</strong></td><td>${paymentIntentId}</td></tr></table></body></html>`;
+}
+
+export function renderVoucherNotificationText(email: string, code: string, amount: string, paymentIntentId: string): string {
+  return `New KinCollage voucher purchase\n\nRecipient email: ${email}\nAmount: ${amount} AUD\nVoucher code: ${code}\nPayment ID: ${paymentIntentId}`;
+}
+
 export function renderContactConfirmationHtml(name: string): string {
   const firstName = name.split(" ")[0] || name;
 
