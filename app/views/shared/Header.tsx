@@ -61,9 +61,9 @@ export default function Header() {
       </nav>
       <details className="mobile-nav group static hidden max-[820px]:block" ref={mobileNavRef}>
         <summary className="grid h-9 w-9 cursor-pointer list-none place-content-center gap-[5px] [&::-webkit-details-marker]:hidden" aria-label="Toggle navigation menu">
-          <span className="block h-[1.5px] w-[22px] bg-[#008d60] transition-transform duration-150 group-open:bg-[#777782] group-open:translate-y-[6.5px] group-open:rotate-45 group-open:w-[15px]" />
-          <span className="block h-[1.5px] w-[22px] bg-[#008d60] transition-opacity duration-150 group-open:opacity-0" />
-          <span className="block h-[1.5px] w-[22px] bg-[#008d60] transition-transform duration-150 group-open:bg-[#777782] group-open:-translate-y-[6.5px] group-open:-rotate-45 group-open:w-[15px]" />
+          <span className="block h-[1.5px] w-[22px] bg-[#777782] transition-transform duration-150 group-open:bg-[#777782] group-open:translate-y-[6.5px] group-open:rotate-45 group-open:w-[15px]" />
+          <span className="block h-[1.5px] w-[22px] bg-[#777782] transition-opacity duration-150 group-open:opacity-0" />
+          <span className="block h-[1.5px] w-[22px] bg-[#777782] transition-transform duration-150 group-open:bg-[#777782] group-open:-translate-y-[6.5px] group-open:-rotate-45 group-open:w-[15px]" />
         </summary>
         <nav className="absolute top-[58px] right-0 left-0 flex flex-col rounded-b-[18px] bg-white px-6 pt-[3px] pb-[17px] shadow-[0_10px_24px_rgb(0_0_0/6%)]" aria-label="Mobile navigation">
           {navigation.map((item) => (
