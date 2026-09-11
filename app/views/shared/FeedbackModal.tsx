@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 type FeedbackModalProps = {
   open: boolean;
@@ -67,9 +68,9 @@ export default function FeedbackModal({
 
   if (!open) return null;
 
-  return (
+  const modal = (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#263443]/60 px-4 py-8"
+      className="fixed inset-0 z-[1100] flex items-center justify-center bg-[#263443]/60 px-4 py-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -119,4 +120,6 @@ export default function FeedbackModal({
       </div>
     </div>
   );
+
+  return typeof document === "undefined" ? null : createPortal(modal, document.body);
 }
