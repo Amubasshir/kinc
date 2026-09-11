@@ -3,8 +3,6 @@
 import { Resend } from "resend";
 import { renderContactConfirmationHtml, renderContactConfirmationText } from "./emailTemplates";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export type ContactFormState = {
   status: "idle" | "success" | "error";
   message?: string;
@@ -16,21 +14,26 @@ export async function sendContactMessage(
   _prevState: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
-  const name = String(formData.get("name") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
-  const message = String(formData.get("message") ?? "").trim();
-
-  if (!name || !email || !message) {
-    return { status: "error", message: "Please fill in all fields." };
-  }
-  if (!EMAIL_PATTERN.test(email)) {
-    return { status: "error", message: "Please enter a valid email address." };
-  }
-
   try {
+    const name = String(formData?.get("name") ?? "").trim();
+    const email = String(formData?.get("email") ?? "").trim();
+    const message = String(formData?.get("message") ?? "").trim();
+
+    if (!name || !email || !message) {
+      return { status: "error", message: "Please fill in all fields." };
+    }
+    if (!EMAIL_PATTERN.test(email)) {
+      return { status: "error", message: "Please enter a valid email address." };
+    }
+    if (!process.env.RESEND_API_KEY || !process.env.CONTACT_TO_EMAIL) {
+      console.error("Contact form is missing a required production email configuration.");
+      return { status: "error", message: "The contact form is temporarily unavailable. Please try again later." };
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { error } = await resend.emails.send({
       from: "KinCollage <hello@kincollage.com>",
-      to: process.env.CONTACT_TO_EMAIL!,
+      to: process.env.CONTACT_TO_EMAIL,
       replyTo: email,
       subject: `New contact form message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,

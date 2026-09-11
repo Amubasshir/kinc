@@ -13,11 +13,16 @@ function makeCode() {
 }
 
 export async function secureGift(_prev: GiftCouponState, formData: FormData): Promise<GiftCouponState> {
-  const name = String(formData.get("name") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  if (!name || !EMAIL_PATTERN.test(email)) return { status: "error", message: "Please enter your name and a valid email address." };
-
   try {
+    const name = String(formData?.get("name") ?? "").trim();
+    const email = String(formData?.get("email") ?? "").trim().toLowerCase();
+    if (!name || !EMAIL_PATTERN.test(email)) return { status: "error", message: "Please enter your name and a valid email address." };
+
+    if (!(process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL) || !process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.RESEND_API_KEY) {
+      console.error("Gift coupon form is missing a required production service configuration.");
+      return { status: "error", message: "The gift form is temporarily unavailable. Please try again later." };
+    }
+
     if (await findCouponByEmail(email)) return { status: "error", message: "This email has already received a gift coupon." };
 
     let coupon;
