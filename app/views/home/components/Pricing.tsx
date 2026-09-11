@@ -65,7 +65,7 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
   };
 
   return (
-    <section className="pricing min-h-[1090px] rounded-[20px] bg-[#f5f5f5] px-0 pt-[68px] pb-20 text-[#555] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:pt-[31px] max-[700px]:pb-[42px]" aria-labelledby="pricing-heading">
+    <section id="pricing" className="pricing min-h-[1090px] rounded-[20px] bg-[#f5f5f5] px-0 pt-[68px] pb-20 text-[#555] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:pt-[31px] max-[700px]:pb-[42px]" aria-labelledby="pricing-heading">
       <header className="pricing-header text-center">
         <h2 className="text-[48px] max-[700px]:font-[Georgia] max-[700px]:text-[31px]" id="pricing-heading">Sizes &amp; Pricing</h2>
         <p className="mt-[23px] text-[16px] max-[700px]:mt-[17px] max-[700px]:text-[14px]">

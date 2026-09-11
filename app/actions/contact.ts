@@ -56,7 +56,7 @@ export async function sendContactMessage(
       console.error("Resend confirmation error:", confirmationError);
     }
 
-    return { status: "success", message: "Thanks! Your message has been sent — we'll be in touch soon." };
+    return { status: "success", message: "Message received! ✨ Thank you for reaching out." };
   } catch (err) {
     console.error("Contact form send failed:", err);
     return { status: "error", message: "Something went wrong. Please try again later." };

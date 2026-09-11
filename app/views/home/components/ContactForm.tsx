@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import Link from "next/link";
 import { sendContactMessage, type ContactFormState } from "@/app/actions/contact";
 import FeedbackModal from "../../shared/FeedbackModal";
 
@@ -94,8 +95,16 @@ export default function ContactForm() {
       <FeedbackModal
         open={isSuccessModalOpen && state.status === "success"}
         eyebrow="KINCOLLAGE CONTACT"
-        title="Message received"
-        description={state.message ?? "Thanks! Your message has been sent — we’ll be in touch soon."}
+        title="Message received! ✨"
+        description={
+          <>
+            <p>Thank you for reaching out.</p>
+            <p className="mt-3">I&apos;ve received your note and will get back to you within 24–48 hours.</p>
+            <p className="mt-3">
+              In the meantime, feel free to <Link className="font-semibold text-[#008861] underline underline-offset-2" href="/gallery">explore our gallery</Link> or <Link className="font-semibold text-[#008861] underline underline-offset-2" href="/#pricing">check out our size guide</Link> while you wait.
+            </p>
+          </>
+        }
         closeLabel="Back to the studio"
         onClose={() => setDismissedSuccessState(state)}
       />
