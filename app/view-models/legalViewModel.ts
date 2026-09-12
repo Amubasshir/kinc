@@ -11,9 +11,9 @@ export type LegalViewModel = { navigation: Array<{ label: string; href: string }
 export function getLegalViewModel(): LegalViewModel {
   return {
     navigation: [
-      { label: "TERMS AND CONDITIONS", href: "#terms" },
-      { label: "SHIPPING POLICY", href: "#shipping" },
-      { label: "PRIVACY POLICY", href: "#privacy" },
+      { label: "Terms and Conditions", href: "#terms" },
+      { label: "Shipping Policy", href: "#shipping" },
+      { label: "Privacy Policy", href: "#privacy" },
     ],
     sections: [
       {
@@ -69,7 +69,7 @@ export function getLegalViewModel(): LegalViewModel {
             ],
           },
           {
-            heading: "7. Governing Law",
+            heading: "5. Governing Law",
             paragraphs: [
               "Jurisdiction: These terms are governed by and construed in accordance with the laws of New South Wales, Australia. Any disputes shall be subject to the exclusive jurisdiction of the courts of NSW.",
               "Force Majeure: KinCollage is not liable for any delay or failure in performance resulting from causes beyond our reasonable control, including courier disruptions, supply delays, or natural events.",
@@ -87,30 +87,46 @@ export function getLegalViewModel(): LegalViewModel {
         ],
         clauses: [
           {
-            heading: "1. PROCESSING & PRODUCTION TIMES",
+            heading: "1. Processing & Production Times",
             bullets: [
-              "Custom Commissions: Standard curation and production takes [X]–[X] weeks from the date your initial design layout is finalized and approved.",
+              "Custom Commissions: Standard curation and production takes 2–6 weeks from the date your initial design layout is finalized and approved.",
               "Add-On Products: Lifestyle add-on items (apparel, journals, phone cases, etc.) are processed alongside your main custom piece and will ship either together or in separate coordinated packages depending on production streams.",
             ],
           },
           {
-            heading: "2. SHIPPING RATES & DESTINATIONS",
-            bullets: [
+            heading: "2. Shipping Rates & Destinations",
+            paragraphs: [
               "We ship Australia-wide via reliable carrier networks (including Australia Post and selected premium couriers).",
-              "Domestic Shipping: Flat-rate or weight-based shipping is calculated dynamically at checkout.",
-              "International Shipping: We currently ship to selected international destinations. Rates and estimated transit times are calculated automatically at checkout based on your delivery address.",
+              "Domestic Shipping: Flat-rate or weight-based shipping is calculated at checkout.",
+              "✧ AUS Standard: 2 - 8 business days",
+              "✧ AUS Express: 1 - 4 business days",
+              "International Shipping: We currently ship to selected international destinations. Rates and estimated transit times are calculated at checkout based on your delivery address.",
+              "✧ USA: 6 - 9 business days",
+              "✧ NZ: 4 - 7 business days",
+              "✧ Rest of the world: 10 - 14 days",
             ],
           },
           {
-            heading: "3. TRACKING & DELIVERY",
+            heading: "3. Tracking & Delivery",
             paragraphs: [
               "Once your order has been dispatched from our studio, you will receive a confirmation email containing a tracking link. Please allow 24–48 hours for tracking details to update.",
             ],
           },
           {
-            heading: "4. LOST, DELAYED, OR DAMAGED ITEMS",
+            heading: "4. Incoming Artwork (Sent by You to Us)",
             paragraphs: [
-              "Every artwork is packed securely with museum-grade protective wrapping. In the rare event that an item arrives damaged during transit, please contact us at [Your Contact Email] within 48 hours of delivery with clear photographs of the packaging and the product. We will work swiftly to see what we can do.",
+              "While we handle all original artwork with extreme care once inside our studio, KinCollage is not responsible for physical artwork lost, delayed, or damaged in transit while being sent to us by the client.",
+              "Mandatory Care: We strongly advise sending original pieces via a tracked service requiring a Signature on Delivery (e.g., Australia Post Express).",
+              "Digital Backups: Before posting, please capture high-resolution photos or scans of every drawing. In the unlikely event an incoming package is lost, having high-quality scans allows us to work with digital reproductions as an alternative.",
+            ],
+          },
+          {
+            heading: "5. Outbound Shipping & Transit Protection (Sent by Us to You)",
+            paragraphs: [
+              "Every finished piece is packaged in museum-grade protective wrapping designed to withstand transit. However, once a package leaves our studio, third-party courier handling is outside our direct control.",
+              "Signature Required: All outbound canvas shipments are sent with Signature on Delivery to ensure packages are never left unattended on doorsteps.",
+              "Damaged in Transit: If your framed piece arrives damaged, please email us at hello@kincollage.com within 24 hours of delivery with clear photos of the packaging and product.",
+              "If the framed collage itself is damaged or lost by the courier, we will work with you to lodge an insurance claim and determine the best resolution (such as creating a new piece using high-resolution digital scans of your original drawings, if available).",
             ],
           },
         ],
@@ -124,18 +140,18 @@ export function getLegalViewModel(): LegalViewModel {
         ],
         clauses: [
           {
-            heading: "1. INFORMATION WE COLLECT",
+            heading: "1. Information We Collect",
             paragraphs: [
-              "We collect information necessary to fulfill your custom art commissions and provide a seamless web experience, including:",
+              "We collect information necessary to fulfil your custom art commissions and provide a seamless web experience, including:",
             ],
             bullets: [
               "Identity & Contact Data: Your name, email address, phone number, and shipping/billing addresses.",
-              "Commission Assets: Digital files, images, and artwork uploads provided via our intake forms (such as Tally) to fulfill your custom order.",
+              "Commission Assets: You artworks to fulfil your custom order.",
               "Transaction Data: Details of payments handled via our secure third-party payment processors (e.g., Stripe). We do not store your raw credit card information.",
             ],
           },
           {
-            heading: "2. HOW WE USE YOUR DATA",
+            heading: "2. How We Use Your Data",
             paragraphs: ["We use your personal data strictly to:"],
             bullets: [
               "Process, curate, and manufacture your custom artwork and lifestyle add-ons.",
@@ -144,26 +160,32 @@ export function getLegalViewModel(): LegalViewModel {
             ],
           },
           {
-            heading: "3. SHARING YOUR INFORMATION",
+            heading: "3. Sharing Your Information",
             paragraphs: [
               "We never sell your personal information. We only share data with trusted third-party service providers required to operate our business, including:",
             ],
             bullets: [
               "Direct print-on-demand and professional framing partners to manufacture your physical products.",
-              "Shipping carriers and fulfillment networks.",
-              "Cloud software tools used for website hosting and business operations.",
+              "Shipping carriers and fulfilment networks.",
+              "Cloud software tools (such as Claude code for website hosting).",
             ],
           },
           {
-            heading: "4. SECURITY & RETENTION",
+            heading: "4. Security & Retention",
             paragraphs: [
-              "We implement standard technical safeguards to protect your data. Your uploaded image assets are stored securely and retained only for as long as necessary to fulfill your custom commission requirements and handle potential future duplicate reprint requests.",
+              "We implement standard technical safeguards to protect your data. Your information is stored securely and retained only for as long as necessary to fulfil your custom commission requirements and handle potential future duplicate reprint requests.",
             ],
           },
           {
-            heading: "5. CONTACT US",
+            heading: "5. Consent",
             paragraphs: [
-              "If you have any questions or wish to request access to, correction of, or deletion of your personal details, please contact us at [Your Contact Email].",
+              "By using this website, You hereby consent to these Terms and Conditions of Use. If You require any more information or have any questions about these Terms and Conditions of website use or the included Privacy Policy, please feel free to contact us by email at hello@kincollage.com.",
+            ],
+          },
+          {
+            heading: "6. Contact Us",
+            paragraphs: [
+              "If you have any questions or wish to request access to, correction of, or deletion of your personal details, please contact us at hello@kincollage.com.",
             ],
           },
         ],

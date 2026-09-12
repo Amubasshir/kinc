@@ -31,7 +31,7 @@ export default function LegalView({ viewModel }: { viewModel: LegalViewModel }) 
             <div className="mt-7 space-y-7">
               {section.clauses.map((clause) => (
                 <article key={clause.heading}>
-                  <h2 className="text-[15px] text-[#777]">{clause.heading}</h2>
+                  <h2 className="text-[15px] text-[#777] uppercase">{clause.heading}</h2>
                   {clause.paragraphs?.map((paragraph) => (
                     <p className="mt-1" key={paragraph}>
                       {paragraph}
