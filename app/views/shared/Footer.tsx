@@ -91,15 +91,15 @@ export default function Footer() {
           href="/#contact"
           onClick={scrollToHomeSection("/#contact")}
         >
-          Contact <Image unoptimized src="/footer-arrow.svg" alt="" width={11} height={11} aria-hidden="true" />
+          CONTACT <Image unoptimized src="/footer-arrow.svg" alt="" width={11} height={11} aria-hidden="true" />
         </Link>
       </div>
 
       <div className="footer-bottom absolute right-[39px] bottom-[39px] left-[39px] flex items-center justify-between text-[15px] max-[1100px]:static max-[1100px]:mt-[58px] max-[1100px]:items-start max-[1100px]:flex-col-reverse max-[1100px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
         <p className="m-0 text-[#515151] max-[700px]:text-[14px]">©2026 KinCollage. All rights reserved.</p>
-        <div className="footer-legal-links">
+        <div className="footer-legal-links font-[var(--font-tenor-sans)] text-[#2E2E38]">
           <nav
-            className="footer-legal-nav flex flex-wrap items-center gap-[27px] font-[Georgia] text-[15px] text-[#78788c] max-[1100px]:gap-x-6 max-[1100px]:gap-y-[15px] max-[700px]:items-start max-[700px]:flex-col max-[700px]:gap-[26px]"
+            className="footer-legal-nav flex flex-wrap items-center gap-[27px] text-[15px] max-[1100px]:gap-x-6 max-[1100px]:gap-y-[15px] max-[700px]:items-start max-[700px]:flex-col max-[700px]:gap-[26px]"
             aria-label="Legal information"
           >
             <Link className="transition-colors hover:text-[#008d60]" href="/legal#shipping">

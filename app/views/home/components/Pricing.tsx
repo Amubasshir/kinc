@@ -112,9 +112,9 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
           <div>
             <h3>COSTS</h3>
             <p>
-              ✧ Secure Checkout. Choose between Full Payment or 3 Fortnightly Installments on the next screen.
+              ✧ <strong>Prices shown reflect our 2026 launch pricing</strong> and will return to standard rates in 2027.
               <br />
-              ✧ Prices reflect current 2026 rates and are subject to change for future booking windows.
+              ✧ <strong>Secure Checkout.</strong> Choose between full payment or 3 fortnightly instalments.
               <br />
               ✧ Remaining balance, taxes if applicable are calculated separately upon completion.
             </p>
