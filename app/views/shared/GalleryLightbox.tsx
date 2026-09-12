@@ -2,21 +2,37 @@
 
 import Image from "next/image";
 import { createPortal } from "react-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { GalleryMediaModel } from "../../models/site";
 
-export type LightboxImage = {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-};
+export type LightboxImage = Omit<GalleryMediaModel, "kind"> & { kind?: "image" };
+type LightboxMedia = GalleryMediaModel | LightboxImage;
 
 type GalleryLightboxProps = {
-  images: LightboxImage[];
+  images: LightboxMedia[];
   activeIndex: number | null;
   onChange: (index: number) => void;
   onClose: () => void;
 };
+
+function LightboxImageDisplay({ media }: { media: LightboxMedia }) {
+  const [src, setSrc] = useState(media.src);
+
+  return (
+    <Image
+      unoptimized
+      className="rounded-[10px] object-contain drop-shadow-[0_30px_45px_rgb(0_0_0/55%)]"
+      src={src}
+      alt={media.alt || "KinCollage artwork"}
+      fill
+      sizes="(max-width: 700px) 94vw, 86vw"
+      preload
+      onError={() => {
+        if (media.fallbackSrc && src !== media.fallbackSrc) setSrc(media.fallbackSrc);
+      }}
+    />
+  );
+}
 
 function ArrowIcon({ direction }: { direction: "previous" | "next" }) {
   return (
@@ -70,7 +86,7 @@ export default function GalleryLightbox({ images, activeIndex, onChange, onClose
 
   if (!isOpen || activeIndex === null || !images[activeIndex] || typeof document === "undefined") return null;
 
-  const image = images[activeIndex];
+  const media = images[activeIndex];
   const previous = () => onChange((activeIndex - 1 + images.length) % images.length);
   const next = () => onChange((activeIndex + 1) % images.length);
 
@@ -122,15 +138,23 @@ export default function GalleryLightbox({ images, activeIndex, onChange, onClose
       )}
 
       <figure className="relative m-0 h-[calc(100dvh-145px)] w-[96vw] max-w-[1400px] sm:h-[calc(100dvh-80px)] sm:w-[88vw]">
-        <Image
-          unoptimized
-          className="rounded-[10px] object-contain drop-shadow-[0_30px_45px_rgb(0_0_0/55%)]"
-          src={image.src}
-          alt={image.alt || "KinCollage artwork"}
-          fill
-          sizes="(max-width: 700px) 94vw, 86vw"
-          priority
-        />
+        {media.kind === "video" ? (
+          <video
+            className="h-full w-full rounded-[10px] object-contain drop-shadow-[0_30px_45px_rgb(0_0_0/55%)]"
+            src={media.src}
+            width={media.width}
+            height={media.height}
+            controls
+            autoPlay
+            playsInline
+            preload="metadata"
+            aria-label={media.alt}
+          >
+            <a href={media.src} download>
+              Download this gallery video
+            </a>
+          </video>
+        ) : <LightboxImageDisplay key={media.src} media={media} />}
       </figure>
     </div>,
     document.body,

@@ -1192,6 +1192,7 @@ small {
   font-size: 17px;
   line-height: 1.25;
   letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 .faq-item summary::-webkit-details-marker {
   display: none;
@@ -1477,8 +1478,10 @@ small {
 }
 
 /* Site typography */
-* {
-  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
+p,
+label,
+small {
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif !important;
 }
 
 /* Keep the gallery CTA self-contained on narrow screens. */
@@ -1587,6 +1590,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
   font-weight: 400;
 }
 
@@ -2161,27 +2165,33 @@ main > section {
   height: 100%;
   object-fit: cover;
 }
+.gallery-page-masonry {
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
 .gallery-page-item {
   position: relative;
 }
 .gallery-page-item > img,
 .gallery-page-item > .gallery-page-image-trigger,
-.gallery-page-item > .gallery-page-image-trigger > img {
+.gallery-page-item > .gallery-page-image-trigger > img,
+.gallery-page-item > .gallery-page-image-trigger > video {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 10px;
 }
 .gallery-page-column > .gallery-page-item:last-child {
-  display: flex;
+  display: block;
   min-height: 0;
-  flex: 1;
+  flex: none;
 }
 .gallery-page-column > .gallery-page-item:last-child > img,
 .gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger,
-.gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger > img {
-  height: 100%;
-  object-fit: cover;
+.gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger > img,
+.gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger > video {
+  height: auto;
+  object-fit: contain;
 }
 .gallery-page-masonry + .stay-connected {
   margin-top: 16px !important;
@@ -2345,6 +2355,12 @@ main > section {
     display: contents;
   }
   .gallery-page-mobile-column img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 7px;
+  }
+  .gallery-page-mobile-column video {
     display: block;
     width: 100%;
     height: auto;
@@ -3708,6 +3724,411 @@ html {
 }
 .commission-order-hero-copy > p + p {
   margin-top: 25px;
+}
+
+/* Updated home welcome composition */
+.welcome-redesign {
+  min-height: 967px;
+  box-sizing: border-box;
+  overflow: visible;
+  border-radius: 20px;
+  background: #fff;
+  padding: 87px 24px 76px;
+  color: #515151;
+}
+
+.welcome-redesign .welcome-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  gap: 52px;
+}
+
+.welcome-redesign .welcome-left,
+.welcome-redesign .welcome-right {
+  min-width: 0;
+}
+
+.welcome-redesign .welcome-intro,
+.welcome-redesign .welcome-outro {
+  max-width: 398px;
+}
+
+.welcome-redesign h2 {
+  margin: -6px 0 21px;
+  color: #555;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 42px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+
+.welcome-redesign p {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: 0.05px;
+}
+
+.welcome-redesign strong {
+  font-weight: 700;
+}
+
+.welcome-redesign em {
+  font-style: italic;
+}
+
+.welcome-redesign .welcome-intro > p + p {
+  margin-top: 25px;
+}
+
+.welcome-redesign .welcome-before-wrap,
+.welcome-redesign .welcome-after-wrap {
+  position: relative;
+  width: min(398px, 100%);
+}
+
+.welcome-redesign .welcome-before-wrap {
+  height: 454px;
+  margin-top: 33px;
+}
+
+.welcome-redesign .welcome-before-backdrop,
+.welcome-redesign .welcome-before-fridge,
+.welcome-redesign .welcome-before-paper,
+.welcome-redesign .welcome-after-backdrop,
+.welcome-redesign .welcome-after-photo {
+  position: absolute !important;
+  display: block;
+  height: auto !important;
+  max-width: none;
+  object-fit: contain;
+}
+
+.welcome-redesign .welcome-before-backdrop,
+.welcome-redesign .welcome-after-backdrop {
+  z-index: 0;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.welcome-redesign .welcome-before-fridge {
+  z-index: 1;
+  top: -2% !important;
+  left: 8% !important;
+  width: 61% !important;
+  height: 70% !important;
+}
+
+.welcome-redesign .welcome-before-polaroid {
+  position: absolute;
+  z-index: 3;
+  right: -2%;
+  bottom: -4%;
+  width: 57%;
+  aspect-ratio: 0.85;
+  overflow: hidden;
+  transform: rotate(-3deg);
+}
+
+.welcome-redesign .welcome-before-polaroid-source,
+.welcome-redesign .welcome-before-polaroid-frame {
+  position: absolute !important;
+  display: block;
+  max-width: none;
+}
+
+.welcome-redesign .welcome-before-polaroid-source {
+  top: -51.5% !important;
+  left: -69.3% !important;
+  width: 147.6% !important;
+  height: auto !important;
+}
+
+.welcome-redesign .welcome-before-polaroid-frame {
+  z-index: 1;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.welcome-redesign .welcome-before-paper {
+  z-index: 4;
+  right: auto !important;
+  bottom: -3% !important;
+  left: -7% !important;
+  width: 30% !important;
+  height: 29% !important;
+  transform: rotate(-4deg);
+}
+
+.welcome-redesign .welcome-connector {
+  position: absolute;
+  z-index: 5;
+  top: 19%;
+  right: auto;
+  left: 68%;
+  width: 193px;
+  height: 161px;
+  pointer-events: none;
+}
+
+.welcome-redesign .welcome-after-wrap {
+  aspect-ratio: 398 / 500;
+}
+
+.welcome-redesign .welcome-after-wrap::before,
+.welcome-redesign .welcome-after-wrap::after {
+  position: absolute;
+  z-index: 2;
+  width: 16px;
+  height: 3px;
+  border-radius: 999px;
+  background: #2e2e38;
+  content: "";
+  pointer-events: none;
+}
+
+.welcome-redesign .welcome-after-wrap::before {
+  top: 40%;
+  left: -8px;
+  transform: rotate(8deg);
+  box-shadow: 2px 8px 0 #2e2e38;
+}
+
+.welcome-redesign .welcome-after-wrap::after {
+  top: 43%;
+  right: -8px;
+  width: 11px;
+  transform: rotate(-12deg);
+}
+
+.welcome-redesign .welcome-after-photo {
+  z-index: 1;
+  top: 1% !important;
+  left: 7% !important;
+  width: 84% !important;
+  height: 89% !important;
+  border-radius: 19px;
+  object-fit: cover;
+}
+
+.welcome-redesign .welcome-label {
+  position: absolute;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #18232e;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.welcome-redesign .welcome-label span {
+  display: inline-flex;
+  min-width: 55px;
+  min-height: 39px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.welcome-redesign .welcome-label-before {
+  top: 60%;
+  left: -73px;
+}
+
+.welcome-redesign .welcome-label-before img {
+  align-self: flex-end;
+  margin: 0 -18px -1px 0;
+}
+
+.welcome-redesign .welcome-label-before span {
+  background: #97ff77;
+}
+
+.welcome-redesign .welcome-label-after {
+  top: 43%;
+  right: -73px;
+}
+
+.welcome-redesign .welcome-label-after img {
+  align-self: flex-start;
+  margin: 0 0 -1px -24px;
+}
+
+.welcome-redesign .welcome-label-after span {
+  background: #ffe500;
+}
+
+.welcome-redesign .welcome-outro {
+  margin-top: 33px;
+}
+
+.welcome-redesign .welcome-outro .welcome-closing {
+  margin-top: 22px;
+}
+
+.welcome-redesign .welcome-closing em {
+  font-weight: 500;
+}
+
+@media (max-width: 1080px) {
+  .welcome-redesign .welcome-label-before {
+    left: -48px;
+  }
+
+  .welcome-redesign .welcome-label-after {
+    right: -48px;
+  }
+}
+
+@media (max-width: 940px) {
+  .welcome-redesign .welcome-grid {
+    gap: 36px;
+  }
+
+  .welcome-redesign .welcome-intro,
+  .welcome-redesign .welcome-outro,
+  .welcome-redesign .welcome-before-wrap,
+  .welcome-redesign .welcome-after-wrap {
+    width: 100%;
+    max-width: none;
+  }
+
+  .welcome-redesign .welcome-before-wrap {
+    height: auto;
+    aspect-ratio: 398 / 454;
+  }
+
+  .welcome-redesign .welcome-connector {
+    display: block;
+    width: 42%;
+    height: auto;
+  }
+
+  .welcome-redesign .welcome-label {
+    display: flex;
+  }
+
+  .welcome-redesign h2 {
+    font-size: clamp(30px, 4vw, 42px);
+  }
+
+  .welcome-redesign p {
+    font-size: clamp(14px, 1.7vw, 17px);
+  }
+}
+
+@media (max-width: 700px) {
+  .welcome-redesign {
+    min-height: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+  }
+
+  .welcome-redesign .welcome-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .welcome-redesign .welcome-left,
+  .welcome-redesign .welcome-right {
+    display: contents;
+  }
+
+  .welcome-redesign .welcome-intro {
+    order: 1;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 30px 18px 27px;
+    border-radius: 18px;
+    background: #fff;
+  }
+
+  .welcome-redesign h2 {
+    font-size: 34px;
+  }
+
+  .welcome-redesign p {
+    font-size: 15px;
+    line-height: 1.42;
+  }
+
+  .welcome-redesign .welcome-intro > p + p {
+    margin-top: 26px;
+  }
+
+  .welcome-redesign .welcome-before-wrap {
+    order: 2;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 398 / 454;
+    margin: 0;
+    padding: 28px 22px;
+    overflow: visible;
+    border-radius: 18px;
+    background: #00d18f;
+  }
+
+  .welcome-redesign .welcome-before-fridge {
+    top: 1% !important;
+    left: 8% !important;
+    width: 61% !important;
+    height: 70% !important;
+  }
+
+  .welcome-redesign .welcome-before-polaroid {
+    right: 0;
+    bottom: -2%;
+    width: 57%;
+  }
+
+  .welcome-redesign .welcome-before-paper {
+    bottom: -1% !important;
+  }
+
+  .welcome-redesign .welcome-label,
+  .welcome-redesign .welcome-connector {
+    display: none;
+  }
+
+  .welcome-redesign .welcome-after-wrap {
+    order: 3;
+    width: 100%;
+    max-width: none;
+    aspect-ratio: 398 / 500;
+  }
+
+  .welcome-redesign .welcome-after-photo {
+    border-radius: 18px;
+  }
+
+  .welcome-redesign .welcome-outro {
+    order: 4;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 29px 18px 31px;
+    border-radius: 18px;
+    background: #fff;
+  }
+
+  .welcome-redesign .welcome-outro .welcome-closing {
+    margin-top: 27px;
+  }
 }
 .commission-order-hero h2 {
   margin: 25px 0 0;

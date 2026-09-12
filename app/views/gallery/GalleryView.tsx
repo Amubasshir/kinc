@@ -1,41 +1,75 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import type { MouseEvent } from "react";
-import type { GalleryPageViewModel } from "../../models/site";
+import type { GalleryMediaModel, GalleryPageViewModel } from "../../models/site";
 import GalleryLightbox from "../shared/GalleryLightbox";
 import StayConnected from "../shared/StayConnected";
 import GalleryCommissionCard from "./components/GalleryCommissionCard";
 
+type GalleryMediaProps = {
+  item: GalleryMediaModel;
+  className: string;
+  sizes: string;
+};
+
+function GalleryImage({ item, className, sizes }: GalleryMediaProps) {
+  const [src, setSrc] = useState(item.src);
+
+  return (
+    <Image
+      unoptimized
+      className={className}
+      src={src}
+      alt={item.alt}
+      width={item.width}
+      height={item.height}
+      sizes={sizes}
+      onError={() => {
+        if (item.fallbackSrc && src !== item.fallbackSrc) setSrc(item.fallbackSrc);
+      }}
+    />
+  );
+}
+
+function GalleryMedia({ item, className, sizes }: GalleryMediaProps) {
+  if (item.kind === "video") {
+    return (
+      <video
+        className={className}
+        src={item.src}
+        width={item.width}
+        height={item.height}
+        muted
+        loop
+        autoPlay
+        playsInline
+        preload="metadata"
+        aria-label={item.alt}
+      />
+    );
+  }
+
+  return <GalleryImage item={item} className={className} sizes={sizes} />;
+}
+
 export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewModel }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const galleryImages = viewModel.columns.flat();
-  const columnOffsets = viewModel.columns.map((_, index) => viewModel.columns.slice(0, index).reduce((total, column) => total + column.length, 0));
-  const mobileGroups = [
-    [viewModel.columns[0].slice(0, 5), viewModel.columns[1].slice(0, 6)],
-    [viewModel.columns[0].slice(5, 11), viewModel.columns[1].slice(6, 12)],
-  ];
-  const scrollToPageTop = (event: MouseEvent<HTMLAnchorElement>) => {
-    const target = document.getElementById("page-top");
-    if (!target) return;
-
-    event.preventDefault();
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.history.replaceState(null, "", "#page-top");
-  };
+  const galleryMedia = viewModel.media;
+  const mobileColumns: GalleryMediaModel[][] = Array.from({ length: 2 }, () => []);
+  galleryMedia.forEach((item, index) => mobileColumns[index % mobileColumns.length].push(item));
 
   return (
     <>
       <section className="gallery-page-hero relative h-[651px] overflow-hidden rounded-[20px] bg-[#efefef] max-[800px]:h-auto max-[800px]:rounded-2xl max-[800px]:aspect-[174/192]" aria-label="Gallery introduction">
-        <Image unoptimized
+        <Image
+          unoptimized
           className="block h-full w-full object-cover object-center"
-          src="/gallery-page/hero.png"
+          src="/gallery-page/gallery-bg.png"
           alt="A child holding a framed piece of colourful artwork"
-          width={1400}
-          height={651}
-          priority
+          width={4032}
+          height={1440}
+          preload
           sizes="100vw"
         />
         <Image unoptimized
@@ -55,67 +89,47 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           aria-hidden="true"
         />
       </section>
-      <section className="gallery-page-masonry grid grid-cols-4 gap-6 overflow-hidden rounded-[20px] bg-[#f5f5f5] px-3 pt-4 max-[1000px]:grid-cols-2 max-[1000px]:gap-2.5 max-[1000px]:rounded-2xl max-[1000px]:px-2.5 max-[1000px]:pt-2.5 max-[700px]:hidden" aria-label="KinCollage artwork gallery">
+      <section className="gallery-page-masonry grid grid-cols-4 gap-6 overflow-hidden rounded-[20px] bg-[#f5f5f5] px-3 pt-4 max-[1000px]:gap-2.5 max-[1000px]:rounded-2xl max-[1000px]:px-2.5 max-[1000px]:pt-2.5 max-[700px]:hidden" aria-label="KinCollage artwork gallery">
         {viewModel.columns.map((column, columnIndex) => (
-          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[1000px]:gap-2.5`} key={columnIndex}>
+          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} grid min-w-0 grid-cols-1 content-start gap-6 max-[1000px]:gap-2.5`} key={columnIndex}>
             {column.map((item, itemIndex) => (
               <div key={`${item.src}-${itemIndex}`} className="gallery-page-item relative">
-                <button className="gallery-page-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(columnOffsets[columnIndex] + itemIndex)} aria-label="Open artwork in gallery viewer">
-                  <Image unoptimized
-                    className="block h-auto w-full rounded-[10px] transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
-                    src={item.src}
-                    alt={item.alt}
-                    width={item.width}
-                    height={item.height}
-                    sizes="(max-width: 700px) 47vw, 23vw"
+                <button className="gallery-page-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(galleryMedia.indexOf(item))} aria-label={`Open ${item.alt}`}>
+                  <GalleryMedia
+                    item={item}
+                    className="block h-auto w-full rounded-[10px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
+                    sizes="(max-width: 1000px) 48vw, 23vw"
                   />
                 </button>
-                {columnIndex === 2 && itemIndex === 6 && <GalleryCommissionCard />}
-                {columnIndex === 0 && itemIndex === 14 && <GalleryCommissionCard />}
+                {columnIndex === 1 && itemIndex === 5 && <GalleryCommissionCard />}
               </div>
             ))}
           </div>
         ))}
       </section>
       <section className="gallery-page-mobile hidden flex-col gap-[5px] rounded-none bg-[#f5f5f5] pb-4 max-[700px]:flex" aria-label="KinCollage artwork gallery">
-        {mobileGroups.map((group, groupIndex) => (
-          <div className="gallery-page-mobile-block contents" key={groupIndex}>
-            <div className="gallery-page-mobile-group grid grid-cols-2 gap-[5px]">
-              {group.map((column, columnIndex) => (
-                <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
-                  {column.map((item, itemIndex) => (
-                    <button
-                      className="group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
-                      key={`${item.src}-${itemIndex}`}
-                      type="button"
-                      onClick={() => setActiveIndex(galleryImages.indexOf(item))}
-                      aria-label="Open artwork in gallery viewer"
-                    >
-                      <Image unoptimized
-                        className="block h-auto w-full rounded-[7px] transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
-                        src={item.src}
-                        alt={item.alt}
-                        width={item.width}
-                        height={item.height}
-                        sizes="47vw"
-                      />
-                    </button>
-                  ))}
-                </div>
+        <div className="gallery-page-mobile-grid grid grid-cols-2 gap-[5px]">
+          {mobileColumns.map((column, columnIndex) => (
+            <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
+              {column.map((item) => (
+                <button
+                  className="group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
+                  key={item.src}
+                  type="button"
+                  onClick={() => setActiveIndex(galleryMedia.indexOf(item))}
+                  aria-label={`Open ${item.alt}`}
+                >
+                  <GalleryMedia item={item} className="block h-auto w-full rounded-[7px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]" sizes="47vw" />
+                </button>
               ))}
             </div>
-            {groupIndex === 0 && (
-              <div className="gallery-page-mobile-card w-full aspect-[174/194]">
-                <GalleryCommissionCard />
-              </div>
-            )}
-          </div>
-        ))}
-        <Link className="button-tertiary gallery-page-mobile-see-all mt-[11px] inline-flex min-h-[23px] w-[88px] items-center self-center justify-center rounded-full text-[8px] no-underline" href="#page-top" onClick={scrollToPageTop}>
-          SEE ALL WORK
-        </Link>
+          ))}
+        </div>
+        <div className="gallery-page-mobile-card w-full aspect-[174/194]">
+          <GalleryCommissionCard />
+        </div>
       </section>
-      <GalleryLightbox images={galleryImages} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />
+      <GalleryLightbox images={galleryMedia} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />
       <StayConnected />
     </>
   );

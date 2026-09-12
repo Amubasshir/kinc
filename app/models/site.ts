@@ -98,13 +98,18 @@ export const ADD_ON_PRODUCTS = [
   { id: "postcard", label: "Postcard Sets", priceId: "price_1U7fq5Cigo148yNRdoUwC72O" },
 ] as const;
 
-export type GalleryTileModel = {
+export type GalleryMediaKind = "image" | "video";
+
+export type GalleryMediaModel = {
+  kind: GalleryMediaKind;
   src: string;
+  fallbackSrc?: string;
   width: number;
   height: number;
   alt: string;
 };
 
 export type GalleryPageViewModel = {
-  columns: GalleryTileModel[][];
+  media: GalleryMediaModel[];
+  columns: GalleryMediaModel[][];
 };
