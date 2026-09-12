@@ -19,18 +19,6 @@ export type ArtistViewModel = {
       caption?: { title: string; credit: string };
     }>;
   };
-  pricing: {
-    title: string;
-    subtitle: string;
-    sizes: Array<{
-      name: string;
-      dimensions: string;
-      minimum: string;
-      price: string;
-      image: string;
-      popular?: boolean;
-    }>;
-  };
   testimonial: {
     rating: number;
     paragraphs: string[];
@@ -71,16 +59,6 @@ export function getArtistViewModel(): ArtistViewModel {
         { src: "/artist/archives/Image-2 (1).png", alt: "Fashion portrait with a white dog", left: 81, top: 66.5, width: 19, height: 33.5 },
         { src: "/artist/archives/Image-19.png", alt: "Fashion editorial on a desert set", left: 0, top: 78, width: 19, height: 22, caption: { title: "Collection shot", credit: "Camilla" } },
         { src: "/artist/archives/Image-16.png", alt: "Childhood artwork collage", left: 40.6, top: 82.5, width: 39.2, height: 17.5 },
-      ],
-    },
-    pricing: {
-      title: "Sizes & Pricing",
-      subtitle: "Asia Pacific worldwide shipping available",
-      sizes: [
-        { name: "The Mini", dimensions: "30 x 40 cm", minimum: "Min. 10 artwork required", price: "$950 AUD", image: "/artist/pricing-mini.png" },
-        { name: "The Statement", dimensions: "60x80cm", minimum: "Min. 15 artwork required", price: "$1750 AUD", image: "/artist/pricing-statement.png" },
-        { name: "The Master", dimensions: "90x120cm", minimum: "Min. 40 artwork required", price: "$3900 AUD", image: "/artist/pricing-master.png", popular: true },
-        { name: "The Grand", dimensions: "122 x 183 cm", minimum: "Min. 60 artwork required", price: "$6915 AUD", image: "/artist/pricing-grand.png" },
       ],
     },
     testimonial: {
