@@ -57,7 +57,7 @@ function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
       </p>
       {(isOverflowing || isExpanded) && (
         <button
-          className="testimonial-less mt-[17px] cursor-pointer border-0 bg-transparent p-0 font-[Georgia] text-[16px] text-[#008d91] transition-colors duration-150 hover:text-[#00797c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d91]"
+          className="testimonial-less mt-[17px] cursor-pointer border-0 bg-transparent p-0 font-[var(--font-tenor-sans)] text-[16px] text-[#008d91] transition-colors duration-150 hover:text-[#00797c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#008d91]"
           onClick={() => setIsExpanded((current) => !current)}
           type="button"
           aria-expanded={isExpanded}
@@ -86,7 +86,7 @@ function TestimonialCard({ testimonial }: { testimonial: TestimonialModel }) {
         <Stars />
         <TestimonialReview paragraphs={testimonial.paragraphs} />
         <footer className="mt-[22px]">
-          <cite className="block font-[Georgia] text-[28px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[24px]">{testimonial.name}</cite>
+          <cite className="block font-[var(--font-tenor-sans)] text-[28px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[24px]">{testimonial.name}</cite>
           <p className="mt-2 text-[17px] leading-[1.2] text-[#515151] max-[700px]:text-[15px]">{testimonial.location}</p>
         </footer>
       </div>

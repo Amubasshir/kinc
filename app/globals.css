@@ -415,7 +415,7 @@ small {
   background: #97ff77;
   box-shadow: 0 3px 4px rgb(25 93 69 / 22%);
   color: #283544;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 16px;
   text-decoration: none;
   transition:
@@ -887,7 +887,7 @@ small {
   box-shadow: 0 4px 5px rgb(25 93 69 / 28%);
   color: #1e2c3e;
   cursor: pointer;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 16px;
   transition:
     transform 160ms ease,
@@ -963,7 +963,7 @@ small {
   background: #fff;
   box-shadow: 0 3px 4px rgb(25 93 69 / 24%);
   color: #374151;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 16px;
   text-decoration: none;
   transition:
@@ -1060,7 +1060,7 @@ small {
   border-radius: 50%;
   background: #97ff77;
   color: #242638;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-cormorant-garamond), Georgia, "Times New Roman", serif;
   font-size: 70px;
   font-weight: 400;
   line-height: 1;
@@ -3249,7 +3249,7 @@ html {
     font-size: 20px;
   }
   .how-title-row h3 {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 30px;
   }
   .how-body {
