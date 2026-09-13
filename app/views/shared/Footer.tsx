@@ -37,7 +37,7 @@ export default function Footer() {
           width={144}
           height={26}
         />
-        <h2 className="mt-[31px] text-[34px] leading-none font-light max-[800px]:text-[29px] max-[700px]:mt-8 max-[700px]:font-[Georgia] max-[700px]:text-[31px]">
+        <h2 className="mt-[31px] text-[34px] leading-none font-light max-[800px]:text-[29px] max-[700px]:mt-8 max-[700px]:font-[var(--font-tenor-sans)] max-[700px]:text-[31px]">
           ZSOFIA MATRAI
         </h2>
         <p className="footer-role mt-[11px] text-[21px] leading-[1.25] text-[#515151] max-[800px]:text-[18px] max-[700px]:mt-[13px] max-[700px]:text-[15px]">

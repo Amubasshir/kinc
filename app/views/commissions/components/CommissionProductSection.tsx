@@ -12,7 +12,7 @@ function Content({ product }: { product: CommissionProductModel }) {
       <p className={`${product.descriptionClassName} mt-[29px] max-w-[365px] text-[15px] leading-[1.48] text-[#515151] max-[800px]:mt-[22px] max-[800px]:max-w-none`}>{description}</p>
       <ProductDetails className={product.detailsClassName} swatchesClassName={product.swatchesClassName} />
       <Link
-        className="button-primary commission-buy-now mx-auto mt-[30px] flex min-h-[52px] min-w-[187px] items-center justify-center rounded-full font-[Georgia] text-[15px] no-underline"
+        className="button-primary commission-buy-now mx-auto mt-[30px] flex min-h-[52px] min-w-[187px] items-center justify-center rounded-full font-[var(--font-tenor-sans)] text-[15px] no-underline"
         href={`/start-your-commission?addOn=${product.id}`}
       >
         BUY NOW — ${ADD_ON_PRICE}

@@ -93,7 +93,7 @@ export default function Header() {
             ))}
           </div>
           <Link
-            className="button-contact mt-[17px] flex h-[58px] w-full box-border items-center justify-center gap-1 rounded-full font-[Georgia] text-[12px] no-underline"
+            className="button-contact mt-[17px] flex h-[58px] w-full box-border items-center justify-center gap-1 rounded-full font-[var(--font-tenor-sans)] text-[12px] no-underline"
             href="/#contact"
             onClick={(event) => {
               scrollToHomeSection("/#contact")(event);

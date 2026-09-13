@@ -47,7 +47,7 @@ export default function StayConnected() {
             required
           />
         </div>
-        <button className="button-primary stay-connected-submit min-h-[53px] cursor-pointer rounded-full border-0 font-[Georgia] text-[16px] tracking-[.03em] max-[850px]:mt-2 max-[850px]:w-full max-[850px]:max-w-[264px] max-[850px]:justify-self-center max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit || isPending}>{isPending ? "CREATING COUPON…" : "SECURE MY GIFT"}</button>
+        <button className="button-primary stay-connected-submit min-h-[53px] cursor-pointer rounded-full border-0 font-[var(--font-tenor-sans)] text-[16px] tracking-[.03em] max-[850px]:mt-2 max-[850px]:w-full max-[850px]:max-w-[264px] max-[850px]:justify-self-center max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit || isPending}>{isPending ? "CREATING COUPON…" : "SECURE MY GIFT"}</button>
       </form>
       {state.message && <p className="mt-5 text-[15px]" role={state.status === "error" ? "alert" : "status"}>{state.message}{state.code && <><br /><strong>Your code: {state.code}</strong></>}</p>}
       <FeedbackModal

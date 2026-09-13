@@ -91,12 +91,12 @@ export default function FeedbackModal({
           <h2 id={titleId} className="voucher-modal-heading">
             {title}
           </h2>
-          <div id={descriptionId} className="mt-4 text-[15px] leading-[1.5] text-[#515151]">
+          <div id={descriptionId} className="mt-4 font-[var(--font-montserrat)] text-[15px] leading-[1.5] text-[#515151]">
             {description}
           </div>
           {code && (
             <div className="mt-5">
-              <p className="mb-2 text-center font-[Arial] text-[11px] font-bold uppercase tracking-[0.18em] text-[#00a873]">
+              <p className="mb-2 text-center font-[var(--font-montserrat)] text-[11px] font-bold uppercase tracking-[0.18em] text-[#00a873]">
                 {codeLabel}
               </p>
               <div className="flex items-center gap-2 rounded-xl bg-[#97ff77] p-2 max-[400px]:items-stretch">

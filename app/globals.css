@@ -26,12 +26,12 @@ small {
 .legal-navigation,
 .legal-navigation a {
   color: #515151 !important;
-  font-family: "Tenor Sans", Arial, sans-serif !important;
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
 }
 
 .hero h1 {
   margin: 0 0 14px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: clamp(36px, 3.08vw, 43px);
   font-weight: 300;
   line-height: 1.09;
@@ -42,7 +42,7 @@ small {
 }
 .hero h1 em,
 .hero h1 mark {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 0.76em;
   font-weight: 400;
   font-style: italic;
@@ -90,7 +90,7 @@ small {
 .welcome h2 {
   margin: -6px 0 21px;
   color: #555;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 42px;
   font-weight: 300;
   line-height: 1;
@@ -279,7 +279,7 @@ small {
 .how-it-works > h2 {
   margin: 0;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 300;
   line-height: 1.3;
@@ -374,13 +374,13 @@ small {
   border-radius: 50%;
   background: #f7f7f7;
   color: #2e2e38;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 22px;
   font-style: normal;
 }
 .how-title-row h3 {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 36px;
   font-weight: 300;
   line-height: 1.15;
@@ -544,7 +544,7 @@ small {
 }
 .pricing-header h2 {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 300;
   line-height: 1.15;
@@ -585,7 +585,7 @@ small {
 }
 .pricing-card-copy h3 {
   margin: 0 0 15px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 30px;
   font-weight: 300;
   line-height: 1;
@@ -662,7 +662,7 @@ small {
 }
 .merchandise-header h2 {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 300;
   line-height: 1.2;
@@ -727,7 +727,7 @@ small {
 }
 .merchandise-card h3 {
   margin: 44px 0 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 34px;
   font-weight: 300;
   line-height: 1.08;
@@ -825,7 +825,7 @@ small {
 }
 .gift-card h2 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 400;
   line-height: 1.12;
@@ -918,7 +918,7 @@ small {
 }
 .about h2 {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 300;
   line-height: 1;
@@ -1069,7 +1069,7 @@ small {
 }
 .stat h2 {
   margin: 34px 0 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 26px;
   font-weight: 400;
   line-height: 1.1;
@@ -1170,7 +1170,7 @@ small {
 .faqs > h2 {
   margin: 0;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 300;
   line-height: 1;
@@ -1305,7 +1305,7 @@ small {
 }
 .contact-form-card h2 {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 300;
   line-height: 1;
@@ -1571,7 +1571,7 @@ label[for="contact-message"] {
 .voucher-modal .voucher-modal-eyebrow {
   margin: 0 0 18px;
   color: #00a873;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrat), Arial, sans-serif;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1580,7 +1580,7 @@ label[for="contact-message"] {
 .voucher-modal .voucher-modal-heading {
   margin: 0;
   color: #263443;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 34px;
   font-weight: 400;
   line-height: 1.12;
@@ -1606,6 +1606,10 @@ h5,
 h6 {
   font-family: var(--font-tenor-sans), Arial, sans-serif !important;
   font-weight: 400;
+}
+
+button {
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
 }
 
 /* Consistent spacing between all page sections */
@@ -3289,7 +3293,7 @@ html {
   }
 
   .pricing-header h2 {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 31px;
   }
   .pricing-header p {
@@ -3306,7 +3310,7 @@ html {
   }
   .pricing-card-copy h3 {
     margin-bottom: 17px;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 29px;
   }
   .pricing-card-copy p {
@@ -3337,7 +3341,7 @@ html {
 
   .merchandise-header h2 {
     max-width: 320px;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 31px;
     line-height: 1.15;
   }
@@ -3367,7 +3371,7 @@ html {
   }
   .merchandise-card h3 {
     margin-top: 77px;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 29px;
   }
   .merchandise-card-copy {
@@ -3425,7 +3429,7 @@ html {
     display: none;
   }
   .about h2 {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 31px;
   }
   .about-copy {
@@ -3479,7 +3483,7 @@ html {
   }
 
   .faqs > h2 {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 34px;
   }
   .faq-list {
@@ -3510,7 +3514,7 @@ html {
     background: transparent;
     color: #263443;
     cursor: pointer;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 16px;
   }
   .faq-see-more:hover,
@@ -3532,7 +3536,7 @@ html {
     border-radius: 15px;
   }
   .contact-form-card h2 {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-tenor-sans), Arial, sans-serif;
     font-size: 34px;
   }
   .contact-form-card > p {
@@ -3723,7 +3727,7 @@ html {
 .commission-order-main > div > h2,
 .commission-order-thanks h2 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-weight: 400;
   letter-spacing: 0.3px;
 }
@@ -3773,7 +3777,7 @@ html {
 .welcome-redesign h2 {
   margin: -6px 0 21px;
   color: #555;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 42px;
   font-weight: 300;
   line-height: 1;
@@ -4221,7 +4225,7 @@ html {
   display: grid;
   margin-top: 30px;
   gap: 27px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
 }
 .commission-two-columns {
   display: grid;
@@ -4347,7 +4351,7 @@ html {
 }
 .commission-price-summary h3 {
   margin: 0 0 16px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 28px;
   font-weight: 400;
 }
