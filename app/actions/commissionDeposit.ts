@@ -19,6 +19,11 @@ export type CommissionDepositState =
   | { status: "quote-only"; message: string }
   | { status: "ready"; clientSecret: string; depositCents: number; totalCents: number; currency: string };
 
+export type CommissionPaymentState =
+  | { status: "idle" }
+  | { status: "error"; message: string }
+  | { status: "ready"; clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments" };
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function formatMoney(amount: number, currency: string) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
@@ -115,13 +120,13 @@ export async function completeCommissionOrder(paymentIntentId: string): Promise<
     if (paymentIntent.status !== "succeeded") return { success: false, message: "Payment has not completed yet." };
 
     const details = detailsFromPaymentIntent(paymentIntent);
-    if (!EMAIL_PATTERN.test(details.email)) throw new Error("The order does not contain a valid customer email.");
+    const hasCustomerEmail = EMAIL_PATTERN.test(details.email);
 
-    if (paymentIntent.metadata.customerEmailSent !== "true") {
+    if (hasCustomerEmail && paymentIntent.metadata.customerEmailSent !== "true") {
       await sendCustomerEmail(details);
       paymentIntent = await stripe.paymentIntents.update(paymentIntent.id, { metadata: { customerEmailSent: "true" } });
     }
-    if (paymentIntent.metadata.businessEmailSent !== "true") {
+    if (hasCustomerEmail && paymentIntent.metadata.businessEmailSent !== "true") {
       await sendBusinessEmail(details);
       await stripe.paymentIntents.update(paymentIntent.id, { metadata: { businessEmailSent: "true" } });
     }
@@ -134,6 +139,55 @@ export async function completeCommissionOrder(paymentIntentId: string): Promise<
   } catch (error) {
     console.error("Failed to complete commission order:", error);
     return { success: false, message: "Payment succeeded, but we couldn't send the order emails. Please retry or contact us." };
+  }
+}
+
+export async function createCommissionPayment(
+  _prevState: CommissionPaymentState,
+  formData: FormData
+): Promise<CommissionPaymentState> {
+  if (!process.env.STRIPE_SECRET_KEY) return { status: "error", message: "Payments aren&apos;t configured yet." };
+
+  const paymentPlan = String(formData.get("paymentPlan") ?? "full");
+  if (paymentPlan !== "full" && paymentPlan !== "installments") return { status: "error", message: "Please choose a payment option." };
+  const priceIds = [...new Set(formData.getAll("sizes").map(String).filter((id) => id.startsWith("price_")))];
+  if (priceIds.length === 0) return { status: "error", message: "Please choose at least one canvas size." };
+
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+    const validPrices = prices.filter((price) => {
+      const product = typeof price.product === "string" ? null : price.product;
+      const nickname = price.nickname?.toLowerCase() ?? "";
+      const is2026Price = paymentPlan === "full"
+        ? nickname.includes("2026 full price")
+        : nickname.includes("2026") && nickname.includes("3 instalment");
+      return price.active && price.type === "one_time" && price.unit_amount !== null && is2026Price && Boolean(product && !product.deleted && product.active);
+    });
+    if (validPrices.length !== prices.length || new Set(validPrices.map((price) => price.currency)).size !== 1) {
+      return { status: "error", message: "One of the selected prices is no longer available. Please refresh and try again." };
+    }
+
+    const currency = validPrices[0].currency;
+    const amountCents = validPrices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
+    const totalCents = paymentPlan === "installments" ? amountCents * 3 : amountCents;
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amountCents,
+      currency,
+      automatic_payment_methods: { enabled: true },
+      description: paymentPlan === "installments" ? "KinCollage 2026 installment 1 of 3" : "KinCollage 2026 full payment",
+      metadata: {
+        paymentPlan,
+        installmentNumber: paymentPlan === "installments" ? "1" : "",
+        sizePriceIds: priceIds.join(", "),
+        totalCents: String(totalCents),
+      },
+    });
+    if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
+    return { status: "ready", clientSecret: paymentIntent.client_secret, amountCents, totalCents, currency, paymentPlan };
+  } catch (error) {
+    console.error("Failed to create commission payment PaymentIntent:", error);
+    return { status: "error", message: "Something went wrong setting up payment. Please try again." };
   }
 }
 

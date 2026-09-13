@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ArtistStory from "../artist/components/ArtistStory";
+// import ArtistStory from "../artist/components/ArtistStory";
 import GiftCard from "../home/components/GiftCard";
 import CommissionOrderForm from "./CommissionOrderForm";
 import type { StripeCommissionProduct } from "../../lib/stripePricing";
@@ -36,7 +36,7 @@ export default function CommissionFormView({ commissionProducts, requestedAddOnI
         </div>
       </section>
 
-      <ArtistStory videoOnly controls />
+      {/* <ArtistStory videoOnly controls /> */}
       <GiftCard />
     </>
   );

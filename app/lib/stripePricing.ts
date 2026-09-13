@@ -37,7 +37,7 @@ const loadStripeCommissionProducts = unstable_cache(
       limit: 100,
     });
 
-    return (await Promise.all(PRODUCT_PRESENTATION.map(async (presentation) => {
+    const productsWithPrices = await Promise.all(PRODUCT_PRESENTATION.map(async (presentation) => {
       const product = products.data.find((item) => item.name.toLowerCase().includes(presentation.key));
       if (!product) return null;
       const prices = await stripe.prices.list({ product: product.id, active: true, type: "one_time", limit: 100 });
@@ -61,9 +61,10 @@ const loadStripeCommissionProducts = unstable_cache(
         popular: "popular" in presentation ? presentation.popular : undefined,
         installmentUnitAmount: installmentPrice.unit_amount,
       };
-    }))).filter((product): product is StripeCommissionProduct => product !== null);
+    }));
+    return productsWithPrices.filter((product) => product !== null) as StripeCommissionProduct[];
   },
-  ["stripe-home-pricing-v1"],
+  ["stripe-home-pricing-v2"],
   { revalidate: 3600 }
 );
 
