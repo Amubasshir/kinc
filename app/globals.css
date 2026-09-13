@@ -1390,7 +1390,7 @@ small {
   box-shadow: 0 4px 5px rgb(25 93 69 / 12%);
   color: #555;
   cursor: pointer;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 16px;
   transition:
     transform 160ms ease,
@@ -1481,6 +1481,20 @@ small {
 p,
 label,
 small {
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif !important;
+}
+
+label[for="subscriber-name"],
+label[for="subscriber-email"],
+label[for="contact-name"],
+label[for="contact-email"],
+label[for="contact-message"] {
+  font-family: var(--font-tenor-sans), Arial, Helvetica, sans-serif !important;
+}
+
+.footer-role,
+.footer-acknowledgement,
+.footer-email {
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif !important;
 }
 

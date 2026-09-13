@@ -87,7 +87,7 @@ export default function Footer() {
           ))}
         </div>
         <Link
-          className="button-contact footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full font-[Georgia] text-[16px] no-underline max-[1100px]:h-[60px] max-[1100px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
+          className="button-contact footer-contact flex h-16 min-w-[166px] items-center justify-center gap-1 rounded-full font-[var(--font-tenor-sans)] text-[16px] no-underline max-[1100px]:h-[60px] max-[1100px]:min-w-[155px] max-[700px]:h-[58px] max-[700px]:w-full max-[700px]:box-border"
           href="/#contact"
           onClick={scrollToHomeSection("/#contact")}
         >
