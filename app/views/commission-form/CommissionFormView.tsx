@@ -26,16 +26,11 @@ export default function CommissionFormView({ commissionProducts, requestedAddOnI
         <div className="commission-order-container">
           <h2 id="commission-details-title">Share the details</h2>
           <div className="commission-order-information">
-            <h3><mark>Shipping &amp; Delivery</mark></h3>
-            <p>Shipping is calculated upon completing the form below based on your selected canvas size and location.</p>
-            <p>✧ <strong>Australia-Wide:</strong> Estimated delivery times after dispatch are 2–8 business days for Standard and 1–4 business days for Express. (Local Sydney studio collection is also available).</p>
-            <p>✧ <strong>International Orders:</strong> We ship worldwide! International transit typically takes 6–9 business days for the USA, 4–7 business days for NZ, and 10–14 business days for the rest of the world.</p>
-            <h3><mark>Priority Completion Dates</mark></h3>
-            <p>If you require your piece by a specific date (e.g. special occasion), we offer a <strong>priority option for an additional 30% rush fee</strong> that guarantees your chosen completion date. You can request it in the form below.</p>
-            <h3><mark>Next Steps &amp; Deposit</mark></h3>
-            <p>✧ Submitting this form and confirming your <strong>50% deposit officially locks in your studio slot.</strong> I&apos;ll confirm your order via email within 24 hours, and the <strong>remaining 50% balance will be due upon completion of your piece.</strong><br />✧ Once confirmed, you&apos;ll receive our <em>Studio Care Guide</em> with instructions on how to send your child&apos;s original artwork to our Sydney studio (or order a prepaid collection box).<br />✧ Once I receive your physical artwork in the studio, please allow up to 6 weeks for your completed collage (including custom framing, if added).</p>
-            <p><strong>Thank you so much for trusting me with your child&apos;s precious artwork. Saving these scribbles and turning them into modern family heirlooms is at the heart of what I do.</strong></p>
-            <p><strong>I am deeply honoured to preserve their creations and craft a bespoke piece of fine art for your home!</strong></p>
+            <p><strong>Thank you so much for trusting me with your child&apos;s precious artwork. Saving these scribbles and turning them into modern family heirlooms is at heart of what I do.</strong></p>
+            <h3>🎁 YOUR 2026 LAUNCH BONUS INCLUDES</h3>
+            <p>Every commission placed today automatically includes a FREE Custom Magnet ($20 Value) framing a piece of your child&apos;s original drawing, plus a FREE Archival Greeting Card ($50 Value) for studio email subscribers!</p>
+            <h3>PRIORITY COMPLETION DATES</h3>
+            <p>If you require your piece by a specific date (eg. special occasion), we offer a <strong>priority option for an additional 30% rush fee</strong> that guarantees your chosen completion date. You can request it in the form below.</p>
           </div>
           <CommissionOrderForm commissionProducts={commissionProducts} requestedAddOnId={requestedAddOnId} requestedProductId={requestedProductId} />
         </div>

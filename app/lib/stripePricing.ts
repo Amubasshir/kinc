@@ -7,12 +7,14 @@ import type { PricingSizeModel } from "../models/site";
 export type StripeCommissionProduct = {
   productId: string;
   priceId: string;
+  installmentPriceId: string;
   name: string;
   dimensions: string;
   inchDimensions?: string;
   minimum: string;
   price: string;
   unitAmount: number;
+  installmentUnitAmount: number;
   currency: string;
   image: string;
   popular?: boolean;
@@ -33,18 +35,21 @@ const loadStripeCommissionProducts = unstable_cache(
     const products = await stripe.products.list({
       active: true,
       limit: 100,
-      expand: ["data.default_price"],
     });
 
-    return PRODUCT_PRESENTATION.flatMap((presentation) => {
+    return (await Promise.all(PRODUCT_PRESENTATION.map(async (presentation) => {
       const product = products.data.find((item) => item.name.toLowerCase().includes(presentation.key));
-      const price = product && typeof product.default_price !== "string" ? product.default_price : null;
+      if (!product) return null;
+      const prices = await stripe.prices.list({ product: product.id, active: true, type: "one_time", limit: 100 });
+      const price = prices.data.find((item) => item.nickname?.toLowerCase().includes("2026 full price"));
+      const installmentPrice = prices.data.find((item) => item.nickname?.toLowerCase().includes("2026") && item.nickname?.toLowerCase().includes("3 instalment"));
 
-      if (!product || !price || !price.active || price.type !== "one_time" || price.unit_amount === null) return [];
+      if (!price || !installmentPrice || price.unit_amount === null || installmentPrice.unit_amount === null) return null;
 
-      return [{
+      return {
         productId: product.id,
         priceId: price.id,
+        installmentPriceId: installmentPrice.id,
         name: product.name.replace(/^KinCollage\s+/i, "").replace(/\s+\d.*$/, ""),
         dimensions: presentation.dimensions,
         inchDimensions: presentation.inchDimensions,
@@ -54,8 +59,9 @@ const loadStripeCommissionProducts = unstable_cache(
         currency: price.currency,
         image: presentation.image,
         popular: "popular" in presentation ? presentation.popular : undefined,
-      }];
-    });
+        installmentUnitAmount: installmentPrice.unit_amount,
+      };
+    }))).filter((product): product is StripeCommissionProduct => product !== null);
   },
   ["stripe-home-pricing-v1"],
   { revalidate: 3600 }
