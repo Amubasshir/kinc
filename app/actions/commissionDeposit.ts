@@ -43,6 +43,7 @@ function buildEmailDetails(formData: FormData, sizeLabels: string[], addOns: str
     firstName: field(formData, "firstName"),
     lastName: field(formData, "lastName"),
     email: field(formData, "email"),
+    phone: field(formData, "phone"),
     address: field(formData, "address"),
     product: field(formData, "product"),
     sizes: sizeLabels.join(", ") || (customSizeSelected ? "Custom size" : ""),
@@ -81,22 +82,36 @@ async function sendBusinessEmail(details: CommissionEmailDetails) {
     from: "KinCollage Orders <hello@kincollage.com>",
     to: process.env.CONTACT_TO_EMAIL,
     replyTo: details.email,
-    subject: `${details.quoteOnly ? "New quote request" : "New paid commission"} from ${details.firstName} ${details.lastName}`,
+    subject: `${details.quoteOnly ? "New quote request" : "New paid commission"} from ${details.firstName || "customer"}${details.lastName ? ` ${details.lastName}` : ""}`,
     html: renderCommissionNotificationHtml(details),
     text: renderCommissionNotificationText(details),
   });
   if (error) throw new Error(`Business notification email failed: ${error.message}`);
 }
 
-function detailsFromPaymentIntent(paymentIntent: Stripe.PaymentIntent): CommissionEmailDetails {
+async function detailsFromPaymentIntent(stripe: Stripe, paymentIntent: Stripe.PaymentIntent): Promise<CommissionEmailDetails> {
   const metadata = paymentIntent.metadata;
+  const customerName = (metadata.customerName ?? "").trim().split(/\s+/).filter(Boolean);
+  const shippingCents = Number(metadata.shippingCents ?? 0);
+  const rushCents = Number(metadata.rushCents ?? 0);
+  let sizeLabels = metadata.sizes ?? "";
+  if (!sizeLabels && metadata.sizePriceIds) {
+    try {
+      const prices = await Promise.all(metadata.sizePriceIds.split(", ").filter(Boolean).map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+      sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name).join(", ");
+    } catch (error) {
+      console.error("Failed to load readable size names for order email:", error);
+      sizeLabels = metadata.sizePriceIds;
+    }
+  }
   return {
-    firstName: metadata.firstName ?? "",
-    lastName: metadata.lastName ?? "",
+    firstName: metadata.firstName ?? customerName[0] ?? "",
+    lastName: metadata.lastName ?? customerName.slice(1).join(" "),
     email: metadata.email ?? "",
+    phone: metadata.phone ?? "",
     address: metadata.address ?? "",
-    product: metadata.product ?? "",
-    sizes: metadata.sizes ?? "",
+    product: metadata.product ?? "KinCollage commission",
+    sizes: sizeLabels,
     otherSize: metadata.otherSize ?? "",
     addOns: metadata.addOns ?? "",
     framing: metadata.framing ?? "",
@@ -109,6 +124,10 @@ function detailsFromPaymentIntent(paymentIntent: Stripe.PaymentIntent): Commissi
     total: formatMoney(Number(metadata.totalCents ?? paymentIntent.amount * 2) / 100, paymentIntent.currency),
     deposit: formatMoney(paymentIntent.amount_received / 100, paymentIntent.currency),
     paymentReference: paymentIntent.id,
+    paymentPlan: metadata.paymentPlan === "installments" ? "3 fortnightly installments" : "Full payment",
+    installmentNumber: metadata.installmentNumber ? `${metadata.installmentNumber} of 3` : "",
+    shipping: formatMoney(shippingCents / 100, paymentIntent.currency),
+    rushFee: rushCents ? formatMoney(rushCents / 100, paymentIntent.currency) : "None",
   };
 }
 
@@ -119,7 +138,7 @@ export async function completeCommissionOrder(paymentIntentId: string): Promise<
     let paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     if (paymentIntent.status !== "succeeded") return { success: false, message: "Payment has not completed yet." };
 
-    const details = detailsFromPaymentIntent(paymentIntent);
+    const details = await detailsFromPaymentIntent(stripe, paymentIntent);
     const hasCustomerEmail = EMAIL_PATTERN.test(details.email);
 
     if (hasCustomerEmail && paymentIntent.metadata.customerEmailSent !== "true") {
@@ -152,6 +171,9 @@ export async function createCommissionPayment(
   if (paymentPlan !== "full" && paymentPlan !== "installments") return { status: "error", message: "Please choose a payment option." };
   const priceIds = [...new Set(formData.getAll("sizes").map(String).filter((id) => id.startsWith("price_")))];
   if (priceIds.length === 0) return { status: "error", message: "Please choose at least one canvas size." };
+  const priorityDate = String(formData.get("priorityDate") ?? "").trim();
+  const shippingCents = Number(formData.get("shippingCents") ?? 0);
+  if (![0, 2500, 3500].includes(shippingCents)) return { status: "error", message: "Please choose a valid shipping method." };
 
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -169,8 +191,13 @@ export async function createCommissionPayment(
     }
 
     const currency = validPrices[0].currency;
-    const amountCents = validPrices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const totalCents = paymentPlan === "installments" ? amountCents * 3 : amountCents;
+    const selectedAmountCents = validPrices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
+    const baseTotalCents = paymentPlan === "installments" ? selectedAmountCents * 3 : selectedAmountCents;
+    const rushCents = priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
+    const amountCents = paymentPlan === "installments"
+      ? selectedAmountCents + Math.round(rushCents / 3) + shippingCents
+      : selectedAmountCents + rushCents + shippingCents;
+    const totalCents = baseTotalCents + rushCents + shippingCents;
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amountCents,
       currency,
@@ -180,6 +207,9 @@ export async function createCommissionPayment(
         paymentPlan,
         installmentNumber: paymentPlan === "installments" ? "1" : "",
         sizePriceIds: priceIds.join(", "),
+        priorityDate,
+        shippingCents: String(shippingCents),
+        rushCents: String(rushCents),
         totalCents: String(totalCents),
       },
     });
@@ -188,6 +218,58 @@ export async function createCommissionPayment(
   } catch (error) {
     console.error("Failed to create commission payment PaymentIntent:", error);
     return { status: "error", message: "Something went wrong setting up payment. Please try again." };
+  }
+}
+
+export async function savePaymentCustomerDetails(paymentIntentId: string, email: string, address: string) {
+  if (!process.env.STRIPE_SECRET_KEY || !EMAIL_PATTERN.test(email) || !address) return { success: false, message: "Please provide a valid email and address." };
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const parsedAddress = JSON.parse(address) as { name?: string; phone?: string; address?: { line1?: string; line2?: string; city?: string; state?: string; postal_code?: string; country?: string } };
+    const customerName = parsedAddress.name?.trim() ?? "";
+    const nameParts = customerName.split(/\s+/).filter(Boolean);
+    const addressParts = [parsedAddress.address?.line1, parsedAddress.address?.line2, parsedAddress.address?.city, parsedAddress.address?.state, parsedAddress.address?.postal_code, parsedAddress.address?.country].filter(Boolean);
+    await stripe.paymentIntents.update(paymentIntentId, {
+      receipt_email: email,
+      metadata: {
+        email: metadataValue(email),
+        phone: metadataValue(parsedAddress.phone ?? ""),
+        customerName: metadataValue(customerName),
+        firstName: metadataValue(nameParts[0] ?? ""),
+        lastName: metadataValue(nameParts.slice(1).join(" ")),
+        address: metadataValue(addressParts.join(", ")),
+      },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to save payment customer details:", error);
+    return { success: false, message: "We could not save your contact details. Please try again." };
+  }
+}
+
+export async function updateCommissionPaymentOptions(paymentIntentId: string, priorityDate: string, shippingCents: number) {
+  if (!process.env.STRIPE_SECRET_KEY || ![0, 2500, 3500].includes(shippingCents)) return { success: false, message: "Please choose a valid shipping method." };
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
+    const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
+    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId)));
+    const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
+    const baseTotalCents = paymentPlan === "installments" ? selectedAmountCents * 3 : selectedAmountCents;
+    const rushCents = priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
+    const amountCents = paymentPlan === "installments"
+      ? selectedAmountCents + Math.round(rushCents / 3) + shippingCents
+      : selectedAmountCents + rushCents + shippingCents;
+    const totalCents = baseTotalCents + rushCents + shippingCents;
+    await stripe.paymentIntents.update(paymentIntentId, {
+      amount: amountCents,
+      metadata: { priorityDate, shippingCents: String(shippingCents), rushCents: String(rushCents), totalCents: String(totalCents) },
+    });
+    return { success: true, amountCents, totalCents };
+  } catch (error) {
+    console.error("Failed to update commission payment options:", error);
+    return { success: false, message: "We could not update the payment total. Please try again." };
   }
 }
 

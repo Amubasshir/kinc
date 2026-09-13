@@ -5175,6 +5175,394 @@ html {
   font-size: 12px;
 }
 
+/* Checkout presentation: a focused order summary paired with the payment form. */
+.commission-checkout-shell {
+  display: grid;
+  width: min(960px, calc(100vw - 48px));
+  margin: 34px 0 0 50%;
+  overflow: hidden;
+  transform: translateX(-50%);
+  border: 1px solid #e5e5e9;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 18px 45px rgb(38 52 67 / 12%);
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+}
+
+.commission-checkout-summary {
+  min-height: 610px;
+  padding: 32px 38px;
+  background: #59c989;
+  color: #152b26;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+}
+
+.commission-checkout-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #1d4938;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.commission-checkout-brand-mark {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  color: #59c989;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.commission-checkout-sandbox {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: #263443;
+  color: #fff;
+  font-size: 8px;
+}
+
+.commission-checkout-kicker {
+  margin: 31px 0 3px;
+  color: #1d4938;
+  font-size: 12px;
+}
+
+.commission-checkout-amount {
+  margin: 0;
+  color: #102a23;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.7px;
+}
+
+.commission-checkout-items {
+  display: grid;
+  margin-top: 28px;
+  gap: 16px;
+}
+
+.commission-checkout-item {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  font-size: 12px;
+}
+
+.commission-checkout-item img {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  object-fit: contain;
+  background: #fff;
+}
+
+.commission-checkout-item strong,
+.commission-checkout-item small,
+.commission-checkout-item span {
+  display: block;
+}
+
+.commission-checkout-item strong {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.commission-checkout-item small {
+  margin-top: 3px;
+  color: #1d4938;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.commission-checkout-item span {
+  margin-top: 3px;
+  color: #1d4938;
+  font-size: 10px;
+}
+
+.commission-checkout-item b {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.commission-checkout-totals {
+  margin: 24px 0 0;
+  border-top: 1px solid rgb(29 73 56 / 22%);
+  color: #1d4938;
+  font-size: 13px;
+}
+
+.commission-checkout-totals > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 9px 0 0;
+}
+
+.commission-checkout-totals dt,
+.commission-checkout-totals dd {
+  margin: 0;
+}
+
+.commission-checkout-totals dd {
+  color: #102a23;
+  font-weight: 600;
+  text-align: right;
+}
+
+.commission-checkout-totals small {
+  font-size: 11px;
+}
+
+.commission-checkout-total {
+  margin-top: 8px;
+  padding-top: 13px !important;
+  border-top: 1px solid rgb(29 73 56 / 22%);
+  color: #102a23;
+  font-weight: 600;
+}
+
+.commission-checkout-form-panel {
+  padding: 32px 40px 28px;
+  background: #fff;
+  color: #2e2e38;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+}
+
+.commission-checkout-form-panel > h3 {
+  margin: 0 0 24px;
+  color: #2e2e38;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.commission-checkout-panel-total {
+  margin: 6px 0 22px;
+  color: #777782;
+  font-size: 14px;
+}
+
+.commission-checkout-panel-total strong {
+  color: #2e2e38;
+}
+
+.commission-stripe-section {
+  margin-top: 19px;
+}
+
+.commission-stripe-section-title {
+  display: block;
+  margin-bottom: 7px;
+  color: #565661;
+  font-size: 14px;
+}
+
+.commission-checkout-form-panel .commission-stripe-date-field {
+  font-size: 14px;
+}
+
+.commission-checkout-form-panel .commission-stripe-date-field small {
+  font-size: 12px;
+}
+
+.commission-checkout-form-panel .commission-stripe-date-field input {
+  height: 38px;
+}
+
+.commission-checkout-form-panel .commission-shipping-options label {
+  font-size: 14px;
+}
+
+.commission-checkout-form-panel .commission-shipping-options small {
+  font-size: 12px;
+}
+
+.commission-checkout-form-panel .commission-order-submit {
+  width: 100%;
+  min-height: 45px;
+  border-radius: 7px;
+  background: #97ff77;
+  color: #1d4938;
+  font-size: 13px;
+  text-transform: none;
+}
+
+.commission-checkout-legal {
+  margin: 15px 0 0;
+  color: #777782;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .commission-checkout-shell {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+    grid-template-columns: 1fr;
+  }
+
+  .commission-checkout-summary {
+    min-height: 0;
+    padding: 27px 24px 31px;
+  }
+
+  .commission-checkout-form-panel {
+    padding: 27px 24px 28px;
+  }
+}
+
+.commission-design-field {
+  display: grid;
+  gap: 7px;
+  color: #2e2e38;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-size: 14px;
+}
+
+.commission-stripe-date-field {
+  display: grid;
+  gap: 6px;
+  color: #2e2e38;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-size: 14px;
+}
+
+.commission-stripe-date-label {
+  display: inline-block;
+  color: #565661;
+}
+
+.commission-stripe-date-label em {
+  color: #777;
+  font-style: normal;
+}
+
+.commission-stripe-date-field small {
+  color: #777782;
+  font-size: 11px;
+}
+
+.commission-stripe-date-field input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #d6d6dc;
+  border-radius: 7px;
+  background: #fff;
+  color: #51515d;
+  font: inherit;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgb(38 52 67 / 10%);
+}
+
+.commission-stripe-shipping-field {
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.commission-stripe-shipping-field legend {
+  margin-bottom: 7px;
+  color: #2e2e38;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-size: 13px;
+  text-transform: none;
+}
+
+.commission-design-field em {
+  color: #777;
+  font-style: normal;
+}
+
+.commission-design-field small {
+  color: #777782;
+  font-size: 11px;
+}
+
+.commission-date-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #d6d6dc;
+  border-radius: 7px;
+  background: #fff;
+  color: #51515d;
+  font: inherit;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgb(38 52 67 / 10%);
+}
+
+.commission-date-input:focus {
+  border-color: #00b982;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgb(0 209 143 / 16%);
+}
+
+.commission-shipping-method legend {
+  margin-bottom: 7px;
+  font-size: 13px;
+  text-transform: none;
+}
+
+.commission-shipping-options {
+  overflow: hidden;
+  border: 1px solid #d6d6dc;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(38 52 67 / 10%);
+}
+
+.commission-shipping-options label {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 10px;
+  border-bottom: 1px solid #e5e5e9;
+  color: #2e2e38;
+  font-size: 12px;
+}
+
+.commission-shipping-options label:last-child {
+  border-bottom: 0;
+}
+
+.commission-shipping-options input {
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  accent-color: #00c98a;
+}
+
+.commission-shipping-options span {
+  min-width: 0;
+}
+
+.commission-shipping-options small {
+  display: block;
+  color: #777782;
+  font-size: 10px;
+}
+
+.commission-shipping-options strong {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 @media (max-width: 700px) {
   .commission-order-main {
     padding: 24px 20px 48px;

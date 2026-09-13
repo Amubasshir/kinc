@@ -4,7 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createCommissionPayment, type CommissionPaymentState } from "../../actions/commissionDeposit";
 import type { StripeCommissionProduct } from "../../lib/stripePricing";
-import DepositPaymentForm from "./DepositPaymentForm";
+import DepositPaymentForm, { type CheckoutItem } from "./DepositPaymentForm";
 
 const initialState: CommissionPaymentState = { status: "idle" };
 
@@ -16,6 +16,8 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   const [paymentPlan, setPaymentPlan] = useState<"full" | "installments">("full");
   const [paymentState, formAction, isCreatingPayment] = useActionState(createCommissionPayment, initialState);
   const formatPrice = (amount: number, currency: string) => new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount / 100);
+  const selectedSizeLabel = commissionProducts.filter((size) => selectedProducts.includes(size.productId)).map((size) => size.name).join(" + ") || "Selected size";
+  const checkoutItems: CheckoutItem[] = commissionProducts.filter((size) => selectedProducts.includes(size.productId)).map((size) => ({ name: size.name, dimensions: size.dimensions, inchDimensions: size.inchDimensions, image: size.image, amountCents: paymentPlan === "installments" ? size.installmentUnitAmount : size.unitAmount, currency: size.currency }));
 
   useEffect(() => {
     if (paymentState.status === "ready") document.getElementById("commission-payment")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -24,7 +26,6 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   return (
     <>
       <form className="commission-order-form commission-design-only-form" action={formAction}>
-        {paymentPlan === "installments" && <p className="commission-installment-heading">2026 - 3 instalment prices per size</p>}
         <fieldset>
           <legend>WHICH SIZE(S) ARE YOU ORDERING?<span>*</span></legend>
           <small>Note: Prices below reflect design curation, materials, frame and collage work on canvas.</small>
@@ -46,11 +47,11 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
           </div>
         </fieldset>
 
-        {paymentState.status !== "ready" && <button className="button-primary commission-order-submit" type="submit" disabled={selectedProducts.length === 0 || isCreatingPayment}>{isCreatingPayment ? "Preparing payment…" : paymentPlan === "installments" ? "Continue to installment payment" : "Continue to payment"}</button>}
+        {paymentState.status !== "ready" && <button className="button-primary commission-order-submit" type="submit" disabled={selectedProducts.length === 0 || isCreatingPayment}>{isCreatingPayment ? "Preparing payment…" : "Continue to payment"}</button>}
         {paymentState.status === "error" && <p className="commission-field-error" role="alert">{paymentState.message}</p>}
       </form>
 
-      {paymentState.status === "ready" && <div id="commission-payment"><DepositPaymentForm clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} onSuccess={(paymentIntentId) => router.push(`/thank-you?type=payment&paymentId=${encodeURIComponent(paymentIntentId)}`)} /></div>}
+      {paymentState.status === "ready" && <div id="commission-payment"><DepositPaymentForm clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} sizeLabel={selectedSizeLabel} items={checkoutItems} onSuccess={(paymentIntentId) => router.push(`/thank-you?type=payment&paymentId=${encodeURIComponent(paymentIntentId)}`)} /></div>}
     </>
   );
 }
