@@ -37,6 +37,43 @@ function metadataValue(value: string) {
   return value.slice(0, 450);
 }
 
+type DiscountSource = { record: CouponRecord | VoucherRecord; type: "coupon" | "voucher" } | null;
+
+function getDiscountCents(source: DiscountSource) {
+  if (!source) return 0;
+  return source.type === "voucher"
+    ? Math.max(0, Number((source.record as VoucherRecord).amount_cents) || 0)
+    : Math.max(0, Number((source.record as CouponRecord).discount_cents) || 0);
+}
+
+async function resolveDiscountCode(code: string): Promise<DiscountSource> {
+  const normalized = code.trim().toUpperCase();
+  if (!normalized) return null;
+  if (!/^GREET\d{6}$/.test(normalized) && !/^VOUCHER\d{8}$/.test(normalized)) return null;
+
+  const coupon = await findAvailableCoupon(normalized);
+  if (coupon) return { record: coupon, type: "coupon" };
+  if (/^VOUCHER/.test(normalized)) {
+    const voucher = await findAvailableVoucher(normalized);
+    if (voucher) return { record: voucher, type: "voucher" };
+  }
+  return null;
+}
+
+function calculatePaymentTotals(paymentPlan: "full" | "installments", selectedAmountCents: number, priorityDate: string, shippingCents: number, requestedDiscountCents = 0) {
+  const baseTotalCents = paymentPlan === "installments" ? selectedAmountCents * 3 : selectedAmountCents;
+  const rushCents = priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
+  const discountableTotalCents = baseTotalCents + rushCents;
+  const discountCents = Math.min(Math.max(0, requestedDiscountCents), discountableTotalCents);
+  const currentPaymentBeforeDiscountCents = paymentPlan === "installments"
+    ? selectedAmountCents + Math.round(rushCents / 3)
+    : selectedAmountCents + rushCents;
+  const currentPaymentDiscountCents = paymentPlan === "installments" ? Math.floor(discountCents / 3) : discountCents;
+  const amountCents = currentPaymentBeforeDiscountCents - currentPaymentDiscountCents + shippingCents;
+  const totalCents = discountableTotalCents - discountCents + shippingCents;
+  return { amountCents, totalCents, baseTotalCents, rushCents, discountCents };
+}
+
 function buildEmailDetails(formData: FormData, sizeLabels: string[], addOns: string[]): CommissionEmailDetails {
   const customSizeSelected = formData.getAll("sizes").includes("other");
   return {
@@ -128,6 +165,7 @@ async function detailsFromPaymentIntent(stripe: Stripe, paymentIntent: Stripe.Pa
     installmentNumber: metadata.installmentNumber ? `${metadata.installmentNumber} of 3` : "",
     shipping: formatMoney(shippingCents / 100, paymentIntent.currency),
     rushFee: rushCents ? formatMoney(rushCents / 100, paymentIntent.currency) : "None",
+    discount: Number(metadata.discountCents ?? 0) > 0 ? formatMoney(Number(metadata.discountCents) / 100, paymentIntent.currency) : "",
   };
 }
 
@@ -192,12 +230,8 @@ export async function createCommissionPayment(
 
     const currency = validPrices[0].currency;
     const selectedAmountCents = validPrices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const baseTotalCents = paymentPlan === "installments" ? selectedAmountCents * 3 : selectedAmountCents;
-    const rushCents = priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
-    const amountCents = paymentPlan === "installments"
-      ? selectedAmountCents + Math.round(rushCents / 3) + shippingCents
-      : selectedAmountCents + rushCents + shippingCents;
-    const totalCents = baseTotalCents + rushCents + shippingCents;
+    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents);
+    const { amountCents, totalCents, rushCents, discountCents } = totals;
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amountCents,
       currency,
@@ -210,6 +244,10 @@ export async function createCommissionPayment(
         priorityDate,
         shippingCents: String(shippingCents),
         rushCents: String(rushCents),
+        coupon: "",
+        couponId: "",
+        couponType: "",
+        discountCents: String(discountCents),
         totalCents: String(totalCents),
       },
     });
@@ -256,20 +294,57 @@ export async function updateCommissionPaymentOptions(paymentIntentId: string, pr
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
     const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId)));
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const baseTotalCents = paymentPlan === "installments" ? selectedAmountCents * 3 : selectedAmountCents;
-    const rushCents = priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
-    const amountCents = paymentPlan === "installments"
-      ? selectedAmountCents + Math.round(rushCents / 3) + shippingCents
-      : selectedAmountCents + rushCents + shippingCents;
-    const totalCents = baseTotalCents + rushCents + shippingCents;
+    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents, Number(paymentIntent.metadata.discountCents ?? 0));
+    const { amountCents, totalCents, rushCents, discountCents } = totals;
     await stripe.paymentIntents.update(paymentIntentId, {
       amount: amountCents,
-      metadata: { priorityDate, shippingCents: String(shippingCents), rushCents: String(rushCents), totalCents: String(totalCents) },
+      metadata: { priorityDate, shippingCents: String(shippingCents), rushCents: String(rushCents), discountCents: String(discountCents), totalCents: String(totalCents) },
     });
     return { success: true, amountCents, totalCents };
   } catch (error) {
     console.error("Failed to update commission payment options:", error);
     return { success: false, message: "We could not update the payment total. Please try again." };
+  }
+}
+
+export async function applyCommissionVoucher(paymentIntentId: string, code: string, priorityDate: string, shippingCents: number) {
+  if (!process.env.STRIPE_SECRET_KEY) return { success: false, message: "Payments aren't configured yet." };
+  if (![0, 2500, 3500].includes(shippingCents)) return { success: false, message: "Please choose a valid shipping method." };
+
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    if (paymentIntent.status === "succeeded") return { success: false, message: "This payment has already been completed." };
+
+    const normalized = code.trim().toUpperCase();
+    const source = await resolveDiscountCode(normalized);
+    if (normalized && !source) return { success: false, message: "That coupon or voucher is invalid or has already been used." };
+
+    const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
+    const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
+    if (priceIds.length === 0) return { success: false, message: "The selected product prices could not be found." };
+    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId)));
+    const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
+    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate.trim(), shippingCents, getDiscountCents(source));
+    if (totals.amountCents < 50) return { success: false, message: "This voucher covers the initial payment in full. Please contact the studio to complete this order." };
+
+    await stripe.paymentIntents.update(paymentIntentId, {
+      amount: totals.amountCents,
+      metadata: {
+        priorityDate: priorityDate.trim(),
+        shippingCents: String(shippingCents),
+        rushCents: String(totals.rushCents),
+        coupon: normalized,
+        couponId: source?.record.id ?? "",
+        couponType: source?.type ?? "",
+        discountCents: String(totals.discountCents),
+        totalCents: String(totals.totalCents),
+      },
+    });
+    return { success: true, code: normalized, discountCents: totals.discountCents, amountCents: totals.amountCents, totalCents: totals.totalCents };
+  } catch (error) {
+    console.error("Failed to apply commission voucher:", error);
+    return { success: false, message: "We could not apply that coupon or voucher. Please try again." };
   }
 }
 
@@ -338,7 +413,7 @@ export async function createCommissionDeposit(
       }
       if (!coupon) return { status: "error", message: "That coupon is invalid or has already been used." };
     }
-    const discountCents = Math.min(coupon?.discount_cents ?? 0, totalCents);
+    const discountCents = Math.min(getDiscountCents(coupon ? { record: coupon, type: couponType as "coupon" | "voucher" } : null), totalCents);
     const discountedTotalCents = totalCents - discountCents;
     const depositCents = Math.round(discountedTotalCents / 2);
     const sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name);

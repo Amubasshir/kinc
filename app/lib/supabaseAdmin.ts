@@ -34,7 +34,7 @@ export type CouponRecord = {
   redeemed_at: string | null;
 };
 
-export type VoucherRecord = CouponRecord & { amount_cents: number; currency: string; payment_intent_id: string };
+export type VoucherRecord = Omit<CouponRecord, "discount_cents"> & { amount_cents: number; currency: string; payment_intent_id: string };
 
 export async function findCouponByEmail(email: string) {
   const rows = await supabaseRequest<CouponRecord[]>(

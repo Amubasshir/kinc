@@ -129,6 +129,7 @@ export type CommissionEmailDetails = {
   story: string;
   note: string;
   coupon: string;
+  discount?: string;
   total: string;
   deposit: string;
   paymentReference: string;
@@ -169,6 +170,7 @@ function detailRows(details: CommissionEmailDetails) {
     ["Story", details.story],
     ["Note", details.note],
     ["Coupon", details.coupon],
+    ["Voucher discount", details.discount ?? ""],
     ["Estimated total", details.total],
     [details.quoteOnly ? "Payment" : "Deposit paid", details.deposit],
     ["Reference", details.paymentReference],
@@ -191,6 +193,7 @@ export function renderCommissionConfirmationHtml(details: CommissionEmailDetails
     ["Shipping", details.shipping ?? ""],
     ["Priority date", details.priorityDate],
     ["Amount paid", details.deposit],
+    ["Voucher discount", details.discount ?? ""],
     ["Order total", details.total],
   ].filter(([, value]) => value).map(([label, value]) => `<tr><td style="padding:8px 10px;border-bottom:1px solid #ededed;font-weight:700;color:#515151;">${escapeHtml(label)}</td><td style="padding:8px 10px;border-bottom:1px solid #ededed;color:#515151;">${escapeHtml(value)}</td></tr>`).join("");
 
@@ -235,6 +238,7 @@ Payment plan: ${details.paymentPlan ?? ""}
 Shipping: ${details.shipping ?? ""}
 Priority date: ${details.priorityDate || "None"}
 Amount paid: ${details.deposit}
+Voucher discount: ${details.discount || "None"}
 Order total: ${details.total}
 
 ${details.paymentPlan === "Full payment" ? "" : "The remaining balance will be due before dispatch.\n\n"}
