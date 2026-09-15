@@ -33,7 +33,7 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
 
   return (
     <aside className="commission-checkout-summary">
-      <div className="commission-checkout-brand"><span className="commission-checkout-brand-mark">K</span><span>KinCollage sandbox</span><span className="commission-checkout-sandbox">Sandbox</span></div>
+      <div className="commission-checkout-brand"><Image unoptimized className="commission-checkout-brand-mark" src="/favicon.svg" alt="" width={20} height={20} /><span>KinCollage sandbox</span><span className="commission-checkout-sandbox">Sandbox</span></div>
       <p className="commission-checkout-kicker">Pay KinCollage sandbox</p>
       <p className="commission-checkout-amount">{money.format(amountCents / 100)}</p>
       <div className="commission-checkout-items">

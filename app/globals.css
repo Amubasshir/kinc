@@ -5183,16 +5183,11 @@ html {
 }
 
 .commission-checkout-brand-mark {
-  display: grid;
+  display: block;
   width: 20px;
   height: 20px;
-  place-items: center;
   border-radius: 50%;
-  background: #fff;
-  color: #59c989;
-  font-family: var(--font-tenor-sans), Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
+  object-fit: contain;
 }
 
 .commission-checkout-sandbox {
