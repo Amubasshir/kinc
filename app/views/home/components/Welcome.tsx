@@ -13,13 +13,13 @@ export default function Welcome() {
             <p>
               <strong>Love their artwork, but hate the clutter?</strong>
               <br />
-              Constant chaos. Fridge mess. You feel you can’t throw your kid’s
-              <br /> scribbles away, but keeping them means constant clutter.
+              Constant chaos. Fridge mess. You feel you can’t throw your kid’s scribbles away, but keeping them means
+              constant clutter.
             </p>
             <p>
               <strong>Every child is an artist, but every parent runs out of storage space.</strong>
             </p>
-            <p>
+            <p style={{ marginTop: 0 }}>
               Between busy schedules and endless paper piles,
               <br /> organizing years of artwork feels impossible.
             </p>
@@ -28,29 +28,19 @@ export default function Welcome() {
             </p>
           </div>
 
-          <div className="welcome-before-wrap relative mt-[33px] h-[454px] w-[398px] max-[700px]:order-2 max-[700px]:mt-0 max-[700px]:h-auto max-[700px]:w-full max-[700px]:rounded-[18px] max-[700px]:bg-[#00d18f] max-[700px]:px-[22px] max-[700px]:py-7">
+          <div className="welcome-before-wrap relative mt-[33px] w-[398px] max-[700px]:order-2 max-[700px]:mt-0 max-[700px]:w-full">
             <div className="welcome-label welcome-label-before">
               <Image unoptimized src="/cursor-before.svg" alt="" width={24} height={24} aria-hidden="true" />
               <span>Before</span>
             </div>
-            <div className="welcome-before-card">
-              <Image
-                unoptimized
-                className="welcome-before-photo"
-                src="/welcome-before.png"
-                alt="Children's artwork collected on a fridge"
-                fill
-                sizes="(max-width: 760px) 82vw, 307px"
-              />
-            </div>
             <Image
               unoptimized
-              className="welcome-connector"
-              src="/welcome-connector.svg"
-              alt=""
-              width={193}
-              height={161}
-              aria-hidden="true"
+              className="welcome-before-photo"
+              src="/welcome-design-before.png"
+              alt="A collage of children's artwork, arranged as a keepsake"
+              width={1660}
+              height={2032}
+              sizes="(max-width: 700px) 100vw, 398px"
             />
           </div>
         </div>
@@ -60,10 +50,10 @@ export default function Welcome() {
             <Image
               unoptimized
               className="welcome-after-photo"
-              src="/welcome-after.png"
-              alt="Children viewing their finished heirloom collage"
-              width={1590}
-              height={2320}
+              src="/welcome-design-after.png"
+              alt="Children looking at their finished heirloom collage"
+              width={1760}
+              height={2176}
               sizes="(max-width: 760px) 100vw, 398px"
             />
             <div className="welcome-label welcome-label-after">
@@ -73,7 +63,8 @@ export default function Welcome() {
           </div>
           <div className="welcome-outro">
             <p>
-              KinCollage turns the memories of childhood into a custom, <strong>modern fine art family heirloom</strong>. You provide the drawings by mail, and I curate them into a single, cohesive collage.
+              KinCollage turns the memories of childhood into a custom, <strong>modern fine art family heirloom</strong>
+              . You provide the drawings by mail, and I curate them into a single, cohesive collage.
             </p>
             <p>
               <strong className="mt-6">No more ‘messy rooms’.</strong>

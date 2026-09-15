@@ -15,8 +15,12 @@ function renderEmojiText(text: string, keyPrefix: string) {
 function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: number) {
   if (stepIndex !== 0 || paragraphIndex !== 0) return renderEmojiText(paragraph, `step-${stepIndex}-${paragraphIndex}`);
 
-  const [beforeOrderForm, afterOrderForm] = paragraph.split("order form");
-  const [beforeHere, afterHere] = afterOrderForm.split("here");
+  const followupStart = " If you have any questions,";
+  const followupIndex = paragraph.indexOf(followupStart);
+  const primaryText = followupIndex === -1 ? paragraph : paragraph.slice(0, followupIndex);
+  const followupText = followupIndex === -1 ? "" : paragraph.slice(followupIndex + 1);
+  const [beforeOrderForm, afterOrderForm] = primaryText.split("order form");
+  const [beforeHere, afterHere] = (followupIndex === -1 ? afterOrderForm : followupText).split("here");
 
   return (
     <>
@@ -24,7 +28,8 @@ function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: n
       <Link className="font-bold" href="/start-your-commission">
         order form
       </Link>
-      {renderEmojiText(beforeHere, "order-middle")}
+      {renderEmojiText(followupIndex === -1 ? beforeHere : afterOrderForm, "order-middle")}
+      {followupIndex !== -1 && <><br />{renderEmojiText(beforeHere, "order-followup")}</>}
       <a className="font-bold" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
         here
       </a>
@@ -35,7 +40,7 @@ function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: n
 
 export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
   return (
-    <section id="how-it-works" className="how-it-works scroll-mt-6 rounded-[20px] bg-white px-6 pt-[91px] pb-24 text-[#263443] max-[700px]:rounded-[18px] max-[700px]:px-7 max-[700px]:pt-[62px] max-[700px]:pb-[58px]" aria-labelledby="how-heading">
+    <section id="how-it-works" className="how-it-works scroll-mt-6 rounded-[20px] bg-white px-6 pt-[91px] pb-24 text-[#515151] max-[700px]:rounded-[18px] max-[700px]:px-7 max-[700px]:pt-[62px] max-[700px]:pb-[58px]" aria-labelledby="how-heading">
       <h2 id="how-heading">
         <mark>How</mark> it works
       </h2>

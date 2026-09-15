@@ -1,5 +1,4 @@
 import About from "./components/About";
-import BrandLogos from "./components/BrandLogos";
 import Contact from "./components/Contact";
 import Faqs from "./components/Faqs";
 import Gallery from "./components/Gallery";
@@ -17,7 +16,7 @@ export default function HomeView({ viewModel }: { viewModel: HomeViewModel }) {
   return (
     <>
       <Hero />
-      <BrandLogos />
+      {/* <BrandLogos /> */}
       <Welcome />
       <Stats stats={viewModel.stats} />
       <HowItWorks steps={viewModel.howSteps} />

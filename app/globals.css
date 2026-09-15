@@ -89,7 +89,7 @@ small {
 }
 .welcome h2 {
   margin: -6px 0 21px;
-  color: #555;
+  color: #515151;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 42px;
   font-weight: 300;
@@ -98,9 +98,9 @@ small {
 }
 .welcome p {
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.29;
+  line-height: 22.5px;
   letter-spacing: 0.05px;
 }
 .welcome strong {
@@ -115,42 +115,14 @@ small {
 .welcome-before-wrap {
   position: relative;
   width: 398px;
-  height: 454px;
   margin-top: 33px;
 }
-.welcome-before-card {
-  position: relative;
-  width: 398px;
-  height: 454px;
-  overflow: visible;
-  border-radius: 18px;
-  background: #00d18f;
-}
 .welcome-before-photo {
-  position: absolute !important;
-  inset: 15px auto auto 45px !important;
-  width: 307px !important;
-  height: 426px !important;
-  border-radius: 13px;
-  object-fit: cover;
-}
-.welcome-tape {
-  position: absolute;
-  z-index: 3;
-  top: -29px;
-  left: -30px;
-  width: 118px;
-  height: auto;
-  transform: rotate(-4deg);
-}
-.welcome-connector {
-  position: absolute;
-  z-index: 4;
-  top: 87px;
-  left: 272px;
-  width: 193px;
-  height: 161px;
-  pointer-events: none;
+  position: relative !important;
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
 }
 .welcome-after-wrap {
   position: relative;
@@ -159,9 +131,8 @@ small {
 .welcome-after-photo {
   display: block;
   width: 398px;
-  height: 580px;
-  border-radius: 19px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
 }
 .welcome-label {
   position: absolute;
@@ -175,26 +146,29 @@ small {
 }
 .welcome-label span {
   display: inline-flex;
-  min-width: 55px;
-  min-height: 39px;
+  min-width: 60px;
+  min-height: 36px;
+  padding: 0 12px;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   font-weight: 600;
+  box-shadow: 0 2px 5px rgb(29 41 61 / 10%);
 }
 .welcome-label-before {
   top: 272px;
-  left: -116px;
+  left: -88px;
 }
 .welcome-label-before img {
   align-self: flex-end;
   margin: 0 -18px -1px 0;
 }
 .welcome-label-before span {
+  border-top-right-radius: 0;
   background: #97ff77;
 }
 .welcome-label-after {
-  top: 409px;
+  top: 385px;
   right: -104px;
 }
 .welcome-label-after img {
@@ -202,13 +176,17 @@ small {
   margin: 0 0 -1px -24px;
 }
 .welcome-label-after span {
+  border-top-left-radius: 0;
   background: #ffe500;
 }
 .welcome-outro {
   margin-top: 33px;
 }
+.welcome-outro > p + p {
+  margin-top: 25px;
+}
 .welcome-outro .welcome-closing {
-  margin-top: 22px;
+  margin-top: 25px;
 }
 .welcome-closing em {
   font-weight: 500;
@@ -216,7 +194,7 @@ small {
 
 @media (max-width: 1080px) {
   .welcome-label-before {
-    left: -70px;
+    left: -52px;
   }
   .welcome-label-after {
     right: -70px;
@@ -225,19 +203,13 @@ small {
 
 @media (max-width: 940px) {
   .welcome-before-wrap,
-  .welcome-before-card,
   .welcome-after-wrap {
     width: 100%;
-  }
-  .welcome-before-photo {
-    left: 11% !important;
-    width: 78% !important;
   }
   .welcome-after-photo {
     width: 100%;
     height: auto;
   }
-  .welcome-connector,
   .welcome-label {
     display: none;
   }
@@ -252,19 +224,11 @@ small {
   }
   .welcome p {
     font-size: 16px;
-    line-height: 1.4;
+    line-height: 22.5px;
   }
   .welcome-before-wrap {
     height: auto;
     margin-top: 40px;
-  }
-  .welcome-before-card {
-    height: auto;
-    aspect-ratio: 398 / 454;
-  }
-  .welcome-before-photo {
-    top: 3.3% !important;
-    height: 93.8% !important;
   }
   .welcome-after-wrap {
     max-width: 520px;
@@ -373,7 +337,7 @@ small {
   justify-content: center;
   border-radius: 50%;
   background: #f7f7f7;
-  color: #2e2e38;
+  color: #515151;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 22px;
   font-style: normal;
@@ -387,7 +351,7 @@ small {
   letter-spacing: 0.4px;
 }
 .how-body {
-  margin: 31px 0 0 60px;
+  margin: 26px 0 0 60px;
 }
 .how-body p {
   margin: 0;
@@ -521,7 +485,7 @@ small {
     font-size: clamp(30px, 8vw, 36px);
   }
   .how-body {
-    margin: 25px 0 0;
+    margin: 20px 0 0;
   }
   .how-body p {
     font-size: 16px;
@@ -3169,8 +3133,8 @@ html {
     font-size: 34px;
   }
   .welcome p {
-    font-size: 15px;
-    line-height: 1.42;
+    font-size: 16px;
+    line-height: 22.5px;
   }
   .welcome p br {
     display: none;
@@ -3184,36 +3148,10 @@ html {
     height: auto;
     box-sizing: border-box;
     margin: 0;
-    padding: 28px 22px;
     overflow: visible;
-    border-radius: 18px;
-    background: #00d18f;
   }
-  .welcome-before-card {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 322 / 552;
-  }
-  .welcome-before-photo {
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 15px;
-    object-fit: cover;
-  }
-  .welcome-tape,
   .welcome-label {
     display: none;
-  }
-  .welcome-connector {
-    display: block;
-    right: auto;
-    bottom: -100px;
-    left: 36px;
-    z-index: 5;
-    width: 92px;
-    height: auto;
   }
   .welcome-after-wrap {
     order: 3;
@@ -3233,7 +3171,7 @@ html {
     background: #fff;
   }
   .welcome-outro .welcome-closing {
-    margin-top: 27px;
+    margin-top: 25px;
   }
 
   .how-it-works > h2 {
@@ -3271,7 +3209,7 @@ html {
     font-size: 30px;
   }
   .how-body {
-    margin-top: 21px;
+    margin-top: 18px;
   }
   .how-body p {
     font-size: 15px;

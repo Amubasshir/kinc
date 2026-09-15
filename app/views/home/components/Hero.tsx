@@ -24,7 +24,7 @@ export default function Hero() {
           <span><em className={swankyAndMooMoo.className}>scribbles</em> INTO A</span>
           <span>FAMILY HEIRLOOM</span>
         </h1>
-        <p className="hero-description text-[15px] leading-[1.28] tracking-[.05px] max-[820px]:max-w-[480px] max-[820px]:text-[16px] max-[700px]:mt-[17px] max-[700px]:text-[15px] max-[700px]:leading-[1.45]">
+        <p className="hero-description text-[16px] leading-[1.28] tracking-[.05px] max-[820px]:max-w-[480px] max-[700px]:mt-[17px] max-[700px]:leading-[1.45]">
           Custom-made collages by Zsofia to preserve your
           <br className="hero-desktop-break" />{" "}children&apos;s memories
         </p>
