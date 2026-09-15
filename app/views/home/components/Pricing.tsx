@@ -35,7 +35,7 @@ function PricingCard({ size }: { size: PricingSizeModel }) {
         </p>
         <p className="pricing-price">{size.price}</p>
         <Link
-          className="button-primary mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-full px-6 text-[14px] font-semibold no-underline"
+          className="button-primary pricing-buy-button mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-full px-6 no-underline"
           href={`/start-your-commission${size.purchaseId ? `?product=${size.purchaseId}` : ""}`}
         >
           BUY NOW
