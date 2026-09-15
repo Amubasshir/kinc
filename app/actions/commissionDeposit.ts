@@ -235,7 +235,7 @@ export async function createCommissionPayment(
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amountCents,
       currency,
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ["card"],
       description: paymentPlan === "installments" ? "KinCollage 2026 installment 1 of 3" : "KinCollage 2026 full payment",
       metadata: {
         paymentPlan,
@@ -259,12 +259,12 @@ export async function createCommissionPayment(
   }
 }
 
-export async function savePaymentCustomerDetails(paymentIntentId: string, email: string, address: string) {
+export async function savePaymentCustomerDetails(paymentIntentId: string, email: string, address: string, contactName = "") {
   if (!process.env.STRIPE_SECRET_KEY || !EMAIL_PATTERN.test(email) || !address) return { success: false, message: "Please provide a valid email and address." };
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const parsedAddress = JSON.parse(address) as { name?: string; phone?: string; address?: { line1?: string; line2?: string; city?: string; state?: string; postal_code?: string; country?: string } };
-    const customerName = parsedAddress.name?.trim() ?? "";
+      const customerName = contactName.trim() || parsedAddress.name?.trim() || "";
     const nameParts = customerName.split(/\s+/).filter(Boolean);
     const addressParts = [parsedAddress.address?.line1, parsedAddress.address?.line2, parsedAddress.address?.city, parsedAddress.address?.state, parsedAddress.address?.postal_code, parsedAddress.address?.country].filter(Boolean);
     await stripe.paymentIntents.update(paymentIntentId, {
@@ -421,7 +421,7 @@ export async function createCommissionDeposit(
     const paymentIntent = await stripe.paymentIntents.create({
       amount: depositCents,
       currency,
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ["card"],
       receipt_email: email,
       description: `KinCollage commission deposit - ${firstName} ${lastName}`,
       metadata: {

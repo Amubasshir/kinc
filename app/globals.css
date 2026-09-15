@@ -5398,14 +5398,185 @@ html {
 }
 
 .commission-stripe-section {
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
 .commission-stripe-section-title {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   color: #565661;
   font-size: 14px;
+}
+
+.commission-contact-section {
+  margin-top: 0;
+}
+
+.commission-contact-fields {
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid #d6d6dc;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(38 52 67 / 10%);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.commission-contact-fields:focus-within {
+  border-color: #00b982;
+  box-shadow: 0 0 0 3px rgb(0 209 143 / 14%);
+}
+
+.commission-address-fields {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid #d6d6dc;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(38 52 67 / 10%);
+}
+
+.commission-address-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  min-height: 40px;
+  padding: 0 10px;
+  color: #777782;
+}
+
+.commission-address-row + .commission-address-row {
+  border-top: 1px solid #e5e5e9;
+}
+
+.commission-address-row input,
+.commission-address-row select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #3c3c46;
+  font: inherit;
+  font-size: 13px;
+}
+
+.commission-address-row input::placeholder {
+  color: #777782;
+  opacity: 1;
+}
+
+.commission-address-country {
+  grid-template-columns: minmax(0, 1fr) 14px;
+  gap: 8px;
+}
+
+.commission-address-country select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.commission-address-country svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: #565661;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.commission-address-phone {
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 10px;
+}
+
+.commission-phone-code {
+  display: grid;
+  grid-template-columns: max-content 12px;
+  align-items: center;
+  gap: 5px;
+}
+
+.commission-phone-code select {
+  min-height: 36px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #777782;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.commission-phone-code svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: #777782;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.4;
+}
+
+.commission-phone-number input {
+  min-height: 38px;
+}
+
+.commission-contact-row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 11px;
+  color: #777782;
+}
+
+.commission-contact-row + .commission-contact-row {
+  border-top: 1px solid #e5e5e9;
+}
+
+.commission-contact-row svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.3;
+}
+
+.commission-contact-row input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 38px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #2e2e38;
+  font: inherit;
+  font-size: 13px;
+}
+
+.commission-contact-row input::placeholder {
+  color: #777782;
+  opacity: 1;
+}
+
+.commission-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 .commission-checkout-form-panel .commission-stripe-date-field {
@@ -5422,10 +5593,16 @@ html {
 
 .commission-checkout-form-panel .commission-shipping-options label {
   font-size: 14px;
+  font-weight: 500;
 }
 
 .commission-checkout-form-panel .commission-shipping-options small {
   font-size: 12px;
+  font-weight: 400;
+}
+
+.commission-checkout-form-panel .commission-stripe-shipping-field legend {
+  font-weight: 500;
 }
 
 .commission-checkout-form-panel .commission-order-submit {
@@ -5445,6 +5622,56 @@ html {
   line-height: 1.4;
   text-align: center;
 }
+
+.commission-checkout-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+  color: #666671;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.commission-checkout-terms input {
+  width: 14px;
+  height: 14px;
+  margin: 1px 0 0;
+  accent-color: #00b982;
+  flex: 0 0 auto;
+}
+
+.commission-checkout-terms a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.commission-billing-same {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-top: 8px;
+  padding: 0 10px;
+  border: 1px solid #e5e5e9;
+  border-radius: 6px;
+  color: #666671;
+  font-size: 12px;
+}
+
+.commission-billing-same input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: #00b982;
+}
+
+.commission-payment-form > .commission-stripe-date-field {
+  margin-top: 16px;
+}
+
+.commission-checkout-form-panel .commission-stripe-date-field input:focus,
 
 @media (max-width: 760px) {
   .commission-checkout-shell {
@@ -5568,8 +5795,9 @@ html {
 }
 
 .commission-shipping-options label {
+  position: relative;
   display: grid;
-  grid-template-columns: 16px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
   min-height: 38px;
@@ -5577,17 +5805,28 @@ html {
   border-bottom: 1px solid #e5e5e9;
   color: #2e2e38;
   font-size: 12px;
+  cursor: pointer;
 }
 
 .commission-shipping-options label:last-child {
   border-bottom: 0;
 }
 
+.commission-shipping-options label:has(input:checked) {
+  background: #f2fff9;
+}
+
+.commission-shipping-options label:has(input:focus-visible) {
+  outline: 2px solid #00b982;
+  outline-offset: -2px;
+}
+
 .commission-shipping-options input {
-  width: 13px;
-  height: 13px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
   margin: 0;
-  accent-color: #00c98a;
+  opacity: 0;
 }
 
 .commission-shipping-options span {
