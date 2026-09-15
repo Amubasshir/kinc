@@ -42,6 +42,15 @@ export default function Welcome() {
               height={2032}
               sizes="(max-width: 700px) 100vw, 398px"
             />
+            <Image
+              unoptimized
+              className="welcome-connector"
+              src="/welcome-arrow.svg"
+              alt=""
+              width={193}
+              height={161}
+              aria-hidden="true"
+            />
           </div>
         </div>
 

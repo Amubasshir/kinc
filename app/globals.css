@@ -127,12 +127,22 @@ small {
 .welcome-after-wrap {
   position: relative;
   width: 398px;
+  margin-left: -13%;
 }
 .welcome-after-photo {
   display: block;
   width: 398px;
   height: auto;
   object-fit: contain;
+}
+.welcome-connector {
+  position: absolute;
+  z-index: 5;
+  top: 28%;
+  left: 71%;
+  width: 193px;
+  height: 161px;
+  pointer-events: none;
 }
 .welcome-label {
   position: absolute;
@@ -193,6 +203,10 @@ small {
 }
 
 @media (max-width: 1080px) {
+  .welcome-connector {
+    width: 42%;
+    height: auto;
+  }
   .welcome-label-before {
     left: -52px;
   }
@@ -219,6 +233,9 @@ small {
 }
 
 @media (max-width: 700px) {
+  .welcome-connector {
+    display: none;
+  }
   .welcome h2 {
     font-size: 42px;
   }
@@ -232,6 +249,7 @@ small {
   }
   .welcome-after-wrap {
     max-width: 520px;
+    margin-left: 0;
   }
   .welcome-outro {
     margin-top: 28px;
