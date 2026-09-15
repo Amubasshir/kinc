@@ -33,32 +33,31 @@ export default function Hero() {
           <img className="hero-eyelash pointer-events-none absolute top-3 left-[calc(100%+1px)] h-[85px] w-[51px] object-contain max-[820px]:h-auto max-[820px]:w-[43px] max-[700px]:top-[calc(100%+2px)] max-[700px]:left-[calc(100%+2px)] max-[700px]:w-12" src="/hero-eyelash.svg" alt="" aria-hidden="true" />
         </div>
       </div>
+      {/*
+        One element serves both layouts. It keeps the .hero-showcase class and
+        every desktop/tablet utility it had before; the ≤700px presentation that
+        used to come from a second .hero-showcase-mobile element is restored by a
+        rule at the end of globals.css. Both renditions share the 1200:1080 ratio,
+        so the rendered box is identical either way.
+
+        Note: <source media> is resolved once at load and is not re-evaluated on
+        resize, so crossing 700px mid-session keeps the rendition already chosen.
+        Both render correctly; only the resolution differs.
+      */}
       <video
-        className="hero-showcase absolute top-0 right-0 block h-full w-[59.86%] rounded-[20px] object-contain bg-[#00d18f] max-[820px]:relative max-[820px]:order-first max-[820px]:h-auto max-[820px]:w-full max-[820px]:rounded-2xl max-[820px]:aspect-[838/812] max-[700px]:hidden"
+        className="hero-showcase absolute top-0 right-0 block h-full w-[59.86%] rounded-[20px] object-contain bg-[#00d18f] max-[820px]:relative max-[820px]:order-first max-[820px]:h-auto max-[820px]:w-full max-[820px]:rounded-2xl max-[820px]:aspect-[838/812]"
         style={{ objectPosition: "center top" }}
+        poster="/video/hero-poster.v1.jpg"
         autoPlay
         loop
         muted
         controls
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-label="Hero background video"
       >
-        <source src="/KC_Headline_loop.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <video
-        className="hero-showcase-mobile hidden max-[700px]:relative max-[700px]:order-0 max-[700px]:block max-[700px]:h-auto max-[700px]:w-full max-[700px]:rounded-[18px] max-[700px]:bg-[#00d18f]"
-        style={{ objectPosition: "center top" }}
-        autoPlay
-        loop
-        muted
-        controls
-        playsInline
-        preload="metadata"
-        aria-label="Hero background video"
-      >
-        <source src="/KC_Headline_loop.mp4" type="video/mp4" />
+        <source media="(max-width: 700px)" src="/video/hero-loop-sm.v1.mp4" type="video/mp4" />
+        <source src="/video/hero-loop.v1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </section>

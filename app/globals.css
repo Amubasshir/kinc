@@ -5918,3 +5918,21 @@ html {
     padding: 24px 12px 26px;
   }
 }
+
+/* The hero video is now a single element instead of a desktop/mobile pair.
+   Below 700px it must render exactly as the old .hero-showcase-mobile element
+   did: full width, natural aspect ratio, 18px radius, no crop. This block has
+   to stay last in the file so it wins over the `.hero-showcase { display: none }`
+   and `height: 389px` rules set earlier in the 700px breakpoint. */
+@media (max-width: 700px) {
+  .hero-showcase {
+    position: relative;
+    display: block;
+    order: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto;
+    aspect-ratio: auto;
+    border-radius: 18px;
+  }
+}

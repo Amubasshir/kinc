@@ -7,6 +7,22 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Everything under /public/video uses versioned filenames (…v1.mp4), so a
+  // given URL never changes content. Serve it immutable: repeat visitors reuse
+  // it with no revalidation request at all. Bump the filename to publish a change.
+  async headers() {
+    return [
+      {
+        source: "/video/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
