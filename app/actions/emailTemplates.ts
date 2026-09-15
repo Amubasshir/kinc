@@ -187,15 +187,18 @@ export function renderCommissionConfirmationHtml(details: CommissionEmailDetails
     : details.paymentPlan === "Full payment"
       ? `Your full payment of <strong>${escapeHtml(details.deposit)}</strong> has been received and your studio slot is now secured.`
       : `Your first installment of <strong>${escapeHtml(details.deposit)}</strong> has been received and your studio slot is now secured.`;
+  const priorityDate = details.priorityDate
+    ? new Date(`${details.priorityDate}T00:00:00`).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })
+    : "";
   const summaryRows = [
     ["Canvas size(s)", details.sizes],
     ["Payment plan", details.paymentPlan ?? ""],
     ["Shipping", details.shipping ?? ""],
-    ["Priority date", details.priorityDate],
+    ["Priority date", priorityDate],
     ["Amount paid", details.deposit],
     ["Voucher discount", details.discount ?? ""],
     ["Order total", details.total],
-  ].filter(([, value]) => value).map(([label, value]) => `<tr><td style="padding:8px 10px;border-bottom:1px solid #ededed;font-weight:700;color:#515151;">${escapeHtml(label)}</td><td style="padding:8px 10px;border-bottom:1px solid #ededed;color:#515151;">${escapeHtml(value)}</td></tr>`).join("");
+  ].filter(([, value]) => value).map(([label, value]) => `<tr><td width="34%" style="width:34%;padding:11px 14px;border-bottom:1px solid #ededed;font-weight:600;line-height:1.45;white-space:nowrap;vertical-align:top;color:#515151;">${escapeHtml(label)}</td><td width="66%" style="width:66%;padding:11px 14px;border-bottom:1px solid #ededed;line-height:1.5;vertical-align:top;color:#515151;">${escapeHtml(value)}</td></tr>`).join("");
 
   return `<!doctype html>
 <html lang="en">

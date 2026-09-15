@@ -5297,8 +5297,8 @@ html {
   width: 42px;
   height: 42px;
   border-radius: 4px;
-  object-fit: contain;
-  background: #fff;
+  object-fit: cover;
+  background: transparent;
 }
 
 .commission-checkout-item strong,
@@ -5448,6 +5448,20 @@ html {
 
 .commission-address-row + .commission-address-row {
   border-top: 1px solid #e5e5e9;
+}
+
+.commission-address-locality {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  padding: 0;
+}
+
+.commission-address-locality label {
+  min-width: 0;
+  padding: 0 10px;
+}
+
+.commission-address-locality label + label {
+  border-left: 1px solid #e5e5e9;
 }
 
 .commission-address-row input,
@@ -5797,7 +5811,7 @@ html {
 .commission-shipping-options label {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
   min-height: 38px;
@@ -5812,21 +5826,31 @@ html {
   border-bottom: 0;
 }
 
-.commission-shipping-options label:has(input:checked) {
-  background: #f2fff9;
-}
-
 .commission-shipping-options label:has(input:focus-visible) {
   outline: 2px solid #00b982;
   outline-offset: -2px;
 }
 
 .commission-shipping-options input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+  appearance: none;
+  width: 14px;
+  height: 14px;
   margin: 0;
-  opacity: 0;
+  border: 1.5px solid #92929a;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.commission-shipping-options input:checked {
+  border: 2px solid #087f6c;
+  background: #00d99b;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.commission-shipping-options input:focus-visible {
+  outline: 2px solid #00b982;
+  outline-offset: 3px;
 }
 
 .commission-shipping-options span {

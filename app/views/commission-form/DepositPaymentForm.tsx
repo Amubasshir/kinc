@@ -61,10 +61,12 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [addressComplete, setAddressComplete] = useState(false);
-  const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
   const [shippingName, setShippingName] = useState("");
   const [shippingCountry, setShippingCountry] = useState("AU");
   const [shippingLine1, setShippingLine1] = useState("");
+  const [shippingCity, setShippingCity] = useState("");
+  const [shippingState, setShippingState] = useState("");
+  const [shippingPostalCode, setShippingPostalCode] = useState("");
   const [shippingPhone, setShippingPhone] = useState("");
   const [phoneCountryCode, setPhoneCountryCode] = useState("AU");
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -73,15 +75,26 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
   const [currentAmountCents, setCurrentAmountCents] = useState(amountCents);
   const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
 
-  const updateShippingAddress = (name: string, country: string, line1: string, phone: string, phoneCode = phoneCountryCode) => {
+  const updateShippingAddress = (changes: Partial<{ name: string; country: string; line1: string; city: string; state: string; phone: string; phoneCode: string; postalCode: string }>) => {
+    const name = changes.name ?? shippingName;
+    const country = changes.country ?? shippingCountry;
+    const line1 = changes.line1 ?? shippingLine1;
+    const city = changes.city ?? shippingCity;
+    const state = changes.state ?? shippingState;
+    const phone = changes.phone ?? shippingPhone;
+    const phoneCode = changes.phoneCode ?? phoneCountryCode;
+    const postalCode = changes.postalCode ?? shippingPostalCode;
     setShippingName(name);
     setShippingCountry(country);
     setShippingLine1(line1);
+    setShippingCity(city);
+    setShippingState(state);
+    setShippingPostalCode(postalCode);
     setShippingPhone(phone);
     setPhoneCountryCode(phoneCode);
     const dialCode = { AU: "+61", US: "+1", CA: "+1", NZ: "+64" }[phoneCode] ?? "+61";
-    setCustomerAddress(JSON.stringify({ name, phone: phone.trim() ? `${dialCode} ${phone.trim()}` : "", address: { line1, country } }));
-    setAddressComplete(Boolean(name.trim() && country && line1.trim()));
+    setCustomerAddress(JSON.stringify({ name, phone: phone.trim() ? `${dialCode} ${phone.trim()}` : "", address: { line1, city, state, country, postal_code: postalCode } }));
+    setAddressComplete(Boolean(name.trim() && country && line1.trim() && city.trim() && state.trim() && postalCode.trim()));
   };
 
   useEffect(() => setCurrentAmountCents(amountCents), [amountCents]);
@@ -129,10 +142,10 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
       confirmParams: {
         payment_method_data: {
           billing_details: {
-            name: billingSameAsShipping ? shippingName : customerName,
+            name: shippingName,
             email: customerEmail,
-            phone: billingSameAsShipping ? customerAddress ? JSON.parse(customerAddress).phone : undefined : undefined,
-            ...(billingSameAsShipping ? { address: { line1: shippingLine1, country: shippingCountry } } : {}),
+            phone: customerAddress ? JSON.parse(customerAddress).phone : undefined,
+            address: { line1: shippingLine1, city: shippingCity, state: shippingState, country: shippingCountry, postal_code: shippingPostalCode },
           },
         },
       },
@@ -154,17 +167,19 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
       <div className="commission-stripe-section commission-contact-section"><span className="commission-stripe-section-title">Contact details</span><div className="commission-contact-fields"><label className="commission-contact-row"><svg aria-hidden="true" viewBox="0 0 16 16"><rect x="2" y="3.5" width="12" height="9" rx="1.5" /><path d="m3 5 5 3.5L13 5" /></svg><span className="commission-visually-hidden">Email</span><input type="email" autoComplete="email" placeholder="Email" value={customerEmail} onChange={(event) => { setCustomerEmail(event.target.value); setEmailComplete(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(event.target.value)); }} required /></label><label className="commission-contact-row"><svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="8" cy="5" r="2.5" /><path d="M3 13c.4-2.2 2.2-3.5 5-3.5s4.6 1.3 5 3.5" /></svg><span className="commission-visually-hidden">Full name</span><input type="text" autoComplete="name" placeholder="Full name" value={customerName} onChange={(event) => setCustomerName(event.target.value)} required /></label></div></div>
       <label className="commission-stripe-date-field"><span className="commission-stripe-date-label">Priority order request date <em>(Optional)</em></span><input aria-label="Priority Date (30% rush fee applies)" type="date" value={priorityDate} onChange={(event) => changeOptions({ priorityDate: event.target.value, shippingCents })} /><small>Priority Date (30% rush fee applies)</small></label>
       <div className="commission-stripe-section commission-address-section"><span className="commission-stripe-section-title">Shipping address</span><div className="commission-address-fields">
-        <label className="commission-address-row"><span className="commission-visually-hidden">Full name</span><input type="text" autoComplete="shipping name" placeholder="Full name" value={shippingName} onChange={(event) => updateShippingAddress(event.target.value, shippingCountry, shippingLine1, shippingPhone)} required /></label>
-        <label className="commission-address-row commission-address-country"><span className="commission-visually-hidden">Country or region</span><select autoComplete="shipping country-name" aria-label="Country or region" value={shippingCountry} onChange={(event) => updateShippingAddress(shippingName, event.target.value, shippingLine1, shippingPhone)}><option value="AU">Australia</option><option value="BD">Bangladesh</option><option value="US">United States</option><option value="CA">Canada</option><option value="NZ">New Zealand</option></select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m3.5 6 4.5 4 4.5-4" /></svg></label>
-        <label className="commission-address-row"><span className="commission-visually-hidden">Address</span><input type="text" autoComplete="shipping address-line1" placeholder="Address" value={shippingLine1} onChange={(event) => updateShippingAddress(shippingName, shippingCountry, event.target.value, shippingPhone)} required /></label>
-        <div className="commission-address-row commission-address-phone"><label className="commission-phone-code"><span className="commission-visually-hidden">Phone country code</span><select aria-label="Phone country code" value={phoneCountryCode} onChange={(event) => updateShippingAddress(shippingName, shippingCountry, shippingLine1, shippingPhone, event.target.value)}><option value="AU">🇦🇺 +61</option><option value="US">🇺🇸 +1</option><option value="CA">🇨🇦 +1</option><option value="NZ">🇳🇿 +64</option></select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m4 6 4 4 4-4" /></svg></label><label className="commission-phone-number"><span className="commission-visually-hidden">Phone number (optional)</span><input type="tel" autoComplete="shipping tel-national" placeholder="Phone number" value={shippingPhone} onChange={(event) => updateShippingAddress(shippingName, shippingCountry, shippingLine1, event.target.value)} /></label></div>
+        <label className="commission-address-row"><span className="commission-visually-hidden">Full name</span><input type="text" autoComplete="shipping name" placeholder="Full name" value={shippingName} onChange={(event) => updateShippingAddress({ name: event.target.value })} required /></label>
+        <label className="commission-address-row commission-address-country"><span className="commission-visually-hidden">Country or region</span><select autoComplete="shipping country-name" aria-label="Country or region" value={shippingCountry} onChange={(event) => updateShippingAddress({ country: event.target.value })}><option value="AU">Australia</option><option value="BD">Bangladesh</option><option value="US">United States</option><option value="CA">Canada</option><option value="NZ">New Zealand</option></select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m3.5 6 4.5 4 4.5-4" /></svg></label>
+        <label className="commission-address-row"><span className="commission-visually-hidden">Address</span><input type="text" autoComplete="shipping address-line1" placeholder="Address" value={shippingLine1} onChange={(event) => updateShippingAddress({ line1: event.target.value })} required /></label>
+        <div className="commission-address-row commission-address-locality"><label><span className="commission-visually-hidden">City</span><input type="text" autoComplete="shipping address-level2" placeholder="City" value={shippingCity} onChange={(event) => updateShippingAddress({ city: event.target.value })} required /></label><label><span className="commission-visually-hidden">State or region</span><input type="text" autoComplete="shipping address-level1" placeholder="State / region" value={shippingState} onChange={(event) => updateShippingAddress({ state: event.target.value })} required /></label></div>
+        <label className="commission-address-row"><span className="commission-visually-hidden">Postal code</span><input type="text" autoComplete="shipping postal-code" placeholder="Postal code" value={shippingPostalCode} onChange={(event) => updateShippingAddress({ postalCode: event.target.value })} required /></label>
+        <div className="commission-address-row commission-address-phone"><label className="commission-phone-code"><span className="commission-visually-hidden">Phone country code</span><select aria-label="Phone country code" value={phoneCountryCode} onChange={(event) => updateShippingAddress({ phoneCode: event.target.value })}><option value="AU">🇦🇺 +61</option><option value="US">🇺🇸 +1</option><option value="CA">🇨🇦 +1</option><option value="NZ">🇳🇿 +64</option></select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m4 6 4 4 4-4" /></svg></label><label className="commission-phone-number"><span className="commission-visually-hidden">Phone number (optional)</span><input type="tel" autoComplete="shipping tel-national" placeholder="Phone number" value={shippingPhone} onChange={(event) => updateShippingAddress({ phone: event.target.value })} /></label></div>
       </div></div>
       <fieldset className="commission-stripe-shipping-field"><legend>Shipping method</legend><div className="commission-shipping-options">
         <label><input type="radio" name="stripeShippingCents" checked={shippingCents === 0} onChange={() => changeOptions({ priorityDate, shippingCents: 0 })} /><span>Pick up from Sydney studio</span><strong>Free</strong></label>
         <label><input type="radio" name="stripeShippingCents" checked={shippingCents === 2500} onChange={() => changeOptions({ priorityDate, shippingCents: 2500 })} /><span>{sizeLabel} Shipping (Australia)<small>3–5 business days</small></span><strong>US$25.00</strong></label>
         <label><input type="radio" name="stripeShippingCents" checked={shippingCents === 3500} onChange={() => changeOptions({ priorityDate, shippingCents: 3500 })} /><span>{sizeLabel} Shipping (US &amp; Canada)<small>3–5 business days</small></span><strong>US$35.00</strong></label>
       </div></fieldset>
-      <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked={billingSameAsShipping} onChange={(event) => setBillingSameAsShipping(event.target.checked)} /><span>Billing info same as shipping</span></label></div>
+      <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked disabled /><span>Billing info same as shipping</span></label></div>
       <label className="commission-checkout-terms"><input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} required /><span>I agree to KinCollage sandbox&apos;s <a href="/legal#terms" target="_blank" rel="noreferrer">Terms of Service</a> and <a href="/legal#privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>
       {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
       <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || !elements || !isPaymentComplete || !emailComplete || !addressComplete || isPaying}>{isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `${paymentLabel} — ${money.format(currentAmountCents / 100)}`}</button>
@@ -215,7 +230,7 @@ export default function DepositPaymentForm({ clientSecret, amountCents, totalCen
       <CheckoutSummary items={items} amountCents={displayAmountCents} totalCents={displayTotalCents} currency={currency} paymentPlan={paymentPlan} options={options} discountCents={discountCents} voucherCode={voucherCode} voucherMessage={voucherMessage} isApplyingVoucher={isApplyingVoucher} onApplyVoucher={handleApplyVoucher} />
       <section className="commission-checkout-form-panel">
         <h3>Shipping information</h3>
-        <Elements stripe={getStripe()} options={{ clientSecret, fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" }], appearance: { theme: "flat", variables: { colorPrimary: "#00b982", colorText: "#263443", colorDanger: "#ad3127", fontFamily: "'Tenor Sans', Arial, sans-serif", fontSizeBase: "14px", fontSizeSm: "13px", borderRadius: "8px", spacingUnit: "2px" }, rules: { ".Input": { border: "1px solid #d6d6dc", borderRadius: "7px", backgroundColor: "#fff", padding: "9px 12px", boxShadow: "0 1px 3px rgb(38 52 67 / 10%)", fontSize: "14px" }, ".Input:focus": { border: "2px solid #00b982", boxShadow: "0 0 0 3px rgb(0 209 143 / 17%)" }, ".Label": { fontSize: "13px", textTransform: "none", color: "#565661" } } } }}>
+        <Elements stripe={getStripe()} options={{ clientSecret, fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" }], appearance: { theme: "flat", variables: { colorPrimary: "#00b982", colorText: "#263443", colorDanger: "#ad3127", fontFamily: "'Tenor Sans', Arial, sans-serif", fontSizeBase: "14px", fontSizeSm: "13px", borderRadius: "8px", spacingUnit: "2px" }, rules: { ".Input": { border: "1px solid #d6d6dc", borderRadius: "7px", backgroundColor: "#fff", padding: "9px 12px", boxShadow: "0 1px 3px rgba(38, 52, 67, 0.1)", fontSize: "14px" }, ".Input:focus": { border: "2px solid #00b982", boxShadow: "0 0 0 3px rgba(0, 209, 143, 0.17)" }, ".Label": { fontSize: "13px", textTransform: "none", color: "#565661" } } } }}>
           <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay installment" : "Pay in full"} paymentIntentId={paymentIntentId} sizeLabel={sizeLabel} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
         </Elements>
       </section>
