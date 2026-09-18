@@ -220,7 +220,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       ],
       [
         "Do you offer Gift Vouchers?",
-        "Yes. Digital vouchers are available for any amount and make a thoughtful gift for milestone birthdays, Mother’s Day, baby showers and other special occasions.",
+        "Yes. Digital vouchers are available for any amount and make a thoughtful gift for birthdays, Mother’s Day, Father's day, or for Christmas. The KinCollage digital voucher allows the recipient to curate their favourite childhood memories into a bespoke work of fine art.",
       ],
       [
         "What types of media are suitable for a collage?",
@@ -228,7 +228,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       ],
       [
         "Can I see the layout before it is permanently glued down?",
-        "Yes. The proposed composition can be reviewed before the artwork is permanently assembled, giving you confidence in the final direction.",
+        "Yes. The proposed composition can be reviewed before the artwork is permanently assembled, giving you confidence in the final direction. Please let us know if you would like to view it beforehand.",
       ],
       [
         "Do you offer installment or split payment options?",

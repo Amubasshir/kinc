@@ -1290,6 +1290,7 @@ small {
 }
 .contact-form-card h2 {
   margin: 0;
+  color: #515151;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 48px;
   font-weight: 300;
@@ -1307,6 +1308,8 @@ small {
 .contact-field label {
   display: block;
   margin-bottom: 7px;
+  color: #515151;
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
   font-size: 16px;
   line-height: 1;
 }
@@ -1323,6 +1326,7 @@ small {
   background: #fff;
   color: #263443;
   font: inherit;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
   font-size: 15px;
   transition:
     border-color 160ms ease,
@@ -1330,6 +1334,7 @@ small {
 }
 .contact-field input::placeholder {
   color: #aaaab5;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
   opacity: 1;
 }
 .contact-field input:focus {
@@ -1346,6 +1351,7 @@ small {
   background: #fff;
   color: #263443;
   font: inherit;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
   font-size: 15px;
   line-height: 1.4;
   resize: none;
@@ -1356,6 +1362,7 @@ small {
 }
 .contact-field textarea::placeholder {
   color: #aaaab5;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
   opacity: 1;
 }
 .contact-field textarea:focus {
@@ -1469,6 +1476,14 @@ small {
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif !important;
 }
 
+input,
+textarea,
+select,
+input::placeholder,
+textarea::placeholder {
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif !important;
+}
+
 label[for="subscriber-name"],
 label[for="subscriber-email"],
 label[for="contact-name"],
@@ -1556,11 +1571,17 @@ label[for="contact-message"] {
 .voucher-modal .voucher-modal-eyebrow {
   margin: 0 0 18px;
   color: #00a873;
-  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-align: center;
+}
+.voucher-modal label {
+  font-family: var(--font-tenor-sans), Arial, sans-serif !important;
+}
+.voucher-modal label input {
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
 }
 .voucher-modal .voucher-modal-heading {
   margin: 0;

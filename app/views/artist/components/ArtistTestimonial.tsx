@@ -8,7 +8,7 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
   const [italicBeforeHighlight, italicAfterHighlight] = italicText.split(testimonial.highlightedText);
 
   return (
-    <section className="artist-testimonial relative h-[743px] overflow-hidden rounded-[20px] text-[#263443] max-[900px]:h-auto max-[900px]:min-h-[520px] max-[900px]:aspect-[1398/743] max-[600px]:min-h-[490px] max-[600px]:rounded-2xl max-[700px]:min-h-[420px] max-[700px]:bg-[#00d18f]" aria-label={"Testimonial from " + testimonial.name}>
+    <section className="artist-testimonial relative h-[743px] overflow-hidden rounded-[20px] text-[#515151] max-[900px]:h-auto max-[900px]:min-h-[520px] max-[900px]:aspect-[1398/743] max-[600px]:min-h-[490px] max-[600px]:rounded-2xl max-[700px]:min-h-[420px] max-[700px]:bg-[#00d18f] max-[700px]:text-[#2E2E38]" aria-label={"Testimonial from " + testimonial.name}>
       <Image unoptimized
         className="artist-testimonial-background absolute inset-0 block h-full w-full object-cover max-[700px]:hidden"
         src="/artist/testimonial-bg.png"

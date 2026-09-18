@@ -40,7 +40,7 @@ export default function ArtistStory({
 
   return (
     <section
-      className="artist-story min-h-[977px] overflow-hidden rounded-[20px] bg-[#00d18f] px-6 pt-[72px] pb-[79px] text-center text-[#263443] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-5 max-[800px]:pt-16 max-[800px]:pb-[76px] max-[700px]:flex max-[700px]:flex-col max-[700px]:px-[14px] max-[700px]:pt-1 max-[700px]:pb-[31px]"
+      className="artist-story min-h-[977px] overflow-hidden rounded-[20px] bg-[#00d18f] px-6 pt-[72px] pb-[79px] text-center text-[#2E2E38] max-[800px]:min-h-0 max-[800px]:rounded-2xl max-[800px]:px-5 max-[800px]:pt-16 max-[800px]:pb-[76px] max-[700px]:flex max-[700px]:flex-col max-[700px]:px-[14px] max-[700px]:pt-1 max-[700px]:pb-[31px]"
       aria-labelledby="artist-story-heading"
     >
       <h2
