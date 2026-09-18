@@ -3,6 +3,8 @@ export type HowStepModel = {
   title: string;
   image: string;
   alt: string;
+  /** Still frame shown before a video step loads. Ignored for image steps. */
+  poster?: string;
   paragraphs: string[];
   action?: boolean;
   scribble?: boolean;

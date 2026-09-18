@@ -48,14 +48,19 @@ export default function HowItWorks({ steps }: { steps: HowStepModel[] }) {
         {steps.map((step, index) => (
           <article className={`how-step how-step-${index + 1}`} key={step.number}>
             <div className="how-photo">
-              {step.image.toLowerCase().endsWith(".mov") ? (
+              {/\.(mp4|webm|mov)$/i.test(step.image) ? (
                 <video
                   src={step.image}
+                  poster={step.poster}
                   aria-label={step.alt}
                   autoPlay
                   loop
                   muted
                   playsInline
+                  // Sits well below the fold: hold the poster and let the browser
+                  // fetch the video when it scrolls into view, so it never competes
+                  // with the hero for bandwidth.
+                  preload="none"
                 />
               ) : (
                 <Image unoptimized
