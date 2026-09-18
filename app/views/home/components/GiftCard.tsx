@@ -8,8 +8,10 @@ const initialVoucherState: VoucherPaymentState = { status: "idle" };
 
 export default function GiftCard() {
   const [amount, setAmount] = useState("");
+  const [purchaseAmount, setPurchaseAmount] = useState(0);
+  const [amountError, setAmountError] = useState("");
   const amountValue = Number(amount);
-  const canSubmit = Number.isInteger(amountValue) && amountValue >= 1;
+  const canSubmit = Number.isInteger(amountValue) && amountValue >= 1 && amountValue <= 10000;
   const [isOpen, setIsOpen] = useState(false);
   const [voucherCode, setVoucherCode] = useState("");
   const [copied, setCopied] = useState(false);
@@ -26,7 +28,7 @@ export default function GiftCard() {
           <br />
           childhood memories into a bespoke work of fine art.
         </p>
-        <form className="gift-card-form mx-auto mt-6 flex max-w-[480px] flex-col items-center" onSubmit={(event) => { event.preventDefault(); setIsOpen(true); }}>
+        <form className="gift-card-form mx-auto mt-6 flex max-w-[480px] flex-col items-center" onSubmit={(event) => { event.preventDefault(); if (!canSubmit) { setAmountError("Please enter an amount between $1 and $10,000 AUD."); return; } setAmountError(""); setPurchaseAmount(amountValue); setIsOpen(true); }}>
           <label className="text-[14px]" htmlFor="voucher-amount">Voucher amount in Australian dollars</label>
           <input
             className="mt-3 h-10 w-full rounded-full border-2 border-[#aaaab5] bg-white px-4 text-[15px] outline-none"
@@ -34,21 +36,25 @@ export default function GiftCard() {
             name="amount"
             type="number"
             min="1"
+            max="10000"
             step="1"
             inputMode="decimal"
             placeholder="$ [ Enter Amount ] AUD"
             value={amount}
-            onChange={(event) => setAmount(event.target.value)}
+            onChange={(event) => { setAmount(event.target.value); setAmountError(""); }}
+            aria-invalid={Boolean(amountError)}
+            aria-describedby={amountError ? "voucher-amount-error" : undefined}
             required
           />
-          <button className="button-primary mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 text-[15px] max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit}>PURCHASE VOUCHER</button>
+          {amountError && <p id="voucher-amount-error" className="commission-field-error mt-2 self-start text-left" role="alert">{amountError}</p>}
+          <button className="button-primary mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 text-[15px] max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">PURCHASE VOUCHER</button>
         </form>
       </div>
       {isOpen && <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#263443]/60 px-4 py-8" role="dialog" aria-modal="true" aria-labelledby="voucher-modal-title">
         <div className="voucher-modal relative max-h-full w-full max-w-[520px] overflow-y-auto rounded-[24px] bg-white p-8 text-left text-[#263443] shadow-2xl max-[600px]:p-5">
           <button type="button" className="absolute right-5 top-4 text-2xl text-[#515151]" onClick={() => setIsOpen(false)} aria-label="Close voucher purchase">×</button>
           <p className="voucher-modal-eyebrow">KINCOLLAGE DIGITAL VOUCHER</p>
-          {voucherCode ? <div className="py-5 text-center"><h2 id="voucher-modal-title" className="voucher-modal-heading">Your voucher is ready</h2><p className="mt-4">Your digital voucher has been emailed to you.</p><div className="mt-5 flex items-center gap-2 rounded-xl bg-[#97ff77] p-2"><p className="flex-1 px-2 py-2 text-[22px] font-bold tracking-wider">{voucherCode}</p><button type="button" className="rounded-full bg-white px-4 py-2 text-[14px] font-semibold text-[#263443] shadow-sm transition hover:bg-[#f2fff0]" onClick={async () => { await navigator.clipboard.writeText(voucherCode); setCopied(true); setTimeout(() => setCopied(false), 1800); }}>{copied ? "Copied" : "Copy"}</button></div></div> : paymentState.status === "ready" ? <><h2 id="voucher-modal-title" className="voucher-modal-heading">Complete your purchase</h2><VoucherPaymentForm clientSecret={paymentState.clientSecret!} amountCents={paymentState.amountCents!} onComplete={(code) => { setVoucherCode(code); setAmount(""); }} /></> : <><h2 id="voucher-modal-title" className="voucher-modal-heading">Where should we send it?</h2><p className="mt-2 text-[15px] text-[#515151]">Enter the recipient email, then continue securely to payment.</p><form action={paymentAction} className="mt-6"><input type="hidden" name="amount" value={amountValue} /><label className="block text-[14px]">EMAIL ADDRESS<input className="mt-2 h-11 w-full rounded-full border-2 border-[#aaaab5] px-4 outline-none focus:border-[#008d60]" name="email" type="email" placeholder="you@example.com" required /></label>{paymentState.status === "error" && <p className="commission-field-error mt-3" role="alert">{paymentState.message}</p>}<button className="button-primary mt-6 min-h-[51px] w-full rounded-full border-0" type="submit" disabled={isCreatingPayment}>{isCreatingPayment ? "Preparing secure payment…" : "Continue to payment"}</button></form></>}
+          {voucherCode ? <div className="py-5 text-center"><h2 id="voucher-modal-title" className="voucher-modal-heading">Your voucher is ready</h2><p className="mt-4">Your digital voucher has been emailed to <em>zsofi.matrai@gmail.com</em>. You can also copy your unique code below:</p><div className="mt-5 flex items-center gap-2 rounded-xl bg-[#97ff77] p-2"><p className="flex-1 px-2 py-2 text-[22px] font-bold tracking-wider">{voucherCode}</p><button type="button" className="rounded-full bg-white px-4 py-2 text-[14px] font-semibold text-[#263443] shadow-sm transition hover:bg-[#f2fff0]" onClick={async () => { await navigator.clipboard.writeText(voucherCode); setCopied(true); setTimeout(() => setCopied(false), 1800); }}>{copied ? "COPIED" : "COPY"}</button></div><p className="mt-4 text-[13px] leading-[1.5] text-[#515151]">Didn&apos;t receive the email? Check your spam folder or contact <a className="font-semibold text-[#008d60] underline underline-offset-2" href="mailto:hello@kincollage.com">hello@kincollage.com</a>.</p></div> : paymentState.status === "ready" ? <><h2 id="voucher-modal-title" className="voucher-modal-heading">Complete your purchase</h2><VoucherPaymentForm clientSecret={paymentState.clientSecret!} amountCents={paymentState.amountCents!} onComplete={(code) => { setVoucherCode(code); setAmount(""); }} /></> : <><h2 id="voucher-modal-title" className="voucher-modal-heading">Where should we send it?</h2><p className="mt-2 text-[15px] text-[#515151]">Enter the recipient email, then continue securely to payment.</p><form action={paymentAction} className="mt-6"><input type="hidden" name="amount" value={purchaseAmount} /><label className="block text-[14px]">EMAIL ADDRESS<input className="mt-2 h-11 w-full rounded-full border-2 border-[#aaaab5] px-4 outline-none focus:border-[#008d60]" name="email" type="email" placeholder="you@example.com" required /></label>{paymentState.status === "error" && !paymentState.message?.includes("amount") && <p className="commission-field-error mt-3" role="alert">{paymentState.message}</p>}<button className="button-primary mt-6 min-h-[51px] w-full rounded-full border-0" type="submit" disabled={isCreatingPayment}>{isCreatingPayment ? "Preparing secure payment…" : "Continue to payment"}</button></form></>}
         </div>
       </div>}
     </section>

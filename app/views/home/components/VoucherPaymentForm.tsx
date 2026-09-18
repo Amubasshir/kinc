@@ -22,7 +22,7 @@ function PaymentStep({ amountCents, onComplete }: { amountCents: number; onCompl
     if (!voucher.success || !voucher.code) { setError(voucher.message ?? "We could not send your voucher yet. Please retry."); setPending(false); return; }
     onComplete(voucher.code);
   };
-  return <form onSubmit={submit} className="mt-5"><PaymentElement onChange={(event) => setComplete(event.complete)} /><p className="mt-3 text-[13px] text-[#515151]">You will be charged ${(amountCents / 100).toFixed(2)} AUD.</p>{error && <p className="commission-field-error mt-3" role="alert">{error}</p>}<button className="button-primary mt-5 min-h-[50px] w-full rounded-full border-0" type="submit" disabled={!stripe || !elements || !complete || pending}>{pending ? "Processing…" : `Pay $${(amountCents / 100).toFixed(2)} AUD`}</button></form>;
+  return <form onSubmit={submit} className="mt-5"><PaymentElement onChange={(event) => setComplete(event.complete)} /><p className="mt-3 text-[13px] text-[#515151]">You will be charged ${(amountCents / 100).toFixed(2)} AUD.</p>{error && <p className="commission-field-error mt-3" role="alert">{error}</p>}<button className="button-primary mt-5 min-h-[50px] w-full rounded-full border-0" type="submit" disabled={!stripe || !elements || !complete || pending}>{pending ? "PROCESSING…" : `PAY $${(amountCents / 100).toFixed(2)} AUD`}</button></form>;
 }
 
 export default function VoucherPaymentForm({ clientSecret, amountCents, onComplete }: { clientSecret: string; amountCents: number; onComplete: (code: string) => void }) {

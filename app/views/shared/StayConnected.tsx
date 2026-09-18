@@ -66,7 +66,7 @@ export default function StayConnected() {
             <p>We&apos;ve saved your free $50 custom greeting card offer to <em>zsofi.matrsi@gmail.com</em>. It will automatically be added to your first KinCollage canvas order.</p>
           </>
         )}
-        ctaLabel="See How It Works"
+        ctaLabel="SEE HOW IT WORKS"
         ctaHref="/#how-it-works"
         onClose={() => setDismissedSuccessState(state)}
       />
