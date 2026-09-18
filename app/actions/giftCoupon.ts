@@ -61,7 +61,7 @@ export async function secureGift(_prev: GiftCouponState, formData: FormData): Pr
       customerEmailId: customerResult.data?.id,
       businessEmailId: businessResult.data?.id,
     });
-    return { status: "success", code: coupon.code, message: "Your coupon is on its way! Check your inbox." };
+    return { status: "success", code: coupon.code, message: "Your gift is ready." };
   } catch (error) {
     console.error("Gift coupon request failed:", error);
     return { status: "error", message: "We couldn't create your coupon right now. Please try again later." };

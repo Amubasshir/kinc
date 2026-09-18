@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { secureGift, type GiftCouponState } from "../../actions/giftCoupon";
 import FeedbackModal from "./FeedbackModal";
 
@@ -13,6 +13,13 @@ export default function StayConnected() {
   const [dismissedSuccessState, setDismissedSuccessState] = useState<GiftCouponState | null>(null);
   const isSuccessModalOpen = state.status === "success" && state !== dismissedSuccessState;
   const canSubmit = name.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+  useEffect(() => {
+    if (state.status !== "success") return;
+    setName("");
+    setEmail("");
+  }, [state]);
+
   const labelClass = "mb-[7px] block text-left text-[16px] leading-none max-[700px]:text-[14px]";
   const inputClass = "h-10 w-full rounded-full border-2 border-[#aaaab5] bg-white px-2.5 text-[15px] text-[#263443] outline-none transition duration-150 placeholder:text-[#aaaab5] focus:border-[#008d60] focus:shadow-[0_0_0_3px_rgb(151_255_119/25%)]";
 
@@ -47,17 +54,20 @@ export default function StayConnected() {
             required
           />
         </div>
-        <button className="button-primary stay-connected-submit min-h-[53px] cursor-pointer rounded-full border-0 font-[var(--font-tenor-sans)] text-[16px] tracking-[.03em] max-[850px]:mt-2 max-[850px]:w-full max-[850px]:max-w-[264px] max-[850px]:justify-self-center max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit || isPending}>{isPending ? "CREATING COUPON…" : "SECURE MY GIFT"}</button>
+      <button className="button-primary stay-connected-submit min-h-[53px] cursor-pointer rounded-full border-0 font-[var(--font-tenor-sans)] text-[16px] tracking-[.03em] max-[850px]:mt-2 max-[850px]:w-full max-[850px]:max-w-[264px] max-[850px]:justify-self-center max-[700px]:mx-auto max-[700px]:mt-0 max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit || isPending}>{isPending ? "SAVING YOUR GIFT…" : "SECURE MY GIFT"}</button>
       </form>
       {state.message && <p className="mt-5 text-[15px]" role={state.status === "error" ? "alert" : "status"}>{state.message}{state.code && <><br /><strong>Your code: {state.code}</strong></>}</p>}
       <FeedbackModal
         open={isSuccessModalOpen && state.status === "success"}
         eyebrow="KINCOLLAGE GIFT SIGNUP"
-        title="Your gift is ready"
-        description="Your $50 greeting card coupon has been emailed to you. Keep this code for your first commission."
-        code={state.code}
-        codeLabel="Your gift code"
-        closeLabel="Back to the studio"
+        title="You&apos;re on the list! 🎉"
+        description={(
+          <>
+            <p>We&apos;ve saved your free $50 custom greeting card offer to <em>zsofi.matrsi@gmail.com</em>. It will automatically be added to your first KinCollage canvas order.</p>
+          </>
+        )}
+        ctaLabel="See How It Works"
+        ctaHref="/#how-it-works"
         onClose={() => setDismissedSuccessState(state)}
       />
     </section>

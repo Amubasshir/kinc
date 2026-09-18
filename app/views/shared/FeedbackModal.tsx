@@ -10,6 +10,8 @@ type FeedbackModalProps = {
   description: ReactNode;
   code?: string;
   codeLabel?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
   closeLabel?: string;
   onClose: () => void;
 };
@@ -21,6 +23,8 @@ export default function FeedbackModal({
   description,
   code,
   codeLabel = "Your code",
+  ctaLabel,
+  ctaHref,
   closeLabel = "Close",
   onClose,
 }: FeedbackModalProps) {
@@ -113,9 +117,15 @@ export default function FeedbackModal({
               </div>
             </div>
           )}
-          <button type="button" className="button-primary mt-6 min-h-[50px] w-full rounded-full border-0 text-[14px]" onClick={close}>
-            {closeLabel}
-          </button>
+          {ctaLabel && ctaHref ? (
+            <a className="button-primary mt-6 inline-flex min-h-[50px] w-full items-center justify-center rounded-full border-0 text-[14px] no-underline" href={ctaHref} onClick={close}>
+              {ctaLabel}
+            </a>
+          ) : (
+            <button type="button" className="button-primary mt-6 min-h-[50px] w-full rounded-full border-0 text-[14px]" onClick={close}>
+              {closeLabel}
+            </button>
+          )}
         </div>
       </div>
     </div>
