@@ -208,7 +208,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       ],
       [
         "What is the expected timeline for a commission?",
-        "The estimated timeframe is approximately six weeks from the point the artwork and commission details are ready, depending on the scale and complexity of the piece.",
+        "The estimated timeframe for design curation and framing is approximately six weeks from the moment your artwork arrives at our studio, depending on the scale and complexity of your piece. Please allow additional standard shipping time for delivery to your doorstep.",
       ],
       [
         "Can multiple children be featured on a single canvas?",
