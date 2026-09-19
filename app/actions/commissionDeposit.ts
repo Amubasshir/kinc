@@ -363,14 +363,10 @@ export async function createCommissionDeposit(
   const addOnReference = field(formData, "addOnReference");
   const couponCode = field(formData, "coupon").toUpperCase();
 
-  if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) {
-    return { status: "error", message: "Please fill in your name and a valid email before continuing to payment." };
-  }
-  if (sizePriceIds.length === 0 && !otherSize) return { status: "error", message: "Please choose at least one canvas size." };
-
   const addOnPriceIds = ADD_ON_PRODUCTS.filter((product) => addOns.includes(product.label)).map((product) => product.priceId);
 
   if (otherSize) {
+    if (!EMAIL_PATTERN.test(email)) return { status: "error", message: "Please enter a valid email so we can send your custom quote." };
     try {
       const emailDetails = buildEmailDetails(formData, [], addOns);
       const quoteDetails: CommissionEmailDetails = { ...emailDetails, total: "Manual quote required", deposit: "No payment taken", paymentReference: "Manual quote", quoteOnly: true };
@@ -382,6 +378,11 @@ export async function createCommissionDeposit(
       return { status: "error", message: "We couldn't send your request emails. Please try again." };
     }
   }
+
+  if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) {
+    return { status: "error", message: "Please fill in your name and a valid email before continuing to payment." };
+  }
+  if (sizePriceIds.length === 0) return { status: "error", message: "Please choose at least one canvas size." };
 
   if (!process.env.STRIPE_SECRET_KEY) {
     console.error("STRIPE_SECRET_KEY is not set - add it to .env.local to enable payments.");

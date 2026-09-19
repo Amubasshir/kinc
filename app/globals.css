@@ -2921,6 +2921,9 @@ main > section {
 .artist-career-gallery-tile-collection > button {
   height: calc(100% - 42px);
 }
+.artist-career-gallery-tile-collection {
+  z-index: 3;
+}
 .artist-career-gallery-tile-collection figcaption {
   top: auto;
   bottom: 0;
@@ -2992,7 +2995,7 @@ main > section {
   .artist-hero + .artist-career-gallery {
     position: relative;
     z-index: 2;
-    margin-top: -24px !important;
+    margin-top: 0 !important;
   }
   .artist-career-gallery + .artist-story {
     margin-top: 12px !important;
@@ -4366,7 +4369,7 @@ html {
   background: #e6e6eb;
   color: #7c7c99;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   text-transform: uppercase;
   transition:
     transform 160ms ease,
@@ -4765,7 +4768,7 @@ html {
     order: 0;
     width: 100%;
     height: auto;
-    aspect-ratio: 573 / 539;
+    aspect-ratio: 573 / 563;
   }
   .commission-order-hero-copy {
     order: 1;
@@ -4787,7 +4790,7 @@ html {
     font-size: 13px;
   }
   .commission-order-composition {
-    top: 0;
+    top: 24px;
     right: 0;
     width: 100%;
   }
@@ -5026,7 +5029,7 @@ html {
   padding: 0;
   color: #515151;
   font-family: var(--font-montserrat), Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
 }
 
@@ -5067,12 +5070,51 @@ html {
 
 .commission-order-information h3 + p {
   margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.45;
 }
 
 .commission-design-only-form {
   margin-top: 22px;
   gap: 16px;
   font-family: var(--font-montserrat), Arial, sans-serif;
+}
+
+.commission-custom-size-fields {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.commission-custom-size-fields .commission-field {
+  color: #515151;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.commission-custom-size-fields .commission-field input {
+  height: 40px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 2px solid #aaaab5;
+  border-radius: 999px;
+  color: #263443;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
+  font-size: 15px;
+}
+
+.commission-custom-size-fields .commission-field input::placeholder {
+  color: #aaaab5;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
+  opacity: 1;
+}
+
+.commission-custom-size-fields .commission-field input:focus {
+  border-color: #00b982;
+  box-shadow: 0 0 0 3px rgb(0 209 143 / 17%);
 }
 
 .commission-installment-heading {
@@ -5091,7 +5133,7 @@ html {
 .commission-design-only-form legend {
   color: #2E2E38;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.25;
   letter-spacing: 0.3px;
@@ -5912,20 +5954,28 @@ html {
   .commission-order-hero h2,
   .commission-order-information,
   .commission-order-information p,
-  .commission-order-information h3,
   .commission-design-only-form,
-  .commission-design-only-form legend,
   .commission-design-only-form fieldset > small,
   .commission-design-only-form .commission-options label,
   .commission-design-only-form .commission-options em,
   .commission-order-form .commission-field-error {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.48;
   }
 
   .commission-design-only-form legend,
   .commission-design-only-form .commission-options label {
     font-size: 16px;
+  }
+
+  .commission-order-information h3,
+  .commission-order-information > h3,
+  .commission-order-information > h3:first-of-type {
+    font-size: 16px !important;
+  }
+
+  .commission-order-information h3 + p {
+    font-size: 14px;
   }
 
   .commission-design-only-form fieldset > small {
