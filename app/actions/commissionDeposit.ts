@@ -74,6 +74,20 @@ function calculatePaymentTotals(paymentPlan: "full" | "installments", selectedAm
   return { amountCents, totalCents, baseTotalCents, rushCents, discountCents };
 }
 
+export type CommissionShippingRegion = "australia" | "us-canada";
+
+function shippingForProductName(productName: string, region: CommissionShippingRegion) {
+  if (region === "us-canada") return 3500;
+  return productName.toLowerCase().includes("mini") ? 2500 : 3500;
+}
+
+function calculateShippingForPrices(prices: Stripe.Price[], region: CommissionShippingRegion) {
+  return prices.reduce((total, price) => {
+    const product = typeof price.product === "string" || price.product.deleted ? "" : price.product.name;
+    return total + shippingForProductName(product, region);
+  }, 0);
+}
+
 function buildEmailDetails(formData: FormData, sizeLabels: string[], addOns: string[]): CommissionEmailDetails {
   const customSizeSelected = formData.getAll("sizes").includes("other");
   return {
@@ -285,20 +299,22 @@ export async function savePaymentCustomerDetails(paymentIntentId: string, email:
   }
 }
 
-export async function updateCommissionPaymentOptions(paymentIntentId: string, priorityDate: string, shippingCents: number) {
-  if (!process.env.STRIPE_SECRET_KEY || ![0, 2500, 3500].includes(shippingCents)) return { success: false, message: "Please choose a valid shipping method." };
+export async function updateCommissionPaymentOptions(paymentIntentId: string, priorityDate: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
+  if (!process.env.STRIPE_SECRET_KEY || !["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
-    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId)));
+    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+    const expectedShippingCents = shippingCents === 0 ? 0 : calculateShippingForPrices(prices, shippingRegion);
+    if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
     const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents, Number(paymentIntent.metadata.discountCents ?? 0));
     const { amountCents, totalCents, rushCents, discountCents } = totals;
     await stripe.paymentIntents.update(paymentIntentId, {
       amount: amountCents,
-      metadata: { priorityDate, shippingCents: String(shippingCents), rushCents: String(rushCents), discountCents: String(discountCents), totalCents: String(totalCents) },
+      metadata: { priorityDate, shippingCents: String(shippingCents), shippingRegion, rushCents: String(rushCents), discountCents: String(discountCents), totalCents: String(totalCents) },
     });
     return { success: true, amountCents, totalCents };
   } catch (error) {
@@ -307,9 +323,9 @@ export async function updateCommissionPaymentOptions(paymentIntentId: string, pr
   }
 }
 
-export async function applyCommissionVoucher(paymentIntentId: string, code: string, priorityDate: string, shippingCents: number) {
+export async function applyCommissionVoucher(paymentIntentId: string, code: string, priorityDate: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
   if (!process.env.STRIPE_SECRET_KEY) return { success: false, message: "Payments aren't configured yet." };
-  if (![0, 2500, 3500].includes(shippingCents)) return { success: false, message: "Please choose a valid shipping method." };
+  if (!["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
 
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -323,7 +339,9 @@ export async function applyCommissionVoucher(paymentIntentId: string, code: stri
     const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
     if (priceIds.length === 0) return { success: false, message: "The selected product prices could not be found." };
-    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId)));
+    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+    const expectedShippingCents = shippingCents === 0 ? 0 : calculateShippingForPrices(prices, shippingRegion);
+    if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
     const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate.trim(), shippingCents, getDiscountCents(source));
     if (totals.amountCents < 50) return { success: false, message: "This voucher covers the initial payment in full. Please contact the studio to complete this order." };
@@ -333,6 +351,7 @@ export async function applyCommissionVoucher(paymentIntentId: string, code: stri
       metadata: {
         priorityDate: priorityDate.trim(),
         shippingCents: String(shippingCents),
+        shippingRegion,
         rushCents: String(totals.rushCents),
         coupon: normalized,
         couponId: source?.record.id ?? "",

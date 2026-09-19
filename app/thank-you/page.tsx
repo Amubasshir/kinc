@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import GiftCard from "../views/home/components/GiftCard";
 import ArtistStory from "../views/artist/components/ArtistStory";
 
@@ -33,12 +32,12 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
           </h3>
           {isQuote ? (
             <p>
-              Look out for a <strong>confirmation email</strong> coming your way shortly. We&apos;ll review your custom
+              Look out for a <strong className="commission-confirmation-label">confirmation email</strong> coming your way shortly. We&apos;ll review your custom
               size request and follow up with a personalised quote within 24–48 hours, before any payment is taken.
             </p>
           ) : (
             <p>
-              Look out for a <strong>confirmation email</strong> coming your way shortly. It will contain your receipt
+              Look out for a <strong className="commission-confirmation-label">confirmation email</strong> coming your way shortly. It will contain your receipt
               along with simple instructions on how to send your child’s original artwork to the studio, so we can
               move straight into the curation phase.
             </p>
@@ -50,9 +49,9 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
             If you’d like to discuss your vision, align on colours, or ask any questions before sending your art,
             feel free to pick a time for a complimentary 15-minute chat:
             <br />
-            <Link className="underline underline-offset-2" href="/#contact">
+            <a className="font-semibold underline underline-offset-2" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
               Schedule your 15-minute consultation here
-            </Link>
+            </a>
           </p>
           <p>
             I can&apos;t wait to see the magic your little artists have created and begin crafting your family heirloom!

@@ -624,8 +624,8 @@ small {
     line-height: 1.25;
   }
   .pricing-notes p {
-    font-size: 12px;
-    line-height: 1.45;
+    font-size: 14px;
+    line-height: 22.4px;
   }
   .pricing-notes p br {
     display: inline;
@@ -3309,8 +3309,8 @@ html {
     line-height: 1.25;
   }
   .pricing-notes p {
-    font-size: 12px;
-    line-height: 1.45;
+    font-size: 14px;
+    line-height: 22.4px;
   }
   .pricing-custom {
     margin-top: 36px;
@@ -4415,6 +4415,9 @@ html {
   margin: 31px 0 0;
   font-size: 13px;
   line-height: 1.45;
+}
+.commission-order-thanks .commission-confirmation-label {
+  font-weight: 600;
 }
 .commission-order-thanks h3 {
   margin: 25px 0 0;
