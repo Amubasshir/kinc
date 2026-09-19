@@ -31,6 +31,7 @@ function calculateShippingCents(items: CheckoutItem[], region: CommissionShippin
 
 function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan, options, discountCents, voucherCode, voucherMessage, isApplyingVoucher, onApplyVoucher }: { items: CheckoutItem[]; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; options: PaymentOptions; discountCents: number; voucherCode: string; voucherMessage: { type: "success" | "error"; text: string } | null; isApplyingVoucher: boolean; onApplyVoucher: (code: string) => Promise<void> }) {
   const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
+  const formatPrice = (cents: number) => `${money.format(cents / 100)} USD`;
   const itemTotalCents = items.reduce((sum, item) => sum + item.amountCents, 0);
   const baseTotalCents = paymentPlan === "installments" ? itemTotalCents * 3 : itemTotalCents;
   const shippingLabel = options.shippingCents === 0 ? "Pick up from Sydney studio" : options.shippingRegion === "australia" ? "Shipping (Australia)" : "Shipping (US & Canada)";
@@ -43,16 +44,16 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
     <aside className="commission-checkout-summary">
       <div className="commission-checkout-brand"><Image unoptimized className="commission-checkout-brand-mark" src="/favicon.svg" alt="" width={20} height={20} /><span>KinCollage sandbox</span><span className="commission-checkout-sandbox">Sandbox</span></div>
       <p className="commission-checkout-kicker">Pay KinCollage sandbox</p>
-      <p className="commission-checkout-amount">{money.format(amountCents / 100)}</p>
+      <p className="commission-checkout-amount">{formatPrice(amountCents)}</p>
       <div className="commission-checkout-items">
-        {items.map((item) => <div className="commission-checkout-item" key={`${item.name}-${item.amountCents}`}><Image src={item.image} alt="" width={40} height={40} /><div><strong>{item.name} {item.inchDimensions} ({item.dimensions})</strong><small>Standard pieces are crafted on canvas with oak frame. For custom sizes, sizes or special requests, contact us.</small><span>Qty 1</span></div><b>{money.format(item.amountCents / 100)}</b></div>)}
+        {items.map((item) => <div className="commission-checkout-item" key={`${item.name}-${item.amountCents}`}><Image src={item.image} alt="" width={40} height={40} /><div><strong>{item.name} {item.inchDimensions} ({item.dimensions})</strong><small>Standard pieces are crafted on canvas with oak frame. For custom sizes, sizes or special requests, contact us.</small><span>Qty 1</span></div><b>{formatPrice(item.amountCents)}</b></div>)}
       </div>
       <form className="commission-checkout-promo" onSubmit={(event) => { event.preventDefault(); void onApplyVoucher(draftVoucherCode); }}>
         <label htmlFor="commission-voucher-code">Coupon or voucher code</label>
         <div><input id="commission-voucher-code" value={draftVoucherCode} onChange={(event) => setDraftVoucherCode(event.target.value)} placeholder="Enter code" autoComplete="off" /><button type="submit" disabled={isApplyingVoucher}>{isApplyingVoucher ? "Applying…" : voucherCode ? "Update" : "Apply"}</button></div>
         {voucherMessage && <p className={`commission-voucher-message ${voucherMessage.type}`} role={voucherMessage.type === "error" ? "alert" : "status"}>{voucherMessage.text}</p>}
       </form>
-      <dl className="commission-checkout-totals"><div><dt>Subtotal</dt><dd>{money.format(itemTotalCents / 100)}</dd></div><div><dt>Shipping<br /><small>{shippingLabel}</small></dt><dd>{options.shippingCents ? money.format(options.shippingCents / 100) : "Free"}</dd></div>{rushCents > 0 && <div><dt>Priority rush fee</dt><dd>{money.format(rushCents / 100)}</dd></div>}{discountCents > 0 && <div className="commission-checkout-discount"><dt>Voucher discount</dt><dd>−{money.format(discountCents / 100)}</dd></div>}<div className="commission-checkout-total"><dt>Total due</dt><dd>{money.format(amountCents / 100)}</dd></div></dl>
+      <dl className="commission-checkout-totals"><div><dt>Subtotal</dt><dd>{formatPrice(itemTotalCents)}</dd></div><div><dt>Shipping<br /><small>{shippingLabel}</small></dt><dd>{options.shippingCents ? formatPrice(options.shippingCents) : "Free"}</dd></div>{rushCents > 0 && <div><dt>Priority rush fee</dt><dd>{formatPrice(rushCents)}</dd></div>}{discountCents > 0 && <div className="commission-checkout-discount"><dt>Voucher discount</dt><dd>−{formatPrice(discountCents)}</dd></div>}<div className="commission-checkout-total"><dt>Total due</dt><dd>{formatPrice(amountCents)}</dd></div></dl>
     </aside>
   );
 }
@@ -83,6 +84,7 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
   const [shippingCents, setShippingCents] = useState(0);
   const [currentAmountCents, setCurrentAmountCents] = useState(amountCents);
   const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
+  const formatPrice = (cents: number) => `${money.format(cents / 100)} USD`;
 
   const updateShippingAddress = (changes: Partial<{ name: string; country: string; line1: string; city: string; state: string; phone: string; phoneCode: string; postalCode: string }>) => {
     const name = changes.name ?? shippingName;
@@ -186,14 +188,14 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
       </div></div>
       <fieldset className="commission-stripe-shipping-field"><legend>Shipping method</legend><div className="commission-shipping-options">
         <label><input type="radio" name="stripeShippingRegion" checked={shippingCents === 0} onChange={() => changeOptions({ priorityDate, shippingCents: 0, shippingRegion })} /><span>Pick up from Sydney studio</span><strong>Free</strong></label>
-        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "australia"} onChange={() => changeOptions({ priorityDate, shippingCents: calculateShippingCents(items, "australia"), shippingRegion: "australia" })} /><span>{sizeLabel} Shipping (Australia)<small>3–5 business days</small></span><strong>{money.format(calculateShippingCents(items, "australia") / 100)}</strong></label>
-        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "us-canada"} onChange={() => changeOptions({ priorityDate, shippingCents: calculateShippingCents(items, "us-canada"), shippingRegion: "us-canada" })} /><span>{sizeLabel} Shipping (US &amp; Canada)<small>3–5 business days</small></span><strong>{money.format(calculateShippingCents(items, "us-canada") / 100)}</strong></label>
+        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "australia"} onChange={() => changeOptions({ priorityDate, shippingCents: calculateShippingCents(items, "australia"), shippingRegion: "australia" })} /><span>{sizeLabel} Shipping (Australia)<small>3–5 business days</small></span><strong>{formatPrice(calculateShippingCents(items, "australia"))}</strong></label>
+        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "us-canada"} onChange={() => changeOptions({ priorityDate, shippingCents: calculateShippingCents(items, "us-canada"), shippingRegion: "us-canada" })} /><span>{sizeLabel} Shipping (US &amp; Canada)<small>3–5 business days</small></span><strong>{formatPrice(calculateShippingCents(items, "us-canada"))}</strong></label>
       </div></fieldset>
-      <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked disabled /><span>Billing info same as shipping</span></label></div>
+      <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", wallets: { link: "auto" }, fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked disabled /><span>Billing info same as shipping</span></label></div>
       <label className="commission-checkout-terms"><input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} required /><span>I agree to KinCollage sandbox&apos;s <a href="/legal#terms" target="_blank" rel="noreferrer">Terms of Service</a> and <a href="/legal#privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>
       {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
-      <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || !elements || !isPaymentComplete || !emailComplete || !addressComplete || isPaying}>{isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `${paymentLabel} — ${money.format(currentAmountCents / 100)}`}</button>
-      <p className="commission-checkout-legal">By paying, you agree to KinCollage&apos;s Terms of Service and Privacy Policy.</p>
+      <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || !elements || !isPaymentComplete || !emailComplete || !addressComplete || isPaying}>{isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `${paymentLabel.toUpperCase()} — ${formatPrice(currentAmountCents)}`}</button>
+      <div className="commission-link-disclosure"><p>By paying, you agree to <a href="https://stripe.com/legal/link" target="_blank" rel="noopener noreferrer">Link&apos;s Terms</a> and <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Privacy.</a></p><div><span>Powered by <strong>stripe</strong></span><span aria-hidden="true" /><a href="https://stripe.com/legal/link" target="_blank" rel="noopener noreferrer">Terms</a><a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></div></div>
     </form>
   );
 }
