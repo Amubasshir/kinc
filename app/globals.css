@@ -5908,6 +5908,21 @@ html {
     margin-top: 18px;
   }
 
+  .commission-order-hero-copy > p,
+  .commission-order-hero h2,
+  .commission-order-information,
+  .commission-order-information p,
+  .commission-order-information h3,
+  .commission-design-only-form,
+  .commission-design-only-form legend,
+  .commission-design-only-form fieldset > small,
+  .commission-design-only-form .commission-options label,
+  .commission-design-only-form .commission-options em,
+  .commission-order-form .commission-field-error {
+    font-size: 14px;
+    line-height: 1.48;
+  }
+
   .commission-design-only-form legend,
   .commission-design-only-form .commission-options label {
     font-size: 16px;
