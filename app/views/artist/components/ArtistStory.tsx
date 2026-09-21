@@ -49,7 +49,7 @@ export default function ArtistStory({
       >
         Watch our Story
       </h2>
-      <div className="artist-story-copy mt-5 max-[700px]:order-2 max-[700px]:mt-[14px] [&>p]:text-[16px] [&>p]:leading-[1.45] [&>p+p]:mt-5 max-[800px]:[&>p]:text-[15px] max-[800px]:[&>p]:leading-[1.55] max-[700px]:[&>p]:text-[14px] max-[700px]:[&>p]:leading-[1.5]">
+      <div className="artist-story-copy mt-5 max-[700px]:order-2 max-[700px]:mt-[14px] [&>p]:text-[16px] [&>p]:leading-[1.6] [&>p+p]:mt-5 max-[800px]:[&>p]:text-[14px] max-[800px]:[&>p]:leading-[1.6] max-[700px]:[&>p]:text-[14px] max-[700px]:[&>p]:leading-[1.6]">
         <p>
           Welcome to my studio. As a designer and a mother, I know exactly how it feels to watch your home fill up with
           endless

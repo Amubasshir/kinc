@@ -71,7 +71,7 @@ export default function Stats({ stats }: { stats: StatModel[] }) {
               {counts[index]}{getSuffix(stat.value)}
             </div>
             <h2 className="mt-7 text-[29px] max-[700px]:mt-6 max-[700px]:text-[27px]">{stat.title}</h2>
-            <p className="mt-4 text-[16px] leading-[1.45] max-[700px]:mt-[17px] max-[700px]:text-[15px] max-[700px]:leading-[1.48]">{stat.description}</p>
+            <p className="mt-4 text-[16px] leading-[1.6] max-[700px]:mt-[17px] max-[700px]:text-[14px] max-[700px]:leading-[1.6]">{stat.description}</p>
           </article>
         ))}
       </div>

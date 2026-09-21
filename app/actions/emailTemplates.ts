@@ -212,12 +212,12 @@ export function renderCommissionConfirmationHtml(details: CommissionEmailDetails
       <tr><td align="center" style="padding:40px 16px;">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;overflow:hidden;border:1px solid #e5e5e5;border-radius:20px;background:#ffffff;">
           <tr><td align="center" style="padding:34px 24px;background:#00d18f;font-family:${HEADING_FONT};font-size:27px;color:#263443;">KinCollage</td></tr>
-          <tr><td style="padding:42px 46px;font-family:${BODY_FONT};font-size:15px;line-height:1.65;">
+          <tr><td style="padding:42px 46px;font-family:${BODY_FONT};font-size:14px;line-height:1.6;">
             <h1 style="margin:0 0 22px;font-family:${HEADING_FONT};font-size:30px;font-weight:400;line-height:1.2;color:#515151;">${greeting}</h1>
             <p style="margin:0 0 18px;">${statusCopy}</p>
             <p style="margin:0 0 18px;">Your order summary and instructions for safely sending your child&apos;s original artwork to the Sydney studio will follow shortly.</p>
             ${details.quoteOnly ? "<p style=\"margin:0 0 18px;\"><strong>No payment has been taken. We’ll confirm your tailored quote before requesting payment.</strong></p>" : details.paymentPlan === "Full payment" ? "" : "<p style=\"margin:0 0 18px;\"><strong>The remaining balance will be due before dispatch.</strong></p>"}
-            <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:24px 0 10px;border:1px solid #ededed;border-radius:10px;overflow:hidden;font-family:${BODY_FONT};font-size:13px;">${summaryRows}</table>
+            <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:24px 0 10px;border:1px solid #ededed;border-radius:10px;overflow:hidden;font-family:${BODY_FONT};font-size:12px;">${summaryRows}</table>
             <p style="margin:28px 0 0;font-family:${HEADING_FONT};font-size:19px;">Warmly,<br />Zsofia</p>
           </td></tr>
         </table>

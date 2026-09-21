@@ -134,7 +134,7 @@ b {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
-  line-height: 22.5px;
+  line-height: 1.5;
   letter-spacing: 0.05px;
 }
 .welcome strong {
@@ -276,7 +276,7 @@ b {
   }
   .welcome p {
     font-size: 16px;
-    line-height: 22.5px;
+    line-height: 1.5;
   }
   .welcome-before-wrap {
     height: auto;
@@ -411,7 +411,7 @@ b {
   margin: 0;
   color: #515151;
   font-size: 16px;
-  line-height: 1.29;
+  line-height: 1.5;
   letter-spacing: 0.05px;
 }
 .how-body p + p {
@@ -548,7 +548,7 @@ b {
   }
   .how-body p {
     font-size: 16px;
-    line-height: 1.42;
+    line-height: 1.5;
   }
   .how-cta {
     margin: 27px 0 0;
@@ -576,7 +576,7 @@ b {
 .pricing-header p {
   margin: 17px 0 0;
   font-size: 16px;
-  line-height: 1.2;
+  line-height: 1.5;
 }
 .pricing-image {
   position: relative;
@@ -618,7 +618,7 @@ b {
   margin: 0;
   color: #515151;
   font-size: 16px;
-  line-height: 1.28;
+  line-height: 1.5;
 }
 .pricing-card-copy .pricing-dimensions strong {
   font-weight: 600;
@@ -628,14 +628,14 @@ b {
 }
 .pricing-notes h3 {
   margin: 0 0 12px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.1;
 }
 .pricing-notes p {
   margin: 0;
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.6;
 }
 
 @media (max-width: 1100px) {
@@ -649,7 +649,7 @@ b {
     font-size: 42px;
   }
   .pricing-header p {
-    font-size: 15px;
+    font-size: 14px;
   }
   .pricing-popular {
     top: -26px;
@@ -661,7 +661,7 @@ b {
   }
   .pricing-notes h3 {
     margin-bottom: 14px;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.25;
   }
   .pricing-notes p {
@@ -701,7 +701,7 @@ b {
   margin: 27px 0 0;
   color: #515151;
   font-size: 16px;
-  line-height: 1.28;
+  line-height: 1.5;
   letter-spacing: 0.05px;
 }
 .merchandise-card {
@@ -760,7 +760,7 @@ b {
   margin: 17px 0 0;
   color: #515151;
   font-size: 16px;
-  line-height: 1.2;
+  line-height: 1.5;
 }
 .merchandise-bestseller {
   position: absolute;
@@ -819,7 +819,7 @@ b {
   }
   .merchandise-header p {
     font-size: 16px;
-    line-height: 1.42;
+    line-height: 1.5;
   }
   .merchandise-header p br {
     display: none;
@@ -834,6 +834,7 @@ b {
   .merchandise-card-copy > p {
     margin-top: 12px;
     font-size: 16px;
+    line-height: 1.5;
   }
   .merchandise-bestseller {
     top: 42px;
@@ -857,7 +858,7 @@ b {
 .gift-card-content > p {
   margin: 32px 0 0;
   font-size: 16px;
-  line-height: 1.28;
+  line-height: 1.5;
   letter-spacing: 0.05px;
 }
 .gift-card-form label {
@@ -879,7 +880,7 @@ b {
   background: #fff;
   color: #263443;
   font: inherit;
-  font-size: 15px;
+  font-size: 14px;
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
@@ -929,7 +930,7 @@ b {
   .gift-card-content > p {
     margin-top: 26px;
     font-size: 16px;
-    line-height: 1.42;
+    line-height: 1.5;
   }
   .gift-card-content > p br {
     display: none;
@@ -952,9 +953,9 @@ b {
 }
 .about-copy p {
   margin: 0;
-  font-size: 15.5px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.43;
+  line-height: 1.6;
   letter-spacing: 0.02px;
 }
 .about-copy p + p {
@@ -1098,7 +1099,7 @@ b {
   }
   .about-copy p {
     font-size: 16px;
-    line-height: 1.45;
+    line-height: 1.5;
   }
   .about-copy p + p {
     margin-top: 0;
@@ -1152,7 +1153,7 @@ b {
   margin: 20px 0 0;
   color: #515151;
   font-size: 16px;
-  line-height: 1.32;
+  line-height: 1.5;
   letter-spacing: 0.03px;
 }
 
@@ -1300,7 +1301,7 @@ b {
   max-width: 700px;
   margin: 8px 72px 23px 24px;
   font-size: 16px;
-  line-height: 1.29;
+  line-height: 1.5;
   letter-spacing: 0.05px;
 }
 .faq-item[open] summary {
@@ -1332,7 +1333,7 @@ b {
     min-height: 72px;
     padding: 0 8px;
     gap: 16px;
-    font-size: 15px;
+    font-size: 14px;
   }
   .faq-item[open] summary {
     min-height: 72px;
@@ -1341,7 +1342,7 @@ b {
   .faq-item p {
     margin: 8px 36px 22px 8px;
     font-size: 16px;
-    line-height: 1.42;
+    line-height: 1.5;
   }
 }
 .contact-shadow-layer,
@@ -1387,7 +1388,7 @@ b {
 .contact-form-card > p {
   margin: 24px 0 0;
   font-size: 16px;
-  line-height: 1.34;
+  line-height: 1.5;
 }
 .contact-field {
   min-width: 0;
@@ -1414,7 +1415,7 @@ b {
   color: #263443;
   font: inherit;
   font-family: var(--font-montserrat), Arial, sans-serif !important;
-  font-size: 15px;
+  font-size: 14px;
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
@@ -1439,8 +1440,8 @@ b {
   color: #263443;
   font: inherit;
   font-family: var(--font-montserrat), Arial, sans-serif !important;
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.6;
   resize: none;
   overflow: hidden;
   transition:
@@ -1833,8 +1834,8 @@ main > section {
   max-width: 365px;
   margin: 29px 0 0;
   color: #515151;
-  font-size: 15px;
-  line-height: 1.48;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .phone-case-swatches {
@@ -1868,7 +1869,7 @@ main > section {
   padding: 22px 34px 19px 0;
   cursor: pointer;
   list-style: none;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1;
 }
 
@@ -1903,8 +1904,8 @@ main > section {
   margin: 0;
   padding: 0 28px 21px 0;
   color: #515151;
-  font-size: 13px;
-  line-height: 1.42;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 @media (max-width: 1250px) {
@@ -1966,8 +1967,8 @@ main > section {
   max-width: 365px;
   margin: 29px 0 0;
   color: #515151;
-  font-size: 15px;
-  line-height: 1.48;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .tote-bag-swatches {
@@ -2037,7 +2038,7 @@ main > section {
   padding: 22px 34px 19px 0;
   cursor: pointer;
   list-style: none;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1;
 }
 
@@ -2072,8 +2073,8 @@ main > section {
   margin: 0;
   padding: 0 28px 21px 0;
   color: #515151;
-  font-size: 13px;
-  line-height: 1.42;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 @media (max-width: 1250px) {
@@ -2534,8 +2535,8 @@ main > section {
 }
 .artist-hero-body p {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.48;
+  font-size: 14px;
+  line-height: 1.6;
 }
 .artist-hero-body p + p {
   margin-top: 25px;
@@ -2607,8 +2608,8 @@ main > section {
     margin-top: 28px;
   }
   .artist-hero-body p {
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .artist-hero-signature {
     bottom: 12px;
@@ -2649,7 +2650,7 @@ main > section {
 .artist-story-copy p {
   margin: 0;
   font-size: 16px;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 .artist-story-copy p + p {
   margin-top: 20px;
@@ -2679,8 +2680,8 @@ main > section {
     font-size: clamp(38px, 11vw, 46px);
   }
   .artist-story-copy p {
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .artist-story-copy p br {
     display: none;
@@ -2699,7 +2700,7 @@ main > section {
 .artist-pricing-header p {
   margin: 23px 0 0;
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 .artist-pricing-artwork {
   position: relative;
@@ -2733,7 +2734,7 @@ main > section {
   margin: 15px 0 0;
   color: #515151;
   font-size: 16px;
-  line-height: 1.38;
+  line-height: 1.5;
 }
 .artist-pricing-details strong {
   display: block;
@@ -2743,7 +2744,7 @@ main > section {
 }
 .artist-pricing-notes h3 {
   margin: 0 0 4px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.25;
 }
@@ -2752,8 +2753,8 @@ main > section {
 }
 .artist-pricing-notes p {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 12px;
+  line-height: 1.6;
 }
 .artist-pricing-notes em {
   font-weight: 600;
@@ -2845,7 +2846,7 @@ main > section {
 }
 .artist-testimonial-stars {
   font-family: Arial, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1;
   letter-spacing: 1px;
 }
@@ -2917,14 +2918,14 @@ main > section {
     padding: 0 2px;
   }
   .artist-testimonial blockquote p {
-    font-size: 15px;
-    line-height: 1.35;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .artist-testimonial blockquote p br {
     display: none;
   }
   .artist-testimonial-stars {
-    font-size: 13px;
+    font-size: 12px;
   }
   .artist-testimonial blockquote footer {
     margin-top: 16px;
@@ -2935,7 +2936,7 @@ main > section {
   z-index: 2;
   width: calc(100% - 24px);
   margin: -518px auto 0 !important;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 20px;
   background: transparent;
 }
@@ -3017,17 +3018,17 @@ main > section {
   font-size: clamp(5px, 0.55vw, 8px);
 }
 .artist-career-gallery-tile-collection > button {
-  height: calc(100% - 76px);
+  height: calc(100% - 44px);
 }
 .artist-career-gallery-tile-collection {
   z-index: 3;
 }
 .artist-career-gallery-tile-collection figcaption {
-  top: auto;
-  bottom: 0;
-  height: 76px;
+  top: 100%;
+  bottom: auto;
+  height: auto;
   margin-top: 0;
-  padding: 24px 0 0;
+  padding: 0;
 }
 
 .artist-career-gallery-tile-print figcaption {
@@ -3044,6 +3045,9 @@ main > section {
 .artist-career-gallery-tile-collection figcaption span,
 .artist-career-gallery-tile-print figcaption span {
   font-size: 12px;
+}
+.artist-career-gallery-tile-collection figcaption span {
+  margin-top: 0;
 }
 .artist-career-gallery-swatches {
   position: absolute;
@@ -3134,7 +3138,8 @@ main > section {
   }
   .artist-pricing-header p {
     margin-top: 12px;
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.6;
   }
   .artist-pricing-card:nth-child(n + 2) {
     display: none;
@@ -3356,8 +3361,8 @@ html {
     margin-top: 18px;
   }
   .how-body p {
-    font-size: 15px;
-    line-height: 1.52;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .how-body p + p {
     margin-top: 24px;
@@ -3396,15 +3401,15 @@ html {
     font-size: 29px;
   }
   .pricing-card-copy p {
-    font-size: 15px;
-    line-height: 1.45;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .pricing-card-copy .pricing-price {
     margin-top: 26px;
   }
   .pricing-notes h3 {
     margin-bottom: 14px;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.25;
   }
   .pricing-notes p {
@@ -3434,8 +3439,8 @@ html {
   .merchandise-header p {
     margin-top: 24px;
     color: #515151;
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .merchandise-card {
     width: 100%;
@@ -3485,8 +3490,8 @@ html {
   }
   .gift-card-content > p {
     margin-top: 20px;
-    font-size: 15px;
-    line-height: 1.48;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .gift-card-form input {
     height: 41px;
@@ -3518,8 +3523,8 @@ html {
     margin-top: 16px;
   }
   .about-copy p {
-    font-size: 15px;
-    line-height: 1.48;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .about-copy p br {
     display: none;
@@ -3553,8 +3558,8 @@ html {
   }
   .stat p {
     margin-top: 17px;
-    font-size: 15px;
-    line-height: 1.48;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .gallery-column:nth-child(n + 3) {
@@ -3585,8 +3590,8 @@ html {
   }
   .faq-item p {
     margin: 8px 36px 20px 0;
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .faq-see-more {
     display: block;
@@ -3623,8 +3628,8 @@ html {
   }
   .contact-form-card > p {
     margin-top: 17px;
-    font-size: 15px;
-    line-height: 1.48;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .contact-field label {
     margin-bottom: 9px;
@@ -3820,7 +3825,7 @@ html {
 .commission-order-hero-copy > p {
   margin: 27px 0 0;
   font-size: 16px;
-  line-height: 1.34;
+  line-height: 1.5;
 }
 .commission-order-hero-copy > p + p {
   margin-top: 25px;
@@ -3870,7 +3875,7 @@ html {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.29;
+  line-height: 1.5;
   letter-spacing: 0.05px;
 }
 
@@ -4161,8 +4166,8 @@ html {
   }
 
   .welcome-redesign p {
-    font-size: 15px;
-    line-height: 1.42;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .welcome-redesign .welcome-intro > p + p {
@@ -4283,8 +4288,8 @@ html {
 }
 .commission-order-information {
   margin-top: 55px;
-  font-size: 13px;
-  line-height: 1.43;
+  font-size: 14px;
+  line-height: 1.6;
 }
 .commission-order-information h3 {
   margin: 25px 0 0;
@@ -4317,8 +4322,8 @@ html {
 .commission-field,
 .commission-order-form legend {
   color: #565661;
-  font-size: 13px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.5;
   text-transform: uppercase;
 }
 .commission-field {
@@ -4351,7 +4356,7 @@ html {
   background: #fff;
   color: #4f4f58;
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
   text-transform: none;
   transition:
     border-color 160ms ease,
@@ -4404,8 +4409,8 @@ html {
   align-items: flex-start;
   gap: 11px;
   color: #686872;
-  font-size: 13px;
-  line-height: 1.32;
+  font-size: 14px;
+  line-height: 1.5;
 }
 .commission-options input,
 .commission-confirm input {
@@ -4449,7 +4454,7 @@ html {
   justify-content: space-between;
   gap: 20px;
   padding: 6px 0;
-  font-size: 13px;
+  font-size: 14px;
 }
 .commission-price-summary .commission-total {
   margin-top: 8px;
@@ -4515,8 +4520,8 @@ html {
 }
 .commission-order-thanks p {
   margin: 31px 0 0;
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.6;
 }
 .commission-order-thanks .commission-confirmation-label {
   font-weight: 600;
@@ -4896,11 +4901,11 @@ html {
   .commission-order-hero-copy > p {
     margin-top: 21px;
     font-size: 14px;
-    line-height: 1.48;
+    line-height: 1.6;
   }
   .commission-order-hero h2 {
     margin-top: 23px;
-    font-size: 13px;
+    font-size: 14px;
   }
   .commission-order-composition {
     top: 24px;
@@ -4972,14 +4977,14 @@ html {
   border-radius: 0;
   background: transparent;
   color: #515151;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .commission-order-information h3 {
   margin-top: 27px;
   color: #263443;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.7px;
 }
 
@@ -5025,7 +5030,7 @@ html {
 .commission-order-form legend,
 .commission-field {
   color: #263443;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.15px;
 }
@@ -5158,7 +5163,7 @@ html {
   color: #515151;
   font-family: var(--font-montserrat), Arial, sans-serif;
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .commission-order-information p {
@@ -5169,7 +5174,7 @@ html {
 .commission-order-information > p:first-child strong {
   font-size: 16px;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.5;
 }
 
 .commission-order-information p + h3 {
@@ -5199,7 +5204,7 @@ html {
 .commission-order-information h3 + p {
   margin-top: 14px;
   font-size: 16px;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .commission-design-only-form {
@@ -5229,7 +5234,7 @@ html {
   color: #777782;
   font-family: var(--font-montserrat), Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .commission-custom-size-fields .commission-field {
@@ -5259,7 +5264,7 @@ html {
   border-radius: 999px;
   color: #263443;
   font-family: var(--font-montserrat), Arial, sans-serif !important;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .commission-custom-size-fields .commission-field input::placeholder {
@@ -5280,7 +5285,7 @@ html {
   border-radius: 14px;
   color: #263443;
   font-family: var(--font-montserrat), Arial, sans-serif !important;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .commission-custom-size-fields .commission-field textarea::placeholder {
@@ -5320,7 +5325,7 @@ html {
   color: #777782;
   font-family: var(--font-montserrat), Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.35;
+  line-height: 1.6;
 }
 
 .commission-design-only-form .commission-options {
@@ -5335,7 +5340,7 @@ html {
   font-family: var(--font-montserrat), Arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.5;
 }
 
 .commission-design-only-form .commission-options input {
@@ -5571,7 +5576,7 @@ html {
   margin: 24px 0 0;
   border-top: 1px solid rgb(29 73 56 / 22%);
   color: #1d4938;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .commission-checkout-totals > div {
@@ -5713,7 +5718,7 @@ html {
   background: transparent;
   color: #3c3c46;
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .commission-address-row input::placeholder {
@@ -5812,7 +5817,7 @@ html {
   background: transparent;
   color: #2e2e38;
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .commission-contact-row input::placeholder {
@@ -5875,7 +5880,7 @@ html {
   border-radius: 7px;
   background: #97ff77;
   color: #1d4938;
-  font-size: 13px;
+  font-size: 14px;
   text-transform: none;
 }
 
@@ -5893,8 +5898,8 @@ html {
   background: #fff;
   color: #666;
   text-align: center;
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .commission-link-disclosure p {
@@ -5913,11 +5918,11 @@ html {
   justify-content: center;
   gap: 28px;
   margin-top: 26px;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .commission-link-disclosure > div span:first-child {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .commission-link-disclosure > div strong {
@@ -5940,7 +5945,7 @@ html {
   margin-top: 16px;
   color: #666671;
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.6;
 }
 
 .commission-checkout-terms input {
@@ -6067,7 +6072,7 @@ html {
   margin-bottom: 7px;
   color: #2e2e38;
   font-family: var(--font-montserrat), Arial, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   text-transform: none;
 }
 
@@ -6103,7 +6108,7 @@ html {
 
 .commission-shipping-method legend {
   margin-bottom: 7px;
-  font-size: 13px;
+  font-size: 14px;
   text-transform: none;
 }
 
@@ -6187,7 +6192,8 @@ html {
 
   .commission-order-information {
     margin-top: 35px;
-    font-size: 10px;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .commission-design-only-form {
@@ -6203,23 +6209,24 @@ html {
   .commission-design-only-form .commission-options label,
   .commission-design-only-form .commission-options em,
   .commission-order-form .commission-field-error {
-    font-size: 16px;
-    line-height: 1.48;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .commission-design-only-form legend,
   .commission-design-only-form .commission-options label {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .commission-order-information h3,
   .commission-order-information > h3,
   .commission-order-information > h3:first-of-type {
-    font-size: 16px !important;
+    font-size: 14px !important;
   }
 
   .commission-order-information h3 + p {
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .commission-design-only-form fieldset > small {
@@ -6427,8 +6434,8 @@ html {
     min-height: 52px;
     padding: 10px 11px;
     align-items: start;
-    font-size: 13px;
-    line-height: 1.35;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .commission-shipping-options label input {

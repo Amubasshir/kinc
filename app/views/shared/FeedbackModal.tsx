@@ -95,7 +95,7 @@ export default function FeedbackModal({
           <h2 id={titleId} className="voucher-modal-heading">
             {title}
           </h2>
-          <div id={descriptionId} className="mt-4 font-[var(--font-montserrat)] text-[15px] leading-[1.5] text-[#515151]">
+          <div id={descriptionId} className="mt-4 font-[var(--font-montserrat)] text-[14px] leading-[1.6] text-[#515151]">
             {description}
           </div>
           {code && (
@@ -118,7 +118,7 @@ export default function FeedbackModal({
             </div>
           )}
           {ctaLabel && ctaHref ? (
-            <a className="button-primary mt-6 inline-flex min-h-[50px] w-full items-center justify-center rounded-full border-0 font-[var(--font-tenor-sans)] text-[15px] uppercase tracking-[.03em] no-underline" href={ctaHref} onClick={close}>
+          <a className="button-primary mt-6 inline-flex min-h-[50px] w-full items-center justify-center rounded-full border-0 font-[var(--font-tenor-sans)] text-[14px] uppercase tracking-[.03em] no-underline" href={ctaHref} onClick={close}>
               {ctaLabel}
             </a>
           ) : (

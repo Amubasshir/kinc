@@ -149,7 +149,7 @@ export default function ModernDatePicker({
 
               return (
                 <button
-                  className={`aspect-square rounded-full border-0 text-[13px] transition ${selected ? "bg-[#00d18f] font-semibold text-[#2E2E38] shadow-[0_4px_10px_rgb(0_209_143/28%)]" : isToday ? "bg-[#eaffdf] font-semibold text-[#087b59]" : "bg-transparent text-[#555560] hover:bg-[#f0f0f1]"} active:bg-[#9f9fb7] disabled:cursor-not-allowed disabled:text-[#c9c9cf] disabled:hover:bg-transparent`}
+                  className={`aspect-square rounded-full border-0 text-[12px] transition ${selected ? "bg-[#00d18f] font-semibold text-[#2E2E38] shadow-[0_4px_10px_rgb(0_209_143/28%)]" : isToday ? "bg-[#eaffdf] font-semibold text-[#087b59]" : "bg-transparent text-[#555560] hover:bg-[#f0f0f1]"} active:bg-[#9f9fb7] disabled:cursor-not-allowed disabled:text-[#c9c9cf] disabled:hover:bg-transparent`}
                   type="button"
                   disabled={disabled}
                   aria-pressed={selected}

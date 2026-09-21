@@ -41,7 +41,7 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
                 <Image unoptimized key={index} src="/star-3.svg" alt="" width={15} height={15} aria-hidden="true" />
               ))}
             </div>
-            <p className="mt-6 text-[24px] leading-[1.22] max-[900px]:mt-[18px] max-[900px]:text-[clamp(16px,2.1vw,24px)] max-[600px]:text-[15px] max-[600px]:leading-[1.35]">
+            <p className="mt-6 text-[24px] leading-[1.22] max-[900px]:mt-[18px] max-[900px]:text-[clamp(16px,2.1vw,24px)] max-[600px]:text-[14px] max-[600px]:leading-[1.6]">
               {intro}
               <br />
               {beforeItalic}
