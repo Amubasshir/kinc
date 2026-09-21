@@ -12,9 +12,8 @@ export default function CommissionFormView({ commissionProducts, requestedAddOnI
         <div className="commission-order-hero-copy">
           <h1 id="commission-order-title">Collage order form</h1>
           <p>Thank you for your interest in commissioning a KinCollage heirloom.</p>
-          <p>Filling out this short form secures your spot in my upcoming studio batch.</p>
           <h2><mark>Please note:</mark></h2>
-          <p className="commission-order-hero-note">I accept a limited number of requests each month to give every artwork my full design care. Submitting this form and confirming your 50% deposit officially locks in our exclusive launch pricing for 2026. Once our launch period ends, rates will return to standard pricing for 2027. Once your physical pieces of art arrive at the studio, I will provide your estimated completion date.</p>
+          <p className="commission-order-hero-note">I accept a limited number of requests each month to give every artwork my full design care. Submitting this form today officially locks in our exclusive launch pricing for 2026. Once our launch period ends, rates will return to standard pricing for 2027. Once your physical pieces of art arrive at the studio, I will provide your estimated completion date.</p>
           <p>Prefer to have a free chat first?<br />Get in touch with me <Link className="underline underline-offset-2" href="/#contact">here</Link>.</p>
         </div>
         <div className="commission-order-hero-art" aria-hidden="true">

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <section className="about grid min-h-[520px] min-w-0 grid-cols-[minmax(0,620px)_minmax(0,504px)] items-center justify-center gap-x-[140px] rounded-[20px] bg-[#00d18f] px-10 py-[70px] text-[#2E2E38] max-[1100px]:flex max-[1100px]:flex-col max-[1100px]:gap-10 max-[1100px]:text-center max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-4 max-[700px]:pt-5 max-[700px]:pb-7 max-[700px]:gap-[29px]" aria-labelledby="about-heading">
+    <section className="about grid min-h-[520px] min-w-0 grid-cols-[minmax(0,620px)_minmax(0,504px)] items-center justify-center gap-x-[140px] rounded-[20px] bg-[#00d18f] px-10 py-[70px] text-left text-[#2E2E38] max-[1100px]:flex max-[1100px]:flex-col max-[1100px]:gap-10 max-[1100px]:text-left max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-4 max-[700px]:pt-5 max-[700px]:pb-7 max-[700px]:gap-[29px]" aria-labelledby="about-heading">
       <div className="about-content max-w-[620px] self-center max-[700px]:w-full [overflow-wrap:anywhere]">
         <h2 className="text-[48px] max-[700px]:font-[var(--font-tenor-sans)] max-[700px]:text-[31px]" id="about-heading">About Zsofia Matrai</h2>
         <div className="about-copy mt-7 max-[700px]:mt-[23px] [&>p]:text-[15px] [&>p]:leading-[1.48] [&>p+p]:mt-[26px]">
@@ -16,7 +16,7 @@ export default function About() {
             ready-to hang fine art, everything you need to preserve your children&apos;s memory is right here.
           </p>
         </div>
-        <Link className="button-primary about-cta mt-8 inline-flex min-h-[53px] min-w-[180px] items-center justify-center rounded-full text-[15px] no-underline max-[700px]:mx-auto max-[700px]:mt-[27px] max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]" href="/the-artist">
+        <Link className="button-primary about-cta mt-8 inline-flex min-h-[53px] min-w-[180px] items-center justify-center rounded-full text-[15px] no-underline max-[700px]:mx-0 max-[700px]:mt-[27px] max-[700px]:flex max-[700px]:min-h-12 max-[700px]:w-[180px]" href="/the-artist">
           MEET ZSOFIA
         </Link>
       </div>

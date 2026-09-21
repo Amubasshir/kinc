@@ -22,7 +22,7 @@ export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewMo
   return (
     <section className="artist-career-gallery" aria-label="Selected creative work">
       <div className="artist-career-gallery-heading px-10 pt-[53px] pb-[39px] text-center max-[700px]:px-5 max-[700px]:pt-10 max-[700px]:pb-5">
-        <h2 className="m-0 text-[26px] leading-[1.15] tracking-[0.2px] text-[#263443] max-[700px]:text-[20px]">Selected past works &amp; archives</h2>
+        <h2 className="m-0 text-[26px] leading-[1.15] tracking-[0.2px] text-[#263443] max-[700px]:mx-auto max-[700px]:max-w-[320px] max-[700px]:text-[28px]">Selected past works &amp; archives</h2>
       </div>
       <div className="artist-career-gallery-canvas">
         {gallery.images.map((image, index) => (

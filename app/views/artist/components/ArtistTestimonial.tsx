@@ -53,8 +53,8 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
               {afterItalic}
             </p>
             <footer className="mt-[18px] flex flex-col items-center max-[600px]:mt-4">
-              <strong className="text-[29px] leading-[1.1] font-normal max-[900px]:text-[clamp(23px,3vw,29px)]">{testimonial.name}</strong>
-              <span className="mt-2 text-[12px] leading-none">{testimonial.location}</span>
+              <strong className="font-[var(--font-montserrat)] text-[14px] leading-[1.2] font-normal">{testimonial.name}</strong>
+              <span className="mt-2 font-[var(--font-montserrat)] text-[14px] leading-[1.2]">{testimonial.location}</span>
             </footer>
           </blockquote>
         </div>
