@@ -101,15 +101,6 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
         ],
       },
       {
-        name: "Leila",
-        location: "Sydney, Australia",
-        image: "/testimonial-leila.png",
-        quote: "“it’s special seeing you capturing my drawings and handprints”",
-        paragraphs: [
-          "Thank you for creating this artwork for me, it’s special seeing you capturing my drawings and handprints. I love all the bugs and details you added, it’s soo beautiful!",
-        ],
-      },
-      {
         name: "Reka",
         location: "Budapest, Hungary",
         image: "/testimonial-reka.png",
@@ -148,6 +139,15 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
           "It’s not one persons artwork it’s a collage of multiple people, these special people are my brother and sister.",
         ],
       },
+      {
+        name: "Leila",
+        location: "Sydney, Australia",
+        image: "/testimonial-leila.png",
+        quote: "“it’s special seeing you capturing my drawings and handprints”",
+        paragraphs: [
+          "Thank you for creating this artwork for me, it’s special seeing you capturing my drawings and handprints. I love all the bugs and details you added, it’s soo beautiful!",
+        ],
+      },
     ],
     stats: [
       {
@@ -184,7 +184,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       ],
       [
         "Do you add your own artistic marks or paint to the work?",
-        "Yes. I may add subtle painted details and my handprint where needed to connect the composition and complete the story while keeping your child’s artwork at its heart.",
+        "Yes. I may add subtle painted details and my signature hand-drawn patterns where needed to connect the composition and to complete the story while keeping your child’s artwork at its heart.",
       ],
       [
         "Are custom sizes or bespoke framing available?",
@@ -192,7 +192,7 @@ export function getHomeViewModel(pricingSizes?: PricingSizeModel[]): HomeViewMod
       ],
       [
         "What is the final piece created on, and is it ready to hang?",
-        "The final artwork is created on professional-grade canvas and finished so it arrives ready to become a feature in your home. Framing can also be discussed separately.",
+        "Crafted on professional-grade cotton canvas with a protective top varnish, each piece is stretched to a 32mm depth and finished in a natural Oak frame, arriving ready to hang as a statement feature in your home.",
       ],
       [
         "Why is a KinCollage fine art a premium investment?",

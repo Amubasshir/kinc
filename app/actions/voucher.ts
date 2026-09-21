@@ -14,16 +14,16 @@ export async function createVoucherPayment(_prev: VoucherPaymentState, formData:
   const amount = Number(formData.get("amount"));
   const amountCents = Math.round(amount * 100);
   if (!EMAIL_PATTERN.test(email)) return { status: "error", message: "Please enter a valid email address." };
-  if (!Number.isInteger(amount) || amount < 1 || amount > 10000) return { status: "error", message: "Please enter an amount between $1 and $10,000 AUD." };
+  if (!Number.isInteger(amount) || amount < 1 || amount > 10000) return { status: "error", message: "Please enter an amount between $1 and $10,000 USD." };
   if (!process.env.STRIPE_SECRET_KEY) return { status: "error", message: "Payments are not configured yet." };
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amountCents,
-      currency: "aud",
+      currency: "usd",
       automatic_payment_methods: { enabled: true },
       receipt_email: email,
-      description: `KinCollage digital voucher - ${amount} AUD`,
+      description: `KinCollage digital voucher - ${amount} USD`,
       metadata: { type: "digital_voucher", email, amountCents: String(amountCents) },
     });
     if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
@@ -49,7 +49,7 @@ export async function completeVoucherPayment(paymentIntentId: string): Promise<{
     const customerResult = await resend.emails.send({ from: "Zsofia at KinCollage <hello@kincollage.com>", to: email, subject: "Your KinCollage digital voucher", html: renderVoucherHtml(email, voucher.code, String(amountCents / 100)), text: renderVoucherText(email, voucher.code, String(amountCents / 100)) });
     if (customerResult.error) throw new Error(customerResult.error.message);
     if (process.env.CONTACT_TO_EMAIL) {
-      const businessResult = await resend.emails.send({ from: "KinCollage Sales <hello@kincollage.com>", to: process.env.CONTACT_TO_EMAIL, replyTo: email, subject: `New ${amountCents / 100} AUD voucher purchase`, html: renderVoucherNotificationHtml(email, voucher.code, String(amountCents / 100), paymentIntent.id), text: renderVoucherNotificationText(email, voucher.code, String(amountCents / 100), paymentIntent.id) });
+      const businessResult = await resend.emails.send({ from: "KinCollage Sales <hello@kincollage.com>", to: process.env.CONTACT_TO_EMAIL, replyTo: email, subject: `New ${amountCents / 100} USD voucher purchase`, html: renderVoucherNotificationHtml(email, voucher.code, String(amountCents / 100), paymentIntent.id), text: renderVoucherNotificationText(email, voucher.code, String(amountCents / 100), paymentIntent.id) });
       if (businessResult.error) console.error("Voucher business notification failed:", businessResult.error);
     }
     return { success: true, code: voucher.code };

@@ -54,8 +54,20 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
             <label><input type="checkbox" name="sizes" value="other" checked={otherSize} onChange={(event) => { const checked = event.target.checked; if (event.nativeEvent.isTrusted) { selectionEditedAfterSubmit.current = true; setSubmittedSelectionKey(""); } setOtherSize(checked); if (checked) setSelectedProducts([]); }} /><span>Other</span></label>
           </div>
           {otherSize && <div className="commission-custom-size-fields">
-            <label className="commission-field">CUSTOM SIZE OR REQUEST<input name="otherSize" required placeholder="Tell us about your project or question..." /></label>
-            <label className="commission-field">EMAIL ADDRESS<input name="email" type="email" required placeholder="yourname@email.com" /></label>
+            <div className="commission-custom-size-intro">
+              <h3>SHARE YOUR DETAILS</h3>
+              <p>Since you&apos;ve selected a custom size, please tell us a little about your project below. We&apos;ll review your details and send a personalised quote and timeline straight to your inbox within 24–48 hours.</p>
+            </div>
+            <label className="commission-field">CUSTOM SIZE OR REQUEST<input name="otherSize" required placeholder="I need a size 60x75cm" /></label>
+            <div className="commission-two-columns">
+              <label className="commission-field">FIRST NAME <span>*</span><input name="firstName" required placeholder="Sammy" /></label>
+              <label className="commission-field">LAST NAME <span>*</span><input name="lastName" required placeholder="Gordon" /></label>
+            </div>
+            <label className="commission-field">EMAIL <span>*</span><input name="email" type="email" required placeholder="youremail@email.com" /></label>
+            <label className="commission-field">ADDRESS <span>*</span><small>Used for delivery from Sydney, Australia.</small><input name="address" required /></label>
+            <label className="commission-field">PRIORITY ORDER REQUEST<small>If you require your piece by a specific date, a 30% rush fee guarantees your chosen completion date. Please enter if applicable.</small><input name="priorityDate" type="date" /></label>
+            <label className="commission-field">COUPON OR VOUCHER CODE<input name="coupon" /></label>
+            <label className="commission-field">PROJECT DETAILS <span>*</span><textarea name="story" required placeholder="Tell us about your project or question..." /></label>
           </div>}
         </fieldset>
 

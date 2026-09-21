@@ -24,7 +24,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         className={`${tenorSans.variable} ${swankyAndMooMoo.variable} ${montserrat.variable} ${cormorantGaramond.variable} min-h-full flex flex-col`}
         suppressHydrationWarning
       >
-        <div className="sticky top-0 z-50">
+        <div className="sticky top-0 z-50 isolate -mt-[10px] bg-[#f5f5f5] pt-[10px] pb-[10px]">
           <Header />
           <PromoBanner fontClassName={montserrat.className} />
         </div>

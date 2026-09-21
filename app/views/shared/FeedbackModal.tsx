@@ -100,11 +100,11 @@ export default function FeedbackModal({
           </div>
           {code && (
             <div className="mt-5">
-              <p className="mb-2 text-center font-[var(--font-montserrat)] text-[11px] font-bold uppercase tracking-[0.18em] text-[#00a873]">
+              <p className="mb-2 text-center font-[var(--font-montserrat)] text-[11px] font-semibold uppercase tracking-[0.18em] text-[#00a873]">
                 {codeLabel}
               </p>
               <div className="flex items-center gap-2 rounded-xl bg-[#97ff77] p-2 max-[400px]:items-stretch">
-                <p className="min-w-0 flex-1 break-all px-2 py-2 text-[22px] font-bold tracking-wider">
+                <p className="min-w-0 flex-1 break-all px-2 py-2 text-[22px] font-semibold tracking-wider">
                   {code}
                 </p>
                 <button
@@ -118,7 +118,7 @@ export default function FeedbackModal({
             </div>
           )}
           {ctaLabel && ctaHref ? (
-            <a className="button-primary mt-6 inline-flex min-h-[50px] w-full items-center justify-center rounded-full border-0 text-[14px] no-underline" href={ctaHref} onClick={close}>
+            <a className="button-primary mt-6 inline-flex min-h-[50px] w-full items-center justify-center rounded-full border-0 font-[var(--font-tenor-sans)] text-[15px] uppercase tracking-[.03em] no-underline" href={ctaHref} onClick={close}>
               {ctaLabel}
             </a>
           ) : (

@@ -49,7 +49,7 @@ function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
   return (
     <div className="testimonial-review mt-[18px]">
       <p
-        className={`m-0 text-[17px] leading-[1.32] text-[#515151] max-[700px]:leading-[1.35] ${isExpanded ? "" : "overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:5]"}`}
+        className={`m-0 text-[16px] leading-[22.4px] text-[#515151] max-[700px]:leading-[22.4px] ${isExpanded ? "" : "overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:5]"}`}
         id={textId}
         ref={textRef}
       >
@@ -87,7 +87,7 @@ function TestimonialCard({ testimonial }: { testimonial: TestimonialModel }) {
         <TestimonialReview paragraphs={testimonial.paragraphs} />
         <footer className="mt-[22px]">
           <cite className="block font-[var(--font-tenor-sans)] text-[28px] leading-[1.05] not-italic text-[#59595b] max-[700px]:text-[24px]">{testimonial.name}</cite>
-          <p className="mt-2 text-[17px] leading-[1.2] text-[#515151] max-[700px]:text-[15px]">{testimonial.location}</p>
+          <p className="mt-2 text-[14px] leading-[1.2] text-[#515151]">{testimonial.location}</p>
         </footer>
       </div>
     </article>

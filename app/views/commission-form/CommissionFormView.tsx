@@ -14,8 +14,8 @@ export default function CommissionFormView({ commissionProducts, requestedAddOnI
           <p>Thank you for your interest in commissioning a KinCollage heirloom.</p>
           <p>Filling out this short form secures your spot in my upcoming studio batch.</p>
           <h2><mark>Please note:</mark></h2>
-          <p className="commission-order-hero-note">I accept a limited number of requests each month to give every artwork my full design care. Submitting this form and confirming your 50% deposit officially locks in your studio slot. I&apos;ll confirm your order via email within 24 hours, and you will receive your estimated completion date once your artwork arrives at the studio. The remaining 50% balance is due upon completion of your piece.</p>
-          <p>Prefer to have a free chat first?<br />Get in touch with me <Link href="/#contact">here</Link>.</p>
+          <p className="commission-order-hero-note">I accept a limited number of requests each month to give every artwork my full design care. Submitting this form and confirming your 50% deposit officially locks in our exclusive launch pricing for 2026. Once our launch period ends, rates will return to standard pricing for 2027. Once your physical pieces of art arrive at the studio, I will provide your estimated completion date.</p>
+          <p>Prefer to have a free chat first?<br />Get in touch with me <Link className="underline underline-offset-2" href="/#contact">here</Link>.</p>
         </div>
         <div className="commission-order-hero-art" aria-hidden="true">
           <Image unoptimized className="commission-order-composition" src="/commission/hero-composition.png" alt="" width={573} height={539} priority />

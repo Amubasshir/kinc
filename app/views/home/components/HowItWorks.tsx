@@ -25,12 +25,12 @@ function renderParagraph(paragraph: string, stepIndex: number, paragraphIndex: n
   return (
     <>
       {renderEmojiText(beforeOrderForm, "order-before")}
-      <Link className="font-bold" href="/start-your-commission">
+      <Link className="font-semibold underline underline-offset-2" href="/start-your-commission">
         order form
       </Link>
       {renderEmojiText(followupIndex === -1 ? beforeHere : afterOrderForm, "order-middle")}
       {followupIndex !== -1 && <><br />{renderEmojiText(beforeHere, "order-followup")}</>}
-      <a className="font-bold" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
+        <a className="font-semibold underline underline-offset-2" href="https://calendly.com/zsofimatrai/new-meeting?month=2026-09" target="_blank" rel="noopener noreferrer">
         here
       </a>
       {renderEmojiText(afterHere, "order-after")}

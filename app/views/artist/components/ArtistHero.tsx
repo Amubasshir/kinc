@@ -9,7 +9,7 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
         <div className="artist-hero-copy absolute top-[165px] left-0 w-[590px] max-[1050px]:relative max-[1050px]:top-auto max-[1050px]:left-auto max-[1050px]:w-full max-[760px]:order-1 max-[700px]:box-border max-[700px]:px-1 max-[700px]:pt-[18px]">
           <h1 className="text-[48px] leading-[1.12] tracking-[.2px] max-[1050px]:text-[44px] max-[760px]:text-[clamp(38px,11vw,46px)] max-[700px]:text-[31px] max-[700px]:leading-[1.08]" id="artist-heading">About {viewModel.name}</h1>
           <div className="artist-hero-body mt-[27px] max-[700px]:mt-[17px] [&>p]:text-[15px] [&>p]:leading-[1.48] [&>p+p]:mt-[25px] max-[700px]:[&>p]:text-[14px] max-[700px]:[&>p]:leading-[1.5] max-[700px]:[&>p+p]:mt-5">
-            <p className="font-bold">
+            <p className="font-semibold">
               I am a <mark>Sydney-based Australian-Hungarian artist, designer, and mother</mark>
               <br />of two. I inherited my artistic ability from my parents, growing up in a
               <br />home where creativity was our primary language.
@@ -34,7 +34,7 @@ export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }
               I treat every commission with the same precision I’ve given my award-
               <br />winning fashion label &amp; my gallery exhibitions.
             </p>
-            <p className="font-bold">
+            <p className="font-semibold">
               My goal is to help you <mark>preserve your child’s art,</mark> transforming everyday
               <br />drawings into a <strong>timeless family legacy.</strong>
             </p>

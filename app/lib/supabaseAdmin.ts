@@ -74,7 +74,7 @@ export async function createVoucher(email: string, code: string, amountCents: nu
   const rows = await supabaseRequest<VoucherRecord[]>("kin_vouchers", {
     method: "POST",
     headers: { Prefer: "return=representation" },
-    body: JSON.stringify({ email, code, amount_cents: amountCents, currency: "aud", payment_intent_id: paymentIntentId }),
+    body: JSON.stringify({ email, code, amount_cents: amountCents, currency: "usd", payment_intent_id: paymentIntentId }),
   });
   return rows[0];
 }

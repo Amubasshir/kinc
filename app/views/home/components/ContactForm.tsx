@@ -81,12 +81,10 @@ export default function ContactForm() {
         <button className="button-primary" type="submit" disabled={isPending || !isFormValid}>
           {isPending ? "SENDING…" : "SEND"}
         </button>
-        {state.status !== "idle" && (
+        {state.status === "error" && (
           <p
-            role="status"
-            className={`col-span-2 max-[700px]:col-span-1 ${
-              state.status === "success" ? "text-[#008861]" : "text-red-600"
-            }`}
+            role="alert"
+            className="col-span-2 text-red-600 max-[700px]:col-span-1"
           >
             {state.message}
           </p>
@@ -105,7 +103,8 @@ export default function ContactForm() {
             </p>
           </>
         }
-        closeLabel="Back to the studio"
+        ctaLabel="CHECK GALLERY"
+        ctaHref="/gallery"
         onClose={() => setDismissedSuccessState(state)}
       />
     </>

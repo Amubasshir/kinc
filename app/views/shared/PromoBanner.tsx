@@ -32,11 +32,11 @@ export default function PromoBanner({ fontClassName = "" }: { fontClassName?: st
       aria-live="off"
     >
       <span className="text-[16px] tracking-[0.2px] text-[#2E2E38] max-[700px]:text-[14px]">
-        <strong style={{ fontWeight: 700, fontVariationSettings: '"wght" 700' }}>SAVE 40%</strong><span style={{ fontWeight: 500, fontVariationSettings: '"wght" 500' }}> WITH LOCKED-IN 2026 LAUNCH RATES BEFORE OUR 2027 PRICE INCREASE</span>
+        <strong style={{ fontWeight: 600, fontVariationSettings: '"wght" 600' }}>SAVE 40%</strong><span style={{ fontWeight: 500, fontVariationSettings: '"wght" 500' }}> WITH LOCKED-IN 2026 LAUNCH RATES BEFORE OUR 2027 PRICE INCREASE</span>
       </span>
       <span
         className="text-[16px] tracking-[0.2px] text-[#2E2E38] tabular-nums max-[700px]:text-[14px]"
-        style={{ fontWeight: 700, fontVariationSettings: '"wght" 700' }}
+        style={{ fontWeight: 600, fontVariationSettings: '"wght" 600' }}
         suppressHydrationWarning
       >
         {timeLeft.days}D : {pad(timeLeft.hours)}H : {pad(timeLeft.minutes)}M

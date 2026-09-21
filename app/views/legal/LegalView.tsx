@@ -21,7 +21,7 @@ export default function LegalView({ viewModel }: { viewModel: LegalViewModel }) 
           key={section.id}
         >
           <h1 className="text-center text-[48px] leading-[1.1] text-[#555] max-[700px]:text-[34px]">{section.title}</h1>
-          <div className="mx-auto mt-[62px] max-w-[1050px] font-[var(--font-montserrat)] text-[15px] leading-[1.35] max-[700px]:mt-10 max-[700px]:text-[14px] max-[700px]:leading-[1.5]">
+          <div className="mx-auto mt-[62px] max-w-[1050px] font-[var(--font-montserrat)] text-[16px] leading-[1.35] max-[700px]:mt-10 max-[700px]:text-[16px] max-[700px]:leading-[1.5]">
             <p>Last Updated: {section.updated}</p>
             <div className="mt-7 space-y-4">
               {section.introduction.map((paragraph) => (

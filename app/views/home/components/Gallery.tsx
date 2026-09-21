@@ -5,6 +5,27 @@ import Link from "next/link";
 import { useState } from "react";
 import GalleryLightbox, { type LightboxImage } from "../../shared/GalleryLightbox";
 
+const currentGalleryImages = [
+  "/gallery-page/gallery-images/410B71F0-4287-401C-9726-B1B54ACBE037.JPG",
+  "/gallery-page/gallery-images/att.PjvDSzKlCZwzgf7amj8qfpkJ7zRRQErqfwu1G39vY_o.jpg",
+  "/gallery-page/gallery-images/BF664436-2AE2-458D-ACF3-01406056BC34.JPG",
+  "/gallery-page/gallery-images/Image-1.png",
+  "/gallery-page/gallery-images/Image-2.png",
+  "/gallery-page/gallery-images/Imagex.png",
+  "/gallery-page/gallery-images/IMG_1580.JPG",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_2279.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_2282.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_2479.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_2628.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_2717.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_2942.jpg",
+  "/gallery-page/gallery-images/IMG_3025.JPG",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_3072.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_3245.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_3248.jpg",
+  "/gallery-page/gallery-images/browser-fallbacks/IMG_3603.jpg",
+];
+
 function getGalleryHeight(number: number) {
   return number === 22 || number === 26 || number === 31 || number === 36
     ? 283
@@ -32,7 +53,7 @@ function getGalleryHeight(number: number) {
 export default function Gallery({ columns }: { columns: number[][] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const images: LightboxImage[] = columns.flat().map((number) => ({
-    src: `/gallery-${number}.png`,
+    src: currentGalleryImages[number - 22] ?? `/gallery-${number}.png`,
     alt: "KinCollage artwork and creative inspiration",
     width: 208,
     height: getGalleryHeight(number),
@@ -49,16 +70,18 @@ export default function Gallery({ columns }: { columns: number[][] }) {
                 className="gallery-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
                 key={number}
                 onClick={() => setActiveIndex(columnOffsets[columnIndex] + imageIndex)}
+                style={{ aspectRatio: `208 / ${getGalleryHeight(number)}` }}
                 type="button"
                 aria-label="Open artwork in gallery viewer"
               >
                 <Image unoptimized
-                  className="block w-full rounded-[10px] object-cover transition duration-300 ease-out group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
-                  src={`/gallery-${number}.png`}
+                  className="block h-full w-full rounded-[10px] object-cover transition duration-300 ease-out group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
+                  src={currentGalleryImages[number - 22] ?? `/gallery-${number}.png`}
                   alt="KinCollage artwork and creative inspiration"
                   width={208}
                   height={getGalleryHeight(number)}
                   sizes="(max-width: 520px) 44vw, (max-width: 900px) 29vw, 208px"
+                  style={{ height: "100%", width: "100%" }}
                 />
               </button>
             ))}

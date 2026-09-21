@@ -104,7 +104,7 @@ small {
   letter-spacing: 0.05px;
 }
 .welcome strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 .welcome em {
   font-style: italic;
@@ -150,6 +150,7 @@ small {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
   color: #18232e;
   font-size: 12px;
   line-height: 1;
@@ -374,7 +375,7 @@ small {
 .how-body p {
   margin: 0;
   color: #515151;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.29;
   letter-spacing: 0.05px;
 }
@@ -568,7 +569,7 @@ small {
 .pricing-card-copy h3 {
   margin: 0 0 15px;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 300;
   line-height: 1;
   letter-spacing: 0.2px;
@@ -576,7 +577,7 @@ small {
 .pricing-card-copy p {
   margin: 0;
   color: #515151;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.28;
 }
 .pricing-card-copy .pricing-dimensions strong {
@@ -593,7 +594,7 @@ small {
 }
 .pricing-notes p {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
 }
 
@@ -659,7 +660,7 @@ small {
 .merchandise-header p {
   margin: 27px 0 0;
   color: #515151;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.28;
   letter-spacing: 0.05px;
 }
@@ -718,7 +719,7 @@ small {
 .merchandise-card-copy > p {
   margin: 17px 0 0;
   color: #515151;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.2;
 }
 .merchandise-bestseller {
@@ -815,7 +816,7 @@ small {
 }
 .gift-card-content > p {
   margin: 32px 0 0;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.28;
   letter-spacing: 0.05px;
 }
@@ -920,7 +921,7 @@ small {
   margin-top: 0;
 }
 .about-copy strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 .about-copy em {
   font-style: italic;
@@ -985,6 +986,30 @@ small {
   bottom: 51px;
   width: 130px;
   height: auto;
+}
+
+@media (min-width: 1101px) {
+  .about {
+    width: calc(100% + 40px);
+    max-width: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    grid-template-columns: minmax(0, 620px) minmax(0, 504px);
+    column-gap: 180px;
+  }
+
+  .about-content {
+    transform: translateX(-20px);
+  }
+
+  .about-portrait {
+    transform: translateX(20px);
+    width: 504px;
+  }
+
+  .about-portrait > img:first-child {
+    width: 504px;
+  }
 }
 
 @media (max-width: 1160px) {
@@ -1064,7 +1089,7 @@ small {
   max-width: 300px;
   margin: 20px 0 0;
   color: #515151;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.32;
   letter-spacing: 0.03px;
 }
@@ -1174,7 +1199,7 @@ small {
   padding: 0 27px 0 24px;
   cursor: pointer;
   list-style: none;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.25;
   letter-spacing: 0.3px;
   text-transform: uppercase;
@@ -1212,7 +1237,7 @@ small {
 .faq-item p {
   max-width: 700px;
   margin: 8px 72px 23px 24px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.29;
   letter-spacing: 0.05px;
 }
@@ -1299,7 +1324,7 @@ small {
 }
 .contact-form-card > p {
   margin: 24px 0 0;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.34;
 }
 .contact-field {
@@ -1478,10 +1503,15 @@ small {
 
 input,
 textarea,
-select,
+select {
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif !important;
+  font-size: 14px !important;
+}
+
 input::placeholder,
 textarea::placeholder {
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif !important;
+  font-size: 14px !important;
 }
 
 label[for="subscriber-name"],
@@ -1573,7 +1603,7 @@ label[for="contact-message"] {
   color: #00a873;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-align: center;
 }
@@ -2345,7 +2375,7 @@ main > section {
 .start-commission-mark b {
   color: #008d60;
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 600;
 }
 .start-commission-mark i {
   position: absolute;
@@ -2453,7 +2483,7 @@ main > section {
   box-decoration-break: clone;
 }
 .artist-hero-body strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 .artist-hero-body a {
   color: inherit;
@@ -2660,7 +2690,7 @@ main > section {
   line-height: 1.45;
 }
 .artist-pricing-notes em {
-  font-weight: 700;
+  font-weight: 600;
 }
 .artist-pricing-action {
   display: flex;
@@ -3769,14 +3799,14 @@ html {
 
 .welcome-redesign p {
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.29;
   letter-spacing: 0.05px;
 }
 
 .welcome-redesign strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .welcome-redesign em {
@@ -4024,7 +4054,7 @@ html {
   }
 
   .welcome-redesign p {
-    font-size: clamp(14px, 1.7vw, 17px);
+    font-size: clamp(14px, 1.7vw, 16px);
   }
 }
 
@@ -4146,7 +4176,7 @@ html {
   color: inherit;
 }
 .commission-order-hero-note {
-  font-weight: 650;
+  font-weight: 600;
 }
 .commission-order-hero a,
 .commission-order-thanks a {
@@ -4160,10 +4190,10 @@ html {
 }
 .commission-order-composition {
   position: absolute;
-  top: 4%;
-  right: 0;
+  top: 9%;
+  right: 4%;
   display: block;
-  width: 91%;
+  width: 64%;
   height: auto;
 }
 
@@ -4201,7 +4231,7 @@ html {
   margin: 17px 0 0;
 }
 .commission-order-information strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .commission-order-form {
@@ -4353,7 +4383,7 @@ html {
   margin-top: 8px;
   padding-top: 13px;
   border-top: 1px solid rgb(70 70 70 / 20%);
-  font-weight: 700;
+  font-weight: 600;
 }
 .commission-price-summary p {
   margin: 14px 0 0;
@@ -4474,7 +4504,7 @@ html {
 .footer-legal-links a:hover,
 .footer-legal-links a:focus-visible {
   color: #008d60;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 @media (max-width: 1100px) {
@@ -4573,6 +4603,7 @@ html {
   background: #97ff77;
   color: #263443;
   box-shadow: 0 4px 5px rgb(25 93 69 / 22%);
+  text-transform: uppercase;
 }
 
 .button-primary:hover,
@@ -5008,7 +5039,7 @@ html {
 
 /* Exact layout pass for the current commission design reference. */
 .commission-order-main {
-  padding: 28px 24px 60px;
+  padding: 64px 24px;
   background: #fff;
 }
 
@@ -5043,7 +5074,7 @@ html {
 .commission-order-information > p:first-child,
 .commission-order-information > p:first-child strong {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
 }
 
@@ -5089,6 +5120,24 @@ html {
   margin-top: 16px;
 }
 
+.commission-custom-size-intro h3 {
+  margin: 0;
+  color: #515151;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+}
+
+.commission-custom-size-intro p {
+  margin: 7px 0 0;
+  color: #777782;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 .commission-custom-size-fields .commission-field {
   color: #515151;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
@@ -5118,6 +5167,22 @@ html {
 .commission-custom-size-fields .commission-field input:focus {
   border-color: #00b982;
   box-shadow: 0 0 0 3px rgb(0 209 143 / 17%);
+}
+
+.commission-custom-size-fields .commission-field textarea {
+  min-height: 72px;
+  padding: 10px;
+  border: 2px solid #aaaab5;
+  border-radius: 14px;
+  color: #263443;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
+  font-size: 15px;
+}
+
+.commission-custom-size-fields .commission-field textarea::placeholder {
+  color: #aaaab5;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
+  opacity: 1;
 }
 
 .commission-installment-heading {
@@ -5330,6 +5395,7 @@ html {
   font: inherit;
   font-size: 11px;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 .commission-checkout-promo button:disabled {
@@ -5755,7 +5821,7 @@ html {
   gap: 9px;
   margin-top: 16px;
   color: #666671;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.45;
 }
 
@@ -5797,11 +5863,18 @@ html {
   margin-top: 16px;
 }
 
-.commission-checkout-form-panel .commission-stripe-date-field input:focus,
+.commission-checkout-form-panel .commission-stripe-date-field input:focus {
+  border-color: #00b982;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgb(0 209 143 / 16%);
+}
 
 @media (max-width: 760px) {
   .commission-checkout-shell {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     margin-left: 0;
     transform: none;
     grid-template-columns: 1fr;
@@ -5813,6 +5886,7 @@ html {
   }
 
   .commission-checkout-form-panel {
+    min-width: 0;
     padding: 27px 24px 28px;
   }
 }
@@ -5982,7 +6056,7 @@ html {
 
 @media (max-width: 700px) {
   .commission-order-main {
-    padding: 24px 20px 48px;
+    padding: 56px 20px;
   }
 
   .commission-order-main > div > h2 {
@@ -6024,7 +6098,7 @@ html {
   }
 
   .commission-order-information h3 + p {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .commission-design-only-form fieldset > small {
@@ -6070,4 +6144,246 @@ html {
     aspect-ratio: auto;
     border-radius: 18px;
   }
+}
+
+/* Checkout responsive hardening. Keep every grid child shrinkable so hosted
+   payment fields and long product labels cannot force the page wider. */
+.commission-checkout-shell,
+.commission-checkout-shell > *,
+.commission-checkout-shell input,
+.commission-checkout-shell select,
+.commission-checkout-shell button {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.commission-checkout-shell img {
+  max-width: 100%;
+}
+
+.commission-checkout-item > div,
+.commission-checkout-item strong,
+.commission-checkout-item small,
+.commission-checkout-item span,
+.commission-shipping-options span,
+.commission-checkout-terms span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.commission-checkout-form-panel .commission-stripe-date-field input,
+.commission-checkout-form-panel .commission-date-input,
+.commission-checkout-form-panel .commission-contact-fields,
+.commission-checkout-form-panel .commission-address-fields,
+.commission-checkout-form-panel .commission-shipping-options,
+.commission-checkout-form-panel .StripeElement {
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  #commission-payment {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .commission-checkout-shell {
+    display: grid;
+    width: 100%;
+    max-width: 100%;
+    margin: 28px auto 0;
+    overflow: hidden;
+    border-radius: 12px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .commission-checkout-summary {
+    min-height: 0;
+    padding: 24px 20px 26px;
+  }
+
+  .commission-checkout-brand {
+    flex-wrap: wrap;
+  }
+
+  .commission-checkout-kicker {
+    margin-top: 24px;
+  }
+
+  .commission-checkout-amount {
+    font-size: clamp(28px, 9vw, 34px);
+  }
+
+  .commission-checkout-items {
+    margin-top: 24px;
+    gap: 18px;
+  }
+
+  .commission-checkout-item {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .commission-checkout-item img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .commission-checkout-item strong {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .commission-checkout-item small,
+  .commission-checkout-item span {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .commission-checkout-item b {
+    font-size: 12px;
+  }
+
+  .commission-checkout-promo {
+    margin-top: 24px;
+  }
+
+  .commission-checkout-totals {
+    margin-top: 24px;
+  }
+
+  .commission-checkout-form-panel {
+    min-width: 0;
+    padding: 26px 20px 30px;
+  }
+
+  .commission-checkout-form-panel > h3 {
+    margin-bottom: 22px;
+    font-size: clamp(25px, 7vw, 31px);
+    line-height: 1.15;
+  }
+
+  .commission-stripe-section {
+    margin-top: 22px;
+  }
+
+  .commission-contact-section {
+    margin-top: 0;
+  }
+
+  .commission-stripe-section-title,
+  .commission-stripe-date-label {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .commission-stripe-date-field small {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .commission-contact-row,
+  .commission-address-row {
+    min-height: 46px;
+  }
+
+  .commission-contact-row input,
+  .commission-address-row input,
+  .commission-address-row select,
+  .commission-phone-code select {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .commission-address-locality label {
+    padding-inline: 11px;
+  }
+
+  .commission-address-phone {
+    gap: 8px;
+  }
+
+  .commission-shipping-options label {
+    min-height: 52px;
+    padding: 10px 11px;
+    align-items: start;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .commission-shipping-options label input {
+    margin-top: 2px;
+  }
+
+  .commission-shipping-options small {
+    margin-top: 2px;
+    font-size: 11px;
+  }
+
+  .commission-shipping-options strong {
+    font-size: 12px;
+  }
+
+  .commission-checkout-terms {
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .commission-checkout-form-panel .commission-order-submit {
+    min-height: 50px;
+    margin-top: 20px;
+  }
+
+  .commission-link-disclosure {
+    padding-inline: 0;
+    font-size: 11px;
+  }
+
+  .commission-link-disclosure > div {
+    gap: 14px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .commission-checkout-summary,
+  .commission-checkout-form-panel {
+    padding-inline: 16px;
+  }
+
+  .commission-checkout-item {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .commission-checkout-item img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .commission-checkout-item b {
+    grid-column: 2;
+    margin-top: -5px;
+    justify-self: start;
+  }
+
+  .commission-address-locality {
+    grid-template-columns: 1fr;
+  }
+
+  .commission-address-locality label + label {
+    border-top: 1px solid #e5e5e9;
+    border-left: 0;
+  }
+
+  .commission-link-disclosure > div span[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* Use semibold for semantic emphasis throughout the site. */
+strong,
+b {
+  font-weight: 600;
 }

@@ -11,7 +11,7 @@ export default function Faqs({ faqs }: { faqs: FaqModel[] }) {
       <div className="faq-list mx-auto mt-[55px] w-full max-w-[1180px] max-[700px]:mt-[39px]">
         {faqs.map((faq, index) => (
           <details className={`faq-item border-b border-[#aaaab5]${!showAll && index >= 3 ? " faq-item-mobile-hidden" : ""}`} key={faq.question}>
-            <summary className="flex min-h-[74px] cursor-pointer list-none items-center justify-between text-[17px] max-[700px]:min-h-[83px] max-[700px]:text-[16px]">
+            <summary className="flex min-h-[74px] cursor-pointer list-none items-center justify-between text-[16px] max-[700px]:min-h-[83px] max-[700px]:text-[16px]">
               <span>{faq.question}</span>
               <i aria-hidden="true" />
             </summary>

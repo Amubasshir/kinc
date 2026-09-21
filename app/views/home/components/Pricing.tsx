@@ -134,11 +134,11 @@ export default function Pricing({ sizes }: { sizes: PricingSizeModel[] }) {
               <br />
               ✧ <strong>Rest of the world:</strong> 10 - 14 days
               <br />
-              ✧ For full shipping details, please <Link href="/legal#shipping"><strong>click here</strong></Link>
+              ✧ For full shipping details, please <Link className="underline underline-offset-2" href="/legal#shipping"><strong>click here</strong></Link>
             </p>
           </div>
           <div>
-            <h3>Need a different size artwork or material?</h3>
+            <h3>NEED A DIFFERENT SIZE ARTWORK OR MATERIAL?</h3>
             <p>
               ✧ Additional custom sizes are available to select on the order form.
               <br />

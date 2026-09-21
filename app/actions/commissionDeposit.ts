@@ -385,7 +385,8 @@ export async function createCommissionDeposit(
   const addOnPriceIds = ADD_ON_PRODUCTS.filter((product) => addOns.includes(product.label)).map((product) => product.priceId);
 
   if (otherSize) {
-    if (!EMAIL_PATTERN.test(email)) return { status: "error", message: "Please enter a valid email so we can send your custom quote." };
+    if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) return { status: "error", message: "Please fill in your name and a valid email so we can send your custom quote." };
+    if (!field(formData, "otherSize") || !field(formData, "address") || !field(formData, "story")) return { status: "error", message: "Please complete the custom size, address, and project details fields." };
     try {
       const emailDetails = buildEmailDetails(formData, [], addOns);
       const quoteDetails: CommissionEmailDetails = { ...emailDetails, total: "Manual quote required", deposit: "No payment taken", paymentReference: "Manual quote", quoteOnly: true };
