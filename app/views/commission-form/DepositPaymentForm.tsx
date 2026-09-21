@@ -6,6 +6,7 @@ import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import { applyCommissionVoucher, completeCommissionOrder, savePaymentCustomerDetails, updateCommissionPaymentOptions, type CommissionShippingRegion } from "../../actions/commissionDeposit";
 import { getStripe } from "../../lib/stripeClient";
+import ModernDatePicker from "./ModernDatePicker";
 
 export type CheckoutItem = {
   name: string;
@@ -30,8 +31,8 @@ function calculateShippingCents(items: CheckoutItem[], region: CommissionShippin
 }
 
 function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan, options, discountCents, voucherCode, voucherMessage, isApplyingVoucher, onApplyVoucher }: { items: CheckoutItem[]; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; options: PaymentOptions; discountCents: number; voucherCode: string; voucherMessage: { type: "success" | "error"; text: string } | null; isApplyingVoucher: boolean; onApplyVoucher: (code: string) => Promise<void> }) {
-  const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
-  const formatPrice = (cents: number) => `${money.format(cents / 100)} USD`;
+  const money = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+  const formatPrice = (cents: number) => `${currency.toUpperCase()}$${money.format(cents / 100)}`;
   const itemTotalCents = items.reduce((sum, item) => sum + item.amountCents, 0);
   const baseTotalCents = paymentPlan === "installments" ? itemTotalCents * 3 : itemTotalCents;
   const shippingLabel = options.shippingCents === 0 ? "Pick up from Sydney studio" : options.shippingRegion === "australia" ? "Shipping (Australia)" : "Shipping (US & Canada)";
@@ -83,8 +84,8 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
   const [shippingRegion, setShippingRegion] = useState<CommissionShippingRegion>("australia");
   const [shippingCents, setShippingCents] = useState(0);
   const [currentAmountCents, setCurrentAmountCents] = useState(amountCents);
-  const money = new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 });
-  const formatPrice = (cents: number) => `${money.format(cents / 100)} USD`;
+  const money = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+  const formatPrice = (cents: number) => `${currency.toUpperCase()}$${money.format(cents / 100)}`;
 
   const updateShippingAddress = (changes: Partial<{ name: string; country: string; line1: string; city: string; state: string; phone: string; phoneCode: string; postalCode: string }>) => {
     const name = changes.name ?? shippingName;
@@ -177,7 +178,7 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
   return (
     <form className="commission-payment-form" onSubmit={handlePay}>
       <div className="commission-stripe-section commission-contact-section"><span className="commission-stripe-section-title">Contact details</span><div className="commission-contact-fields"><label className="commission-contact-row"><svg aria-hidden="true" viewBox="0 0 16 16"><rect x="2" y="3.5" width="12" height="9" rx="1.5" /><path d="m3 5 5 3.5L13 5" /></svg><span className="commission-visually-hidden">Email</span><input type="email" autoComplete="email" placeholder="Email" value={customerEmail} onChange={(event) => { setCustomerEmail(event.target.value); setEmailComplete(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(event.target.value)); }} required /></label><label className="commission-contact-row"><svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="8" cy="5" r="2.5" /><path d="M3 13c.4-2.2 2.2-3.5 5-3.5s4.6 1.3 5 3.5" /></svg><span className="commission-visually-hidden">Full name</span><input type="text" autoComplete="name" placeholder="Full name" value={customerName} onChange={(event) => setCustomerName(event.target.value)} required /></label></div></div>
-      <label className="commission-stripe-date-field"><span className="commission-stripe-date-label">Priority order request date <em>(Optional)</em></span><input aria-label="Priority Date (30% rush fee applies)" type="date" value={priorityDate} onChange={(event) => changeOptions({ priorityDate: event.target.value, shippingCents, shippingRegion })} /><small>Priority Date (30% rush fee applies)</small></label>
+       <label className="commission-stripe-date-field"><span className="commission-stripe-date-label">Priority order request date <em>(Optional)</em></span><ModernDatePicker name="priorityDate" value={priorityDate} variant="checkout" onChange={(value) => changeOptions({ priorityDate: value, shippingCents, shippingRegion })} /><small>Priority Date (30% rush fee applies)</small></label>
       <div className="commission-stripe-section commission-address-section"><span className="commission-stripe-section-title">Shipping address</span><div className="commission-address-fields">
         <label className="commission-address-row"><span className="commission-visually-hidden">Full name</span><input type="text" autoComplete="shipping name" placeholder="Full name" value={shippingName} onChange={(event) => updateShippingAddress({ name: event.target.value })} required /></label>
         <label className="commission-address-row commission-address-country"><span className="commission-visually-hidden">Country or region</span><select autoComplete="shipping country-name" aria-label="Country or region" value={shippingCountry} onChange={(event) => updateShippingAddress({ country: event.target.value })}><option value="AU">Australia</option><option value="BD">Bangladesh</option><option value="US">United States</option><option value="CA">Canada</option><option value="NZ">New Zealand</option></select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m3.5 6 4.5 4 4.5-4" /></svg></label>
@@ -242,7 +243,7 @@ export default function DepositPaymentForm({ clientSecret, amountCents, totalCen
       <CheckoutSummary items={items} amountCents={displayAmountCents} totalCents={displayTotalCents} currency={currency} paymentPlan={paymentPlan} options={options} discountCents={discountCents} voucherCode={voucherCode} voucherMessage={voucherMessage} isApplyingVoucher={isApplyingVoucher} onApplyVoucher={handleApplyVoucher} />
       <section className="commission-checkout-form-panel">
         <h3>Shipping information</h3>
-        <Elements stripe={getStripe()} options={{ clientSecret, fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" }], appearance: { theme: "flat", variables: { colorPrimary: "#00b982", colorText: "#263443", colorDanger: "#ad3127", fontFamily: "'Montserrat', Arial, sans-serif", fontSizeBase: "14px", fontSizeSm: "13px", borderRadius: "8px", spacingUnit: "2px" }, rules: { ".Input": { border: "1px solid #d6d6dc", borderRadius: "7px", backgroundColor: "#fff", padding: "9px 12px", boxShadow: "0 1px 3px rgba(38, 52, 67, 0.1)", fontFamily: "'Montserrat', Arial, sans-serif", fontSize: "14px" }, ".Input:focus": { border: "2px solid #00b982", boxShadow: "0 0 0 3px rgba(0, 209, 143, 0.17)" }, ".Label": { fontSize: "13px", textTransform: "none", color: "#565661" } } } }}>
+        <Elements stripe={getStripe()} options={{ clientSecret, fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Tenor+Sans&display=swap" }], appearance: { theme: "flat", variables: { colorPrimary: "#263443", colorText: "#263443", iconColor: "#263443", iconHoverColor: "#263443", tabIconColor: "#263443", tabIconHoverColor: "#263443", tabIconSelectedColor: "#263443", tabIconMoreColor: "#263443", colorDanger: "#ad3127", fontFamily: "'Montserrat', Arial, sans-serif", fontSizeBase: "14px", fontSizeSm: "13px", borderRadius: "8px", spacingUnit: "2px" }, rules: { ".Input": { border: "1px solid #d6d6dc", borderRadius: "7px", backgroundColor: "#fff", padding: "9px 12px", boxShadow: "0 1px 3px rgba(38, 52, 67, 0.1)", fontFamily: "'Montserrat', Arial, sans-serif", fontSize: "14px" }, ".Input:focus": { border: "2px solid #263443", boxShadow: "0 0 0 3px rgba(38, 52, 67, 0.17)" }, ".Label": { fontSize: "13px", textTransform: "none", color: "#565661", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".TabLabel": { color: "#263443", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".Link": { color: "#263443" }, ".TabIcon": { color: "#263443" } } } }}>
           <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay installment" : "Pay in full"} paymentIntentId={paymentIntentId} sizeLabel={sizeLabel} items={items} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
         </Elements>
       </section>

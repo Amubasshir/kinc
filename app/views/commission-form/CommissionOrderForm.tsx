@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createCommissionDeposit, createCommissionPayment, type CommissionDepositState, type CommissionPaymentState } from "../../actions/commissionDeposit";
 import type { StripeCommissionProduct } from "../../lib/stripePricing";
 import DepositPaymentForm, { type CheckoutItem } from "./DepositPaymentForm";
+import ModernDatePicker from "./ModernDatePicker";
 
 const initialState: CommissionPaymentState = { status: "idle" };
 const initialQuoteState: CommissionDepositState = { status: "idle" };
@@ -14,6 +15,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   const requestedSize = commissionProducts.find((item) => item.productId === requestedProductId);
   const [selectedProducts, setSelectedProducts] = useState<string[]>(requestedSize ? [requestedSize.productId] : []);
   const [otherSize, setOtherSize] = useState(false);
+  const [priorityDate, setPriorityDate] = useState("");
   const [paymentPlan, setPaymentPlan] = useState<"full" | "installments">("full");
   const [paymentState, formAction, isCreatingPayment] = useActionState(createCommissionPayment, initialState);
   const [quoteState, quoteFormAction, isSendingQuote] = useActionState(createCommissionDeposit, initialQuoteState);
@@ -21,7 +23,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   const [submittedProducts, setSubmittedProducts] = useState<string[]>([]);
   const selectionEditedAfterSubmit = useRef(false);
   const preserveSelectionOnReset = useRef(false);
-  const formatPrice = (amount: number, currency: string) => new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount / 100);
+  const formatPrice = (amount: number, currency: string) => `${currency.toUpperCase()}$${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount / 100)}`;
   const selectionKey = `${paymentPlan}:${[...selectedProducts].sort().join(",")}`;
   const hasCurrentPayment = paymentState.status === "ready" && !isCreatingPayment && submittedSelectionKey === selectionKey;
   const submittedSizeLabel = commissionProducts.filter((size) => submittedProducts.includes(size.productId)).map((size) => size.name).join(" + ") || "Selected size";
@@ -65,7 +67,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
             </div>
             <label className="commission-field">EMAIL <span>*</span><input name="email" type="email" required placeholder="youremail@email.com" /></label>
             <label className="commission-field">ADDRESS <span>*</span><small>Used for delivery from Sydney, Australia.</small><input name="address" required /></label>
-            <label className="commission-field">PRIORITY ORDER REQUEST<small>If you require your piece by a specific date, a 30% rush fee guarantees your chosen completion date. Please enter if applicable.</small><input name="priorityDate" type="date" /></label>
+            <label className="commission-field">PRIORITY ORDER REQUEST<small>If you require your piece by a specific date, a 30% rush fee guarantees your chosen completion date. Please enter if applicable.</small><ModernDatePicker name="priorityDate" value={priorityDate} onChange={setPriorityDate} /></label>
             <label className="commission-field">COUPON OR VOUCHER CODE<input name="coupon" /></label>
             <label className="commission-field">PROJECT DETAILS <span>*</span><textarea name="story" required placeholder="Tell us about your project or question..." /></label>
           </div>}

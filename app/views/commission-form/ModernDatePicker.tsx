@@ -39,10 +39,12 @@ export default function ModernDatePicker({
   name,
   value,
   onChange,
+  variant = "default",
 }: {
   name: string;
   value: string;
   onChange: (value: string) => void;
+  variant?: "default" | "checkout";
 }) {
   const today = useMemo(() => {
     const current = new Date();
@@ -93,10 +95,12 @@ export default function ModernDatePicker({
   };
 
   return (
-    <div className="modern-date-picker relative mt-[7px]" ref={rootRef}>
+    <div className={`modern-date-picker relative ${variant === "checkout" ? "mt-0" : "mt-[7px]"}`} ref={rootRef}>
       <input name={name} type="hidden" value={value} readOnly style={{ display: "none" }} />
       <button
-        className="flex h-[48px] w-full items-center justify-between rounded-full border-2 border-[#aaaab5] bg-white px-4 text-left text-[14px] font-normal text-[#4f4f58] normal-case outline-none transition hover:border-[#00b982] active:border-[#008d60] focus-visible:border-[#00b982] focus-visible:shadow-[0_0_0_3px_rgb(0_209_143/16%)]"
+        className={variant === "checkout"
+          ? "flex h-[38px] w-full items-center justify-between rounded-[7px] border border-[#d6d6dc] bg-white px-3 text-left text-[14px] font-[var(--font-montserrat)] font-normal text-[#51515d] normal-case outline-none shadow-[0_1px_3px_rgb(38_52_67/10%)] transition hover:border-[#aaaab5] active:border-[#00b982] focus-visible:border-[#00b982] focus-visible:shadow-[0_0_0_3px_rgb(0_209_143/16%)]"
+          : "flex h-[48px] w-full items-center justify-between rounded-full border-2 border-[#aaaab5] bg-white px-4 text-left text-[14px] font-[var(--font-montserrat)] font-normal text-[#4f4f58] normal-case outline-none transition hover:border-[#00b982] active:border-[#008d60] focus-visible:border-[#00b982] focus-visible:shadow-[0_0_0_3px_rgb(0_209_143/16%)]"}
         type="button"
         aria-haspopup="dialog"
         aria-expanded={open}
@@ -105,7 +109,7 @@ export default function ModernDatePicker({
         <span className={value ? "text-[#34343c]" : "text-[#9696a1]"}>
           {selectedDate ? dateFormatter.format(selectedDate) : "Choose a completion date"}
         </span>
-        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#eaffdf] text-[#087b59]" aria-hidden="true">
+        <span className={variant === "checkout" ? "grid h-7 w-7 shrink-0 place-items-center bg-transparent text-[#51515d]" : "grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#eaffdf] text-[#087b59]"} aria-hidden="true">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
             <path d="M7 3v3M17 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
@@ -113,7 +117,7 @@ export default function ModernDatePicker({
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 z-30 mt-2 w-[min(360px,calc(100vw-40px))] rounded-[22px] border border-[#e5e5e8] bg-white p-4 normal-case shadow-[0_18px_45px_rgb(38_52_67/18%)]" role="dialog" aria-label="Choose a priority completion date">
+        <div className={`absolute top-full z-30 mt-2 rounded-[22px] border border-[#e5e5e8] bg-white p-4 normal-case shadow-[0_18px_45px_rgb(38_52_67/18%)] ${variant === "checkout" ? "right-0 w-[min(360px,100%)]" : "left-0 w-[min(360px,calc(100vw-32px))]"}`} role="dialog" aria-label="Choose a priority completion date">
           <div className="flex items-center justify-between px-1">
             <button
               className="grid h-9 w-9 place-items-center rounded-full border-0 bg-[#f3f3f4] text-xl text-[#555560] transition hover:bg-[#e7e7e9] active:bg-[#9f9fb7] disabled:cursor-not-allowed disabled:opacity-30"

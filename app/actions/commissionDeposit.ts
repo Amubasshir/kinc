@@ -25,6 +25,18 @@ export type CommissionPaymentState =
   | { status: "ready"; clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments" };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_PRIORITY_DATE = "2099-12-31";
+
+function isValidPriorityDate(value: string) {
+  if (!value) return true;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || value > MAX_PRIORITY_DATE) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return year >= 2000 && date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+}
+
+const INVALID_PRIORITY_DATE_MESSAGE = "Please enter a valid priority date between 2000 and 2099.";
+
 function formatMoney(amount: number, currency: string) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
 }
@@ -224,6 +236,7 @@ export async function createCommissionPayment(
   const priceIds = [...new Set(formData.getAll("sizes").map(String).filter((id) => id.startsWith("price_")))];
   if (priceIds.length === 0) return { status: "error", message: "Please choose at least one canvas size." };
   const priorityDate = String(formData.get("priorityDate") ?? "").trim();
+  if (!isValidPriorityDate(priorityDate)) return { status: "error", message: INVALID_PRIORITY_DATE_MESSAGE };
   const shippingCents = Number(formData.get("shippingCents") ?? 0);
   if (![0, 2500, 3500].includes(shippingCents)) return { status: "error", message: "Please choose a valid shipping method." };
 
@@ -301,6 +314,7 @@ export async function savePaymentCustomerDetails(paymentIntentId: string, email:
 
 export async function updateCommissionPaymentOptions(paymentIntentId: string, priorityDate: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
   if (!process.env.STRIPE_SECRET_KEY || !["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
+  if (!isValidPriorityDate(priorityDate.trim())) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
@@ -326,6 +340,7 @@ export async function updateCommissionPaymentOptions(paymentIntentId: string, pr
 export async function applyCommissionVoucher(paymentIntentId: string, code: string, priorityDate: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
   if (!process.env.STRIPE_SECRET_KEY) return { success: false, message: "Payments aren't configured yet." };
   if (!["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
+  if (!isValidPriorityDate(priorityDate.trim())) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
 
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -379,6 +394,7 @@ export async function createCommissionDeposit(
   const requestedAddOns = formData.getAll("addOns").map(String);
   const addOns = ADD_ON_PRODUCTS.filter((product) => requestedAddOns.includes(product.label)).map((product) => product.label);
   const priorityDate = field(formData, "priorityDate");
+  if (!isValidPriorityDate(priorityDate)) return { status: "error", message: INVALID_PRIORITY_DATE_MESSAGE };
   const addOnReference = field(formData, "addOnReference");
   const couponCode = field(formData, "coupon").toUpperCase();
 

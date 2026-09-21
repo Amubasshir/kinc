@@ -7,7 +7,7 @@ import { createVoucher, findVoucherByPaymentIntent } from "../lib/supabaseAdmin"
 import { renderVoucherHtml, renderVoucherText, renderVoucherNotificationHtml, renderVoucherNotificationText } from "./emailTemplates";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export type VoucherPaymentState = { status: "idle" | "error" | "ready"; message?: string; clientSecret?: string; amountCents?: number };
+export type VoucherPaymentState = { status: "idle" | "error" | "ready"; message?: string; clientSecret?: string; amountCents?: number; email?: string };
 
 export async function createVoucherPayment(_prev: VoucherPaymentState, formData: FormData): Promise<VoucherPaymentState> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
@@ -27,7 +27,7 @@ export async function createVoucherPayment(_prev: VoucherPaymentState, formData:
       metadata: { type: "digital_voucher", email, amountCents: String(amountCents) },
     });
     if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
-    return { status: "ready", clientSecret: paymentIntent.client_secret, amountCents };
+    return { status: "ready", clientSecret: paymentIntent.client_secret, amountCents, email };
   } catch (error) {
     console.error("Failed to create voucher payment:", error);
     return { status: "error", message: "We could not start payment. Please try again." };

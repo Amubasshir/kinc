@@ -5,7 +5,7 @@ import { randomInt } from "node:crypto";
 import { renderGiftCouponHtml, renderGiftCouponText, renderGiftCouponNotificationHtml, renderGiftCouponNotificationText } from "./emailTemplates";
 import { createCoupon, findCouponByEmail } from "../lib/supabaseAdmin";
 
-export type GiftCouponState = { status: "idle" | "success" | "error"; message?: string; code?: string };
+export type GiftCouponState = { status: "idle" | "success" | "error"; message?: string; code?: string; email?: string };
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function makeCode() {
@@ -61,7 +61,7 @@ export async function secureGift(_prev: GiftCouponState, formData: FormData): Pr
       customerEmailId: customerResult.data?.id,
       businessEmailId: businessResult.data?.id,
     });
-    return { status: "success", code: coupon.code, message: "Your gift is ready." };
+    return { status: "success", code: coupon.code, email, message: "Your gift is ready." };
   } catch (error) {
     console.error("Gift coupon request failed:", error);
     return { status: "error", message: "We couldn't create your coupon right now. Please try again later." };
