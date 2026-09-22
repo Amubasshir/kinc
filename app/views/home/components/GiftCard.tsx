@@ -49,7 +49,7 @@ export default function GiftCard() {
             required
           />
           {amountError && <p id="voucher-amount-error" className="commission-field-error mt-2 self-start text-left" role="alert">{amountError}</p>}
-          <button className="button-primary mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 text-[14px] max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit">PURCHASE VOUCHER</button>
+          <button className="button-primary mt-6 min-h-[53px] w-[264px] cursor-pointer rounded-full border-0 text-[14px] max-[700px]:mt-[26px] max-[700px]:min-h-[49px] max-[700px]:w-[232px] max-[700px]:text-[14px]" type="submit" disabled={!canSubmit}>PURCHASE VOUCHER</button>
         </form>
       </div>
       {isOpen && <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#263443]/60 px-4 py-8" role="dialog" aria-modal="true" aria-labelledby="voucher-modal-title">
