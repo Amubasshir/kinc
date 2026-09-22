@@ -3,6 +3,7 @@
 import { randomInt } from "node:crypto";
 import { Resend } from "resend";
 import Stripe from "stripe";
+import { formatMoney } from "../lib/money";
 import { createVoucher, findVoucherByPaymentIntent } from "../lib/supabaseAdmin";
 import { renderVoucherHtml, renderVoucherText, renderVoucherNotificationHtml, renderVoucherNotificationText } from "./emailTemplates";
 
@@ -46,10 +47,11 @@ export async function completeVoucherPayment(paymentIntentId: string): Promise<{
     const voucher = await findVoucherByPaymentIntent(paymentIntent.id) ?? await createVoucher(email, `VOUCHER${randomInt(10000000, 100000000)}`, amountCents, paymentIntent.id);
     if (!process.env.RESEND_API_KEY) throw new Error("RESEND_API_KEY is not configured.");
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const customerResult = await resend.emails.send({ from: "Zsofia at KinCollage <hello@kincollage.com>", to: email, subject: "Your KinCollage digital voucher", html: renderVoucherHtml(email, voucher.code, String(amountCents / 100)), text: renderVoucherText(email, voucher.code, String(amountCents / 100)) });
+    const formattedAmount = formatMoney(amountCents / 100, "USD");
+    const customerResult = await resend.emails.send({ from: "Zsofia at KinCollage <hello@kincollage.com>", to: email, subject: "Your KinCollage digital voucher", html: renderVoucherHtml(email, voucher.code, formattedAmount), text: renderVoucherText(email, voucher.code, formattedAmount) });
     if (customerResult.error) throw new Error(customerResult.error.message);
     if (process.env.CONTACT_TO_EMAIL) {
-      const businessResult = await resend.emails.send({ from: "KinCollage Sales <hello@kincollage.com>", to: process.env.CONTACT_TO_EMAIL, replyTo: email, subject: `New ${amountCents / 100} USD voucher purchase`, html: renderVoucherNotificationHtml(email, voucher.code, String(amountCents / 100), paymentIntent.id), text: renderVoucherNotificationText(email, voucher.code, String(amountCents / 100), paymentIntent.id) });
+      const businessResult = await resend.emails.send({ from: "KinCollage Sales <hello@kincollage.com>", to: process.env.CONTACT_TO_EMAIL, replyTo: email, subject: `New ${formattedAmount} voucher purchase`, html: renderVoucherNotificationHtml(email, voucher.code, formattedAmount, paymentIntent.id), text: renderVoucherNotificationText(email, voucher.code, formattedAmount, paymentIntent.id) });
       if (businessResult.error) console.error("Voucher business notification failed:", businessResult.error);
     }
     return { success: true, code: voucher.code };

@@ -7,7 +7,7 @@ import type { PricingSizeModel } from "../../../models/site";
 
 function PricingCard({ size }: { size: PricingSizeModel }) {
   return (
-    <article className="pricing-card w-[299px] rounded-[15px] bg-white max-[700px]:w-full max-[700px]:rounded-[17px]" key={size.name}>
+        <article className="pricing-card w-[299px] rounded-[20px] bg-white max-[700px]:w-full max-[700px]:rounded-[20px]" key={size.name}>
       <div className="pricing-image">
         <Image unoptimized
           src={size.image}

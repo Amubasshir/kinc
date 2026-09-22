@@ -72,7 +72,7 @@ function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
 
 function TestimonialCard({ testimonial }: { testimonial: TestimonialModel }) {
   return (
-    <article className="testimonial-card overflow-hidden rounded-[17px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[15px] max-[700px]:w-full max-[700px]:rounded-[18px]">
+    <article className="testimonial-card overflow-hidden rounded-[20px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[20px] max-[700px]:w-full max-[700px]:rounded-[20px]">
       <Image unoptimized
         className="testimonial-art block h-[454px] w-[352px] object-cover max-[1200px]:h-auto max-[1200px]:w-full max-[700px]:aspect-[352/454]"
         src={testimonial.image}

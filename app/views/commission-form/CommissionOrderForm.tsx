@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createCommissionDeposit, createCommissionPayment, type CommissionDepositState, type CommissionPaymentState } from "../../actions/commissionDeposit";
+import { formatMoney } from "../../lib/money";
 import type { StripeCommissionProduct } from "../../lib/stripePricing";
 import DepositPaymentForm, { type CheckoutItem } from "./DepositPaymentForm";
 import ModernDatePicker from "./ModernDatePicker";
@@ -23,7 +24,6 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   const [submittedProducts, setSubmittedProducts] = useState<string[]>([]);
   const selectionEditedAfterSubmit = useRef(false);
   const preserveSelectionOnReset = useRef(false);
-  const formatPrice = (amount: number, currency: string) => `${currency.toUpperCase()}$${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount / 100)}`;
   const selectionKey = `${paymentPlan}:${[...selectedProducts].sort().join(",")}`;
   const hasCurrentPayment = paymentState.status === "ready" && !isCreatingPayment && submittedSelectionKey === selectionKey;
   const submittedSizeLabel = commissionProducts.filter((size) => submittedProducts.includes(size.productId)).map((size) => size.name).join(" + ") || "Selected size";
@@ -51,7 +51,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
             {commissionProducts.map((size) => {
               const priceId = paymentPlan === "installments" ? size.installmentPriceId : size.priceId;
               const amount = paymentPlan === "installments" ? size.installmentUnitAmount : size.unitAmount;
-              return <label key={size.productId}><input type="checkbox" name="sizes" value={priceId} checked={selectedProducts.includes(size.productId)} onChange={(event) => { if (event.nativeEvent.isTrusted) { selectionEditedAfterSubmit.current = true; setSubmittedSelectionKey(""); } setSelectedProducts((current) => current.includes(size.productId) ? current.filter((item) => item !== size.productId) : [...current, size.productId]); }} /><span>{size.name} {size.inchDimensions} ({size.dimensions}) — {formatPrice(amount, size.currency)} USD + shipping</span></label>;
+              return <label key={size.productId}><input type="checkbox" name="sizes" value={priceId} checked={selectedProducts.includes(size.productId)} onChange={(event) => { if (event.nativeEvent.isTrusted) { selectionEditedAfterSubmit.current = true; setSubmittedSelectionKey(""); } setSelectedProducts((current) => current.includes(size.productId) ? current.filter((item) => item !== size.productId) : [...current, size.productId]); }} /><span>{size.name} {size.inchDimensions} ({size.dimensions}) — {formatMoney(amount / 100, size.currency)} + shipping</span></label>;
             })}
             <label><input type="checkbox" name="sizes" value="other" checked={otherSize} onChange={(event) => { const checked = event.target.checked; if (event.nativeEvent.isTrusted) { selectionEditedAfterSubmit.current = true; setSubmittedSelectionKey(""); } setOtherSize(checked); if (checked) setSelectedProducts([]); }} /><span>Other</span></label>
           </div>

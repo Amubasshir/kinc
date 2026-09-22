@@ -77,7 +77,7 @@ export default function CommissionProductSection({ product }: { product: Commiss
       : "grid-cols-[786px_385px]"
     : "grid-cols-[repeat(3,385px)] max-[1250px]:grid-cols-3";
   return (
-    <section id={product.id} className={`${product.sectionClassName} grid min-h-[736px] justify-center gap-4 overflow-hidden rounded-[20px] bg-white px-6 py-[55px] text-[#5b5b5d] ${gridColumns} max-[800px]:flex max-[800px]:min-h-0 max-[800px]:flex-col max-[800px]:gap-[22px] max-[800px]:rounded-2xl max-[800px]:p-[22px]`} aria-labelledby={`${product.id}-heading`}>
+    <section id={product.id} className={`${product.sectionClassName} grid min-h-[736px] justify-center gap-4 overflow-hidden rounded-[20px] bg-white px-6 py-[55px] text-[#5b5b5d] ${gridColumns} max-[800px]:flex max-[800px]:min-h-0 max-[800px]:flex-col max-[800px]:gap-[22px] max-[800px]:rounded-[20px] max-[800px]:p-[22px]`} aria-labelledby={`${product.id}-heading`}>
       {contentFirst ? content : media}
       {contentFirst ? media : content}
     </section>

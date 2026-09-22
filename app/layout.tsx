@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat, Swanky_and_Moo_Moo, Tenor_Sans } from "next/font/google";
 import BackToTop from "./views/shared/BackToTop";
 import Footer from "./views/shared/Footer";
-import Header from "./views/shared/Header";
-import PromoBanner from "./views/shared/PromoBanner";
+import SiteChrome from "./views/shared/SiteChrome";
 import "./globals.css";
 
 const tenorSans = Tenor_Sans({ subsets: ["latin"], weight: "400", variable: "--font-tenor-sans" });
@@ -24,10 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         className={`${tenorSans.variable} ${swankyAndMooMoo.variable} ${montserrat.variable} ${cormorantGaramond.variable} min-h-full flex flex-col`}
         suppressHydrationWarning
       >
-        <div className="sticky top-0 z-50 isolate -mt-[10px] bg-[#f5f5f5] pt-[10px] pb-[10px]">
-          <Header />
-          <PromoBanner fontClassName={montserrat.className} />
-        </div>
+        <SiteChrome fontClassName={montserrat.className} />
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
         <BackToTop />

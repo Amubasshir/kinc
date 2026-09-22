@@ -28,7 +28,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="site-footer relative mt-4 min-h-[548px] overflow-hidden rounded-[20px] bg-white px-[39px] pt-[143px] pb-[39px] text-[#5d5d60] max-[800px]:min-h-0 max-[800px]:px-6 max-[800px]:pt-[70px] max-[800px]:pb-[34px] max-[700px]:mt-3 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[876px] max-[700px]:rounded-[18px] max-[700px]:px-3 max-[700px]:pt-[88px] max-[700px]:pb-7">
+    <footer className="site-footer relative mt-4 min-h-[548px] overflow-hidden rounded-[20px] bg-white px-16 pt-[143px] pb-[39px] text-[#5d5d60] max-[800px]:min-h-0 max-[800px]:px-6 max-[800px]:pt-[70px] max-[800px]:pb-[34px] max-[700px]:mt-3 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[876px] max-[700px]:rounded-[20px] max-[700px]:!px-[18px] max-[700px]:pt-[88px] max-[700px]:pb-7">
       <div className="footer-profile">
         <Image unoptimized
           className="footer-logo block h-auto w-36 max-[700px]:w-[142px]"
@@ -57,7 +57,7 @@ export default function Footer() {
 
         <p className="footer-follow mt-[23px] hidden text-[14px] leading-[1.6] text-[#515151] max-[700px]:block">Follow me on:</p>
 
-      <div className="footer-actions absolute top-[327px] right-[39px] flex items-center gap-[35px] max-[1100px]:static max-[1100px]:mt-[38px] max-[1100px]:flex-wrap max-[1100px]:gap-7 max-[700px]:mt-7 max-[700px]:items-stretch max-[700px]:flex-col max-[700px]:gap-[39px]">
+      <div className="footer-actions absolute top-[327px] right-16 flex items-center gap-[35px] max-[1100px]:static max-[1100px]:mt-[38px] max-[1100px]:flex-wrap max-[1100px]:gap-7 max-[700px]:mt-7 max-[700px]:items-stretch max-[700px]:flex-col max-[700px]:gap-[39px]">
         <div
           className="footer-socials flex items-center gap-9 max-[1100px]:flex-wrap max-[1100px]:gap-5 max-[700px]:w-full max-[700px]:justify-between max-[700px]:gap-0"
           aria-label="Social media"
@@ -95,7 +95,7 @@ export default function Footer() {
         </Link>
       </div>
 
-      <div className="footer-bottom absolute right-[39px] bottom-[39px] left-[39px] flex items-center justify-between text-[14px] leading-[1.6] max-[1100px]:static max-[1100px]:mt-[58px] max-[1100px]:items-start max-[1100px]:flex-col-reverse max-[1100px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
+      <div className="footer-bottom absolute right-16 bottom-[39px] left-16 flex items-center justify-between text-[14px] leading-[1.6] max-[1100px]:static max-[1100px]:mt-[58px] max-[1100px]:items-start max-[1100px]:flex-col-reverse max-[1100px]:gap-7 max-[700px]:mt-[66px] max-[700px]:gap-[42px]">
         <p className="m-0 text-[#515151] max-[700px]:text-[14px]">©2026 KinCollage. All rights reserved.</p>
         <div className="footer-legal-links font-[var(--font-tenor-sans)] text-[#2E2E38]">
           <nav

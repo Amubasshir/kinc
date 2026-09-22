@@ -3,7 +3,7 @@ import ContactForm from "./ContactForm";
 
 export default function Contact() {
   return (
-    <section id="contact" className="contact min-h-[870px] rounded-[20px] bg-[#008861] bg-[url('/contact-background.png')] bg-cover bg-center bg-no-repeat px-10 py-16 max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-1 max-[700px]:pt-1 max-[700px]:pb-[29px]" aria-labelledby="contact-heading">
+    <section id="contact" className="contact min-h-[870px] rounded-[20px] bg-[#008861] bg-[url('/contact-background.png')] bg-cover bg-center bg-no-repeat px-10 py-16 max-[700px]:min-h-0 max-[700px]:rounded-[20px] max-[700px]:px-1 max-[700px]:pt-1 max-[700px]:pb-[29px]" aria-labelledby="contact-heading">
       <div className="contact-panel relative mx-auto flex min-h-[743px] max-w-[1212px] items-center gap-10 max-[700px]:flex-col max-[700px]:gap-[34px]">
         <Image unoptimized
           className="contact-shadow-layer"
@@ -21,7 +21,7 @@ export default function Contact() {
           height={743}
           aria-hidden="true"
         />
-        <div className="contact-form-card relative z-[2] w-[55%] rounded-[18px] bg-white p-12 max-[700px]:order-first max-[700px]:w-full max-[700px]:px-[21px] max-[700px]:pt-[43px] max-[700px]:pb-10 [overflow-wrap:anywhere]">
+        <div className="contact-form-card relative z-[2] w-[55%] rounded-[20px] bg-white p-12 max-[700px]:order-first max-[700px]:w-full max-[700px]:px-[21px] max-[700px]:pt-[43px] max-[700px]:pb-10 [overflow-wrap:anywhere]">
           <h2 className="text-[48px] max-[700px]:font-[var(--font-tenor-sans)] max-[700px]:text-[34px]" id="contact-heading">Contact us</h2>
           <p>
             Have a question about a commission, brand partnership, or custom collaboration? We’d love to hear from you.

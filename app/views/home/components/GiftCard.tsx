@@ -20,7 +20,7 @@ export default function GiftCard() {
   const [paymentState, paymentAction, isCreatingPayment] = useActionState(createVoucherPayment, initialVoucherState);
 
   return (
-    <section className="gift-card min-h-[449px] rounded-[20px] bg-[#97ff77] px-6 pt-[79px] pb-[68px] text-center text-[#2E2E38] max-[700px]:min-h-0 max-[700px]:rounded-[18px] max-[700px]:px-[22px] max-[700px]:pt-[31px] max-[700px]:pb-[34px]" aria-labelledby="gift-card-heading">
+    <section className="gift-card min-h-[449px] rounded-[20px] bg-[#97ff77] px-6 pt-[79px] pb-[68px] text-center text-[#2E2E38] max-[700px]:min-h-0 max-[700px]:rounded-[20px] max-[700px]:px-[22px] max-[700px]:pt-[31px] max-[700px]:pb-[34px]" aria-labelledby="gift-card-heading">
       <div className="gift-card-content mx-auto w-full max-w-[780px]">
         <h2 className="text-[48px] leading-[1.1] max-[700px]:text-[34px] max-[700px]:leading-[1.08]" id="gift-card-heading">Give the gift of memories</h2>
         <p className="mt-[22px] text-[16px] leading-[1.6] max-[700px]:mt-5 max-[700px]:text-[14px] max-[700px]:leading-[1.6] [&>br]:max-[700px]:hidden">

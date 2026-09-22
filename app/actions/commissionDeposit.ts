@@ -3,6 +3,7 @@
 import { Resend } from "resend";
 import Stripe from "stripe";
 import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../lib/commissionPricing";
+import { formatMoney } from "../lib/money";
 import { ADD_ON_PRODUCTS } from "../models/site";
 import { findAvailableCoupon, findAvailableVoucher, redeemCoupon, redeemVoucher, type CouponRecord, type VoucherRecord } from "../lib/supabaseAdmin";
 import {
@@ -36,10 +37,6 @@ function isValidPriorityDate(value: string) {
 }
 
 const INVALID_PRIORITY_DATE_MESSAGE = "Please enter a valid priority date between 2000 and 2099.";
-
-function formatMoney(amount: number, currency: string) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
-}
 
 function field(formData: FormData, name: string) {
   return String(formData.get(name) ?? "").trim();

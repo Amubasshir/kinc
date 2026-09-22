@@ -8,7 +8,7 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
   const [italicBeforeHighlight, italicAfterHighlight] = italicText.split(testimonial.highlightedText);
 
   return (
-    <section className="artist-testimonial relative h-[743px] overflow-hidden rounded-[20px] text-[#515151] max-[900px]:h-auto max-[900px]:min-h-[520px] max-[900px]:aspect-[1398/743] max-[600px]:min-h-[490px] max-[600px]:rounded-2xl max-[700px]:min-h-[420px] max-[700px]:bg-[#00d18f] max-[700px]:text-[#2E2E38]" aria-label={"Testimonial from " + testimonial.name}>
+    <section className="artist-testimonial relative h-[743px] overflow-hidden rounded-[20px] text-[#515151] max-[900px]:h-auto max-[900px]:min-h-[520px] max-[900px]:aspect-[1398/743] max-[600px]:min-h-[490px] max-[600px]:rounded-[20px] max-[700px]:min-h-[420px] max-[700px]:bg-[#00d18f] max-[700px]:text-[#2E2E38]" aria-label={"Testimonial from " + testimonial.name}>
       <Image unoptimized
         className="artist-testimonial-background absolute inset-0 block h-full w-full object-cover max-[700px]:hidden"
         src="/artist/testimonial-bg.png"
@@ -26,7 +26,7 @@ export default function ArtistTestimonial({ testimonial }: { testimonial: Artist
           height={454}
           aria-hidden="true"
         />
-        <div className="artist-testimonial-card absolute inset-0 z-[1] grid place-items-center overflow-hidden rounded-[20px] bg-white max-[600px]:rounded-2xl">
+      <div className="artist-testimonial-card absolute inset-0 z-[1] grid place-items-center overflow-hidden rounded-[20px] bg-white max-[600px]:rounded-[20px]">
           <Image unoptimized
             className="artist-testimonial-quote-mark absolute right-[22px] bottom-[-12px] z-[1] h-auto w-[236px] max-[900px]:w-[15%] max-[600px]:right-1.5 max-[600px]:bottom-[-6px] max-[600px]:w-28"
             src="/artist/testimonial-quote.png"

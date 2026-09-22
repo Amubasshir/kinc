@@ -24,9 +24,9 @@ export default function StayConnected() {
   const inputClass = "h-10 w-full rounded-full border-2 border-[#aaaab5] bg-white px-2.5 text-[14px] text-[#263443] outline-none transition duration-150 placeholder:text-[#aaaab5] focus:border-[#008d60] focus:shadow-[0_0_0_3px_rgb(151_255_119/25%)]";
 
   return (
-    <section className="stay-connected mt-4 min-h-[339px] rounded-[20px] bg-[#00d18f] px-6 pt-[73px] pb-16 text-center text-[#2E2E38] max-[850px]:min-h-0 max-[850px]:rounded-2xl max-[850px]:px-[22px] max-[850px]:pt-16 max-[850px]:pb-[72px] max-[700px]:rounded-[18px] max-[700px]:px-[23px] max-[700px]:pt-[55px] max-[700px]:pb-10 [overflow-wrap:anywhere]" aria-labelledby="stay-connected-heading">
+    <section className="stay-connected mt-4 min-h-[339px] rounded-[20px] bg-[#00d18f] px-6 pt-[73px] pb-16 text-center text-[#2E2E38] max-[850px]:min-h-0 max-[850px]:rounded-[20px] max-[850px]:px-[22px] max-[850px]:pt-16 max-[850px]:pb-[72px] max-[700px]:rounded-[20px] max-[700px]:px-[23px] max-[700px]:pt-[55px] max-[700px]:pb-10 [overflow-wrap:anywhere]" aria-labelledby="stay-connected-heading">
       <h2 className="text-[32px] leading-[1.15] tracking-[.3px] max-[700px]:text-[34px]" id="stay-connected-heading">Stay connected</h2>
-      <p className="mt-[22px] text-[16px] leading-[1.6] tracking-[.03px] max-[850px]:leading-[1.6] max-[700px]:mt-[29px] max-[700px]:text-[14px] max-[700px]:leading-[1.6] [&>br]:max-[850px]:hidden">
+      <p className="stay-connected-copy mt-[22px] font-[var(--font-montserrat)] font-normal text-[16px] leading-[1.6] tracking-[.03px] max-[850px]:leading-[1.6] max-[700px]:mt-[29px] max-[700px]:text-[14px] max-[700px]:leading-[1.6] max-[700px]:tracking-[0] [&>br]:max-[850px]:hidden">
         Subscribe for exclusive studio batch drops and curation tips, and receive a printed<br className="max-[500px]:hidden" />
         <mark className="rounded-sm bg-[#97ff77] px-[3px] pt-px pb-0.5 text-inherit"><strong>greeting card ($50 Value)</strong></mark> featuring your child’s custom collage design with your<br className="max-[500px]:hidden" />
         first commission.

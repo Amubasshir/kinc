@@ -4,7 +4,7 @@ import type { ArtistViewModel } from "../../../view-models/artistViewModel";
 
 export default function ArtistHero({ viewModel }: { viewModel: ArtistViewModel }) {
   return (
-    <section className="artist-hero min-h-[1401px] overflow-hidden rounded-[20px] bg-[#00d18f] text-[#2E2E38] max-[1050px]:min-h-0 max-[1050px]:px-7 max-[1050px]:py-20 max-[760px]:rounded-2xl max-[760px]:px-[22px] max-[760px]:pt-16 max-[760px]:pb-[84px] max-[700px]:px-3 max-[700px]:pt-3 max-[700px]:pb-7" aria-labelledby="artist-heading">
+    <section className="artist-hero min-h-[1401px] overflow-hidden rounded-[20px] bg-[#00d18f] text-[#2E2E38] max-[1050px]:min-h-0 max-[1050px]:px-7 max-[1050px]:py-20 max-[760px]:rounded-[20px] max-[760px]:px-[22px] max-[760px]:pt-16 max-[760px]:pb-[84px] max-[700px]:px-3 max-[700px]:pt-3 max-[700px]:pb-7" aria-labelledby="artist-heading">
       <div className="artist-hero-inner relative mx-auto min-h-[900px] w-[min(1156px,calc(100%-48px))] max-[1050px]:grid max-[1050px]:min-h-0 max-[1050px]:w-full max-[1050px]:grid-cols-[minmax(0,1fr)_minmax(340px,44%)] max-[1050px]:items-center max-[1050px]:gap-12 max-[760px]:flex max-[760px]:flex-col max-[760px]:gap-[58px] max-[700px]:gap-0">
         <div className="artist-hero-copy absolute top-[165px] left-0 w-[590px] max-[1050px]:relative max-[1050px]:top-auto max-[1050px]:left-auto max-[1050px]:w-full max-[760px]:order-1 max-[700px]:box-border max-[700px]:px-1 max-[700px]:pt-[14px]">
           <h1 className="text-[48px] leading-[1.12] tracking-[.2px] max-[1050px]:text-[44px] max-[760px]:text-[clamp(38px,11vw,46px)] max-[700px]:text-[31px] max-[700px]:leading-[1.08]" id="artist-heading">About {viewModel.name}</h1>

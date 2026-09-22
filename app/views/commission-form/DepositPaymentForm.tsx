@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import { applyCommissionVoucher, completeCommissionOrder, savePaymentCustomerDetails, updateCommissionPaymentOptions, type CommissionShippingRegion } from "../../actions/commissionDeposit";
+import { formatMoney } from "../../lib/money";
 import { getStripe } from "../../lib/stripeClient";
 import ModernDatePicker from "./ModernDatePicker";
 
@@ -31,8 +32,7 @@ function calculateShippingCents(items: CheckoutItem[], region: CommissionShippin
 }
 
 function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan, options, discountCents, voucherCode, voucherMessage, isApplyingVoucher, onApplyVoucher }: { items: CheckoutItem[]; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; options: PaymentOptions; discountCents: number; voucherCode: string; voucherMessage: { type: "success" | "error"; text: string } | null; isApplyingVoucher: boolean; onApplyVoucher: (code: string) => Promise<void> }) {
-  const money = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
-  const formatPrice = (cents: number) => `${currency.toUpperCase()}$${money.format(cents / 100)}`;
+  const formatPrice = (cents: number) => formatMoney(cents / 100, currency);
   const itemTotalCents = items.reduce((sum, item) => sum + item.amountCents, 0);
   const baseTotalCents = paymentPlan === "installments" ? itemTotalCents * 3 : itemTotalCents;
   const shippingLabel = options.shippingCents === 0 ? "Pick up from Sydney studio" : options.shippingRegion === "australia" ? "Shipping (Australia)" : "Shipping (US & Canada)";
@@ -84,8 +84,7 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
   const [shippingRegion, setShippingRegion] = useState<CommissionShippingRegion>("australia");
   const [shippingCents, setShippingCents] = useState(0);
   const [currentAmountCents, setCurrentAmountCents] = useState(amountCents);
-  const money = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
-  const formatPrice = (cents: number) => `${currency.toUpperCase()}$${money.format(cents / 100)}`;
+  const formatPrice = (cents: number) => formatMoney(cents / 100, currency);
 
   const updateShippingAddress = (changes: Partial<{ name: string; country: string; line1: string; city: string; state: string; phone: string; phoneCode: string; postalCode: string }>) => {
     const name = changes.name ?? shippingName;

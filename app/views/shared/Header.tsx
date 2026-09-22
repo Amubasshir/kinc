@@ -27,6 +27,7 @@ export default function Header() {
   const pathname = usePathname();
   const navLinkClass =
     "whitespace-nowrap font-[var(--font-tenor-sans)] text-[14px] leading-none font-normal text-[#7B7B7B] no-underline transition-colors duration-150 hover:text-[#008d60] focus-visible:text-[#008d60]";
+  const activeNavLinkClass = "!font-semibold !text-[#2E2E38]";
   const closeMobileNav = () => {
     if (mobileNavRef.current) mobileNavRef.current.open = false;
   };
@@ -43,16 +44,17 @@ export default function Header() {
   };
 
   return (
-    <header className="site-header relative z-50 flex min-h-[61px] items-center justify-between rounded-t-[20px] bg-white px-10 max-[820px]:min-h-[60px] max-[820px]:px-5 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[58px] max-[700px]:rounded-[18px] max-[700px]:px-4">
+    <header className="site-header relative z-50 flex min-h-[61px] items-center justify-between rounded-t-[20px] bg-white px-10 max-[820px]:min-h-[60px] max-[820px]:px-5 max-[700px]:!w-[calc(100vw-28px)] max-[700px]:!max-w-[calc(100vw-28px)] max-[700px]:min-h-[58px] max-[700px]:rounded-[20px] max-[700px]:px-4">
       <Link className="site-logo flex shrink-0" href="/" aria-label="KinCollage home">
         <Image unoptimized className="max-[700px]:h-auto max-[700px]:w-[100px]" src="/logo.svg" alt="KinCollage" width={144} height={26} priority />
       </Link>
       <nav className="desktop-nav flex items-center gap-[33px] max-[820px]:hidden" aria-label="Primary navigation">
         {navigation.map((item) => (
           <Link
-            className={`${navLinkClass} ${!item.href.includes("#") && pathname === item.href ? "!font-semibold" : ""}`}
+            className={`${navLinkClass} ${!item.href.includes("#") && pathname === item.href ? activeNavLinkClass : ""}`}
             key={item.href}
             href={item.href}
+            aria-current={!item.href.includes("#") && pathname === item.href ? "page" : undefined}
             onClick={item.href.startsWith("/#") ? scrollToHomeSection(item.href) : undefined}
           >
             {item.label}
@@ -68,9 +70,10 @@ export default function Header() {
         <nav className="absolute top-[58px] right-0 left-0 flex flex-col rounded-b-[18px] bg-white px-6 pt-[3px] pb-[17px] shadow-[0_10px_24px_rgb(0_0_0/6%)]" aria-label="Mobile navigation">
           {navigation.map((item) => (
             <Link
-              className={`${navLinkClass} py-[10px] ${!item.href.includes("#") && pathname === item.href ? "!font-semibold" : ""}`}
+              className={`${navLinkClass} py-[10px] ${!item.href.includes("#") && pathname === item.href ? activeNavLinkClass : ""}`}
               key={item.href}
               href={item.href}
+              aria-current={!item.href.includes("#") && pathname === item.href ? "page" : undefined}
               onClick={(event) => {
                 if (item.href.startsWith("/#")) scrollToHomeSection(item.href)(event);
                 closeMobileNav();

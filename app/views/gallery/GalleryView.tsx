@@ -61,7 +61,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
 
   return (
     <>
-      <section className="gallery-page-hero relative h-[651px] overflow-hidden rounded-[20px] bg-[#efefef] max-[800px]:h-auto max-[800px]:rounded-2xl max-[800px]:aspect-[174/192]" aria-label="Gallery introduction">
+      <section className="gallery-page-hero relative h-[651px] overflow-hidden rounded-[20px] bg-[#efefef] max-[800px]:h-auto max-[800px]:rounded-[20px] max-[800px]:aspect-[174/192]" aria-label="Gallery introduction">
         <Image
           unoptimized
           className="block h-full w-full object-cover object-center"
@@ -89,19 +89,19 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           aria-hidden="true"
         />
       </section>
-      <section className="gallery-page-masonry grid grid-cols-4 gap-6 overflow-hidden rounded-[20px] bg-[#f5f5f5] px-3 pt-4 max-[1000px]:gap-2.5 max-[1000px]:rounded-2xl max-[1000px]:px-2.5 max-[1000px]:pt-2.5 max-[700px]:hidden" aria-label="KinCollage artwork gallery">
+      <section className="gallery-page-masonry grid grid-cols-4 gap-6 overflow-hidden rounded-[20px] bg-[#f5f5f5] px-3 pt-4 max-[1000px]:gap-2.5 max-[1000px]:rounded-[20px] max-[1000px]:px-2.5 max-[1000px]:pt-2.5 max-[700px]:hidden" aria-label="KinCollage artwork gallery">
         {viewModel.columns.map((column, columnIndex) => (
-          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} grid min-w-0 grid-cols-1 content-start gap-6 max-[1000px]:gap-2.5`} key={columnIndex}>
+          <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[1000px]:gap-2.5`} key={columnIndex}>
             {column.map((item, itemIndex) => (
               <div key={`${item.src}-${itemIndex}`} className="gallery-page-item relative">
                 <button className="gallery-page-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(galleryMedia.indexOf(item))} aria-label={`Open ${item.alt}`}>
                   <GalleryMedia
                     item={item}
-                    className="block h-auto w-full rounded-[10px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
+                    className="block h-auto w-full rounded-[20px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
                     sizes="(max-width: 1000px) 48vw, 23vw"
                   />
                 </button>
-                {columnIndex === 1 && itemIndex === 5 && <GalleryCommissionCard />}
+                {columnIndex === 3 && itemIndex === 5 && <GalleryCommissionCard />}
               </div>
             ))}
           </div>
@@ -119,7 +119,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
                   onClick={() => setActiveIndex(galleryMedia.indexOf(item))}
                   aria-label={`Open ${item.alt}`}
                 >
-                  <GalleryMedia item={item} className="block h-auto w-full rounded-[7px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]" sizes="47vw" />
+                  <GalleryMedia item={item} className="block h-auto w-full rounded-[20px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]" sizes="47vw" />
                 </button>
               ))}
             </div>

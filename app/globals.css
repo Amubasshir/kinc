@@ -28,6 +28,35 @@ strong,
 b {
   font-weight: 600;
 }
+.site-chrome {
+  position: sticky;
+  top: 10px;
+  z-index: 50;
+  isolation: isolate;
+}
+.site-chrome.is-overlapping::before {
+  position: absolute;
+  z-index: 0;
+  inset: -10px 0 0;
+  content: "";
+  background: #f5f5f5;
+  pointer-events: none;
+}
+.site-chrome.is-overlapping > * {
+  position: relative;
+  z-index: 1;
+}
+.site-chrome.is-overlapping .site-header {
+  border-radius: 20px 20px 0 0;
+}
+.site-chrome.is-overlapping .promo-banner {
+  border-radius: 0;
+}
+@media (max-width: 700px) {
+  .site-chrome.is-overlapping .site-header {
+    border-radius: 20px 20px 0 0;
+  }
+}
 .legal-navigation,
 .legal-navigation a {
   color: #515151 !important;
@@ -1221,6 +1250,23 @@ b {
   outline: 3px solid #008861;
   outline-offset: 3px;
 }
+.gallery-mobile-collage {
+  display: none;
+}
+.gallery-mobile-collage-tile {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+}
+.gallery-mobile-collage-tile:focus-visible {
+  outline: 3px solid #008861;
+  outline-offset: 3px;
+}
 .gallery-cta:hover,
 .gallery-cta:focus-visible {
   transform: translateY(-2px);
@@ -1237,6 +1283,22 @@ b {
 
 @media (max-width: 650px) {
   .gallery-column img {
+    border-radius: 10px;
+  }
+}
+@media (max-width: 700px) {
+  .gallery-section {
+    padding-top: 18px;
+  }
+  .gallery-mobile-collage {
+    position: relative;
+    display: block;
+    width: 94%;
+    margin: 0 auto;
+    aspect-ratio: 455 / 584;
+    background: #f5f5f5;
+  }
+  .gallery-mobile-collage-tile img {
     border-radius: 10px;
   }
 }
@@ -2288,7 +2350,12 @@ main > section {
 }
 .gallery-page-masonry {
   width: 100%;
+  align-items: stretch;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.gallery-page-column {
+  align-self: stretch;
+  min-height: 0;
 }
 .gallery-page-item {
   position: relative;
@@ -2300,19 +2367,21 @@ main > section {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 .gallery-page-column > .gallery-page-item:last-child {
-  display: block;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   min-height: 0;
-  flex: none;
 }
 .gallery-page-column > .gallery-page-item:last-child > img,
 .gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger,
 .gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger > img,
 .gallery-page-column > .gallery-page-item:last-child > .gallery-page-image-trigger > video {
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
 }
 .gallery-page-masonry + .stay-connected {
   margin-top: 16px !important;
@@ -2332,7 +2401,8 @@ main > section {
   height: 100%;
   min-height: 0;
   justify-content: center;
-  padding: 30px 12px;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  padding: 30px 20px;
 }
 .gallery-page-commission-card .start-commission-mark {
   height: 25px;
@@ -2340,11 +2410,17 @@ main > section {
 }
 .gallery-page-commission-card .start-commission h2 {
   margin-top: 14px;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  font-weight: 400;
   font-size: 20px;
+  line-height: 1.15;
+  letter-spacing: 0.25px;
 }
 .gallery-page-commission-card .start-commission p {
   margin-top: 10px;
-  font-size: 11px;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
 }
 .gallery-page-commission-card .start-commission-action {
   margin-top: 16px;
@@ -2352,7 +2428,9 @@ main > section {
 .gallery-page-commission-card .start-commission-action a {
   min-height: 34px;
   width: 118px;
-  font-size: 11px;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 @media (max-width: 800px) {
@@ -2382,7 +2460,7 @@ main > section {
   .gallery-page-commission-card .start-commission {
     box-sizing: border-box;
     min-height: 0;
-    padding: 22px 10px;
+    padding: 22px 16px;
   }
   .gallery-page-commission-card .start-commission h2 {
     margin-top: 12px;
@@ -2391,9 +2469,9 @@ main > section {
   }
   .gallery-page-commission-card .start-commission p {
     margin-top: 8px;
-    max-width: 180px;
-    font-size: 10px;
-    line-height: 1.35;
+    max-width: 100%;
+    font-size: 16px;
+    line-height: 1.4;
   }
   .gallery-page-commission-card .start-commission-action {
     margin-top: 12px;
@@ -2401,7 +2479,7 @@ main > section {
   .gallery-page-commission-card .start-commission-action a {
     width: min(118px, 100%);
     min-height: 32px;
-    font-size: 10px;
+    font-size: 14px;
   }
 }
 
@@ -2416,7 +2494,7 @@ main > section {
   }
   .gallery-page-mobile-card .start-commission {
     min-height: 0;
-    padding: 24px 12px 26px;
+    padding: 24px 16px 26px;
   }
   .gallery-page-mobile-card .start-commission-mark {
     height: 28px;
@@ -2428,7 +2506,8 @@ main > section {
   }
   .gallery-page-mobile-card .start-commission p {
     max-width: 240px;
-    font-size: 11px;
+    font-size: 16px;
+    line-height: 1.4;
   }
 }
 .start-commission-mark {
@@ -3024,9 +3103,9 @@ main > section {
   z-index: 3;
 }
 .artist-career-gallery-tile-collection figcaption {
-  top: 100%;
+  top: calc(100% - 44px);
   bottom: auto;
-  height: auto;
+  height: 44px;
   margin-top: 0;
   padding: 0;
 }
@@ -3080,6 +3159,12 @@ main > section {
 }
 
 @media (max-width: 700px) {
+  .artist-career-gallery-tile-collection figcaption strong,
+  .artist-career-gallery-tile-print figcaption strong {
+    font-size: 14px;
+    line-height: 1.1;
+  }
+
   .artist-hero-copy h1 {
     font-size: 31px;
     line-height: 1.08;
@@ -4773,6 +4858,16 @@ html {
   color: #9696ad;
   box-shadow: none;
   transform: none;
+}
+
+@media (max-width: 700px) {
+  .stay-connected-copy {
+    font-family: var(--font-montserrat), Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 22.4px !important;
+    letter-spacing: 0 !important;
+  }
 }
 
 .button-tertiary {

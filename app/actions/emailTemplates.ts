@@ -23,19 +23,19 @@ export function renderGiftCouponNotificationText(name: string, email: string, co
 }
 
 export function renderVoucherHtml(email: string, code: string, amount: string): string {
-  return `<!doctype html><html lang="en"><body style="margin:0;padding:40px 16px;background:#f7f7f7;color:#515151;font-family:${BODY_FONT};"><table role="presentation" width="100%" style="max-width:600px;margin:auto;background:#fff;border:1px solid #e5e5e5;border-radius:20px;overflow:hidden;"><tr><td style="padding:34px;text-align:center;background:#00d18f;font-family:${HEADING_FONT};font-size:27px;color:#263443;">KinCollage</td></tr><tr><td style="padding:42px;text-align:center;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">A gift of memories</h1><p>Your digital KinCollage voucher is ready.</p><p style="font-size:20px;">Voucher value: <span style="font-weight:600;">${amount} USD</span></p><p style="display:inline-block;padding:14px 22px;background:#97ff77;border-radius:10px;font-size:23px;font-weight:600;letter-spacing:2px;color:#263443;">${code}</p><p>Use this code when booking a KinCollage commission.</p><p style="font-family:${HEADING_FONT};font-size:19px;">Warmly,<br />Zsofia</p></td></tr></table></body></html>`;
+  return `<!doctype html><html lang="en"><body style="margin:0;padding:40px 16px;background:#f7f7f7;color:#515151;font-family:${BODY_FONT};"><table role="presentation" width="100%" style="max-width:600px;margin:auto;background:#fff;border:1px solid #e5e5e5;border-radius:20px;overflow:hidden;"><tr><td style="padding:34px;text-align:center;background:#00d18f;font-family:${HEADING_FONT};font-size:27px;color:#263443;">KinCollage</td></tr><tr><td style="padding:42px;text-align:center;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">A gift of memories</h1><p>Your digital KinCollage voucher is ready.</p><p style="font-size:20px;">Voucher value: <span style="font-weight:600;">${amount}</span></p><p style="display:inline-block;padding:14px 22px;background:#97ff77;border-radius:10px;font-size:23px;font-weight:600;letter-spacing:2px;color:#263443;">${code}</p><p>Use this code when booking a KinCollage commission.</p><p style="font-family:${HEADING_FONT};font-size:19px;">Warmly,<br />Zsofia</p></td></tr></table></body></html>`;
 }
 
 export function renderVoucherText(email: string, code: string, amount: string): string {
-  return `Your KinCollage digital voucher is ready!\n\nVoucher value: ${amount} USD\nVoucher code: ${code}\n\nUse this code when booking a KinCollage commission.\n\nWarmly,\nZsofia`;
+  return `Your KinCollage digital voucher is ready!\n\nVoucher value: ${amount}\nVoucher code: ${code}\n\nUse this code when booking a KinCollage commission.\n\nWarmly,\nZsofia`;
 }
 
 export function renderVoucherNotificationHtml(email: string, code: string, amount: string, paymentIntentId: string): string {
-  return `<!doctype html><html lang="en"><body style="font-family:${BODY_FONT};color:#34343c;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">New KinCollage voucher purchase</h1><p>A digital voucher has been paid for and created.</p><table cellpadding="8" cellspacing="0"><tr><td><span style="font-weight:600;">Recipient email</span></td><td>${email}</td></tr><tr><td><span style="font-weight:600;">Amount</span></td><td>${amount} USD</td></tr><tr><td><span style="font-weight:600;">Voucher code</span></td><td>${code}</td></tr><tr><td><span style="font-weight:600;">Payment ID</span></td><td>${paymentIntentId}</td></tr></table></body></html>`;
+  return `<!doctype html><html lang="en"><body style="font-family:${BODY_FONT};color:#34343c;"><h1 style="font-family:${HEADING_FONT};font-weight:400;">New KinCollage voucher purchase</h1><p>A digital voucher has been paid for and created.</p><table cellpadding="8" cellspacing="0"><tr><td><span style="font-weight:600;">Recipient email</span></td><td>${email}</td></tr><tr><td><span style="font-weight:600;">Amount</span></td><td>${amount}</td></tr><tr><td><span style="font-weight:600;">Voucher code</span></td><td>${code}</td></tr><tr><td><span style="font-weight:600;">Payment ID</span></td><td>${paymentIntentId}</td></tr></table></body></html>`;
 }
 
 export function renderVoucherNotificationText(email: string, code: string, amount: string, paymentIntentId: string): string {
-  return `New KinCollage voucher purchase\n\nRecipient email: ${email}\nAmount: ${amount} USD\nVoucher code: ${code}\nPayment ID: ${paymentIntentId}`;
+  return `New KinCollage voucher purchase\n\nRecipient email: ${email}\nAmount: ${amount}\nVoucher code: ${code}\nPayment ID: ${paymentIntentId}`;
 }
 
 export function renderContactConfirmationHtml(name: string): string {

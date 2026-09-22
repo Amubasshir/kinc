@@ -8,7 +8,7 @@ export default function Welcome() {
     >
       <div className="welcome-grid mx-auto grid w-full max-w-[1024px] grid-cols-2 gap-[52px] max-[940px]:gap-9 max-[700px]:flex max-[700px]:flex-col max-[700px]:gap-3">
         <div className="welcome-left">
-          <div className="welcome-intro max-[700px]:order-1 max-[700px]:rounded-[18px] max-[700px]:bg-white max-[700px]:px-[18px] max-[700px]:pt-[30px] max-[700px]:pb-[27px]">
+          <div className="welcome-intro max-[700px]:order-1 max-[700px]:rounded-[20px] max-[700px]:bg-white max-[700px]:px-[18px] max-[700px]:pt-[30px] max-[700px]:pb-[27px]">
             <h2 id="welcome-heading">Drowning in Kid Art?</h2>
             <p>
               <strong>Love their artwork, but hate the clutter?</strong>
