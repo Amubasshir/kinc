@@ -2348,6 +2348,9 @@ main > section {
   height: 100%;
   object-fit: cover;
 }
+.gallery-page-hero-image {
+  object-position: 48% 50% !important;
+}
 .gallery-page-masonry {
   width: 100%;
   align-items: stretch;

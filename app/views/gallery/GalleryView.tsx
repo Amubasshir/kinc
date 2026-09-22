@@ -64,7 +64,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
       <section className="gallery-page-hero relative h-[651px] overflow-hidden rounded-[20px] bg-[#efefef] max-[800px]:h-auto max-[800px]:rounded-[20px] max-[800px]:aspect-[174/192]" aria-label="Gallery introduction">
         <Image
           unoptimized
-          className="block h-full w-full object-cover object-center"
+          className="gallery-page-hero-image block h-full w-full object-cover"
           src="/gallery-page/gallery-bg.png"
           alt="A child holding a framed piece of colourful artwork"
           width={4032}
