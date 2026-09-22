@@ -12,9 +12,9 @@ export default function Welcome() {
             <h2 id="welcome-heading">Drowning in Kid Art?</h2>
             <p>
               <strong>Love their artwork, but hate the clutter?</strong>
-              <br />
+              <span className="block">
               Constant chaos. Fridge mess. You feel you can’t throw your kid’s scribbles away, but keeping them means
-              constant clutter.
+              constant clutter.</span>
             </p>
             <p>
               <strong>Every child is an artist, but every parent runs out of storage space.</strong>

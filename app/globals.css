@@ -50,11 +50,14 @@ b {
   border-radius: 20px 20px 0 0;
 }
 .site-chrome.is-overlapping .promo-banner {
-  border-radius: 0;
+  border-radius: 0 0 20px 20px;
 }
 @media (max-width: 700px) {
   .site-chrome.is-overlapping .site-header {
     border-radius: 20px 20px 0 0;
+  }
+  .site-chrome.is-overlapping .promo-banner {
+    border-radius: 0 0 18px 18px;
   }
 }
 .legal-navigation,
@@ -1250,23 +1253,6 @@ b {
   outline: 3px solid #008861;
   outline-offset: 3px;
 }
-.gallery-mobile-collage {
-  display: none;
-}
-.gallery-mobile-collage-tile {
-  position: absolute;
-  display: block;
-  overflow: hidden;
-  border: 0;
-  border-radius: 10px;
-  background: transparent;
-  padding: 0;
-  text-align: left;
-}
-.gallery-mobile-collage-tile:focus-visible {
-  outline: 3px solid #008861;
-  outline-offset: 3px;
-}
 .gallery-cta:hover,
 .gallery-cta:focus-visible {
   transform: translateY(-2px);
@@ -1289,17 +1275,6 @@ b {
 @media (max-width: 700px) {
   .gallery-section {
     padding-top: 18px;
-  }
-  .gallery-mobile-collage {
-    position: relative;
-    display: block;
-    width: 94%;
-    margin: 0 auto;
-    aspect-ratio: 455 / 584;
-    background: #f5f5f5;
-  }
-  .gallery-mobile-collage-tile img {
-    border-radius: 10px;
   }
 }
 .faqs > h2 {
@@ -2391,7 +2366,7 @@ main > section {
 }
 .gallery-page-commission-card,
 .gallery-page-commission-spacer {
-  width: calc(100% + 12px);
+  width: 100%;
   margin-top: 24px;
   aspect-ratio: 652 / 584;
 }
@@ -2408,8 +2383,8 @@ main > section {
   padding: 30px 20px;
 }
 .gallery-page-commission-card .start-commission-mark {
-  height: 25px;
-  width: 25px;
+  height: 32px;
+  width: 32px;
 }
 .gallery-page-commission-card .start-commission h2 {
   margin-top: 14px;
@@ -2429,8 +2404,10 @@ main > section {
   margin-top: 16px;
 }
 .gallery-page-commission-card .start-commission-action a {
-  min-height: 34px;
-  width: 118px;
+  min-width: 132px;
+  min-height: 46px;
+  width: auto;
+  padding: 12px 28px;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
@@ -2480,8 +2457,10 @@ main > section {
     margin-top: 12px;
   }
   .gallery-page-commission-card .start-commission-action a {
-    width: min(118px, 100%);
-    min-height: 32px;
+    min-width: 132px;
+    min-height: 46px;
+    width: auto;
+    padding: 12px 24px;
     font-size: 14px;
   }
 }
@@ -2500,8 +2479,8 @@ main > section {
     padding: 24px 16px 26px;
   }
   .gallery-page-mobile-card .start-commission-mark {
-    height: 28px;
-    width: 28px;
+    height: 32px;
+    width: 32px;
   }
   .gallery-page-mobile-card .start-commission h2 {
     margin-top: 12px;
@@ -2585,7 +2564,7 @@ main > section {
     min-height: 0;
     box-sizing: border-box;
     padding: 34px 18px;
-    border-radius: 7px;
+    border-radius: 20px;
   }
   .gallery-page-mobile-see-all {
     display: inline-flex;
@@ -2603,7 +2582,7 @@ main > section {
     text-decoration: none;
   }
   .gallery-page-mobile + .stay-connected {
-    margin-top: 16px !important;
+    margin-top: 0 !important;
   }
 }
 .artist-hero-copy h1 {
@@ -2950,10 +2929,10 @@ main > section {
   flex-direction: column;
 }
 .artist-testimonial blockquote strong {
-  font-family: var(--font-montserrat), Arial, sans-serif;
-  font-size: 14px;
+  font-family: var(--font-tenor-sans), Arial, sans-serif;
+  font-size: 36px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.05;
 }
 .artist-testimonial blockquote span {
   font-family: var(--font-montserrat), Arial, sans-serif;
@@ -2979,7 +2958,7 @@ main > section {
     font-size: clamp(16px, 2.1vw, 24px);
   }
   .artist-testimonial blockquote strong {
-    font-size: 14px;
+    font-size: 36px;
   }
 }
 @media (max-width: 600px) {
@@ -3106,7 +3085,7 @@ main > section {
   z-index: 3;
 }
 .artist-career-gallery-tile-collection figcaption {
-  top: calc(100% - 44px);
+  top: calc(100% - 10px);
   bottom: auto;
   height: 44px;
   margin-top: 0;
@@ -3591,13 +3570,20 @@ html {
     font-size: 14px;
   }
 
+  .about {
+    gap: 48px;
+    padding: 20px 16px 28px;
+  }
   .about-portrait {
+    order: -1;
     width: 100%;
     max-width: none;
-    aspect-ratio: 334 / 537;
+    height: 353px;
+    aspect-ratio: auto;
   }
   .about-portrait > img:first-child {
-    border-radius: 15px;
+    height: 353px;
+    border-radius: 10px;
     object-fit: cover;
   }
   .about-signature {
@@ -3608,7 +3594,7 @@ html {
     font-size: 31px;
   }
   .about-copy {
-    margin-top: 16px;
+    margin-top: 12px;
   }
   .about-copy p {
     font-size: 14px;
@@ -3618,7 +3604,7 @@ html {
     display: none;
   }
   .about-copy p + p {
-    margin-top: 0;
+    margin-top: 12px;
   }
   .about-copy mark {
     padding: 0;
@@ -3628,7 +3614,7 @@ html {
     display: flex;
     width: 180px;
     min-height: 48px;
-    margin: 27px auto 0;
+    margin: 20px auto 0;
   }
 
   .stat {
@@ -4405,13 +4391,13 @@ html {
 .commission-two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 31px;
+  gap: 26px;
 }
 .commission-field,
 .commission-order-form legend {
   color: #565661;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 24px;
   text-transform: uppercase;
 }
 .commission-field {
@@ -5023,7 +5009,7 @@ html {
   }
   .commission-two-columns {
     grid-template-columns: 1fr;
-    gap: 27px;
+    gap: 26px;
   }
   .commission-options label,
   .commission-confirm {
@@ -5232,6 +5218,9 @@ html {
   bottom: 18px !important;
   z-index: 100 !important;
 }
+.back-to-top-icon {
+  filter: drop-shadow(2px 6px 4px rgb(0 0 0 / 12%));
+}
 
 @media (max-width: 700px) {
   .back-to-top {
@@ -5272,7 +5261,7 @@ html {
 .commission-order-information > p:first-child strong {
   font-size: 16px;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 24px;
 }
 
 .commission-order-information p + h3 {
@@ -5283,26 +5272,26 @@ html {
   margin-bottom: 0;
   color: #515151;
   font-family: var(--font-tenor-sans), Arial, sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 24px;
   letter-spacing: 0.25px;
   text-transform: uppercase;
 }
 
 .commission-order-information h3:first-of-type {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .commission-order-information > h3,
 .commission-order-information > h3:first-of-type {
-  font-size: 14px !important;
+  font-size: 16px !important;
 }
 
 .commission-order-information h3 + p {
   margin-top: 14px;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 24px;
 }
 
 .commission-design-only-form {
@@ -5313,7 +5302,7 @@ html {
 
 .commission-custom-size-fields {
   display: grid;
-  gap: 14px;
+  gap: 26px;
   margin-top: 16px;
 }
 
@@ -5347,10 +5336,8 @@ html {
   font-family: var(--font-montserrat), Arial, sans-serif !important;
   font-size: 14px;
 }
-.commission-custom-size-fields .modern-date-picker {
-  font-family: var(--font-montserrat), Arial, sans-serif !important;
-}
-.commission-custom-size-fields .modern-date-picker * {
+.modern-date-picker,
+.modern-date-picker * {
   font-family: var(--font-montserrat), Arial, sans-serif !important;
 }
 
@@ -6308,7 +6295,7 @@ html {
   .commission-design-only-form .commission-options em,
   .commission-order-form .commission-field-error {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 24px;
   }
 
   .commission-design-only-form legend,
@@ -6319,12 +6306,12 @@ html {
   .commission-order-information h3,
   .commission-order-information > h3,
   .commission-order-information > h3:first-of-type {
-    font-size: 14px !important;
+    font-size: 16px !important;
   }
 
   .commission-order-information h3 + p {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 24px;
   }
 
   .commission-design-only-form fieldset > small {

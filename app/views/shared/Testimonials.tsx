@@ -49,7 +49,7 @@ function TestimonialReview({ paragraphs }: { paragraphs: string[] }) {
   return (
     <div className="testimonial-review mt-[18px]">
       <p
-        className={`m-0 text-[16px] leading-[22.4px] text-[#515151] max-[700px]:leading-[22.4px] ${isExpanded ? "" : "overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:5]"}`}
+        className={`m-0 text-[16px] leading-[22.4px] text-[#515151] max-[700px]:text-[14px] max-[700px]:leading-[1.6] ${isExpanded ? "" : "overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:5]"}`}
         id={textId}
         ref={textRef}
       >
@@ -74,14 +74,14 @@ function TestimonialCard({ testimonial }: { testimonial: TestimonialModel }) {
   return (
     <article className="testimonial-card overflow-hidden rounded-[20px] bg-white shadow-[0_0_0_1px_rgb(46_46_56/4%)] max-[800px]:rounded-[20px] max-[700px]:w-full max-[700px]:rounded-[20px]">
       <Image unoptimized
-        className="testimonial-art block h-[454px] w-[352px] object-cover max-[1200px]:h-auto max-[1200px]:w-full max-[700px]:aspect-[352/454]"
+        className="testimonial-art block h-[454px] w-[352px] object-cover max-[1200px]:h-auto max-[1200px]:w-full max-[700px]:h-[353px] max-[700px]:aspect-auto"
         src={testimonial.image}
         alt={`Collage artwork commissioned by ${testimonial.name}`}
         width={352}
         height={454}
         sizes="(max-width: 760px) 92vw, 352px"
       />
-      <div className="testimonial-copy px-9 pt-[31px] pb-[25px] max-[1200px]:px-[25px] max-[800px]:px-[26px] max-[800px]:pt-[27px] max-[800px]:pb-[30px] max-[700px]:px-[43px] max-[700px]:pt-[29px] max-[700px]:pb-8 [overflow-wrap:anywhere]">
+      <div className="testimonial-copy px-9 pt-[31px] pb-[25px] max-[1200px]:px-[25px] max-[800px]:px-[26px] max-[800px]:pt-[27px] max-[800px]:pb-[30px] max-[700px]:px-[23px] max-[700px]:pt-[29px] max-[700px]:pb-8 [overflow-wrap:anywhere]">
         <blockquote className="m-0 font-[Montserrat] text-[18px] leading-[1.08] font-semibold text-[#515151]">{testimonial.quote}</blockquote>
         <Stars />
         <TestimonialReview paragraphs={testimonial.paragraphs} />

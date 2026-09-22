@@ -53,11 +53,45 @@ function GalleryMedia({ item, className, sizes }: GalleryMediaProps) {
   return <GalleryImage item={item} className={className} sizes={sizes} />;
 }
 
+function splitGalleryMediaForMobile(media: GalleryMediaModel[]) {
+  const weights = media.map((item) => Math.round((item.height / item.width) * 1000) + 21);
+  const target = Math.floor(weights.reduce((total, weight) => total + weight, 0) / 2);
+  const reachable = new Uint8Array(target + 1);
+  const previousSum = new Int32Array(target + 1).fill(-1);
+  const previousIndex = new Int32Array(target + 1).fill(-1);
+  reachable[0] = 1;
+
+  weights.forEach((weight, index) => {
+    for (let sum = target; sum >= weight; sum -= 1) {
+      if (!reachable[sum] && reachable[sum - weight]) {
+        reachable[sum] = 1;
+        previousSum[sum] = sum - weight;
+        previousIndex[sum] = index;
+      }
+    }
+  });
+
+  let selectedWeight = target;
+  while (selectedWeight > 0 && !reachable[selectedWeight]) selectedWeight -= 1;
+
+  const firstColumnIndexes = new Set<number>();
+  while (selectedWeight > 0) {
+    const index = previousIndex[selectedWeight];
+    if (index < 0) break;
+    firstColumnIndexes.add(index);
+    selectedWeight = previousSum[selectedWeight];
+  }
+
+  return media.reduce<GalleryMediaModel[][]>((columns, item, index) => {
+    columns[firstColumnIndexes.has(index) ? 0 : 1].push(item);
+    return columns;
+  }, [[], []]);
+}
+
 export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewModel }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const galleryMedia = viewModel.media;
-  const mobileColumns: GalleryMediaModel[][] = Array.from({ length: 2 }, () => []);
-  galleryMedia.forEach((item, index) => mobileColumns[index % mobileColumns.length].push(item));
+  const mobileColumns = splitGalleryMediaForMobile(galleryMedia);
 
   return (
     <>
@@ -107,7 +141,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           </div>
         ))}
       </section>
-      <section className="gallery-page-mobile hidden flex-col gap-[5px] rounded-none bg-[#f5f5f5] pb-4 max-[700px]:flex" aria-label="KinCollage artwork gallery">
+      <section className="gallery-page-mobile hidden flex-col gap-[5px] rounded-none bg-[#f5f5f5] pb-0 max-[700px]:flex" aria-label="KinCollage artwork gallery">
         <div className="gallery-page-mobile-grid grid grid-cols-2 gap-[5px]">
           {mobileColumns.map((column, columnIndex) => (
             <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>

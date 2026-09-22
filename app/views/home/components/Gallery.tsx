@@ -50,27 +50,6 @@ function getGalleryHeight(number: number) {
                       : 314;
 }
 
-const mobileGalleryTiles = [
-  { left: 0, top: 0, width: 19, height: 24 },
-  { left: 20.3, top: 0, width: 19, height: 20 },
-  { left: 40.6, top: 0, width: 19, height: 20 },
-  { left: 60.8, top: 0, width: 19, height: 20.5 },
-  { left: 81, top: 0, width: 19, height: 27 },
-  { left: 0, top: 25, width: 19, height: 18 },
-  { left: 20.3, top: 21, width: 39.3, height: 20 },
-  { left: 60.8, top: 21.5, width: 19, height: 18 },
-  { left: 81, top: 28, width: 19, height: 17.5 },
-  { left: 0, top: 44, width: 19, height: 18 },
-  { left: 20.3, top: 42.5, width: 19, height: 21.5 },
-  { left: 40.6, top: 42.5, width: 19, height: 19.5 },
-  { left: 60.8, top: 46, width: 39.2, height: 20 },
-  { left: 0, top: 63.5, width: 19, height: 14 },
-  { left: 20.3, top: 68, width: 19, height: 32 },
-  { left: 40.6, top: 63.5, width: 39.2, height: 36.5 },
-  { left: 81, top: 66.5, width: 19, height: 33.5 },
-  { left: 0, top: 78, width: 19, height: 22 },
-] as const;
-
 export default function Gallery({ columns }: { columns: number[][] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const galleryGridRef = useRef<HTMLDivElement>(null);
@@ -80,6 +59,13 @@ export default function Gallery({ columns }: { columns: number[][] }) {
     width: 208,
     height: getGalleryHeight(number),
   }));
+  const mobileColumns: LightboxImage[][] = [[], []];
+  const mobileColumnHeights = [0, 0];
+  images.forEach((image) => {
+    const shortestColumnIndex = mobileColumnHeights[0] <= mobileColumnHeights[1] ? 0 : 1;
+    mobileColumns[shortestColumnIndex].push(image);
+    mobileColumnHeights[shortestColumnIndex] += image.height / image.width;
+  });
   const columnOffsets = columns.map((_, index) => columns.slice(0, index).reduce((total, column) => total + column.length, 0));
 
   useLayoutEffect(() => {
@@ -147,32 +133,35 @@ export default function Gallery({ columns }: { columns: number[][] }) {
           </div>
         ))}
       </div>
-      <div className="gallery-mobile-collage" aria-label="KinCollage artwork collage">
-        {images.map((image, index) => {
-          const tile = mobileGalleryTiles[index];
-          if (!tile) return null;
+      <div className="gallery-mobile-grid mx-auto hidden w-[94%] grid-cols-2 gap-[5px] max-[700px]:grid" aria-label="KinCollage artwork collage">
+        {mobileColumns.map((mobileColumn, columnIndex) => (
+          <div className="flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
+            {mobileColumn.map((image) => {
+              const imageIndex = images.indexOf(image);
 
-          return (
-            <button
-              className="gallery-mobile-collage-tile group"
-              key={`${image.src}-mobile`}
-              onClick={() => setActiveIndex(index)}
-              style={{ left: `${tile.left}%`, top: `${tile.top}%`, width: `${tile.width}%`, height: `${tile.height}%` }}
-              type="button"
-              aria-label="Open artwork in gallery viewer"
-            >
-              <Image
-                unoptimized
-                className="block h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
-                src={image.src}
-                alt={image.alt}
-                width={1200}
-                height={1200}
-                sizes="(max-width: 700px) 18vw, 0px"
-              />
-            </button>
-          );
-        })}
+              return (
+                <button
+                  className="group block w-full overflow-hidden rounded-[10px] border-0 bg-transparent p-0 text-left"
+                  key={`${image.src}-mobile`}
+                  onClick={() => setActiveIndex(imageIndex)}
+                  style={{ aspectRatio: `${image.width} / ${image.height}` }}
+                  type="button"
+                  aria-label="Open artwork in gallery viewer"
+                >
+                  <Image
+                    unoptimized
+                    className="block h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    sizes="(max-width: 700px) 45vw, 0px"
+                  />
+                </button>
+              );
+            })}
+          </div>
+        ))}
       </div>
       <Link className="button-tertiary gallery-cta mx-auto mt-11 flex h-[53px] w-[200px] shrink-0 items-center justify-center rounded-full text-[14px] leading-none no-underline max-[700px]:mt-[33px] max-[700px]:h-[49px] max-[700px]:w-[181px] max-[700px]:text-[14px]" href="/gallery">
         SEE ALL WORK
