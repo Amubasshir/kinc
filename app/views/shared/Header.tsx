@@ -26,7 +26,7 @@ export default function Header() {
   const mobileNavRef = useRef<HTMLDetailsElement>(null);
   const pathname = usePathname();
   const navLinkClass =
-    "whitespace-nowrap font-[var(--font-tenor-sans)] text-[14px] leading-none font-normal text-[#7B7B7B] no-underline transition-colors duration-150 hover:text-[#008d60] focus-visible:text-[#008d60]";
+    "whitespace-nowrap font-[var(--font-tenor-sans)] text-[14px] leading-none font-normal text-[#2E2E38] no-underline transition-colors duration-150 hover:text-[#008d60] focus-visible:text-[#008d60]";
   const activeNavLinkClass = "!font-semibold !text-[#008d60]";
   const closeMobileNav = () => {
     if (mobileNavRef.current) mobileNavRef.current.open = false;

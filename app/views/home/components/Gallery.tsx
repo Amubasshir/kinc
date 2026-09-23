@@ -52,6 +52,7 @@ function getGalleryHeight(number: number) {
 
 export default function Gallery({ columns }: { columns: number[][] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [showAllMobile, setShowAllMobile] = useState(false);
   const galleryGridRef = useRef<HTMLDivElement>(null);
   const images: LightboxImage[] = columns.flat().map((number) => ({
     src: currentGalleryImages[number - 22] ?? `/gallery-${number}.png`,
@@ -59,9 +60,10 @@ export default function Gallery({ columns }: { columns: number[][] }) {
     width: 208,
     height: getGalleryHeight(number),
   }));
+  const mobileImages = showAllMobile ? images : images.slice(0, 6);
   const mobileColumns: LightboxImage[][] = [[], []];
   const mobileColumnHeights = [0, 0];
-  images.forEach((image) => {
+  mobileImages.forEach((image) => {
     const shortestColumnIndex = mobileColumnHeights[0] <= mobileColumnHeights[1] ? 0 : 1;
     mobileColumns[shortestColumnIndex].push(image);
     mobileColumnHeights[shortestColumnIndex] += image.height / image.width;
@@ -163,9 +165,12 @@ export default function Gallery({ columns }: { columns: number[][] }) {
           </div>
         ))}
       </div>
-      <Link className="button-tertiary gallery-cta mx-auto mt-11 flex h-[53px] w-[200px] shrink-0 items-center justify-center rounded-full text-[14px] leading-none no-underline max-[700px]:mt-[33px] max-[700px]:h-[49px] max-[700px]:w-[181px] max-[700px]:text-[14px]" href="/gallery">
+      <Link className="button-tertiary gallery-cta mx-auto mt-11 flex h-[53px] w-[200px] shrink-0 items-center justify-center rounded-full text-[14px] leading-none no-underline max-[700px]:hidden" href="/gallery">
         SEE ALL WORK
       </Link>
+      <button className="button-tertiary gallery-cta mx-auto mt-[33px] hidden h-[49px] w-[181px] shrink-0 items-center justify-center rounded-full border-0 text-[14px] leading-none max-[700px]:flex" type="button" onClick={() => setShowAllMobile((current) => !current)}>
+        {showAllMobile ? "SHOW LESS" : "SEE ALL WORK"}
+      </button>
       <GalleryLightbox images={images} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />
     </section>
   );
