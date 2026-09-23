@@ -50,6 +50,10 @@ function getGalleryHeight(number: number) {
                       : 314;
 }
 
+function getMobileGalleryHeight(image: LightboxImage) {
+  return image.src === currentGalleryImages[0] ? 283 : image.height;
+}
+
 export default function Gallery({ columns }: { columns: number[][] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [showAllMobile, setShowAllMobile] = useState(false);
@@ -60,7 +64,7 @@ export default function Gallery({ columns }: { columns: number[][] }) {
     width: 208,
     height: getGalleryHeight(number),
   }));
-  const mobileImages = showAllMobile ? images : images.slice(0, 6);
+  const mobileImages = (showAllMobile ? images : images.slice(0, 6)).slice().sort((first, second) => second.height / second.width - first.height / first.width);
   const mobileColumns: LightboxImage[][] = [[], []];
   const mobileColumnHeights = [0, 0];
   mobileImages.forEach((image) => {
@@ -68,6 +72,7 @@ export default function Gallery({ columns }: { columns: number[][] }) {
     mobileColumns[shortestColumnIndex].push(image);
     mobileColumnHeights[shortestColumnIndex] += image.height / image.width;
   });
+  const mobileGridImages = Array.from({ length: Math.max(mobileColumns[0].length, mobileColumns[1].length) }).flatMap((_, rowIndex) => [mobileColumns[0][rowIndex], mobileColumns[1][rowIndex]].filter((image): image is LightboxImage => Boolean(image)));
   const columnOffsets = columns.map((_, index) => columns.slice(0, index).reduce((total, column) => total + column.length, 0));
 
   useLayoutEffect(() => {
@@ -75,7 +80,7 @@ export default function Gallery({ columns }: { columns: number[][] }) {
     if (!grid) return;
 
     const alignLastImages = () => {
-      if (window.matchMedia("(max-width: 700px)").matches || getComputedStyle(grid).display === "none") return;
+      if (window.matchMedia("(max-width: 1100px)").matches || getComputedStyle(grid).display === "none") return;
 
       const columnElements = Array.from(grid.children).filter((child): child is HTMLElement => child instanceof HTMLElement);
       const lastImages = columnElements.map((column) => column.lastElementChild as HTMLElement | null).filter((image): image is HTMLElement => Boolean(image));
@@ -108,8 +113,8 @@ export default function Gallery({ columns }: { columns: number[][] }) {
   }, [columns]);
 
   return (
-    <section id="gallery" className="gallery-section relative min-h-[1030px] overflow-hidden rounded-[20px] px-6 pt-11 pb-[70px] max-[700px]:min-h-0 max-[700px]:rounded-none max-[700px]:px-[10px] max-[700px]:pt-[18px] max-[700px]:pb-[38px]" aria-label="KinCollage gallery">
-      <div ref={galleryGridRef} className="gallery-grid mx-auto grid w-full max-w-[1328px] grid-cols-6 gap-4 max-[1350px]:grid-cols-3 max-[700px]:hidden">
+    <section id="gallery" className="gallery-section relative min-h-[1030px] overflow-hidden rounded-[20px] px-6 pt-11 pb-[70px] max-[1100px]:min-h-0 max-[1100px]:rounded-none max-[1100px]:px-[18px] max-[1100px]:pt-[24px] max-[1100px]:pb-[45px]" aria-label="KinCollage gallery">
+      <div ref={galleryGridRef} className="gallery-grid mx-auto grid w-full max-w-[1328px] grid-cols-6 gap-4 max-[1350px]:grid-cols-3 max-[1100px]:hidden">
         {columns.map((column, columnIndex) => (
           <div className={`gallery-column gallery-column-${columnIndex + 1} flex flex-col gap-4`} key={columnIndex}>
             {column.map((number, imageIndex) => (
@@ -135,40 +140,36 @@ export default function Gallery({ columns }: { columns: number[][] }) {
           </div>
         ))}
       </div>
-      <div className="gallery-mobile-grid mx-auto hidden w-[94%] grid-cols-2 gap-[5px] max-[700px]:grid" aria-label="KinCollage artwork collage">
-        {mobileColumns.map((mobileColumn, columnIndex) => (
-          <div className="flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
-            {mobileColumn.map((image) => {
-              const imageIndex = images.indexOf(image);
+      <div className="gallery-mobile-grid mx-auto hidden w-[94%] grid-cols-2 gap-[8px] max-[1100px]:grid" aria-label="KinCollage artwork collage">
+        {mobileGridImages.map((image) => {
+          const imageIndex = images.indexOf(image);
 
-              return (
-                <button
-                  className="group block w-full overflow-hidden rounded-[10px] border-0 bg-transparent p-0 text-left"
-                  key={`${image.src}-mobile`}
-                  onClick={() => setActiveIndex(imageIndex)}
-                  style={{ aspectRatio: `${image.width} / ${image.height}` }}
-                  type="button"
-                  aria-label="Open artwork in gallery viewer"
-                >
-                  <Image
-                    unoptimized
-                    className="block h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
-                    src={image.src}
-                    alt={image.alt}
-                    width={image.width}
-                    height={image.height}
-                    sizes="(max-width: 700px) 45vw, 0px"
-                  />
-                </button>
-              );
-            })}
-          </div>
-        ))}
+          return (
+            <button
+              className="group block h-full min-h-0 w-full overflow-hidden rounded-[10px] border-0 bg-transparent p-0 text-left"
+              key={`${image.src}-mobile`}
+              onClick={() => setActiveIndex(imageIndex)}
+              style={{ aspectRatio: `${image.width} / ${getMobileGalleryHeight(image)}` }}
+              type="button"
+              aria-label="Open artwork in gallery viewer"
+            >
+              <Image
+                unoptimized
+                className="block h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.025] group-focus-visible:scale-[1.025]"
+                src={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                sizes="(max-width: 1100px) 45vw, 0px"
+              />
+            </button>
+          );
+        })}
       </div>
-      <Link className="button-tertiary gallery-cta mx-auto mt-11 flex h-[53px] w-[200px] shrink-0 items-center justify-center rounded-full text-[14px] leading-none no-underline max-[700px]:hidden" href="/gallery">
+      <Link className="button-tertiary gallery-cta mx-auto mt-11 flex h-[53px] w-[200px] shrink-0 items-center justify-center rounded-full text-[14px] leading-none no-underline max-[1100px]:hidden" href="/gallery">
         SEE ALL WORK
       </Link>
-      <button className="button-tertiary gallery-cta mx-auto mt-[33px] hidden h-[49px] w-[181px] shrink-0 items-center justify-center rounded-full border-0 text-[14px] leading-none max-[700px]:flex" type="button" onClick={() => setShowAllMobile((current) => !current)}>
+      <button className="button-tertiary gallery-cta mx-auto mt-[33px] hidden h-[49px] w-[181px] shrink-0 items-center justify-center rounded-full border-0 text-[14px] leading-none max-[1100px]:flex" type="button" onClick={() => setShowAllMobile((current) => !current)}>
         {showAllMobile ? "SHOW LESS" : "SEE ALL WORK"}
       </button>
       <GalleryLightbox images={images} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />

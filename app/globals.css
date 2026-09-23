@@ -3211,18 +3211,19 @@ main > section {
   .artist-career-gallery-mobile-tile {
     position: relative;
     min-width: 0;
+    height: 100%;
     margin: 0;
     overflow: hidden;
     border-radius: 9px;
     background: transparent;
   }
   .artist-career-gallery-mobile-tile > button {
-    height: auto;
+    height: 100%;
   }
   .artist-career-gallery-mobile-tile-image {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     aspect-ratio: auto;
     border-radius: 9px;
     object-fit: cover;
