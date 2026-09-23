@@ -109,7 +109,7 @@ export default function ModernDatePicker({
         <span className={value ? "text-[#34343c]" : "text-[#9696a1]"}>
           {selectedDate ? dateFormatter.format(selectedDate) : "Choose a completion date"}
         </span>
-        <span className={variant === "checkout" ? "grid h-7 w-7 shrink-0 place-items-center bg-transparent text-[#51515d]" : "grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#eaffdf] text-[#087b59]"} aria-hidden="true">
+          <span className={variant === "checkout" ? "grid h-7 w-7 shrink-0 place-items-center bg-transparent text-[#51515d]" : "grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#eaffdf] text-[#2E2E38]"} aria-hidden="true">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
             <path d="M7 3v3M17 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
@@ -149,7 +149,7 @@ export default function ModernDatePicker({
 
               return (
                 <button
-                  className={`aspect-square rounded-full border-0 text-[12px] transition ${selected ? "bg-[#00d18f] font-semibold text-[#2E2E38] shadow-[0_4px_10px_rgb(0_209_143/28%)]" : isToday ? "bg-[#eaffdf] font-semibold text-[#087b59]" : "bg-transparent text-[#555560] hover:bg-[#f0f0f1]"} active:bg-[#9f9fb7] disabled:cursor-not-allowed disabled:text-[#c9c9cf] disabled:hover:bg-transparent`}
+                  className={`aspect-square rounded-full border-0 text-[12px] transition ${selected ? "bg-[#00d18f] font-semibold text-[#2E2E38] shadow-[0_4px_10px_rgb(0_209_143/28%)]" : isToday ? "bg-[#eaffdf] font-semibold text-[#2E2E38]" : "bg-transparent text-[#555560] hover:bg-[#f0f0f1]"} active:bg-[#9f9fb7] disabled:cursor-not-allowed disabled:text-[#c9c9cf] disabled:hover:bg-transparent`}
                   type="button"
                   disabled={disabled}
                   aria-pressed={selected}
@@ -165,7 +165,7 @@ export default function ModernDatePicker({
 
           <div className="mt-4 flex items-center justify-between border-t border-[#ededf0] pt-3">
             <button className="rounded-full border-0 bg-transparent px-2 py-1 text-[12px] text-[#777781] underline-offset-2 hover:underline active:bg-[#9f9fb7] active:text-[#51515d] disabled:opacity-35" type="button" disabled={!value} onClick={() => onChange("")}>Clear</button>
-            <button className="rounded-full border-0 bg-[#eaffdf] px-4 py-2 text-[12px] font-semibold text-[#087b59] transition hover:bg-[#d9ffd0] active:bg-[#9f9fb7] active:text-[#51515d]" type="button" onClick={() => chooseDate(today)}>Today</button>
+            <button className="rounded-full border-0 bg-[#eaffdf] px-4 py-2 text-[12px] font-semibold text-[#2E2E38] transition hover:bg-[#d9ffd0] active:bg-[#9f9fb7] active:text-[#51515d]" type="button" onClick={() => chooseDate(today)}>Today</button>
           </div>
         </div>
       )}

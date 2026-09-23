@@ -51,6 +51,15 @@ export default function Welcome() {
               height={161}
               aria-hidden="true"
             />
+            <Image
+              unoptimized
+              className="welcome-connector-mobile"
+              src="/welcome-arrow-mobile.svg"
+              alt=""
+              width={114}
+              height={200}
+              aria-hidden="true"
+            />
           </div>
         </div>
 

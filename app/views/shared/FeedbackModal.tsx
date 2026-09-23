@@ -104,7 +104,7 @@ export default function FeedbackModal({
                 {codeLabel}
               </p>
               <div className="flex items-center gap-2 rounded-xl bg-[#97ff77] p-2 max-[400px]:items-stretch">
-                <p className="min-w-0 flex-1 break-all px-2 py-2 text-[22px] font-semibold tracking-wider">
+                <p className="min-w-0 flex-1 break-all px-2 py-2 text-[22px] font-semibold tracking-wider text-[#2E2E38]">
                   {code}
                 </p>
                 <button
