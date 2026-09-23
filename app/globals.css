@@ -29,8 +29,8 @@ b {
   font-weight: 600;
 }
 .site-chrome {
-  position: sticky;
-  top: 10px;
+  position: sticky !important;
+  top: 10px !important;
   z-index: 50;
   isolation: isolate;
 }
@@ -53,8 +53,15 @@ b {
   border-radius: 0 0 20px 20px;
 }
 @media (max-width: 700px) {
+  .site-chrome {
+    position: static !important;
+  }
+  .site-chrome.is-overlapping::before {
+    display: none;
+  }
   .site-chrome.is-overlapping .site-header {
-    border-radius: 20px 20px 0 0;
+    position: fixed !important;
+    border-radius: 20px;
   }
   .site-chrome.is-overlapping .promo-banner {
     border-radius: 0 0 18px 18px;
@@ -3367,7 +3374,17 @@ html {
   }
   body {
     padding: 14px;
+    padding-top: 72px;
     background: #f5f5f5;
+  }
+  .site-header {
+    position: fixed !important;
+    z-index: 50;
+    top: 14px;
+    right: 14px;
+    left: 14px;
+    width: calc(100vw - 28px) !important;
+    max-width: calc(100vw - 28px) !important;
   }
   main {
     gap: 12px;
