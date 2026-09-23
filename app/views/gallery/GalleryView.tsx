@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import type { GalleryMediaModel, GalleryPageViewModel } from "../../models/site";
 import GalleryLightbox from "../shared/GalleryLightbox";
 import StayConnected from "../shared/StayConnected";
@@ -135,7 +135,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
                     sizes="(max-width: 1000px) 48vw, 23vw"
                   />
                 </button>
-                {columnIndex === 3 && itemIndex === 5 && <GalleryCommissionCard />}
+                {(galleryMedia.indexOf(item) + 1) % 11 === 0 && <GalleryCommissionCard />}
               </div>
             ))}
           </div>
@@ -145,16 +145,22 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
         <div className="gallery-page-mobile-grid grid grid-cols-2 gap-[5px]">
           {mobileColumns.map((column, columnIndex) => (
             <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
-              {column.map((item) => (
-                <button
-                  className="group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
-                  key={item.src}
-                  type="button"
-                  onClick={() => setActiveIndex(galleryMedia.indexOf(item))}
-                  aria-label={`Open ${item.alt}`}
-                >
-                  <GalleryMedia item={item} className="block h-auto w-full rounded-[20px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]" sizes="47vw" />
-                </button>
+              {column.map((item, itemIndex) => (
+                <Fragment key={item.src}>
+                  {columnIndex === 1 && itemIndex === 1 && (
+                    <div className="gallery-page-mobile-inline-card">
+                      <GalleryCommissionCard />
+                    </div>
+                  )}
+                  <button
+                    className="group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
+                    type="button"
+                    onClick={() => setActiveIndex(galleryMedia.indexOf(item))}
+                    aria-label={`Open ${item.alt}`}
+                  >
+                    <GalleryMedia item={item} className="block h-auto w-full rounded-[20px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]" sizes="47vw" />
+                  </button>
+                </Fragment>
               ))}
             </div>
           ))}
