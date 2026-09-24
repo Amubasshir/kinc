@@ -18,6 +18,8 @@ export type CheckoutItem = {
   currency: string;
 };
 
+const IS_TEST_MODE = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.startsWith("pk_test_") ?? false;
+
 type PaymentOptions = {
   priorityDate: string;
   shippingCents: number;
@@ -43,8 +45,8 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
 
   return (
     <aside className="commission-checkout-summary">
-      <div className="commission-checkout-brand"><Image unoptimized className="commission-checkout-brand-mark" src="/favicon.svg" alt="" width={20} height={20} /><span>KinCollage sandbox</span><span className="commission-checkout-sandbox">Sandbox</span></div>
-      <p className="commission-checkout-kicker">Pay KinCollage sandbox</p>
+      <div className="commission-checkout-brand"><Image unoptimized className="commission-checkout-brand-mark" src="/favicon.svg" alt="" width={20} height={20} /><span>KinCollage</span>{IS_TEST_MODE && <span className="commission-checkout-sandbox">Sandbox</span>}</div>
+      <p className="commission-checkout-kicker">Pay KinCollage</p>
       <p className="commission-checkout-amount">{formatPrice(amountCents)}</p>
       <div className="commission-checkout-items">
         {items.map((item) => <div className="commission-checkout-item" key={`${item.name}-${item.amountCents}`}><Image src={item.image} alt="" width={40} height={40} /><div><strong>{item.name} {item.inchDimensions} ({item.dimensions})</strong><small>Standard pieces are crafted on canvas with oak frame. For custom sizes, sizes or special requests, contact us.</small><span>Qty 1</span></div><b>{formatPrice(item.amountCents)}</b></div>)}
@@ -192,7 +194,7 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
         <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "us-canada"} onChange={() => changeOptions({ priorityDate, shippingCents: calculateShippingCents(items, "us-canada"), shippingRegion: "us-canada" })} /><span>{sizeLabel} Shipping (US &amp; Canada)<small>3–5 business days</small></span><strong>{formatPrice(calculateShippingCents(items, "us-canada"))}</strong></label>
       </div></fieldset>
       <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", wallets: { link: "auto" }, fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked disabled /><span>Billing info same as shipping</span></label></div>
-      <label className="commission-checkout-terms"><input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} required /><span>I agree to KinCollage sandbox&apos;s <a href="/legal#terms" target="_blank" rel="noreferrer">Terms of Service</a> and <a href="/legal#privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>
+      <label className="commission-checkout-terms"><input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} required /><span>I agree to KinCollage&apos;s <a href="/legal#terms" target="_blank" rel="noreferrer">Terms of Service</a> and <a href="/legal#privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>
       {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
       <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || !elements || !isPaymentComplete || !emailComplete || !addressComplete || !termsAccepted || isPaying}>{isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `${paymentLabel.toUpperCase()} — ${formatPrice(currentAmountCents)}`}</button>
       <div className="commission-link-disclosure"><p>By paying, you agree to <a href="https://stripe.com/legal/link" target="_blank" rel="noopener noreferrer">Link&apos;s Terms</a> and <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Privacy.</a></p><div><span>Powered by <strong>stripe</strong></span><span aria-hidden="true" /><a href="https://stripe.com/legal/link" target="_blank" rel="noopener noreferrer">Terms</a><a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></div></div>
