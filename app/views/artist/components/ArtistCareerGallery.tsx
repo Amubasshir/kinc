@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import type { ArtistViewModel } from "../../../view-models/artistViewModel";
 import GalleryLightbox from "../../shared/GalleryLightbox";
+import GalleryCommissionCard from "../../gallery/components/GalleryCommissionCard";
 
 export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewModel["careerGallery"] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -19,6 +20,11 @@ export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewMo
     mobileColumnHeights[columnIndex] += image.height / Math.max(image.width, 1) + (image.caption ? 0.12 : 0);
   });
   const mobileGridImages = Array.from({ length: Math.max(mobileColumns[0].length, mobileColumns[1].length) }).flatMap((_, rowIndex) => [mobileColumns[0][rowIndex], mobileColumns[1][rowIndex]].filter((image): image is (typeof gallery.images)[number] => Boolean(image)));
+  type MobileGridItem =
+    | { kind: "image"; image: (typeof gallery.images)[number] }
+    | { kind: "commission" };
+  const mobileGridItems: MobileGridItem[] = mobileGridImages.map((image) => ({ kind: "image", image }));
+  mobileGridItems.splice(Math.min(3, mobileGridItems.length), 0, { kind: "commission" });
 
   return (
     <section className="artist-career-gallery" aria-label="Selected creative work">
@@ -55,13 +61,22 @@ export default function ArtistCareerGallery({ gallery }: { gallery: ArtistViewMo
         </div>
       </div>
       <div className="artist-career-gallery-mobile-grid" aria-label="Selected creative work in two columns">
-        {mobileGridImages.map((image) => {
+        {mobileGridItems.map((item, itemIndex) => {
+          if (item.kind === "commission") {
+            return (
+              <div className="gallery-page-mobile-inline-card" key="artist-mobile-commission-card">
+                <GalleryCommissionCard />
+              </div>
+            );
+          }
+
+          const image = item.image;
           const imageIndex = gallery.images.indexOf(image);
 
           return (
             <figure
               className={`artist-career-gallery-mobile-tile${image.caption ? " artist-career-gallery-tile-captioned" : ""}`}
-              key={image.src}
+              key={image.src || itemIndex}
             >
               <button className="group block h-full w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(imageIndex)} aria-label={`Open ${image.alt} in gallery viewer`}>
                 <Image unoptimized className="artist-career-gallery-mobile-tile-image block h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]" src={image.src} alt={image.alt} width={image.width} height={image.height} sizes="(max-width: 700px) 45vw, 18vw" />

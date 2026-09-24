@@ -50,11 +50,11 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
         {items.map((item) => <div className="commission-checkout-item" key={`${item.name}-${item.amountCents}`}><Image src={item.image} alt="" width={40} height={40} /><div><strong>{item.name} {item.inchDimensions} ({item.dimensions})</strong><small>Standard pieces are crafted on canvas with oak frame. For custom sizes, sizes or special requests, contact us.</small><span>Qty 1</span></div><b>{formatPrice(item.amountCents)}</b></div>)}
       </div>
       <form className="commission-checkout-promo" onSubmit={(event) => { event.preventDefault(); void onApplyVoucher(draftVoucherCode); }}>
-        <label htmlFor="commission-voucher-code">Coupon or voucher code</label>
+        <label htmlFor="commission-voucher-code">Coupon, voucher, or Stripe promo code</label>
         <div><input id="commission-voucher-code" value={draftVoucherCode} onChange={(event) => setDraftVoucherCode(event.target.value)} placeholder="Enter code" autoComplete="off" /><button type="submit" disabled={isApplyingVoucher}>{isApplyingVoucher ? "Applying…" : voucherCode ? "Update" : "Apply"}</button></div>
         {voucherMessage && <p className={`commission-voucher-message ${voucherMessage.type}`} role={voucherMessage.type === "error" ? "alert" : "status"}>{voucherMessage.text}</p>}
       </form>
-      <dl className="commission-checkout-totals"><div><dt>Subtotal</dt><dd>{formatPrice(itemTotalCents)}</dd></div><div><dt>Shipping<br /><small>{shippingLabel}</small></dt><dd>{options.shippingCents ? formatPrice(options.shippingCents) : "Free"}</dd></div>{rushCents > 0 && <div><dt>Priority rush fee</dt><dd>{formatPrice(rushCents)}</dd></div>}{discountCents > 0 && <div className="commission-checkout-discount"><dt>Voucher discount</dt><dd>−{formatPrice(discountCents)}</dd></div>}<div className="commission-checkout-total"><dt>Total due</dt><dd>{formatPrice(amountCents)}</dd></div></dl>
+      <dl className="commission-checkout-totals"><div><dt>Subtotal</dt><dd>{formatPrice(itemTotalCents)}</dd></div><div><dt>Shipping<br /><small>{shippingLabel}</small></dt><dd>{options.shippingCents ? formatPrice(options.shippingCents) : "Free"}</dd></div>{rushCents > 0 && <div><dt>Priority rush fee</dt><dd>{formatPrice(rushCents)}</dd></div>}{discountCents > 0 && <div className="commission-checkout-discount"><dt>Discount</dt><dd>−{formatPrice(discountCents)}</dd></div>}<div className="commission-checkout-total"><dt>Total due</dt><dd>{formatPrice(amountCents)}</dd></div></dl>
     </aside>
   );
 }
