@@ -46,27 +46,89 @@ function metadataValue(value: string) {
   return value.slice(0, 450);
 }
 
-type DiscountSource = { record: CouponRecord | VoucherRecord; type: "coupon" | "voucher" } | null;
+type StripeDiscountRecord = {
+  promotionCode: Stripe.PromotionCode;
+  coupon: Stripe.Coupon;
+};
+
+type DiscountSource =
+  | { record: CouponRecord | VoucherRecord; type: "coupon" | "voucher" }
+  | { record: StripeDiscountRecord; type: "stripe" }
+  | null;
 
 function getDiscountCents(source: DiscountSource) {
-  if (!source) return 0;
+  if (!source || source.type === "stripe") return 0;
   return source.type === "voucher"
     ? Math.max(0, Number((source.record as VoucherRecord).amount_cents) || 0)
     : Math.max(0, Number((source.record as CouponRecord).discount_cents) || 0);
 }
 
-async function resolveDiscountCode(code: string): Promise<DiscountSource> {
+async function resolveDiscountCode(stripe: Stripe, code: string): Promise<DiscountSource> {
   const normalized = code.trim().toUpperCase();
   if (!normalized) return null;
-  if (!/^GREET\d{6}$/.test(normalized) && !/^VOUCHER\d{8}$/.test(normalized)) return null;
+  if (!/^[A-Z0-9-]{1,64}$/.test(normalized)) return null;
 
-  const coupon = await findAvailableCoupon(normalized);
-  if (coupon) return { record: coupon, type: "coupon" };
-  if (/^VOUCHER/.test(normalized)) {
+  if (/^GREET\d{6}$/.test(normalized)) {
+    const coupon = await findAvailableCoupon(normalized);
+    if (coupon) return { record: coupon, type: "coupon" };
+  }
+  if (/^VOUCHER\d{8}$/.test(normalized)) {
     const voucher = await findAvailableVoucher(normalized);
     if (voucher) return { record: voucher, type: "voucher" };
   }
-  return null;
+
+  const promotionCodes = await stripe.promotionCodes.list({
+    code: normalized,
+    active: true,
+    limit: 1,
+    expand: ["data.promotion.coupon"],
+  });
+  const promotionCode = promotionCodes.data[0];
+  if (!promotionCode || promotionCode.promotion.type !== "coupon" || !promotionCode.promotion.coupon) return null;
+
+  const coupon = typeof promotionCode.promotion.coupon === "string"
+    ? await stripe.coupons.retrieve(promotionCode.promotion.coupon)
+    : promotionCode.promotion.coupon;
+  if ("deleted" in coupon) return null;
+  return { record: { promotionCode, coupon }, type: "stripe" };
+}
+
+function calculateDiscountCents(source: DiscountSource, discountableTotalCents: number, currency: string, productIds: string[]) {
+  if (!source) return { discountCents: 0 };
+  if (source.type !== "stripe") return { discountCents: Math.min(getDiscountCents(source), discountableTotalCents) };
+
+  const { promotionCode, coupon } = source.record;
+  if (!promotionCode.active || !coupon.valid) return { discountCents: 0, message: "That Stripe promotion code is no longer valid." };
+  if (promotionCode.expires_at && promotionCode.expires_at * 1000 <= Date.now()) return { discountCents: 0, message: "That Stripe promotion code has expired." };
+  if (promotionCode.max_redemptions !== null && promotionCode.times_redeemed >= promotionCode.max_redemptions) {
+    return { discountCents: 0, message: "That Stripe promotion code has reached its redemption limit." };
+  }
+  if (promotionCode.customer || promotionCode.customer_account || promotionCode.restrictions.first_time_transaction) {
+    return { discountCents: 0, message: "That Stripe promotion code has customer restrictions and cannot be used here." };
+  }
+
+  const currencyMinimum = promotionCode.restrictions.currency_options?.[currency]?.minimum_amount;
+  const minimumAmount = currencyMinimum ?? (promotionCode.restrictions.minimum_amount_currency === currency ? promotionCode.restrictions.minimum_amount : null);
+  if (minimumAmount !== null && minimumAmount !== undefined && discountableTotalCents < minimumAmount) {
+    return { discountCents: 0, message: `This Stripe promotion requires a minimum order of ${formatMoney(minimumAmount / 100, currency)}.` };
+  }
+
+  const restrictedProducts = coupon.applies_to?.products ?? [];
+  if (restrictedProducts.length > 0 && productIds.some((productId) => !restrictedProducts.includes(productId))) {
+    return { discountCents: 0, message: "That Stripe promotion does not apply to all selected products." };
+  }
+
+  const amountOff = coupon.currency_options?.[currency]?.amount_off
+    ?? (coupon.currency && coupon.currency !== currency ? null : coupon.amount_off);
+  if (coupon.amount_off !== null && coupon.currency && coupon.currency !== currency && !coupon.currency_options?.[currency]) {
+    return { discountCents: 0, message: "That Stripe promotion is not configured for this currency." };
+  }
+  if (amountOff === null && coupon.percent_off === null) return { discountCents: 0, message: "That Stripe promotion has no usable discount." };
+
+  const discountCents = amountOff !== null
+    ? amountOff
+    : Math.round(discountableTotalCents * (coupon.percent_off ?? 0) / 100);
+  return { discountCents: Math.min(Math.max(0, discountCents), discountableTotalCents) };
 }
 
 function calculatePaymentTotals(paymentPlan: "full" | "installments", selectedAmountCents: number, priorityDate: string, shippingCents: number, requestedDiscountCents = 0) {
@@ -345,7 +407,7 @@ export async function applyCommissionVoucher(paymentIntentId: string, code: stri
     if (paymentIntent.status === "succeeded") return { success: false, message: "This payment has already been completed." };
 
     const normalized = code.trim().toUpperCase();
-    const source = await resolveDiscountCode(normalized);
+    const source = await resolveDiscountCode(stripe, normalized);
     if (normalized && !source) return { success: false, message: "That coupon or voucher is invalid or has already been used." };
 
     const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
@@ -355,8 +417,16 @@ export async function applyCommissionVoucher(paymentIntentId: string, code: stri
     const expectedShippingCents = shippingCents === 0 ? 0 : calculateShippingForPrices(prices, shippingRegion);
     if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate.trim(), shippingCents, getDiscountCents(source));
+    const undiscountedTotals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate.trim(), shippingCents);
+    const productIds = prices
+      .map((price) => typeof price.product === "string" || price.product.deleted ? "" : price.product.id)
+      .filter(Boolean);
+    const discount = calculateDiscountCents(source, undiscountedTotals.baseTotalCents + undiscountedTotals.rushCents, paymentIntent.currency, productIds);
+    if (discount.message) return { success: false, message: discount.message };
+    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate.trim(), shippingCents, discount.discountCents);
     if (totals.amountCents < 50) return { success: false, message: "This voucher covers the initial payment in full. Please contact the studio to complete this order." };
+
+    const stripeSource = source?.type === "stripe" ? source.record : null;
 
     await stripe.paymentIntents.update(paymentIntentId, {
       amount: totals.amountCents,
@@ -366,8 +436,10 @@ export async function applyCommissionVoucher(paymentIntentId: string, code: stri
         shippingRegion,
         rushCents: String(totals.rushCents),
         coupon: normalized,
-        couponId: source?.record.id ?? "",
+        couponId: source && source.type !== "stripe" ? source.record.id : "",
         couponType: source?.type ?? "",
+        stripePromotionCodeId: stripeSource?.promotionCode.id ?? "",
+        stripeCouponId: stripeSource?.coupon.id ?? "",
         discountCents: String(totals.discountCents),
         totalCents: String(totals.totalCents),
       },
