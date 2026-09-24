@@ -64,7 +64,7 @@ const loadStripeCommissionProducts = unstable_cache(
     }));
     return productsWithPrices.filter((product) => product !== null) as StripeCommissionProduct[];
   },
-  ["stripe-home-pricing-v2"],
+  ["stripe-home-pricing-v2", process.env.STRIPE_SECRET_KEY?.includes("_live_") ? "live" : "test"],
   { revalidate: 3600 }
 );
 
