@@ -16,14 +16,39 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Gift coupons
+## Payments and gift coupons
 
-Run the SQL in `supabase/kin_coupons.sql` in the Supabase SQL editor, then configure these server environment variables:
+Run `supabase/kin_coupons.sql` in the Supabase SQL editor before enabling payments. It creates the coupon/voucher tables plus the fulfillment, webhook-event, discount-reservation, and rate-limit tables/functions used to make payment handling idempotent.
 
+Configure these environment variables in every deployed environment:
+
+```dotenv
+STRIPE_SECRET_KEY=sk_test_or_live_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_or_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+RESEND_API_KEY=re_...
+CONTACT_TO_EMAIL=orders@example.com
+```
 
-The service-role key must remain server-side and must not use a NEXT_PUBLIC_ prefix.
+Secret, webhook, Supabase service-role, and Resend keys must remain server-side. Stripe secret and publishable keys must both be from the same mode.
+
+In Stripe Workbench, create a webhook endpoint for:
+
+```text
+https://YOUR_PRODUCTION_DOMAIN/api/stripe/webhook
+```
+
+Subscribe it to `payment_intent.succeeded`, `payment_intent.payment_failed`, and `payment_intent.canceled`, then store that endpoint's signing secret as `STRIPE_WEBHOOK_SECRET`. Test and live endpoints have different signing secrets and must be configured separately.
+
+Run the production-readiness check after configuring an environment:
+
+```bash
+npm run audit:stripe
+```
+
+The existing “3 installments” catalog prices are one-time Stripe Prices. The application collects installment 1 and explicitly records that installments 2 and 3 are arranged manually by the studio; it does not claim that Stripe schedules them automatically.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

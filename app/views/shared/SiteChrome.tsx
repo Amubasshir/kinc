@@ -16,6 +16,7 @@ export default function SiteChrome({ fontClassName = "" }: { fontClassName?: str
 
   return (
     <div className={`site-chrome${isOverlapping ? " is-overlapping" : ""}`}>
+      <div className="mobile-header-top-cover" aria-hidden="true" />
       <Header />
       <PromoBanner fontClassName={fontClassName} />
     </div>

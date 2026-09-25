@@ -3,7 +3,7 @@
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import Image from "next/image";
 import type { FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { applyCommissionVoucher, completeCommissionOrder, savePaymentCustomerDetails, updateCommissionPaymentOptions, type CommissionShippingRegion } from "../../actions/commissionDeposit";
 import { formatMoney } from "../../lib/money";
 import { getStripe } from "../../lib/stripeClient";
@@ -39,8 +39,6 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
   const rushCents = options.priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
   const [draftVoucherCode, setDraftVoucherCode] = useState(voucherCode);
 
-  useEffect(() => setDraftVoucherCode(voucherCode), [voucherCode]);
-
   return (
     <aside className="commission-checkout-summary">
       <div className="commission-checkout-brand"><Image unoptimized className="commission-checkout-brand-mark" src="/favicon.svg" alt="" width={20} height={20} /><span>KinCollage sandbox</span><span className="commission-checkout-sandbox">Sandbox</span></div>
@@ -54,18 +52,18 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
         <div><input id="commission-voucher-code" value={draftVoucherCode} onChange={(event) => setDraftVoucherCode(event.target.value)} placeholder="Enter code" autoComplete="off" /><button type="submit" disabled={isApplyingVoucher}>{isApplyingVoucher ? "Applying…" : voucherCode ? "Update" : "Apply"}</button></div>
         {voucherMessage && <p className={`commission-voucher-message ${voucherMessage.type}`} role={voucherMessage.type === "error" ? "alert" : "status"}>{voucherMessage.text}</p>}
       </form>
-      <dl className="commission-checkout-totals"><div><dt>Subtotal</dt><dd>{formatPrice(itemTotalCents)}</dd></div><div><dt>Shipping<br /><small>{shippingLabel}</small></dt><dd>{options.shippingCents ? formatPrice(options.shippingCents) : "Free"}</dd></div>{rushCents > 0 && <div><dt>Priority rush fee</dt><dd>{formatPrice(rushCents)}</dd></div>}{discountCents > 0 && <div className="commission-checkout-discount"><dt>Discount</dt><dd>−{formatPrice(discountCents)}</dd></div>}<div className="commission-checkout-total"><dt>Total due</dt><dd>{formatPrice(amountCents)}</dd></div></dl>
+      <dl className="commission-checkout-totals"><div><dt>Subtotal</dt><dd>{formatPrice(itemTotalCents)}</dd></div><div><dt>Shipping<br /><small>{shippingLabel}</small></dt><dd>{options.shippingCents ? formatPrice(options.shippingCents) : "Free"}</dd></div>{rushCents > 0 && <div><dt>Priority rush fee</dt><dd>{formatPrice(rushCents)}</dd></div>}{discountCents > 0 && <div className="commission-checkout-discount"><dt>Discount</dt><dd>−{formatPrice(discountCents)}</dd></div>}{paymentPlan === "installments" && <div><dt>Full order total</dt><dd>{formatPrice(totalCents)}</dd></div>}<div className="commission-checkout-total"><dt>{paymentPlan === "installments" ? "Due today" : "Total due"}</dt><dd>{formatPrice(amountCents)}</dd></div></dl>
     </aside>
   );
 }
 
-function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeLabel, items, onSuccess, onOptionsChange }: { amountCents: number; currency: string; paymentLabel: string; paymentIntentId: string; sizeLabel: string; items: CheckoutItem[]; onSuccess: (paymentIntentId: string) => void; onOptionsChange: (options: PaymentOptions) => { amountCents: number; totalCents: number } }) {
+function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabel, items, onSuccess, onOptionsChange }: { amountCents: number; currency: string; paymentLabel: string; clientSecret: string; sizeLabel: string; items: CheckoutItem[]; onSuccess: () => void; onOptionsChange: (options: PaymentOptions) => { amountCents: number; totalCents: number } }) {
   const stripe = useStripe();
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
   const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [paidPaymentIntentId, setPaidPaymentIntentId] = useState<string | null>(null);
+  const [paymentSucceeded, setPaymentSucceeded] = useState(false);
   const [customerEmail, setCustomerEmail] = useState("");
   const [emailComplete, setEmailComplete] = useState(false);
   const [customerName, setCustomerName] = useState("");
@@ -83,7 +81,6 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
   const [priorityDate, setPriorityDate] = useState("");
   const [shippingRegion, setShippingRegion] = useState<CommissionShippingRegion>("australia");
   const [shippingCents, setShippingCents] = useState(0);
-  const [currentAmountCents, setCurrentAmountCents] = useState(amountCents);
   const formatPrice = (cents: number) => formatMoney(cents / 100, currency);
 
   const updateShippingAddress = (changes: Partial<{ name: string; country: string; line1: string; city: string; state: string; phone: string; phoneCode: string; postalCode: string }>) => {
@@ -108,14 +105,11 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
     setAddressComplete(Boolean(name.trim() && country && line1.trim() && city.trim() && state.trim() && postalCode.trim()));
   };
 
-  useEffect(() => setCurrentAmountCents(amountCents), [amountCents]);
-
   const changeOptions = (next: PaymentOptions) => {
     setPriorityDate(next.priorityDate);
     setShippingRegion(next.shippingRegion);
     setShippingCents(next.shippingCents);
-    const totals = onOptionsChange(next);
-    setCurrentAmountCents(totals.amountCents);
+    onOptionsChange(next);
   };
 
   const handlePay = async (event: FormEvent<HTMLFormElement>) => {
@@ -124,14 +118,12 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
     setIsPaying(true);
     setError(null);
 
-    const updated = await updateCommissionPaymentOptions(paymentIntentId, priorityDate, shippingCents, shippingRegion);
+    const updated = await updateCommissionPaymentOptions(clientSecret, priorityDate, shippingCents, shippingRegion);
     if (!updated.success || updated.amountCents === undefined) {
       setError(updated.message ?? "We could not update the payment total. Please try again.");
       setIsPaying(false);
       return;
     }
-    setCurrentAmountCents(updated.amountCents);
-
     const { error: submitError } = await elements.submit();
     if (submitError) {
       setError(submitError.message ?? "Please complete your email, address, and payment details.");
@@ -139,15 +131,16 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
       return;
     }
 
-    if (paidPaymentIntentId) {
-      const details = await savePaymentCustomerDetails(paidPaymentIntentId, customerEmail, customerAddress, customerName);
-      if (!details.success) { setError(details.message ?? "We could not save your contact details. Please try again."); setIsPaying(false); return; }
-      const completion = await completeCommissionOrder(paidPaymentIntentId);
-      if (completion.success) { onSuccess(paidPaymentIntentId); return; }
+    if (paymentSucceeded) {
+      const completion = await completeCommissionOrder(clientSecret);
+      if (completion.success) { onSuccess(); return; }
       setError(completion.message ?? "The order confirmation could not be completed. Please try again.");
       setIsPaying(false);
       return;
     }
+
+    const details = await savePaymentCustomerDetails(clientSecret, customerEmail, customerAddress, customerName);
+    if (!details.success) { setError(details.message ?? "We could not save your contact details. Please try again."); setIsPaying(false); return; }
 
     const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
       elements,
@@ -165,12 +158,13 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
     });
     if (confirmError) { setError(confirmError.message ?? "Payment failed. Please check your card details and try again."); setIsPaying(false); return; }
     if (paymentIntent?.status === "succeeded") {
-      setPaidPaymentIntentId(paymentIntent.id);
-      const details = await savePaymentCustomerDetails(paymentIntent.id, customerEmail, customerAddress, customerName);
-      if (!details.success) { setError(details.message ?? "We could not save your contact details. Please try again."); setIsPaying(false); return; }
-      const completion = await completeCommissionOrder(paymentIntent.id);
+      setPaymentSucceeded(true);
+      const completion = await completeCommissionOrder(clientSecret);
       if (!completion.success) { setError(completion.message ?? "Your payment succeeded, but the order confirmation could not be completed. Please try again."); setIsPaying(false); return; }
-      onSuccess(paymentIntent.id);
+      onSuccess();
+    } else if (paymentIntent?.status === "processing") {
+      setError("Your payment is processing. Do not submit another payment; we will email you as soon as Stripe confirms it.");
+      setIsPaying(false);
     } else { setError("Payment did not complete. Please try again."); setIsPaying(false); }
   };
 
@@ -194,13 +188,13 @@ function PayButton({ amountCents, currency, paymentLabel, paymentIntentId, sizeL
       <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", wallets: { link: "auto" }, fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked disabled /><span>Billing info same as shipping</span></label></div>
       <label className="commission-checkout-terms"><input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} required /><span>I agree to KinCollage sandbox&apos;s <a href="/legal#terms" target="_blank" rel="noreferrer">Terms of Service</a> and <a href="/legal#privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>
       {error && <p className="commission-field-error mt-3" role="alert">{error}</p>}
-      <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || !elements || !isPaymentComplete || !emailComplete || !addressComplete || !termsAccepted || isPaying}>{isPaying ? "Processing…" : paidPaymentIntentId ? "Retry order confirmation" : `${paymentLabel.toUpperCase()} — ${formatPrice(currentAmountCents)}`}</button>
+      <button className="button-primary commission-order-submit mt-6" type="submit" disabled={!stripe || !elements || !isPaymentComplete || !emailComplete || !addressComplete || !termsAccepted || isPaying}>{isPaying ? "Processing…" : paymentSucceeded ? "Retry order confirmation" : `${paymentLabel.toUpperCase()} — ${formatPrice(amountCents)}`}</button>
       <div className="commission-link-disclosure"><p>By paying, you agree to <a href="https://stripe.com/legal/link" target="_blank" rel="noopener noreferrer">Link&apos;s Terms</a> and <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Privacy.</a></p><div><span>Powered by <strong>stripe</strong></span><span aria-hidden="true" /><a href="https://stripe.com/legal/link" target="_blank" rel="noopener noreferrer">Terms</a><a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></div></div>
     </form>
   );
 }
 
-export default function DepositPaymentForm({ clientSecret, amountCents, totalCents, currency, paymentPlan, sizeLabel, items, onSuccess }: { clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; sizeLabel: string; items: CheckoutItem[]; onSuccess: (paymentIntentId: string) => void }) {
+export default function DepositPaymentForm({ clientSecret, amountCents, totalCents, currency, paymentPlan, sizeLabel, items, onSuccess }: { clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; sizeLabel: string; items: CheckoutItem[]; onSuccess: () => void }) {
   const [options, setOptions] = useState<PaymentOptions>({ priorityDate: "", shippingCents: 0, shippingRegion: "australia" });
   const [displayAmountCents, setDisplayAmountCents] = useState(amountCents);
   const [displayTotalCents, setDisplayTotalCents] = useState(totalCents);
@@ -208,7 +202,6 @@ export default function DepositPaymentForm({ clientSecret, amountCents, totalCen
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherMessage, setVoucherMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [isApplyingVoucher, setIsApplyingVoucher] = useState(false);
-  const paymentIntentId = clientSecret.split("_secret")[0];
   const handleOptionsChange = (next: PaymentOptions) => {
     const baseAmount = items.reduce((sum, item) => sum + item.amountCents, 0);
     const baseTotal = paymentPlan === "installments" ? baseAmount * 3 : baseAmount;
@@ -224,7 +217,7 @@ export default function DepositPaymentForm({ clientSecret, amountCents, totalCen
   const handleApplyVoucher = async (code: string) => {
     setIsApplyingVoucher(true);
     setVoucherMessage(null);
-    const result = await applyCommissionVoucher(paymentIntentId, code, options.priorityDate, options.shippingCents, options.shippingRegion);
+    const result = await applyCommissionVoucher(clientSecret, code, options.priorityDate, options.shippingCents, options.shippingRegion);
     if (!result.success || result.amountCents === undefined || result.totalCents === undefined) {
       setVoucherMessage({ type: "error", text: result.message ?? "We could not apply that coupon or voucher." });
       setIsApplyingVoucher(false);
@@ -239,11 +232,11 @@ export default function DepositPaymentForm({ clientSecret, amountCents, totalCen
   };
   return (
     <div className="commission-checkout-shell">
-      <CheckoutSummary items={items} amountCents={displayAmountCents} totalCents={displayTotalCents} currency={currency} paymentPlan={paymentPlan} options={options} discountCents={discountCents} voucherCode={voucherCode} voucherMessage={voucherMessage} isApplyingVoucher={isApplyingVoucher} onApplyVoucher={handleApplyVoucher} />
+      <CheckoutSummary key={voucherCode} items={items} amountCents={displayAmountCents} totalCents={displayTotalCents} currency={currency} paymentPlan={paymentPlan} options={options} discountCents={discountCents} voucherCode={voucherCode} voucherMessage={voucherMessage} isApplyingVoucher={isApplyingVoucher} onApplyVoucher={handleApplyVoucher} />
       <section className="commission-checkout-form-panel">
         <h3>Shipping information</h3>
         <Elements stripe={getStripe()} options={{ clientSecret, fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Tenor+Sans&display=swap" }], appearance: { theme: "flat", variables: { colorPrimary: "#263443", colorText: "#263443", iconColor: "#263443", iconHoverColor: "#263443", tabIconColor: "#263443", tabIconHoverColor: "#263443", tabIconSelectedColor: "#263443", tabIconMoreColor: "#263443", colorDanger: "#ad3127", fontFamily: "'Montserrat', Arial, sans-serif", fontSizeBase: "14px", fontSizeSm: "13px", borderRadius: "8px", spacingUnit: "2px" }, rules: { ".Input": { border: "1px solid #d6d6dc", borderRadius: "7px", backgroundColor: "#fff", padding: "9px 12px", boxShadow: "0 1px 3px rgba(38, 52, 67, 0.1)", fontFamily: "'Montserrat', Arial, sans-serif", fontSize: "14px" }, ".Input:focus": { border: "2px solid #263443", boxShadow: "0 0 0 3px rgba(38, 52, 67, 0.17)" }, ".Label": { fontSize: "13px", textTransform: "none", color: "#565661", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".TabLabel": { color: "#263443", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".Link": { color: "#263443" }, ".TabIcon": { color: "#263443" } } } }}>
-          <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay installment" : "Pay in full"} paymentIntentId={paymentIntentId} sizeLabel={sizeLabel} items={items} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
+          <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay first installment" : "Pay in full"} clientSecret={clientSecret} sizeLabel={sizeLabel} items={items} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
         </Elements>
       </section>
     </div>

@@ -24,6 +24,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   const [submittedProducts, setSubmittedProducts] = useState<string[]>([]);
   const selectionEditedAfterSubmit = useRef(false);
   const preserveSelectionOnReset = useRef(false);
+  const checkoutAttemptIdRef = useRef<HTMLInputElement>(null);
   const selectionKey = `${paymentPlan}:${[...selectedProducts].sort().join(",")}`;
   const hasCurrentPayment = paymentState.status === "ready" && !isCreatingPayment && submittedSelectionKey === selectionKey;
   const submittedSizeLabel = commissionProducts.filter((size) => submittedProducts.includes(size.productId)).map((size) => size.name).join(" + ") || "Selected size";
@@ -43,7 +44,8 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
 
   return (
     <>
-      <form className="commission-order-form commission-design-only-form" action={otherSize ? quoteFormAction : formAction} onSubmit={() => { if (!otherSize) { selectionEditedAfterSubmit.current = false; preserveSelectionOnReset.current = true; setSubmittedProducts(selectedProducts); setSubmittedSelectionKey(selectionKey); } }} onReset={(event) => { if (preserveSelectionOnReset.current) event.preventDefault(); }}>
+      <form className="commission-order-form commission-design-only-form" action={otherSize ? quoteFormAction : formAction} onSubmit={() => { if (checkoutAttemptIdRef.current && !checkoutAttemptIdRef.current.value) checkoutAttemptIdRef.current.value = crypto.randomUUID(); if (!otherSize) { selectionEditedAfterSubmit.current = false; preserveSelectionOnReset.current = true; setSubmittedProducts(selectedProducts); setSubmittedSelectionKey(selectionKey); } }} onReset={(event) => { if (preserveSelectionOnReset.current) event.preventDefault(); }}>
+        <input ref={checkoutAttemptIdRef} type="hidden" name="checkoutAttemptId" defaultValue="" />
         <fieldset>
           <legend>WHICH SIZE(S) ARE YOU ORDERING?<span>*</span></legend>
           <small>Note: Prices below reflect design curation, materials, frame and collage work on canvas.</small>
@@ -77,7 +79,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
           <legend>WOULD YOU LIKE TO PAY IN FULL OR IN INSTALLMENTS?<span>*</span></legend>
           <div className="commission-options">
             <label><input type="radio" name="paymentPlan" value="full" checked={paymentPlan === "full"} onChange={() => { setSubmittedSelectionKey(""); setPaymentPlan("full"); }} /><span>Pay in full upfront <em>(Best value, save 15%)</em></span></label>
-            <label><input type="radio" name="paymentPlan" value="installments" checked={paymentPlan === "installments"} onChange={() => { setSubmittedSelectionKey(""); setPaymentPlan("installments"); }} /><span>3 Fortnightly installments <em>(+15% installment fee; final balance paid prior to dispatch)</em></span></label>
+            <label><input type="radio" name="paymentPlan" value="installments" checked={paymentPlan === "installments"} onChange={() => { setSubmittedSelectionKey(""); setPaymentPlan("installments"); }} /><span>3 fortnightly installments <em>(+15% installment fee; pay the first now, then the studio will arrange the remaining two)</em></span></label>
           </div>
         </fieldset>}
 
@@ -86,7 +88,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
         {quoteState.status === "error" && <p className="commission-field-error" role="alert">{quoteState.message}</p>}
       </form>
 
-      {hasCurrentPayment && <div id="commission-payment"><DepositPaymentForm key={paymentState.clientSecret} clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} sizeLabel={submittedSizeLabel} items={submittedCheckoutItems} onSuccess={(paymentIntentId) => router.push(`/thank-you?type=payment&paymentId=${encodeURIComponent(paymentIntentId)}`)} /></div>}
+      {hasCurrentPayment && <div id="commission-payment"><DepositPaymentForm key={paymentState.clientSecret} clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} sizeLabel={submittedSizeLabel} items={submittedCheckoutItems} onSuccess={() => router.push("/thank-you?type=payment")} /></div>}
     </>
   );
 }

@@ -1,8 +1,8 @@
 import "server-only";
 
 import { unstable_cache } from "next/cache";
-import Stripe from "stripe";
 import type { PricingSizeModel } from "../models/site";
+import { getStripeServer } from "./stripeServer";
 
 export type StripeCommissionProduct = {
   productId: string;
@@ -29,9 +29,7 @@ const PRODUCT_PRESENTATION = [
 
 const loadStripeCommissionProducts = unstable_cache(
   async (): Promise<StripeCommissionProduct[]> => {
-    if (!process.env.STRIPE_SECRET_KEY) throw new Error("STRIPE_SECRET_KEY is not configured.");
-
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = getStripeServer();
     const products = await stripe.products.list({
       active: true,
       limit: 100,

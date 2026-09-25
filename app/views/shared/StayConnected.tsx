@@ -16,8 +16,11 @@ export default function StayConnected() {
 
   useEffect(() => {
     if (state.status !== "success") return;
-    setName("");
-    setEmail("");
+    const resetTimer = window.setTimeout(() => {
+      setName("");
+      setEmail("");
+    }, 0);
+    return () => window.clearTimeout(resetTimer);
   }, [state]);
 
   const labelClass = "mb-[7px] block text-left text-[16px] leading-none max-[700px]:text-[14px]";

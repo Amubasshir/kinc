@@ -1,11 +1,28 @@
 "use server";
 
+import { createHash } from "node:crypto";
 import { Resend } from "resend";
-import Stripe from "stripe";
-import { ADD_ON_PRICE, RUSH_FEE_RATE } from "../lib/commissionPricing";
+import type Stripe from "stripe";
+import { RUSH_FEE_RATE } from "../lib/commissionPricing";
 import { formatMoney } from "../lib/money";
+import { fulfillPaymentIntent } from "../lib/paymentFulfillment";
+import { enforcePaymentRateLimit } from "../lib/paymentRateLimit";
+import { getStripeCommissionProducts } from "../lib/stripePricing";
+import {
+  findAvailableCoupon,
+  findAvailableVoucher,
+  releaseDiscountReservation,
+  reserveDiscount,
+  type CouponRecord,
+  type VoucherRecord,
+} from "../lib/supabaseAdmin";
+import {
+  getStripeServer,
+  isPaymentIntentMutable,
+  paymentMetadata,
+  retrievePaymentIntentForClient,
+} from "../lib/stripeServer";
 import { ADD_ON_PRODUCTS } from "../models/site";
-import { findAvailableCoupon, findAvailableVoucher, redeemCoupon, redeemVoucher, type CouponRecord, type VoucherRecord } from "../lib/supabaseAdmin";
 import {
   type CommissionEmailDetails,
   renderCommissionConfirmationHtml,
@@ -26,7 +43,10 @@ export type CommissionPaymentState =
   | { status: "ready"; clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments" };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ATTEMPT_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const MAX_PRIORITY_DATE = "2099-12-31";
+const INVALID_PRIORITY_DATE_MESSAGE = "Please enter a valid priority date between 2000 and 2099.";
+const DISCOUNT_RESERVATION_MINUTES = 30;
 
 function isValidPriorityDate(value: string) {
   if (!value) return true;
@@ -35,8 +55,6 @@ function isValidPriorityDate(value: string) {
   const date = new Date(Date.UTC(year, month - 1, day));
   return year >= 2000 && date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
 }
-
-const INVALID_PRIORITY_DATE_MESSAGE = "Please enter a valid priority date between 2000 and 2099.";
 
 function field(formData: FormData, name: string) {
   return String(formData.get(name) ?? "").trim();
@@ -65,8 +83,7 @@ function getDiscountCents(source: DiscountSource) {
 
 async function resolveDiscountCode(stripe: Stripe, code: string): Promise<DiscountSource> {
   const normalized = code.trim().toUpperCase();
-  if (!normalized) return null;
-  if (!/^[A-Z0-9-]{1,64}$/.test(normalized)) return null;
+  if (!normalized || !/^[A-Z0-9-]{1,64}$/.test(normalized)) return null;
 
   if (/^GREET\d{6}$/.test(normalized)) {
     const coupon = await findAvailableCoupon(normalized);
@@ -85,7 +102,6 @@ async function resolveDiscountCode(stripe: Stripe, code: string): Promise<Discou
   });
   const promotionCode = promotionCodes.data[0];
   if (!promotionCode || promotionCode.promotion.type !== "coupon" || !promotionCode.promotion.coupon) return null;
-
   const coupon = typeof promotionCode.promotion.coupon === "string"
     ? await stripe.coupons.retrieve(promotionCode.promotion.coupon)
     : promotionCode.promotion.coupon;
@@ -131,9 +147,28 @@ function calculateDiscountCents(source: DiscountSource, discountableTotalCents: 
   return { discountCents: Math.min(Math.max(0, discountCents), discountableTotalCents) };
 }
 
+async function reserveDiscountForPayment(paymentIntentId: string, normalizedCode: string, source: Exclude<DiscountSource, null>) {
+  const expiresAt = new Date(Date.now() + DISCOUNT_RESERVATION_MINUTES * 60_000).toISOString();
+  const sourceId = source.type === "stripe" ? source.record.promotionCode.id : source.record.id;
+  const maxRedemptions = source.type === "stripe"
+    ? source.record.promotionCode.max_redemptions === null
+      ? null
+      : Math.max(0, source.record.promotionCode.max_redemptions - source.record.promotionCode.times_redeemed)
+    : 1;
+  if (maxRedemptions === 0) return false;
+  return reserveDiscount({
+    paymentIntentId,
+    code: normalizedCode,
+    sourceType: source.type,
+    sourceId,
+    maxRedemptions,
+    expiresAt,
+  });
+}
+
 function calculatePaymentTotals(paymentPlan: "full" | "installments", selectedAmountCents: number, priorityDate: string, shippingCents: number, requestedDiscountCents = 0) {
   const baseTotalCents = paymentPlan === "installments" ? selectedAmountCents * 3 : selectedAmountCents;
-  const rushCents = priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
+  const rushCents = priorityDate ? Math.round(baseTotalCents * RUSH_FEE_RATE) : 0;
   const discountableTotalCents = baseTotalCents + rushCents;
   const discountCents = Math.min(Math.max(0, requestedDiscountCents), discountableTotalCents);
   const currentPaymentBeforeDiscountCents = paymentPlan === "installments"
@@ -159,8 +194,29 @@ function calculateShippingForPrices(prices: Stripe.Price[], region: CommissionSh
   }, 0);
 }
 
+function productIdsForPrices(prices: Stripe.Price[]) {
+  return prices.map((price) => typeof price.product === "string" || price.product.deleted ? "" : price.product.id).filter(Boolean);
+}
+
+async function getCommissionPrices(stripe: Stripe, priceIds: string[], paymentPlan: "full" | "installments") {
+  const configuredProducts = await getStripeCommissionProducts();
+  const allowedPriceIds = new Set(configuredProducts.map((product) => paymentPlan === "full" ? product.priceId : product.installmentPriceId));
+  if (configuredProducts.length === 0 || priceIds.some((priceId) => !allowedPriceIds.has(priceId))) {
+    throw new Error("One of the selected prices is not part of the current commission catalog.");
+  }
+
+  const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+  const invalidPrice = prices.some((price) => {
+    const product = typeof price.product === "string" ? null : price.product;
+    return !price.active || price.type !== "one_time" || price.unit_amount === null || !product || product.deleted || !product.active;
+  });
+  if (invalidPrice || new Set(prices.map((price) => price.currency)).size !== 1) {
+    throw new Error("One of the selected prices is no longer available.");
+  }
+  return prices;
+}
+
 function buildEmailDetails(formData: FormData, sizeLabels: string[], addOns: string[]): CommissionEmailDetails {
-  const customSizeSelected = formData.getAll("sizes").includes("other");
   return {
     firstName: field(formData, "firstName"),
     lastName: field(formData, "lastName"),
@@ -168,7 +224,7 @@ function buildEmailDetails(formData: FormData, sizeLabels: string[], addOns: str
     phone: field(formData, "phone"),
     address: field(formData, "address"),
     product: field(formData, "product"),
-    sizes: sizeLabels.join(", ") || (customSizeSelected ? "Custom size" : ""),
+    sizes: sizeLabels.join(", ") || "Custom size",
     otherSize: field(formData, "otherSize"),
     addOns: addOns.join(", ") || "None",
     framing: field(formData, "framing"),
@@ -184,184 +240,145 @@ function buildEmailDetails(formData: FormData, sizeLabels: string[], addOns: str
   };
 }
 
-async function sendCustomerEmail(details: CommissionEmailDetails) {
-  if (!process.env.RESEND_API_KEY) throw new Error("RESEND_API_KEY is not configured.");
+async function sendQuoteEmails(details: CommissionEmailDetails) {
+  if (!process.env.RESEND_API_KEY || !process.env.CONTACT_TO_EMAIL) throw new Error("Quote email service is not configured.");
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const { error } = await resend.emails.send({
+  const fingerprint = createHash("sha256").update(`${details.email}:${details.otherSize}:${details.story}`).digest("hex").slice(0, 32);
+  const customerPromise = resend.emails.send({
     from: "Zsofia at KinCollage <hello@kincollage.com>",
     to: details.email,
-    subject: details.quoteOnly ? "We've received your KinCollage quote request" : "Your KinCollage order is confirmed",
+    subject: "We've received your KinCollage quote request",
     html: renderCommissionConfirmationHtml(details),
     text: renderCommissionConfirmationText(details),
-  });
-  if (error) throw new Error(`Customer confirmation email failed: ${error.message}`);
-}
-
-async function sendBusinessEmail(details: CommissionEmailDetails) {
-  if (!process.env.RESEND_API_KEY || !process.env.CONTACT_TO_EMAIL) throw new Error("Commission notification email is not configured.");
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const { error } = await resend.emails.send({
+  }, { idempotencyKey: `commission-quote-customer/${fingerprint}` });
+  const businessPromise = resend.emails.send({
     from: "KinCollage Orders <hello@kincollage.com>",
     to: process.env.CONTACT_TO_EMAIL,
     replyTo: details.email,
-    subject: `${details.quoteOnly ? "New quote request" : "New paid commission"} from ${details.firstName || "customer"}${details.lastName ? ` ${details.lastName}` : ""}`,
+    subject: `New quote request from ${details.firstName || "customer"}${details.lastName ? ` ${details.lastName}` : ""}`,
     html: renderCommissionNotificationHtml(details),
     text: renderCommissionNotificationText(details),
-  });
-  if (error) throw new Error(`Business notification email failed: ${error.message}`);
+  }, { idempotencyKey: `commission-quote-business/${fingerprint}` });
+  const [customer, business] = await Promise.all([customerPromise, businessPromise]);
+  if (customer.error) throw new Error(`Customer quote email failed: ${customer.error.message}`);
+  if (business.error) throw new Error(`Business quote email failed: ${business.error.message}`);
 }
 
-async function detailsFromPaymentIntent(stripe: Stripe, paymentIntent: Stripe.PaymentIntent): Promise<CommissionEmailDetails> {
-  const metadata = paymentIntent.metadata;
-  const customerName = (metadata.customerName ?? "").trim().split(/\s+/).filter(Boolean);
-  const shippingCents = Number(metadata.shippingCents ?? 0);
-  const rushCents = Number(metadata.rushCents ?? 0);
-  let sizeLabels = metadata.sizes ?? "";
-  if (!sizeLabels && metadata.sizePriceIds) {
-    try {
-      const prices = await Promise.all(metadata.sizePriceIds.split(", ").filter(Boolean).map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
-      sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name).join(", ");
-    } catch (error) {
-      console.error("Failed to load readable size names for order email:", error);
-      sizeLabels = metadata.sizePriceIds;
-    }
-  }
-  return {
-    firstName: metadata.firstName ?? customerName[0] ?? "",
-    lastName: metadata.lastName ?? customerName.slice(1).join(" "),
-    email: metadata.email ?? "",
-    phone: metadata.phone ?? "",
-    address: metadata.address ?? "",
-    product: metadata.product ?? "KinCollage commission",
-    sizes: sizeLabels,
-    otherSize: metadata.otherSize ?? "",
-    addOns: metadata.addOns ?? "",
-    framing: metadata.framing ?? "",
-    box: metadata.box ?? "",
-    boxDetails: metadata.boxDetails ?? "",
-    priorityDate: metadata.priorityDate ?? "",
-    story: metadata.story ?? "",
-    note: metadata.note ?? "",
-    coupon: metadata.coupon ?? "",
-    total: formatMoney(Number(metadata.totalCents ?? paymentIntent.amount * 2) / 100, paymentIntent.currency),
-    deposit: formatMoney(paymentIntent.amount_received / 100, paymentIntent.currency),
-    paymentReference: paymentIntent.id,
-    paymentPlan: metadata.paymentPlan === "installments" ? "3 fortnightly installments" : "Full payment",
-    installmentNumber: metadata.installmentNumber ? `${metadata.installmentNumber} of 3` : "",
-    shipping: formatMoney(shippingCents / 100, paymentIntent.currency),
-    rushFee: rushCents ? formatMoney(rushCents / 100, paymentIntent.currency) : "None",
-    discount: Number(metadata.discountCents ?? 0) > 0 ? formatMoney(Number(metadata.discountCents) / 100, paymentIntent.currency) : "",
-  };
-}
-
-export async function completeCommissionOrder(paymentIntentId: string): Promise<{ success: boolean; message?: string }> {
-  if (!process.env.STRIPE_SECRET_KEY) return { success: false, message: "Payment verification is not configured." };
+export async function completeCommissionOrder(clientSecret: string): Promise<{ success: boolean; pending?: boolean; message?: string }> {
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    let paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-    if (paymentIntent.status !== "succeeded") return { success: false, message: "Payment has not completed yet." };
-
-    const details = await detailsFromPaymentIntent(stripe, paymentIntent);
-    const hasCustomerEmail = EMAIL_PATTERN.test(details.email);
-
-    if (hasCustomerEmail && paymentIntent.metadata.customerEmailSent !== "true") {
-      await sendCustomerEmail(details);
-      paymentIntent = await stripe.paymentIntents.update(paymentIntent.id, { metadata: { customerEmailSent: "true" } });
-    }
-    if (hasCustomerEmail && paymentIntent.metadata.businessEmailSent !== "true") {
-      await sendBusinessEmail(details);
-      await stripe.paymentIntents.update(paymentIntent.id, { metadata: { businessEmailSent: "true" } });
-    }
-    if (paymentIntent.metadata.couponId && paymentIntent.metadata.couponRedeemed !== "true") {
-      if (paymentIntent.metadata.couponType === "voucher") await redeemVoucher(paymentIntent.metadata.couponId);
-      else await redeemCoupon(paymentIntent.metadata.couponId, paymentIntent.id);
-      await stripe.paymentIntents.update(paymentIntent.id, { metadata: { couponRedeemed: "true" } });
-    }
-    return { success: true };
+    const paymentIntent = await retrievePaymentIntentForClient(clientSecret, "commission");
+    if (paymentIntent.status !== "succeeded") return { success: false, pending: paymentIntent.status === "processing", message: "Payment has not completed yet." };
+    const result = await fulfillPaymentIntent(paymentIntent);
+    return result.status === "processing"
+      ? { success: true, pending: true, message: "Payment succeeded and the order confirmation is being finalized." }
+      : { success: true };
   } catch (error) {
     console.error("Failed to complete commission order:", error);
-    return { success: false, message: "Payment succeeded, but we couldn't send the order emails. Please retry or contact us." };
+    return { success: false, message: "Payment succeeded, but we couldn't finish the order confirmation. Please retry or contact us." };
   }
 }
 
-export async function createCommissionPayment(
-  _prevState: CommissionPaymentState,
-  formData: FormData
-): Promise<CommissionPaymentState> {
-  if (!process.env.STRIPE_SECRET_KEY) return { status: "error", message: "Payments aren&apos;t configured yet." };
-
-  const paymentPlan = String(formData.get("paymentPlan") ?? "full");
-  if (paymentPlan !== "full" && paymentPlan !== "installments") return { status: "error", message: "Please choose a payment option." };
+export async function createCommissionPayment(_prevState: CommissionPaymentState, formData: FormData): Promise<CommissionPaymentState> {
+  const paymentPlanValue = String(formData.get("paymentPlan") ?? "full");
+  if (paymentPlanValue !== "full" && paymentPlanValue !== "installments") return { status: "error", message: "Please choose a payment option." };
+  const paymentPlan = paymentPlanValue;
   const priceIds = [...new Set(formData.getAll("sizes").map(String).filter((id) => id.startsWith("price_")))];
-  if (priceIds.length === 0) return { status: "error", message: "Please choose at least one canvas size." };
+  if (priceIds.length === 0 || priceIds.length > 4) return { status: "error", message: "Please choose at least one canvas size." };
   const priorityDate = String(formData.get("priorityDate") ?? "").trim();
   if (!isValidPriorityDate(priorityDate)) return { status: "error", message: INVALID_PRIORITY_DATE_MESSAGE };
-  const shippingCents = Number(formData.get("shippingCents") ?? 0);
-  if (![0, 2500, 3500].includes(shippingCents)) return { status: "error", message: "Please choose a valid shipping method." };
+  const checkoutAttemptId = String(formData.get("checkoutAttemptId") ?? "");
+  if (!ATTEMPT_ID_PATTERN.test(checkoutAttemptId)) return { status: "error", message: "Please refresh the page and try again." };
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
-    const validPrices = prices.filter((price) => {
-      const product = typeof price.product === "string" ? null : price.product;
-      const nickname = price.nickname?.toLowerCase() ?? "";
-      const is2026Price = paymentPlan === "full"
-        ? nickname.includes("2026 full price")
-        : nickname.includes("2026") && nickname.includes("3 instalment");
-      return price.active && price.type === "one_time" && price.unit_amount !== null && is2026Price && Boolean(product && !product.deleted && product.active);
-    });
-    if (validPrices.length !== prices.length || new Set(validPrices.map((price) => price.currency)).size !== 1) {
-      return { status: "error", message: "One of the selected prices is no longer available. Please refresh and try again." };
-    }
-
-    const currency = validPrices[0].currency;
-    const selectedAmountCents = validPrices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents);
-    const { amountCents, totalCents, rushCents, discountCents } = totals;
+    await enforcePaymentRateLimit("commission-payment-create");
+    const stripe = getStripeServer();
+    const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
+    const currency = prices[0].currency;
+    const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
+    const sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name);
+    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, 0);
+    if (totals.amountCents < 50) throw new Error("Payment amount is below Stripe's minimum.");
+    const canonicalSelection = [...priceIds].sort().join(",");
+    const requestHash = createHash("sha256").update(`${paymentPlan}:${canonicalSelection}:${priorityDate}`).digest("hex").slice(0, 24);
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amountCents,
+      amount: totals.amountCents,
       currency,
-      payment_method_types: ["card"],
-      description: paymentPlan === "installments" ? "KinCollage 2026 installment 1 of 3" : "KinCollage 2026 full payment",
+      automatic_payment_methods: { enabled: true, allow_redirects: "never" },
+      description: paymentPlan === "installments" ? "KinCollage 2026 installment 1 of 3 (remaining installments arranged manually)" : "KinCollage 2026 full payment",
       metadata: {
+        ...paymentMetadata("commission"),
         paymentPlan,
         installmentNumber: paymentPlan === "installments" ? "1" : "",
+        installmentCollection: paymentPlan === "installments" ? "manual" : "",
+        remainingInstallments: paymentPlan === "installments" ? "2" : "",
         sizePriceIds: priceIds.join(", "),
+        sizes: metadataValue(sizeLabels.join(", ")),
         priorityDate,
-        shippingCents: String(shippingCents),
-        rushCents: String(rushCents),
+        shippingCents: "0",
+        shippingRegion: "australia",
+        rushCents: String(totals.rushCents),
         coupon: "",
         couponId: "",
         couponType: "",
-        discountCents: String(discountCents),
-        totalCents: String(totalCents),
+        discountCents: "0",
+        totalCents: String(totals.totalCents),
       },
-    });
+    }, { idempotencyKey: `commission-${checkoutAttemptId}-${requestHash}` });
     if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
-    return { status: "ready", clientSecret: paymentIntent.client_secret, amountCents, totalCents, currency, paymentPlan };
+    return { status: "ready", clientSecret: paymentIntent.client_secret, amountCents: totals.amountCents, totalCents: totals.totalCents, currency, paymentPlan };
   } catch (error) {
-    console.error("Failed to create commission payment PaymentIntent:", error);
-    return { status: "error", message: "Something went wrong setting up payment. Please try again." };
+    console.error("Failed to create commission PaymentIntent:", error);
+    const message = error instanceof Error && error.message.startsWith("Too many payment attempts")
+      ? error.message
+      : "Something went wrong setting up payment. Please refresh and try again.";
+    return { status: "error", message };
   }
 }
 
-export async function savePaymentCustomerDetails(paymentIntentId: string, email: string, address: string, contactName = "") {
-  if (!process.env.STRIPE_SECRET_KEY || !EMAIL_PATTERN.test(email) || !address) return { success: false, message: "Please provide a valid email and address." };
+type ParsedAddress = {
+  name?: string;
+  phone?: string;
+  address?: { line1?: string; line2?: string; city?: string; state?: string; postal_code?: string; country?: string };
+};
+
+function cleanAddressPart(value: string | undefined, maxLength: number) {
+  return String(value ?? "").trim().slice(0, maxLength);
+}
+
+export async function savePaymentCustomerDetails(clientSecret: string, emailInput: string, addressJson: string, contactName = "") {
+  const email = emailInput.trim().toLowerCase();
+  if (!EMAIL_PATTERN.test(email) || addressJson.length > 4_000) return { success: false, message: "Please provide a valid email and address." };
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const parsedAddress = JSON.parse(address) as { name?: string; phone?: string; address?: { line1?: string; line2?: string; city?: string; state?: string; postal_code?: string; country?: string } };
-      const customerName = contactName.trim() || parsedAddress.name?.trim() || "";
-    const nameParts = customerName.split(/\s+/).filter(Boolean);
-    const addressParts = [parsedAddress.address?.line1, parsedAddress.address?.line2, parsedAddress.address?.city, parsedAddress.address?.state, parsedAddress.address?.postal_code, parsedAddress.address?.country].filter(Boolean);
-    await stripe.paymentIntents.update(paymentIntentId, {
+    const paymentIntent = await retrievePaymentIntentForClient(clientSecret, "commission");
+    if (!isPaymentIntentMutable(paymentIntent)) return { success: false, message: "This payment can no longer be changed." };
+    const parsed = JSON.parse(addressJson) as ParsedAddress;
+    const name = cleanAddressPart(contactName || parsed.name, 120);
+    const phone = cleanAddressPart(parsed.phone, 40);
+    const address = {
+      line1: cleanAddressPart(parsed.address?.line1, 200),
+      line2: cleanAddressPart(parsed.address?.line2, 200) || undefined,
+      city: cleanAddressPart(parsed.address?.city, 100),
+      state: cleanAddressPart(parsed.address?.state, 100),
+      postal_code: cleanAddressPart(parsed.address?.postal_code, 20),
+      country: cleanAddressPart(parsed.address?.country, 2).toUpperCase(),
+    };
+    if (!name || !address.line1 || !address.city || !address.state || !address.postal_code || !/^[A-Z]{2}$/.test(address.country)) {
+      return { success: false, message: "Please complete the shipping name and address." };
+    }
+    const shippingCents = Number(paymentIntent.metadata.shippingCents ?? 0);
+    const shippingRegion = paymentIntent.metadata.shippingRegion;
+    if (shippingCents > 0 && ((shippingRegion === "australia" && address.country !== "AU") || (shippingRegion === "us-canada" && !["US", "CA"].includes(address.country)))) {
+      return { success: false, message: "The shipping method does not match the selected country." };
+    }
+
+    const nameParts = name.split(/\s+/).filter(Boolean);
+    await getStripeServer().paymentIntents.update(paymentIntent.id, {
       receipt_email: email,
+      shipping: { name, phone: phone || undefined, address },
       metadata: {
-        email: metadataValue(email),
-        phone: metadataValue(parsedAddress.phone ?? ""),
-        customerName: metadataValue(customerName),
+        customerName: metadataValue(name),
         firstName: metadataValue(nameParts[0] ?? ""),
         lastName: metadataValue(nameParts.slice(1).join(" ")),
-        address: metadataValue(addressParts.join(", ")),
       },
     });
     return { success: true };
@@ -371,67 +388,92 @@ export async function savePaymentCustomerDetails(paymentIntentId: string, email:
   }
 }
 
-export async function updateCommissionPaymentOptions(paymentIntentId: string, priorityDate: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
-  if (!process.env.STRIPE_SECRET_KEY || !["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
-  if (!isValidPriorityDate(priorityDate.trim())) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
+export async function updateCommissionPaymentOptions(clientSecret: string, priorityDateInput: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
+  const priorityDate = priorityDateInput.trim();
+  if (!Number.isSafeInteger(shippingCents) || shippingCents < 0 || !["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
+  if (!isValidPriorityDate(priorityDate)) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    const stripe = getStripeServer();
+    const paymentIntent = await retrievePaymentIntentForClient(clientSecret, "commission");
+    if (!isPaymentIntentMutable(paymentIntent)) return { success: false, message: "This payment can no longer be changed." };
     const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
-    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+    const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
     const expectedShippingCents = shippingCents === 0 ? 0 : calculateShippingForPrices(prices, shippingRegion);
     if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
+
+    let discountCents = 0;
+    const normalizedCode = (paymentIntent.metadata.coupon ?? "").trim().toUpperCase();
+    if (normalizedCode) {
+      const source = await resolveDiscountCode(stripe, normalizedCode);
+      if (!source) return { success: false, message: "The applied coupon or voucher is no longer available." };
+      const baseAmount = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
+      const undiscounted = calculatePaymentTotals(paymentPlan, baseAmount, priorityDate, shippingCents);
+      const discount = calculateDiscountCents(source, undiscounted.baseTotalCents + undiscounted.rushCents, paymentIntent.currency, productIdsForPrices(prices));
+      if (discount.message) return { success: false, message: discount.message };
+      if (!await reserveDiscountForPayment(paymentIntent.id, normalizedCode, source)) return { success: false, message: "That coupon or voucher is currently in use or has reached its limit." };
+      discountCents = discount.discountCents;
+    } else {
+      await releaseDiscountReservation(paymentIntent.id);
+    }
+
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents, Number(paymentIntent.metadata.discountCents ?? 0));
-    const { amountCents, totalCents, rushCents, discountCents } = totals;
-    await stripe.paymentIntents.update(paymentIntentId, {
-      amount: amountCents,
-      metadata: { priorityDate, shippingCents: String(shippingCents), shippingRegion, rushCents: String(rushCents), discountCents: String(discountCents), totalCents: String(totalCents) },
+    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents, discountCents);
+    if (totals.amountCents < 50) return { success: false, message: "This voucher covers the initial payment in full. Please contact the studio to complete this order." };
+    await stripe.paymentIntents.update(paymentIntent.id, {
+      amount: totals.amountCents,
+      metadata: {
+        priorityDate,
+        shippingCents: String(shippingCents),
+        shippingRegion,
+        rushCents: String(totals.rushCents),
+        discountCents: String(totals.discountCents),
+        totalCents: String(totals.totalCents),
+      },
     });
-    return { success: true, amountCents, totalCents };
+    return { success: true, amountCents: totals.amountCents, totalCents: totals.totalCents };
   } catch (error) {
     console.error("Failed to update commission payment options:", error);
     return { success: false, message: "We could not update the payment total. Please try again." };
   }
 }
 
-export async function applyCommissionVoucher(paymentIntentId: string, code: string, priorityDate: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
-  if (!process.env.STRIPE_SECRET_KEY) return { success: false, message: "Payments aren't configured yet." };
-  if (!["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
-  if (!isValidPriorityDate(priorityDate.trim())) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
+export async function applyCommissionVoucher(clientSecret: string, code: string, priorityDateInput: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
+  const priorityDate = priorityDateInput.trim();
+  if (!Number.isSafeInteger(shippingCents) || shippingCents < 0 || !["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
+  if (!isValidPriorityDate(priorityDate)) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-    if (paymentIntent.status === "succeeded") return { success: false, message: "This payment has already been completed." };
-
+    const stripe = getStripeServer();
+    const paymentIntent = await retrievePaymentIntentForClient(clientSecret, "commission");
+    if (!isPaymentIntentMutable(paymentIntent)) return { success: false, message: "This payment can no longer be changed." };
     const normalized = code.trim().toUpperCase();
     const source = await resolveDiscountCode(stripe, normalized);
-    if (normalized && !source) return { success: false, message: "That coupon or voucher is invalid or has already been used." };
+    if (normalized && !source) return { success: false, message: "That coupon or voucher is invalid, expired, or already used." };
 
     const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
     if (priceIds.length === 0) return { success: false, message: "The selected product prices could not be found." };
-    const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+    const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
     const expectedShippingCents = shippingCents === 0 ? 0 : calculateShippingForPrices(prices, shippingRegion);
     if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const undiscountedTotals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate.trim(), shippingCents);
-    const productIds = prices
-      .map((price) => typeof price.product === "string" || price.product.deleted ? "" : price.product.id)
-      .filter(Boolean);
-    const discount = calculateDiscountCents(source, undiscountedTotals.baseTotalCents + undiscountedTotals.rushCents, paymentIntent.currency, productIds);
+    const undiscountedTotals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents);
+    const discount = calculateDiscountCents(source, undiscountedTotals.baseTotalCents + undiscountedTotals.rushCents, paymentIntent.currency, productIdsForPrices(prices));
     if (discount.message) return { success: false, message: discount.message };
-    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate.trim(), shippingCents, discount.discountCents);
+    const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents, discount.discountCents);
     if (totals.amountCents < 50) return { success: false, message: "This voucher covers the initial payment in full. Please contact the studio to complete this order." };
 
+    if (source) {
+      if (!await reserveDiscountForPayment(paymentIntent.id, normalized, source)) return { success: false, message: "That coupon or voucher is currently in use or has reached its limit." };
+    } else {
+      await releaseDiscountReservation(paymentIntent.id);
+    }
     const stripeSource = source?.type === "stripe" ? source.record : null;
-
-    await stripe.paymentIntents.update(paymentIntentId, {
+    await stripe.paymentIntents.update(paymentIntent.id, {
       amount: totals.amountCents,
       metadata: {
-        priorityDate: priorityDate.trim(),
+        priorityDate,
         shippingCents: String(shippingCents),
         shippingRegion,
         rushCents: String(totals.rushCents),
@@ -451,118 +493,30 @@ export async function applyCommissionVoucher(paymentIntentId: string, code: stri
   }
 }
 
-export async function createCommissionDeposit(
-  _prevState: CommissionDepositState,
-  formData: FormData
-): Promise<CommissionDepositState> {
+export async function createCommissionDeposit(_prevState: CommissionDepositState, formData: FormData): Promise<CommissionDepositState> {
   const firstName = field(formData, "firstName");
   const lastName = field(formData, "lastName");
-  const email = field(formData, "email");
-  const sizePriceIds = [...new Set(formData.getAll("sizes").map(String).filter((id) => id.startsWith("price_")))];
-  const otherSize = formData.getAll("sizes").includes("other");
-  const requestedAddOns = formData.getAll("addOns").map(String);
-  const addOns = ADD_ON_PRODUCTS.filter((product) => requestedAddOns.includes(product.label)).map((product) => product.label);
+  const email = field(formData, "email").toLowerCase();
+  const isCustomSize = formData.getAll("sizes").includes("other");
   const priorityDate = field(formData, "priorityDate");
+  if (!isCustomSize) return { status: "error", message: "Please refresh the page and choose a commission size." };
   if (!isValidPriorityDate(priorityDate)) return { status: "error", message: INVALID_PRIORITY_DATE_MESSAGE };
-  const addOnReference = field(formData, "addOnReference");
-  const couponCode = field(formData, "coupon").toUpperCase();
-
-  const addOnPriceIds = ADD_ON_PRODUCTS.filter((product) => addOns.includes(product.label)).map((product) => product.priceId);
-
-  if (otherSize) {
-    if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) return { status: "error", message: "Please fill in your name and a valid email so we can send your custom quote." };
-    if (!field(formData, "otherSize") || !field(formData, "address") || !field(formData, "story")) return { status: "error", message: "Please complete the custom size, address, and project details fields." };
-    try {
-      const emailDetails = buildEmailDetails(formData, [], addOns);
-      const quoteDetails: CommissionEmailDetails = { ...emailDetails, total: "Manual quote required", deposit: "No payment taken", paymentReference: "Manual quote", quoteOnly: true };
-      await sendCustomerEmail(quoteDetails);
-      await sendBusinessEmail(quoteDetails);
-      return { status: "quote-only", message: "Thanks! Custom sizing needs a quick manual quote - we'll email you shortly to confirm pricing before any payment is taken." };
-    } catch (error) {
-      console.error("Failed to send custom quote emails:", error);
-      return { status: "error", message: "We couldn't send your request emails. Please try again." };
-    }
-  }
-
-  if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) {
-    return { status: "error", message: "Please fill in your name and a valid email before continuing to payment." };
-  }
-  if (sizePriceIds.length === 0) return { status: "error", message: "Please choose at least one canvas size." };
-
-  if (!process.env.STRIPE_SECRET_KEY) {
-    console.error("STRIPE_SECRET_KEY is not set - add it to .env.local to enable payments.");
-    return { status: "error", message: "Payments aren't configured yet. Please contact us to complete your order." };
-  }
+  if (!firstName || !lastName || !EMAIL_PATTERN.test(email)) return { status: "error", message: "Please fill in your name and a valid email so we can send your custom quote." };
+  if (!field(formData, "otherSize") || !field(formData, "address") || !field(formData, "story")) return { status: "error", message: "Please complete the custom size, address, and project details fields." };
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const prices = await Promise.all(sizePriceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
-    const invalidPrice = prices.some((price) => {
-      const product = typeof price.product === "string" ? null : price.product;
-      return !price.active || price.type !== "one_time" || price.unit_amount === null || !product || product.deleted || !product.active;
-    });
-    const currencies = new Set(prices.map((price) => price.currency));
-    if (invalidPrice || currencies.size !== 1) return { status: "error", message: "One of the selected Stripe products is no longer available. Please refresh and try again." };
-
-    const currency = prices[0].currency;
-    const artworkCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
-    const extrasCents = addOns.length * ADD_ON_PRICE * 100;
-    const rushCents = priorityDate ? Math.round((artworkCents + extrasCents) * RUSH_FEE_RATE) : 0;
-  const totalCents = artworkCents + extrasCents + rushCents;
-    let coupon: CouponRecord | VoucherRecord | null = null;
-    let couponType = "coupon";
-    if (couponCode) {
-      coupon = await findAvailableCoupon(couponCode);
-      if (!coupon && /^VOUCHER\d{8}$/.test(couponCode)) {
-        coupon = await findAvailableVoucher(couponCode);
-        couponType = "voucher";
-      }
-      if (!coupon) return { status: "error", message: "That coupon is invalid or has already been used." };
-    }
-    const discountCents = Math.min(getDiscountCents(coupon ? { record: coupon, type: couponType as "coupon" | "voucher" } : null), totalCents);
-    const discountedTotalCents = totalCents - discountCents;
-    const depositCents = Math.round(discountedTotalCents / 2);
-    const sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name);
-    const emailDetails = buildEmailDetails(formData, sizeLabels, addOns);
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: depositCents,
-      currency,
-      payment_method_types: ["card"],
-      receipt_email: email,
-      description: `KinCollage commission deposit - ${firstName} ${lastName}`,
-      metadata: {
-        firstName,
-        lastName,
-        email,
-        address: metadataValue(emailDetails.address),
-        product: metadataValue(emailDetails.product),
-        sizes: metadataValue(emailDetails.sizes),
-        otherSize: metadataValue(emailDetails.otherSize),
-        addOns: metadataValue(emailDetails.addOns),
-        framing: metadataValue(emailDetails.framing),
-        box: metadataValue(emailDetails.box),
-        boxDetails: metadataValue(emailDetails.boxDetails),
-        priorityDate: metadataValue(emailDetails.priorityDate),
-        story: metadataValue(emailDetails.story),
-        note: metadataValue(emailDetails.note),
-        coupon: metadataValue(emailDetails.coupon),
-        couponId: coupon?.id ?? "",
-        couponType,
-        addOnPriceIds: addOnPriceIds.join(", ") || "none",
-        addOnReference,
-        rushRequested: String(Boolean(priorityDate)),
-        sizePriceIds: sizePriceIds.join(", "),
-        artworkCents: String(artworkCents),
-        extrasCents: String(extrasCents),
-        rushCents: String(rushCents),
-        totalCents: String(discountedTotalCents),
-        discountCents: String(discountCents),
-      },
-    });
-    if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
-    return { status: "ready", clientSecret: paymentIntent.client_secret, depositCents, totalCents: discountedTotalCents, currency };
+    await enforcePaymentRateLimit("commission-quote-create");
+    const requestedAddOns = formData.getAll("addOns").map(String);
+    const addOns = ADD_ON_PRODUCTS.filter((product) => requestedAddOns.includes(product.label)).map((product) => product.label);
+    const details = buildEmailDetails(formData, [], addOns);
+    const quoteDetails: CommissionEmailDetails = { ...details, email, total: "Manual quote required", deposit: "No payment taken", paymentReference: "Manual quote", quoteOnly: true };
+    await sendQuoteEmails(quoteDetails);
+    return { status: "quote-only", message: "Thanks! Custom sizing needs a quick manual quote - we'll email you shortly to confirm pricing before any payment is taken." };
   } catch (error) {
-    console.error("Failed to create commission deposit PaymentIntent:", error);
-    return { status: "error", message: "Something went wrong setting up payment. Please try again." };
+    console.error("Failed to send custom quote emails:", error);
+    const message = error instanceof Error && error.message.startsWith("Too many payment attempts")
+      ? error.message
+      : "We couldn't send your request emails. Please try again.";
+    return { status: "error", message };
   }
 }
