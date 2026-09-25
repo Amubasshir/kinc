@@ -58,7 +58,11 @@ export type HomeViewModel = {
   faqs: FaqModel[];
 };
 
-export type CommissionProductLayout = "visual-left" | "visual-right" | "gallery-left" | "gallery-right";
+export type CommissionProductLayout =
+  | 'visual-left'
+  | 'visual-right'
+  | 'gallery-left'
+  | 'gallery-right';
 
 export type CommissionProductModel = {
   id: string;
@@ -87,20 +91,47 @@ export type CommissionsViewModel = {
 // can pre-check the matching add-on below. priceId is the Stripe Price for this
 // product (all $70 AUD) — recorded in deposit metadata for reporting; the $45
 // in-commission bundle price in CommissionOrderForm is intentionally separate.
-// NOTE: these are TEST MODE price IDs — swap for the live ones (see git history
-// or the Stripe Dashboard) before going to production.
+// NOTE: these are LIVE MODE price IDs — they won't exist in a test/sandbox account.
 export const ADD_ON_PRODUCTS = [
-  { id: "phone-case", label: "Phone Case", priceId: "price_1U7fpzCigo148yNRJMZs8Z2r" },
-  { id: "tote-bag", label: "Tote Bag", priceId: "price_1U7fq0Cigo148yNRykdD5Mb8" },
-  { id: "travel-tumbler", label: "Travel Tumbler", priceId: "price_1U7fq1Cigo148yNR3vjW8oyI" },
-  { id: "tshirt", label: "T-shirt", priceId: "price_1U7fq2Cigo148yNRC1DvwzpM" },
-  { id: "linen-journal", label: "Linen Journal", priceId: "price_1U7fq2Cigo148yNRl9l7g16m" },
-  { id: "canvas-prints", label: "Digital Canvas Prints", priceId: "price_1U7fq3Cigo148yNRQXjMxueC" },
-  { id: "special-card", label: "Greeting Card", priceId: "price_1U7fq4Cigo148yNR17YBV21C" },
-  { id: "postcard", label: "Postcard Sets", priceId: "price_1U7fq5Cigo148yNRdoUwC72O" },
+  {
+    id: 'phone-case',
+    label: 'Phone Case',
+    priceId: 'price_1U7UvqCigo148yNRD9a5HZrC',
+  },
+  {
+    id: 'tote-bag',
+    label: 'Tote Bag',
+    priceId: 'price_1U7UwECigo148yNRBRitjFwH',
+  },
+  {
+    id: 'travel-tumbler',
+    label: 'Travel Tumbler',
+    priceId: 'price_1U7UwXCigo148yNRdsWStz7x',
+  },
+  { id: 'tshirt', label: 'T-shirt', priceId: 'price_1U7V1WCigo148yNRoXhweI8n' },
+  {
+    id: 'linen-journal',
+    label: 'Linen Journal',
+    priceId: 'price_1U7V1qCigo148yNR30mbfZC0',
+  },
+  {
+    id: 'canvas-prints',
+    label: 'Digital Canvas Prints',
+    priceId: 'price_1U7V41Cigo148yNRUx2Ra0hr',
+  },
+  {
+    id: 'special-card',
+    label: 'Greeting Card',
+    priceId: 'price_1U7V39Cigo148yNRhaBvlP4w',
+  },
+  {
+    id: 'postcard',
+    label: 'Postcard Sets',
+    priceId: 'price_1U7V2sCigo148yNRTRtT7He3',
+  },
 ] as const;
 
-export type GalleryMediaKind = "image" | "video";
+export type GalleryMediaKind = 'image' | 'video';
 
 export type GalleryMediaModel = {
   kind: GalleryMediaKind;
