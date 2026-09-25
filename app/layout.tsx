@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat, Swanky_and_Moo_Moo, Tenor_Sans } from "next/font/google";
 import BackToTop from "./views/shared/BackToTop";
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <BackToTop />
       </body>
+      {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
     </html>
   );
 }
