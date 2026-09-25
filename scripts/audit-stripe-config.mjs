@@ -16,6 +16,22 @@ function mode(key, secretPrefix, publishablePrefix) {
   return null;
 }
 
+function normalizeShippingText(value) {
+  return value
+    .toLowerCase()
+    .replace(/["″]/g, "")
+    .replace(/[×]/g, "x")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function shippingAmountInCurrency(rate, currency) {
+  if (!rate.fixed_amount) return null;
+  if (rate.fixed_amount.currency === currency) return rate.fixed_amount.amount;
+  return rate.fixed_amount.currency_options?.[currency]?.amount ?? null;
+}
+
 if (!secretKey) failures.push("STRIPE_SECRET_KEY is missing.");
 if (!publishableKey) failures.push("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is missing.");
 if (!webhookSecret?.startsWith("whsec_")) failures.push("STRIPE_WEBHOOK_SECRET is missing or invalid.");
@@ -28,14 +44,16 @@ if (secretMode && publishableMode && secretMode !== publishableMode) failures.pu
 if (secretKey) {
   const stripe = new Stripe(secretKey, { maxNetworkRetries: 2, timeout: 20_000 });
   try {
-    const [account, products, webhooks] = await Promise.all([
+    const [account, products, webhooks, shippingRates] = await Promise.all([
       stripe.accounts.retrieve(),
       stripe.products.list({ active: true, limit: 100 }),
       stripe.webhookEndpoints.list({ limit: 100 }),
+      stripe.shippingRates.list({ active: true, limit: 100 }),
     ]);
     if (!account.charges_enabled) failures.push("Stripe charges are not enabled for this account.");
     if (!account.payouts_enabled) failures.push("Stripe payouts are not enabled for this account.");
 
+    const commissionCurrencies = new Set();
     for (const size of ["mini", "statement", "master", "grand"]) {
       const product = products.data.find((candidate) => candidate.name.toLowerCase().includes(size));
       if (!product) {
@@ -48,7 +66,25 @@ if (secretKey) {
       if (!full?.unit_amount) failures.push(`${product.name} is missing its active 2026 full-payment price.`);
       if (!installment?.unit_amount) failures.push(`${product.name} is missing its active 2026 installment price.`);
       if (full && installment && full.currency !== installment.currency) failures.push(`${product.name} full and installment prices use different currencies.`);
+      if (full?.currency) commissionCurrencies.add(full.currency);
     }
+
+    const requiredShippingSizes = [["12 x 16"], ["24 x 32"], ["32 x 40"], ["36 x 48", "36 x 47"], ["48 x 72"]];
+    const requiredShippingRegions = ["australia", "us canada"];
+    for (const currency of commissionCurrencies) {
+      for (const region of requiredShippingRegions) {
+        for (const dimensions of requiredShippingSizes) {
+          const matches = shippingRates.data.filter((rate) => {
+            if (!rate.active || !rate.display_name) return false;
+            const displayName = normalizeShippingText(rate.display_name);
+            const amount = shippingAmountInCurrency(rate, currency);
+            return displayName.includes(region) && dimensions.some((dimension) => displayName.includes(dimension)) && amount !== null && amount > 0;
+          });
+          if (matches.length !== 1) failures.push(`Expected exactly one active ${currency.toUpperCase()} Stripe shipping rate for ${region} ${dimensions.join(" or ")}; found ${matches.length}.`);
+        }
+      }
+    }
+    if (shippingRates.has_more) failures.push("More than 100 active Stripe shipping rates exist; narrow the catalog or extend the shipping audit.");
 
     const endpoint = webhooks.data.find((item) => {
       try { return new URL(item.url).pathname === "/api/stripe/webhook"; } catch { return false; }

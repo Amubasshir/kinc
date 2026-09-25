@@ -4,7 +4,7 @@ import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-
 import Image from "next/image";
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { applyCommissionVoucher, completeCommissionOrder, savePaymentCustomerDetails, updateCommissionPaymentOptions, type CommissionShippingRegion } from "../../actions/commissionDeposit";
+import { applyCommissionVoucher, completeCommissionOrder, savePaymentCustomerDetails, updateCommissionPaymentOptions, type CommissionShippingRates, type CommissionShippingRegion } from "../../actions/commissionDeposit";
 import { formatMoney } from "../../lib/money";
 import { getStripe } from "../../lib/stripeClient";
 import ModernDatePicker from "./ModernDatePicker";
@@ -23,13 +23,6 @@ type PaymentOptions = {
   shippingCents: number;
   shippingRegion: CommissionShippingRegion;
 };
-
-function calculateShippingCents(items: CheckoutItem[], region: CommissionShippingRegion) {
-  return items.reduce((total, item) => {
-    if (region === "us-canada") return total + 3500;
-    return total + (item.name.toLowerCase().includes("mini") ? 2500 : 3500);
-  }, 0);
-}
 
 function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan, options, discountCents, voucherCode, voucherMessage, isApplyingVoucher, onApplyVoucher }: { items: CheckoutItem[]; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; options: PaymentOptions; discountCents: number; voucherCode: string; voucherMessage: { type: "success" | "error"; text: string } | null; isApplyingVoucher: boolean; onApplyVoucher: (code: string) => Promise<void> }) {
   const formatPrice = (cents: number) => formatMoney(cents / 100, currency);
@@ -57,7 +50,7 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
   );
 }
 
-function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabel, items, onSuccess, onOptionsChange }: { amountCents: number; currency: string; paymentLabel: string; clientSecret: string; sizeLabel: string; items: CheckoutItem[]; onSuccess: () => void; onOptionsChange: (options: PaymentOptions) => { amountCents: number; totalCents: number } }) {
+function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabel, shippingRates, onSuccess, onOptionsChange }: { amountCents: number; currency: string; paymentLabel: string; clientSecret: string; sizeLabel: string; shippingRates: CommissionShippingRates; onSuccess: () => void; onOptionsChange: (options: PaymentOptions) => { amountCents: number; totalCents: number } }) {
   const stripe = useStripe();
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
@@ -182,8 +175,8 @@ function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabe
       </div></div>
       <fieldset className="commission-stripe-shipping-field"><legend>Shipping method</legend><div className="commission-shipping-options">
         <label><input type="radio" name="stripeShippingRegion" checked={shippingCents === 0} onChange={() => changeOptions({ priorityDate, shippingCents: 0, shippingRegion })} /><span>Pick up from Sydney studio</span><strong>Free</strong></label>
-        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "australia"} onChange={() => changeOptions({ priorityDate, shippingCents: calculateShippingCents(items, "australia"), shippingRegion: "australia" })} /><span>{sizeLabel} Shipping (Australia)<small>3–5 business days</small></span><strong>{formatPrice(calculateShippingCents(items, "australia"))}</strong></label>
-        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "us-canada"} onChange={() => changeOptions({ priorityDate, shippingCents: calculateShippingCents(items, "us-canada"), shippingRegion: "us-canada" })} /><span>{sizeLabel} Shipping (US &amp; Canada)<small>3–5 business days</small></span><strong>{formatPrice(calculateShippingCents(items, "us-canada"))}</strong></label>
+        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "australia"} onChange={() => changeOptions({ priorityDate, shippingCents: shippingRates.australia, shippingRegion: "australia" })} /><span>{sizeLabel} Shipping (Australia)<small>3–5 business days</small></span><strong>{formatPrice(shippingRates.australia)}</strong></label>
+        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "us-canada"} onChange={() => changeOptions({ priorityDate, shippingCents: shippingRates["us-canada"], shippingRegion: "us-canada" })} /><span>{sizeLabel} Shipping (US &amp; Canada)<small>3–5 business days</small></span><strong>{formatPrice(shippingRates["us-canada"])}</strong></label>
       </div></fieldset>
       <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", wallets: { link: "auto" }, fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked disabled /><span>Billing info same as shipping</span></label></div>
       <label className="commission-checkout-terms"><input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} required /><span>I agree to KinCollage sandbox&apos;s <a href="/legal#terms" target="_blank" rel="noreferrer">Terms of Service</a> and <a href="/legal#privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>
@@ -194,7 +187,7 @@ function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabe
   );
 }
 
-export default function DepositPaymentForm({ clientSecret, amountCents, totalCents, currency, paymentPlan, sizeLabel, items, onSuccess }: { clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; sizeLabel: string; items: CheckoutItem[]; onSuccess: () => void }) {
+export default function DepositPaymentForm({ clientSecret, amountCents, totalCents, currency, paymentPlan, sizeLabel, items, shippingRates, onSuccess }: { clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; sizeLabel: string; items: CheckoutItem[]; shippingRates: CommissionShippingRates; onSuccess: () => void }) {
   const [options, setOptions] = useState<PaymentOptions>({ priorityDate: "", shippingCents: 0, shippingRegion: "australia" });
   const [displayAmountCents, setDisplayAmountCents] = useState(amountCents);
   const [displayTotalCents, setDisplayTotalCents] = useState(totalCents);
@@ -236,7 +229,7 @@ export default function DepositPaymentForm({ clientSecret, amountCents, totalCen
       <section className="commission-checkout-form-panel">
         <h3>Shipping information</h3>
         <Elements stripe={getStripe()} options={{ clientSecret, fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Tenor+Sans&display=swap" }], appearance: { theme: "flat", variables: { colorPrimary: "#263443", colorText: "#263443", iconColor: "#263443", iconHoverColor: "#263443", tabIconColor: "#263443", tabIconHoverColor: "#263443", tabIconSelectedColor: "#263443", tabIconMoreColor: "#263443", colorDanger: "#ad3127", fontFamily: "'Montserrat', Arial, sans-serif", fontSizeBase: "14px", fontSizeSm: "13px", borderRadius: "8px", spacingUnit: "2px" }, rules: { ".Input": { border: "1px solid #d6d6dc", borderRadius: "7px", backgroundColor: "#fff", padding: "9px 12px", boxShadow: "0 1px 3px rgba(38, 52, 67, 0.1)", fontFamily: "'Montserrat', Arial, sans-serif", fontSize: "14px" }, ".Input:focus": { border: "2px solid #263443", boxShadow: "0 0 0 3px rgba(38, 52, 67, 0.17)" }, ".Label": { fontSize: "13px", textTransform: "none", color: "#565661", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".TabLabel": { color: "#263443", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".Link": { color: "#263443" }, ".TabIcon": { color: "#263443" } } } }}>
-          <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay first installment" : "Pay in full"} clientSecret={clientSecret} sizeLabel={sizeLabel} items={items} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
+          <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay first installment" : "Pay in full"} clientSecret={clientSecret} sizeLabel={sizeLabel} shippingRates={shippingRates} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
         </Elements>
       </section>
     </div>

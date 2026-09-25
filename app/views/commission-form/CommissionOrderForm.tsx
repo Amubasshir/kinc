@@ -88,7 +88,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
         {quoteState.status === "error" && <p className="commission-field-error" role="alert">{quoteState.message}</p>}
       </form>
 
-      {hasCurrentPayment && <div id="commission-payment"><DepositPaymentForm key={paymentState.clientSecret} clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} sizeLabel={submittedSizeLabel} items={submittedCheckoutItems} onSuccess={() => router.push("/thank-you?type=payment")} /></div>}
+      {hasCurrentPayment && <div id="commission-payment"><DepositPaymentForm key={paymentState.clientSecret} clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} sizeLabel={submittedSizeLabel} items={submittedCheckoutItems} shippingRates={paymentState.shippingRates} onSuccess={() => router.push("/thank-you?type=payment")} /></div>}
     </>
   );
 }

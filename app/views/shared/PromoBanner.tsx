@@ -27,7 +27,7 @@ export default function PromoBanner({ fontClassName = "" }: { fontClassName?: st
 
   return (
     <div
-      className={`${fontClassName} promo-banner flex flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-b-[20px] bg-[#ffe500] px-4 py-2.5 text-center max-[700px]:rounded-b-[18px] max-[700px]:px-3 max-[700px]:py-2`}
+      className={`${fontClassName} promo-banner flex flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-b-[20px] bg-[#ffe500] px-4 py-2.5 text-center max-[700px]:rounded-b-[20px] max-[700px]:px-3 max-[700px]:py-2`}
       role="status"
       aria-live="off"
     >

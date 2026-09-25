@@ -9,6 +9,12 @@ import { fulfillPaymentIntent } from "../lib/paymentFulfillment";
 import { enforcePaymentRateLimit } from "../lib/paymentRateLimit";
 import { getStripeCommissionProducts } from "../lib/stripePricing";
 import {
+  getCommissionShippingQuote,
+  shippingAmountForRegion,
+  type CommissionShippingRates,
+  type CommissionShippingRegion,
+} from "../lib/stripeShipping";
+import {
   findAvailableCoupon,
   findAvailableVoucher,
   releaseDiscountReservation,
@@ -40,7 +46,9 @@ export type CommissionDepositState =
 export type CommissionPaymentState =
   | { status: "idle" }
   | { status: "error"; message: string }
-  | { status: "ready"; clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments" };
+  | { status: "ready"; clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; shippingRates: CommissionShippingRates };
+
+export type { CommissionShippingRates, CommissionShippingRegion } from "../lib/stripeShipping";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ATTEMPT_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -180,20 +188,6 @@ function calculatePaymentTotals(paymentPlan: "full" | "installments", selectedAm
   return { amountCents, totalCents, baseTotalCents, rushCents, discountCents };
 }
 
-export type CommissionShippingRegion = "australia" | "us-canada";
-
-function shippingForProductName(productName: string, region: CommissionShippingRegion) {
-  if (region === "us-canada") return 3500;
-  return productName.toLowerCase().includes("mini") ? 2500 : 3500;
-}
-
-function calculateShippingForPrices(prices: Stripe.Price[], region: CommissionShippingRegion) {
-  return prices.reduce((total, price) => {
-    const product = typeof price.product === "string" || price.product.deleted ? "" : price.product.name;
-    return total + shippingForProductName(product, region);
-  }, 0);
-}
-
 function productIdsForPrices(prices: Stripe.Price[]) {
   return prices.map((price) => typeof price.product === "string" || price.product.deleted ? "" : price.product.id).filter(Boolean);
 }
@@ -294,6 +288,7 @@ export async function createCommissionPayment(_prevState: CommissionPaymentState
     const stripe = getStripeServer();
     const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
     const currency = prices[0].currency;
+    const shippingQuote = await getCommissionShippingQuote(stripe, prices);
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
     const sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name);
     const totals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, 0);
@@ -316,6 +311,7 @@ export async function createCommissionPayment(_prevState: CommissionPaymentState
         priorityDate,
         shippingCents: "0",
         shippingRegion: "australia",
+        shippingRateIds: "",
         rushCents: String(totals.rushCents),
         coupon: "",
         couponId: "",
@@ -325,11 +321,13 @@ export async function createCommissionPayment(_prevState: CommissionPaymentState
       },
     }, { idempotencyKey: `commission-${checkoutAttemptId}-${requestHash}` });
     if (!paymentIntent.client_secret) throw new Error("Stripe did not return a client secret.");
-    return { status: "ready", clientSecret: paymentIntent.client_secret, amountCents: totals.amountCents, totalCents: totals.totalCents, currency, paymentPlan };
+    return { status: "ready", clientSecret: paymentIntent.client_secret, amountCents: totals.amountCents, totalCents: totals.totalCents, currency, paymentPlan, shippingRates: shippingQuote.rates };
   } catch (error) {
     console.error("Failed to create commission PaymentIntent:", error);
     const message = error instanceof Error && error.message.startsWith("Too many payment attempts")
       ? error.message
+      : error instanceof Error && error.message.startsWith("Shipping configuration")
+        ? "Shipping is not configured for one of the selected sizes. Please contact the studio."
       : "Something went wrong setting up payment. Please refresh and try again.";
     return { status: "error", message };
   }
@@ -399,7 +397,8 @@ export async function updateCommissionPaymentOptions(clientSecret: string, prior
     const paymentPlan = paymentIntent.metadata.paymentPlan === "installments" ? "installments" : "full";
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
     const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
-    const expectedShippingCents = shippingCents === 0 ? 0 : calculateShippingForPrices(prices, shippingRegion);
+    const shippingQuote = await getCommissionShippingQuote(stripe, prices);
+    const expectedShippingCents = shippingCents === 0 ? 0 : shippingAmountForRegion(shippingQuote, shippingRegion);
     if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
 
     let discountCents = 0;
@@ -426,6 +425,7 @@ export async function updateCommissionPaymentOptions(clientSecret: string, prior
         priorityDate,
         shippingCents: String(shippingCents),
         shippingRegion,
+        shippingRateIds: shippingCents === 0 ? "" : shippingQuote.rateIds[shippingRegion].join(","),
         rushCents: String(totals.rushCents),
         discountCents: String(totals.discountCents),
         totalCents: String(totals.totalCents),
@@ -455,7 +455,8 @@ export async function applyCommissionVoucher(clientSecret: string, code: string,
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
     if (priceIds.length === 0) return { success: false, message: "The selected product prices could not be found." };
     const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
-    const expectedShippingCents = shippingCents === 0 ? 0 : calculateShippingForPrices(prices, shippingRegion);
+    const shippingQuote = await getCommissionShippingQuote(stripe, prices);
+    const expectedShippingCents = shippingCents === 0 ? 0 : shippingAmountForRegion(shippingQuote, shippingRegion);
     if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
     const undiscountedTotals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents);
@@ -476,6 +477,7 @@ export async function applyCommissionVoucher(clientSecret: string, code: string,
         priorityDate,
         shippingCents: String(shippingCents),
         shippingRegion,
+        shippingRateIds: shippingCents === 0 ? "" : shippingQuote.rateIds[shippingRegion].join(","),
         rushCents: String(totals.rushCents),
         coupon: normalized,
         couponId: source && source.type !== "stripe" ? source.record.id : "",

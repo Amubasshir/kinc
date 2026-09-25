@@ -50,6 +50,8 @@ npm run audit:stripe
 
 The existing “3 installments” catalog prices are one-time Stripe Prices. The application collects installment 1 and explicitly records that installments 2 and 3 are arranged manually by the studio; it does not claim that Stripe schedules them automatically.
 
+Commission shipping amounts are read from active Stripe ShippingRate objects on the server. Create one active rate per supported canvas size and region (the display name must include the configured size dimensions and either “Australia” or “US & Canada”), using the same currency as the commission Prices. Configure equivalent rates in test and live mode; the checkout refuses to use a missing or mismatched rate rather than falling back to a hard-coded amount.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
