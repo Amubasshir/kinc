@@ -133,6 +133,9 @@ export type CommissionEmailDetails = {
   story: string;
   note: string;
   coupon: string;
+  /** The exact Stripe-priced size lines used to calculate the order. */
+  lineItems?: CommissionEmailLineItem[];
+  subtotal?: string;
   discount?: string;
   total: string;
   deposit: string;
@@ -141,7 +144,14 @@ export type CommissionEmailDetails = {
   installmentNumber?: string;
   shipping?: string;
   rushFee?: string;
+  remainingBalance?: string;
   quoteOnly?: boolean;
+};
+
+export type CommissionEmailLineItem = {
+  label: string;
+  amount: string;
+  note?: string;
 };
 
 function escapeHtml(value: string) {
@@ -161,6 +171,8 @@ function detailRows(details: CommissionEmailDetails) {
     ["Address", details.address],
     ["Product", details.product],
     ["Canvas size(s)", details.sizes],
+    ...(details.lineItems ?? []).map((item) => [`Size — ${item.label}`, [item.amount, item.note].filter(Boolean).join(" · ")]),
+    ["Commission subtotal", details.subtotal ?? ""],
     ["Custom size", details.otherSize],
     ["Add-ons", details.addOns],
     ["Framing", details.framing],
@@ -173,10 +185,11 @@ function detailRows(details: CommissionEmailDetails) {
     ["Rush fee", details.rushFee ?? ""],
     ["Story", details.story],
     ["Note", details.note],
-    ["Coupon", details.coupon],
-    ["Voucher discount", details.discount ?? ""],
-    ["Estimated total", details.total],
-    [details.quoteOnly ? "Payment" : "Deposit paid", details.deposit],
+    ["Promo / coupon code", details.coupon],
+    ["Discount", details.discount ?? ""],
+    [details.quoteOnly ? "Estimated total" : "Order total", details.total],
+    [details.quoteOnly ? "Payment" : details.paymentPlan === "Full payment" ? "Amount paid" : "Amount paid today", details.deposit],
+    ["Remaining balance", details.remainingBalance ?? ""],
     ["Reference", details.paymentReference],
   ].filter(([, value]) => value);
 
@@ -196,13 +209,17 @@ export function renderCommissionConfirmationHtml(details: CommissionEmailDetails
     ? new Date(`${details.priorityDate}T00:00:00`).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })
     : "";
   const summaryRows = [
-    ["Canvas size(s)", details.sizes],
+    ...(details.lineItems?.length ? details.lineItems.map((item) => [`Size — ${item.label}`, [item.amount, item.note].filter(Boolean).join(" · ")]) : [["Canvas size(s)", details.sizes]]),
+    ["Commission subtotal", details.subtotal ?? ""],
     ["Payment plan", details.paymentPlan ?? ""],
     ["Shipping", details.shipping ?? ""],
     ["Priority date", priorityDate],
-    ["Amount paid", details.deposit],
-    ["Voucher discount", details.discount ?? ""],
+    ["Priority rush fee", details.rushFee ?? ""],
+    ["Promo / coupon code", details.coupon],
+    ["Discount", details.discount ?? ""],
     ["Order total", details.total],
+    [details.paymentPlan === "Full payment" ? "Amount paid" : "Amount paid today", details.deposit],
+    ["Remaining balance", details.remainingBalance ?? ""],
   ].filter(([, value]) => value).map(([label, value]) => `<tr><td width="34%" style="width:34%;padding:11px 14px;border-bottom:1px solid #ededed;font-weight:600;line-height:1.45;white-space:nowrap;vertical-align:top;color:#515151;">${escapeHtml(label)}</td><td width="66%" style="width:66%;padding:11px 14px;border-bottom:1px solid #ededed;line-height:1.5;vertical-align:top;color:#515151;">${escapeHtml(value)}</td></tr>`).join("");
 
   return applySemiboldEmailMarkup(`<!doctype html>
@@ -242,13 +259,16 @@ Thank you for your KinCollage order. ${statusCopy}
 
 Your order summary and instructions for safely sending your child's original artwork to the Sydney studio will follow shortly.
 
-Canvas size(s): ${details.sizes}
+${details.lineItems?.length ? `${details.lineItems.map((item) => `Size — ${item.label}: ${item.amount}${item.note ? ` (${item.note})` : ""}`).join("\n")}\n` : `Canvas size(s): ${details.sizes}\n`}${details.subtotal ? `Commission subtotal: ${details.subtotal}\n` : ""}
 Payment plan: ${details.paymentPlan ?? ""}
 Shipping: ${details.shipping ?? ""}
 Priority date: ${details.priorityDate || "None"}
-Amount paid: ${details.deposit}
-Voucher discount: ${details.discount || "None"}
+Priority rush fee: ${details.rushFee || "None"}
+Promo / coupon code: ${details.coupon || "None"}
+Discount: ${details.discount || "None"}
 Order total: ${details.total}
+${details.paymentPlan === "Full payment" ? "Amount paid" : "Amount paid today"}: ${details.deposit}
+${details.remainingBalance ? `Remaining balance: ${details.remainingBalance}\n` : ""}
 
 ${details.quoteOnly ? "No payment has been taken. We’ll confirm your tailored quote before requesting payment.\n\n" : details.paymentPlan === "Full payment" ? "" : "The remaining balance will be due before dispatch.\n\n"}
 

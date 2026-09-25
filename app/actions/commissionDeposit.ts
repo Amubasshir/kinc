@@ -317,6 +317,7 @@ export async function createCommissionPayment(_prevState: CommissionPaymentState
         couponId: "",
         couponType: "",
         discountCents: "0",
+        baseTotalCents: String(totals.baseTotalCents),
         totalCents: String(totals.totalCents),
       },
     }, { idempotencyKey: `commission-${checkoutAttemptId}-${requestHash}` });
@@ -428,6 +429,7 @@ export async function updateCommissionPaymentOptions(clientSecret: string, prior
         shippingRateIds: shippingCents === 0 ? "" : shippingQuote.rateIds[shippingRegion].join(","),
         rushCents: String(totals.rushCents),
         discountCents: String(totals.discountCents),
+        baseTotalCents: String(totals.baseTotalCents),
         totalCents: String(totals.totalCents),
       },
     });
@@ -485,6 +487,7 @@ export async function applyCommissionVoucher(clientSecret: string, code: string,
         stripePromotionCodeId: stripeSource?.promotionCode.id ?? "",
         stripeCouponId: stripeSource?.coupon.id ?? "",
         discountCents: String(totals.discountCents),
+        baseTotalCents: String(totals.baseTotalCents),
         totalCents: String(totals.totalCents),
       },
     });

@@ -5,6 +5,7 @@ import { Resend } from "resend";
 import type Stripe from "stripe";
 import {
   type CommissionEmailDetails,
+  type CommissionEmailLineItem,
   renderCommissionConfirmationHtml,
   renderCommissionConfirmationText,
   renderCommissionNotificationHtml,
@@ -42,25 +43,69 @@ function formatAddress(address: Stripe.Address | null | undefined) {
   return [address.line1, address.line2, address.city, address.state, address.postal_code, address.country].filter(Boolean).join(", ");
 }
 
+function metadataCents(value: string | undefined, label: string, fallback = 0) {
+  if (value === undefined || value === "") return fallback;
+  const cents = Number(value);
+  if (!Number.isSafeInteger(cents) || cents < 0) throw new Error(`Invalid ${label} metadata.`);
+  return cents;
+}
+
 async function commissionDetailsFromPaymentIntent(paymentIntent: Stripe.PaymentIntent): Promise<CommissionEmailDetails> {
   const metadata = paymentIntent.metadata;
   const stripe = getStripeServer();
   const shippingName = paymentIntent.shipping?.name?.trim() ?? "";
   const customerName = (metadata.customerName ?? shippingName).trim().split(/\s+/).filter(Boolean);
-  const shippingCents = Number(metadata.shippingCents ?? 0);
-  const rushCents = Number(metadata.rushCents ?? 0);
+  const shippingCents = metadataCents(metadata.shippingCents, "shipping amount");
+  const rushCents = metadataCents(metadata.rushCents, "rush fee");
+  const paymentPlan = metadata.paymentPlan === "installments" ? "installments" : "full";
+  const shippingMethod = shippingCents === 0
+    ? "Pickup from Sydney studio"
+    : metadata.shippingRegion === "australia"
+      ? "Shipping (Australia)"
+      : metadata.shippingRegion === "us-canada"
+        ? "Shipping (US & Canada)"
+        : "Shipping";
+  const priceIds = metadata.sizePriceIds?.split(", ").filter(Boolean) ?? [];
+  const fallbackSizeLabels = (metadata.sizes ?? "").split(", ").map((label) => label.trim()).filter(Boolean);
   let sizeLabels = metadata.sizes ?? "";
-  if (!sizeLabels && metadata.sizePriceIds) {
+  let lineItems: CommissionEmailLineItem[] = [];
+  let subtotalCents = metadataCents(metadata.baseTotalCents, "commission subtotal");
+  if (priceIds.length > 0) {
     try {
-      const prices = await Promise.all(metadata.sizePriceIds.split(", ").filter(Boolean).map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
-      sizeLabels = prices.map((price) => typeof price.product === "string" || price.product.deleted ? price.id : price.product.name).join(", ");
+      const prices = await Promise.all(priceIds.map((priceId) => stripe.prices.retrieve(priceId, { expand: ["product"] })));
+      if (prices.some((price) => price.type !== "one_time" || price.unit_amount === null || price.currency !== paymentIntent.currency)) {
+        throw new Error("Commission price data does not match the paid currency.");
+      }
+      const multiplier = paymentPlan === "installments" ? 3 : 1;
+      lineItems = prices.map((price, index) => {
+        const product = typeof price.product === "string" ? null : price.product;
+        const productName = product && !("deleted" in product && product.deleted) ? product.name : (fallbackSizeLabels[index] || price.id);
+        const unitAmount = price.unit_amount ?? 0;
+        const fullOrderAmount = unitAmount * multiplier;
+        return {
+          label: productName,
+          amount: formatMoney(fullOrderAmount / 100, paymentIntent.currency),
+          note: paymentPlan === "installments" ? `${formatMoney(unitAmount / 100, paymentIntent.currency)} per installment × 3` : undefined,
+        };
+      });
+      sizeLabels = prices.map((price, index) => {
+        const product = typeof price.product === "string" ? null : price.product;
+        return product && !("deleted" in product && product.deleted) ? product.name : (fallbackSizeLabels[index] || price.id);
+      }).join(", ");
+      subtotalCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0) * multiplier, 0);
     } catch (error) {
-      console.error("Failed to load readable size names for order email:", error);
-      sizeLabels = metadata.sizePriceIds;
+      console.error("Failed to load exact commission price lines for order email:", error);
+      throw new Error("The paid commission price details could not be verified.");
     }
   }
 
-  const totalCents = Number(metadata.totalCents ?? paymentIntent.amount_received);
+  const discountCents = metadataCents(metadata.discountCents, "discount");
+  const calculatedTotalCents = subtotalCents + rushCents - discountCents + shippingCents;
+  const totalCents = metadataCents(metadata.totalCents, "order total", calculatedTotalCents);
+  if (lineItems.length > 0 && totalCents !== calculatedTotalCents) {
+    throw new Error("The commission order totals do not reconcile.");
+  }
+  const remainingBalanceCents = paymentPlan === "installments" ? Math.max(0, totalCents - paymentIntent.amount_received) : 0;
   return {
     firstName: metadata.firstName ?? customerName[0] ?? "",
     lastName: metadata.lastName ?? customerName.slice(1).join(" "),
@@ -78,14 +123,17 @@ async function commissionDetailsFromPaymentIntent(paymentIntent: Stripe.PaymentI
     story: metadata.story ?? "",
     note: metadata.note ?? "",
     coupon: metadata.coupon ?? "",
+    lineItems,
+    subtotal: subtotalCents > 0 ? `${formatMoney(subtotalCents / 100, paymentIntent.currency)}${paymentPlan === "installments" ? " (3 installments)" : ""}` : "",
     total: formatMoney(totalCents / 100, paymentIntent.currency),
     deposit: formatMoney(paymentIntent.amount_received / 100, paymentIntent.currency),
     paymentReference: paymentIntent.id,
     paymentPlan: metadata.paymentPlan === "installments" ? "First of 3 installments; remaining payments arranged by the studio" : "Full payment",
     installmentNumber: metadata.installmentNumber ? `${metadata.installmentNumber} of 3` : "",
-    shipping: formatMoney(shippingCents / 100, paymentIntent.currency),
-    rushFee: rushCents ? formatMoney(rushCents / 100, paymentIntent.currency) : "None",
-    discount: Number(metadata.discountCents ?? 0) > 0 ? formatMoney(Number(metadata.discountCents) / 100, paymentIntent.currency) : "",
+    shipping: `${shippingMethod} — ${shippingCents > 0 ? formatMoney(shippingCents / 100, paymentIntent.currency) : "Free"}`,
+    rushFee: rushCents ? `${formatMoney(rushCents / 100, paymentIntent.currency)}${paymentPlan === "installments" ? " (full order)" : ""}` : "None",
+    discount: discountCents > 0 ? `${formatMoney(discountCents / 100, paymentIntent.currency)}${paymentPlan === "installments" ? " (full order)" : ""}` : "",
+    remainingBalance: remainingBalanceCents > 0 ? formatMoney(remainingBalanceCents / 100, paymentIntent.currency) : "",
   };
 }
 
