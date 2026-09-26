@@ -8,9 +8,12 @@ import { formatMoney } from "../lib/money";
 import { fulfillPaymentIntent } from "../lib/paymentFulfillment";
 import { enforcePaymentRateLimit } from "../lib/paymentRateLimit";
 import { getStripeCommissionProducts } from "../lib/stripePricing";
+import { PICKUP_SHIPPING_REGION } from "../lib/stripeShippingConstants";
 import {
   getCommissionShippingQuote,
   shippingAmountForRegion,
+  shippingLabelForRegion,
+  shippingRateIdsForRegion,
   type CommissionShippingRates,
   type CommissionShippingRegion,
 } from "../lib/stripeShipping";
@@ -310,7 +313,8 @@ export async function createCommissionPayment(_prevState: CommissionPaymentState
         sizes: metadataValue(sizeLabels.join(", ")),
         priorityDate,
         shippingCents: "0",
-        shippingRegion: "australia",
+        shippingRegion: PICKUP_SHIPPING_REGION,
+        shippingLabel: "Pick up from Sydney studio",
         shippingRateIds: "",
         rushCents: String(totals.rushCents),
         coupon: "",
@@ -327,7 +331,7 @@ export async function createCommissionPayment(_prevState: CommissionPaymentState
     console.error("Failed to create commission PaymentIntent:", error);
     const message = error instanceof Error && error.message.startsWith("Too many payment attempts")
       ? error.message
-      : error instanceof Error && error.message.startsWith("Shipping configuration")
+      : error instanceof Error && (error.message.startsWith("No Stripe shipping") || error.message.startsWith("No active Stripe shipping") || error.message.startsWith("No common active Stripe shipping") || error.message.startsWith("Multiple active Stripe shipping"))
         ? "Shipping is not configured for one of the selected sizes. Please contact the studio."
       : "Something went wrong setting up payment. Please refresh and try again.";
     return { status: "error", message };
@@ -389,7 +393,7 @@ export async function savePaymentCustomerDetails(clientSecret: string, emailInpu
 
 export async function updateCommissionPaymentOptions(clientSecret: string, priorityDateInput: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
   const priorityDate = priorityDateInput.trim();
-  if (!Number.isSafeInteger(shippingCents) || shippingCents < 0 || !["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
+  if (!Number.isSafeInteger(shippingCents) || shippingCents < 0 || !shippingRegion.trim()) return { success: false, message: "Please choose a valid shipping method." };
   if (!isValidPriorityDate(priorityDate)) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
   try {
     const stripe = getStripeServer();
@@ -399,8 +403,8 @@ export async function updateCommissionPaymentOptions(clientSecret: string, prior
     const priceIds = (paymentIntent.metadata.sizePriceIds ?? "").split(", ").filter(Boolean);
     const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
     const shippingQuote = await getCommissionShippingQuote(stripe, prices);
-    const expectedShippingCents = shippingCents === 0 ? 0 : shippingAmountForRegion(shippingQuote, shippingRegion);
-    if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
+    const expectedShippingCents = shippingAmountForRegion(shippingQuote, shippingRegion);
+    if (expectedShippingCents === null || shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
 
     let discountCents = 0;
     const normalizedCode = (paymentIntent.metadata.coupon ?? "").trim().toUpperCase();
@@ -426,7 +430,8 @@ export async function updateCommissionPaymentOptions(clientSecret: string, prior
         priorityDate,
         shippingCents: String(shippingCents),
         shippingRegion,
-        shippingRateIds: shippingCents === 0 ? "" : shippingQuote.rateIds[shippingRegion].join(","),
+        shippingLabel: shippingLabelForRegion(shippingQuote, shippingRegion),
+        shippingRateIds: shippingRegion === PICKUP_SHIPPING_REGION ? "" : shippingRateIdsForRegion(shippingQuote, shippingRegion).join(","),
         rushCents: String(totals.rushCents),
         discountCents: String(totals.discountCents),
         baseTotalCents: String(totals.baseTotalCents),
@@ -442,7 +447,7 @@ export async function updateCommissionPaymentOptions(clientSecret: string, prior
 
 export async function applyCommissionVoucher(clientSecret: string, code: string, priorityDateInput: string, shippingCents: number, shippingRegion: CommissionShippingRegion) {
   const priorityDate = priorityDateInput.trim();
-  if (!Number.isSafeInteger(shippingCents) || shippingCents < 0 || !["australia", "us-canada"].includes(shippingRegion)) return { success: false, message: "Please choose a valid shipping method." };
+  if (!Number.isSafeInteger(shippingCents) || shippingCents < 0 || !shippingRegion.trim()) return { success: false, message: "Please choose a valid shipping method." };
   if (!isValidPriorityDate(priorityDate)) return { success: false, message: INVALID_PRIORITY_DATE_MESSAGE };
 
   try {
@@ -458,8 +463,8 @@ export async function applyCommissionVoucher(clientSecret: string, code: string,
     if (priceIds.length === 0) return { success: false, message: "The selected product prices could not be found." };
     const prices = await getCommissionPrices(stripe, priceIds, paymentPlan);
     const shippingQuote = await getCommissionShippingQuote(stripe, prices);
-    const expectedShippingCents = shippingCents === 0 ? 0 : shippingAmountForRegion(shippingQuote, shippingRegion);
-    if (shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
+    const expectedShippingCents = shippingAmountForRegion(shippingQuote, shippingRegion);
+    if (expectedShippingCents === null || shippingCents !== expectedShippingCents) return { success: false, message: "The shipping total is out of date. Please select the shipping method again." };
     const selectedAmountCents = prices.reduce((sum, price) => sum + (price.unit_amount ?? 0), 0);
     const undiscountedTotals = calculatePaymentTotals(paymentPlan, selectedAmountCents, priorityDate, shippingCents);
     const discount = calculateDiscountCents(source, undiscountedTotals.baseTotalCents + undiscountedTotals.rushCents, paymentIntent.currency, productIdsForPrices(prices));
@@ -479,7 +484,8 @@ export async function applyCommissionVoucher(clientSecret: string, code: string,
         priorityDate,
         shippingCents: String(shippingCents),
         shippingRegion,
-        shippingRateIds: shippingCents === 0 ? "" : shippingQuote.rateIds[shippingRegion].join(","),
+        shippingLabel: shippingLabelForRegion(shippingQuote, shippingRegion),
+        shippingRateIds: shippingRegion === PICKUP_SHIPPING_REGION ? "" : shippingRateIdsForRegion(shippingQuote, shippingRegion).join(","),
         rushCents: String(totals.rushCents),
         coupon: normalized,
         couponId: source && source.type !== "stripe" ? source.record.id : "",

@@ -50,7 +50,7 @@ npm run audit:stripe
 
 The existing “3 installments” catalog prices are one-time Stripe Prices. The application collects installment 1 and explicitly records that installments 2 and 3 are arranged manually by the studio; it does not claim that Stripe schedules them automatically.
 
-Commission shipping amounts are read from active Stripe ShippingRate objects on the server. Create one active rate per supported canvas size and region (the display name must include the configured size dimensions and either “Australia” or “US & Canada”), using the same currency as the commission Prices. Configure equivalent rates in test and live mode; the checkout refuses to use a missing or mismatched rate rather than falling back to a hard-coded amount.
+Commission shipping amounts are read from all active Stripe ShippingRate objects on the server. Each rate display name must include the configured canvas size dimensions plus its service or destination label; checkout automatically groups matching rates by that label and sums them when multiple sizes are selected. Rates must use the same currency as the commission Prices. Configure equivalent rates in test and live mode; the checkout refuses to use a missing or mismatched rate rather than falling back to a hard-coded amount.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

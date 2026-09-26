@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { createCommissionDeposit, createCommissionPayment, type CommissionDepositState, type CommissionPaymentState } from "../../actions/commissionDeposit";
 import { formatMoney } from "../../lib/money";
 import type { StripeCommissionProduct } from "../../lib/stripePricing";
@@ -12,7 +11,6 @@ const initialState: CommissionPaymentState = { status: "idle" };
 const initialQuoteState: CommissionDepositState = { status: "idle" };
 
 export default function CommissionOrderForm({ commissionProducts, requestedProductId }: { commissionProducts: StripeCommissionProduct[]; requestedAddOnId?: string; requestedProductId?: string }) {
-  const router = useRouter();
   const requestedSize = commissionProducts.find((item) => item.productId === requestedProductId);
   const [selectedProducts, setSelectedProducts] = useState<string[]>(requestedSize ? [requestedSize.productId] : []);
   const [otherSize, setOtherSize] = useState(false);
@@ -29,6 +27,11 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   const hasCurrentPayment = paymentState.status === "ready" && !isCreatingPayment && submittedSelectionKey === selectionKey;
   const submittedSizeLabel = commissionProducts.filter((size) => submittedProducts.includes(size.productId)).map((size) => size.name).join(" + ") || "Selected size";
   const submittedCheckoutItems: CheckoutItem[] = commissionProducts.filter((size) => submittedProducts.includes(size.productId)).map((size) => ({ name: size.name, dimensions: size.dimensions, inchDimensions: size.inchDimensions, image: size.image, amountCents: paymentPlan === "installments" ? size.installmentUnitAmount : size.unitAmount, currency: size.currency }));
+  const goToThankYou = (type: "payment" | "quote") => {
+    // A full navigation clears the payment form's client state and makes sure
+    // the thank-you page's media element initializes like a normal page load.
+    window.location.replace(`/thank-you?type=${type}`);
+  };
 
   useEffect(() => {
     if (paymentState.status !== "ready") return;
@@ -39,8 +42,8 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
   }, [paymentState.status, selectedProducts.length, submittedProducts]);
 
   useEffect(() => {
-    if (quoteState.status === "quote-only") router.push("/thank-you?type=quote");
-  }, [quoteState.status, router]);
+    if (quoteState.status === "quote-only") goToThankYou("quote");
+  }, [quoteState.status]);
 
   return (
     <>
@@ -88,7 +91,7 @@ export default function CommissionOrderForm({ commissionProducts, requestedProdu
         {quoteState.status === "error" && <p className="commission-field-error" role="alert">{quoteState.message}</p>}
       </form>
 
-      {hasCurrentPayment && <div id="commission-payment"><DepositPaymentForm key={paymentState.clientSecret} clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} sizeLabel={submittedSizeLabel} items={submittedCheckoutItems} shippingRates={paymentState.shippingRates} onSuccess={() => router.push("/thank-you?type=payment")} /></div>}
+      {hasCurrentPayment && <div id="commission-payment"><DepositPaymentForm key={paymentState.clientSecret} clientSecret={paymentState.clientSecret} amountCents={paymentState.amountCents} totalCents={paymentState.totalCents} currency={paymentState.currency} paymentPlan={paymentState.paymentPlan} sizeLabel={submittedSizeLabel} items={submittedCheckoutItems} shippingRates={paymentState.shippingRates} onSuccess={() => goToThankYou("payment")} /></div>}
     </>
   );
 }

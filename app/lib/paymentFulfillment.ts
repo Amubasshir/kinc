@@ -58,13 +58,17 @@ async function commissionDetailsFromPaymentIntent(paymentIntent: Stripe.PaymentI
   const shippingCents = metadataCents(metadata.shippingCents, "shipping amount");
   const rushCents = metadataCents(metadata.rushCents, "rush fee");
   const paymentPlan = metadata.paymentPlan === "installments" ? "installments" : "full";
-  const shippingMethod = shippingCents === 0
-    ? "Pickup from Sydney studio"
-    : metadata.shippingRegion === "australia"
-      ? "Shipping (Australia)"
-      : metadata.shippingRegion === "us-canada"
-        ? "Shipping (US & Canada)"
-        : "Shipping";
+  const shippingMethod = metadata.shippingLabel || (
+    metadata.shippingRegion === "pickup"
+      ? "Pickup from Sydney studio"
+      : metadata.shippingRegion === "australia"
+        ? "Shipping (Australia)"
+        : metadata.shippingRegion === "us-canada"
+          ? "Shipping (US & Canada)"
+          : shippingCents === 0
+            ? "Pickup from Sydney studio"
+            : "Shipping"
+  );
   const priceIds = metadata.sizePriceIds?.split(", ").filter(Boolean) ?? [];
   const fallbackSizeLabels = (metadata.sizes ?? "").split(", ").map((label) => label.trim()).filter(Boolean);
   let sizeLabels = metadata.sizes ?? "";

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { applyCommissionVoucher, completeCommissionOrder, savePaymentCustomerDetails, updateCommissionPaymentOptions, type CommissionShippingRates, type CommissionShippingRegion } from "../../actions/commissionDeposit";
 import { formatMoney } from "../../lib/money";
 import { getStripe } from "../../lib/stripeClient";
+import { PICKUP_SHIPPING_REGION } from "../../lib/stripeShippingConstants";
 import ModernDatePicker from "./ModernDatePicker";
 
 export type CheckoutItem = {
@@ -20,17 +21,26 @@ export type CheckoutItem = {
 
 const IS_TEST_MODE = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.startsWith("pk_test_") ?? false;
 
+const SHIPPING_COUNTRY_GROUPS = [
+  { label: "Australia & New Zealand", countries: [{ code: "AU", name: "Australia" }, { code: "NZ", name: "New Zealand" }] },
+  { label: "United States & Canada", countries: [{ code: "CA", name: "Canada" }, { code: "US", name: "United States" }] },
+  { label: "Asia", countries: [{ code: "BD", name: "Bangladesh" }, { code: "CN", name: "China" }, { code: "HK", name: "Hong Kong" }, { code: "IN", name: "India" }, { code: "ID", name: "Indonesia" }, { code: "JP", name: "Japan" }, { code: "MY", name: "Malaysia" }, { code: "PH", name: "Philippines" }, { code: "SG", name: "Singapore" }, { code: "KR", name: "South Korea" }, { code: "TW", name: "Taiwan" }, { code: "TH", name: "Thailand" }, { code: "VN", name: "Vietnam" }] },
+  { label: "Europe & UK", countries: [{ code: "AT", name: "Austria" }, { code: "BE", name: "Belgium" }, { code: "CZ", name: "Czechia" }, { code: "DK", name: "Denmark" }, { code: "FI", name: "Finland" }, { code: "FR", name: "France" }, { code: "DE", name: "Germany" }, { code: "GR", name: "Greece" }, { code: "IE", name: "Ireland" }, { code: "IT", name: "Italy" }, { code: "NL", name: "Netherlands" }, { code: "NO", name: "Norway" }, { code: "PL", name: "Poland" }, { code: "PT", name: "Portugal" }, { code: "ES", name: "Spain" }, { code: "SE", name: "Sweden" }, { code: "CH", name: "Switzerland" }, { code: "GB", name: "United Kingdom" }] },
+  { label: "Middle East", countries: [{ code: "AE", name: "United Arab Emirates" }] },
+] as const;
+
 type PaymentOptions = {
   priorityDate: string;
   shippingCents: number;
   shippingRegion: CommissionShippingRegion;
 };
 
-function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan, options, discountCents, voucherCode, voucherMessage, isApplyingVoucher, onApplyVoucher }: { items: CheckoutItem[]; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; options: PaymentOptions; discountCents: number; voucherCode: string; voucherMessage: { type: "success" | "error"; text: string } | null; isApplyingVoucher: boolean; onApplyVoucher: (code: string) => Promise<void> }) {
+function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan, options, shippingRates, discountCents, voucherCode, voucherMessage, isApplyingVoucher, onApplyVoucher }: { items: CheckoutItem[]; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; options: PaymentOptions; shippingRates: CommissionShippingRates; discountCents: number; voucherCode: string; voucherMessage: { type: "success" | "error"; text: string } | null; isApplyingVoucher: boolean; onApplyVoucher: (code: string) => Promise<void> }) {
   const formatPrice = (cents: number) => formatMoney(cents / 100, currency);
   const itemTotalCents = items.reduce((sum, item) => sum + item.amountCents, 0);
   const baseTotalCents = paymentPlan === "installments" ? itemTotalCents * 3 : itemTotalCents;
-  const shippingLabel = options.shippingCents === 0 ? "Pick up from Sydney studio" : options.shippingRegion === "australia" ? "Shipping (Australia)" : "Shipping (US & Canada)";
+  const selectedShippingOption = shippingRates.options.find((option) => option.id === options.shippingRegion);
+  const shippingLabel = options.shippingRegion === PICKUP_SHIPPING_REGION ? "Pick up from Sydney studio" : selectedShippingOption?.label ?? "Shipping";
   const rushCents = options.priorityDate ? Math.round(baseTotalCents * 0.3) : 0;
   const [draftVoucherCode, setDraftVoucherCode] = useState(voucherCode);
 
@@ -52,7 +62,7 @@ function CheckoutSummary({ items, amountCents, totalCents, currency, paymentPlan
   );
 }
 
-function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabel, shippingRates, onSuccess, onOptionsChange }: { amountCents: number; currency: string; paymentLabel: string; clientSecret: string; sizeLabel: string; shippingRates: CommissionShippingRates; onSuccess: () => void; onOptionsChange: (options: PaymentOptions) => { amountCents: number; totalCents: number } }) {
+function PayButton({ amountCents, currency, paymentLabel, clientSecret, shippingRates, onSuccess, onOptionsChange }: { amountCents: number; currency: string; paymentLabel: string; clientSecret: string; shippingRates: CommissionShippingRates; onSuccess: () => void; onOptionsChange: (options: PaymentOptions) => { amountCents: number; totalCents: number } }) {
   const stripe = useStripe();
   const elements = useElements();
   const [isPaying, setIsPaying] = useState(false);
@@ -169,16 +179,15 @@ function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabe
        <label className="commission-stripe-date-field"><span className="commission-stripe-date-label">Priority order request date <em>(Optional)</em></span><ModernDatePicker name="priorityDate" value={priorityDate} variant="checkout" onChange={(value) => changeOptions({ priorityDate: value, shippingCents, shippingRegion })} /><small>Priority Date (30% rush fee applies)</small></label>
       <div className="commission-stripe-section commission-address-section"><span className="commission-stripe-section-title">Shipping address</span><div className="commission-address-fields">
         <label className="commission-address-row"><span className="commission-visually-hidden">Full name</span><input type="text" autoComplete="shipping name" placeholder="Full name" value={shippingName} onChange={(event) => updateShippingAddress({ name: event.target.value })} required /></label>
-        <label className="commission-address-row commission-address-country"><span className="commission-visually-hidden">Country or region</span><select autoComplete="shipping country-name" aria-label="Country or region" value={shippingCountry} onChange={(event) => updateShippingAddress({ country: event.target.value })}><option value="AU">Australia</option><option value="BD">Bangladesh</option><option value="US">United States</option><option value="CA">Canada</option><option value="NZ">New Zealand</option></select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m3.5 6 4.5 4 4.5-4" /></svg></label>
+        <label className="commission-address-row commission-address-country"><span className="commission-visually-hidden">Country or region</span><select autoComplete="shipping country-name" aria-label="Country or region" value={shippingCountry} onChange={(event) => updateShippingAddress({ country: event.target.value })}>{SHIPPING_COUNTRY_GROUPS.map((group) => <optgroup key={group.label} label={group.label}>{group.countries.map((country) => <option key={country.code} value={country.code}>{country.name}</option>)}</optgroup>)}</select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m3.5 6 4.5 4 4.5-4" /></svg></label>
         <label className="commission-address-row"><span className="commission-visually-hidden">Address</span><input type="text" autoComplete="shipping address-line1" placeholder="Address" value={shippingLine1} onChange={(event) => updateShippingAddress({ line1: event.target.value })} required /></label>
         <div className="commission-address-row commission-address-locality"><label><span className="commission-visually-hidden">City</span><input type="text" autoComplete="shipping address-level2" placeholder="City" value={shippingCity} onChange={(event) => updateShippingAddress({ city: event.target.value })} required /></label><label><span className="commission-visually-hidden">State or region</span><input type="text" autoComplete="shipping address-level1" placeholder="State / region" value={shippingState} onChange={(event) => updateShippingAddress({ state: event.target.value })} required /></label></div>
         <label className="commission-address-row"><span className="commission-visually-hidden">Postal code</span><input type="text" autoComplete="shipping postal-code" placeholder="Postal code" value={shippingPostalCode} onChange={(event) => updateShippingAddress({ postalCode: event.target.value })} required /></label>
         <div className="commission-address-row commission-address-phone"><label className="commission-phone-code"><span className="commission-visually-hidden">Phone country code</span><select aria-label="Phone country code" value={phoneCountryCode} onChange={(event) => updateShippingAddress({ phoneCode: event.target.value })}><option value="AU">🇦🇺 +61</option><option value="US">🇺🇸 +1</option><option value="CA">🇨🇦 +1</option><option value="NZ">🇳🇿 +64</option></select><svg aria-hidden="true" viewBox="0 0 16 16"><path d="m4 6 4 4 4-4" /></svg></label><label className="commission-phone-number"><span className="commission-visually-hidden">Phone number (optional)</span><input type="tel" autoComplete="shipping tel-national" placeholder="Phone number" value={shippingPhone} onChange={(event) => updateShippingAddress({ phone: event.target.value })} /></label></div>
       </div></div>
       <fieldset className="commission-stripe-shipping-field"><legend>Shipping method</legend><div className="commission-shipping-options">
-        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents === 0} onChange={() => changeOptions({ priorityDate, shippingCents: 0, shippingRegion })} /><span>Pick up from Sydney studio</span><strong>Free</strong></label>
-        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "australia"} onChange={() => changeOptions({ priorityDate, shippingCents: shippingRates.australia, shippingRegion: "australia" })} /><span>{sizeLabel} Shipping (Australia)<small>3–5 business days</small></span><strong>{formatPrice(shippingRates.australia)}</strong></label>
-        <label><input type="radio" name="stripeShippingRegion" checked={shippingCents > 0 && shippingRegion === "us-canada"} onChange={() => changeOptions({ priorityDate, shippingCents: shippingRates["us-canada"], shippingRegion: "us-canada" })} /><span>{sizeLabel} Shipping (US &amp; Canada)<small>3–5 business days</small></span><strong>{formatPrice(shippingRates["us-canada"])}</strong></label>
+        <label><input type="radio" name="stripeShippingRegion" checked={shippingRegion === PICKUP_SHIPPING_REGION} onChange={() => changeOptions({ priorityDate, shippingCents: 0, shippingRegion: PICKUP_SHIPPING_REGION })} /><span>Pick up from Sydney studio</span><strong>Free</strong></label>
+        {shippingRates.options.map((option) => <label key={option.id}><input type="radio" name="stripeShippingRegion" checked={shippingRegion === option.id} onChange={() => changeOptions({ priorityDate, shippingCents: option.amount, shippingRegion: option.id })} /><span>{option.label}</span><strong>{formatPrice(option.amount)}</strong></label>)}
       </div></fieldset>
       <div className="commission-stripe-section commission-payment-section"><span className="commission-stripe-section-title">Payment method</span><PaymentElement onChange={(event) => setIsPaymentComplete(event.complete)} options={{ layout: "accordion", wallets: { link: "auto" }, fields: { billingDetails: { address: "never", email: "never", name: "never", phone: "never" } }, defaultValues: { billingDetails: { email: customerEmail } } }} /><label className="commission-billing-same"><input type="checkbox" checked disabled /><span>Billing info same as shipping</span></label></div>
       <label className="commission-checkout-terms"><input type="checkbox" checked={termsAccepted} onChange={(event) => setTermsAccepted(event.target.checked)} required /><span>I agree to KinCollage&apos;s <a href="/legal#terms" target="_blank" rel="noreferrer">Terms of Service</a> and <a href="/legal#privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>
@@ -189,8 +198,8 @@ function PayButton({ amountCents, currency, paymentLabel, clientSecret, sizeLabe
   );
 }
 
-export default function DepositPaymentForm({ clientSecret, amountCents, totalCents, currency, paymentPlan, sizeLabel, items, shippingRates, onSuccess }: { clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; sizeLabel: string; items: CheckoutItem[]; shippingRates: CommissionShippingRates; onSuccess: () => void }) {
-  const [options, setOptions] = useState<PaymentOptions>({ priorityDate: "", shippingCents: 0, shippingRegion: "australia" });
+export default function DepositPaymentForm({ clientSecret, amountCents, totalCents, currency, paymentPlan, items, shippingRates, onSuccess }: { clientSecret: string; amountCents: number; totalCents: number; currency: string; paymentPlan: "full" | "installments"; sizeLabel: string; items: CheckoutItem[]; shippingRates: CommissionShippingRates; onSuccess: () => void }) {
+  const [options, setOptions] = useState<PaymentOptions>({ priorityDate: "", shippingCents: 0, shippingRegion: PICKUP_SHIPPING_REGION });
   const [displayAmountCents, setDisplayAmountCents] = useState(amountCents);
   const [displayTotalCents, setDisplayTotalCents] = useState(totalCents);
   const [discountCents, setDiscountCents] = useState(0);
@@ -227,11 +236,11 @@ export default function DepositPaymentForm({ clientSecret, amountCents, totalCen
   };
   return (
     <div className="commission-checkout-shell">
-      <CheckoutSummary key={voucherCode} items={items} amountCents={displayAmountCents} totalCents={displayTotalCents} currency={currency} paymentPlan={paymentPlan} options={options} discountCents={discountCents} voucherCode={voucherCode} voucherMessage={voucherMessage} isApplyingVoucher={isApplyingVoucher} onApplyVoucher={handleApplyVoucher} />
+      <CheckoutSummary key={voucherCode} items={items} amountCents={displayAmountCents} totalCents={displayTotalCents} currency={currency} paymentPlan={paymentPlan} options={options} shippingRates={shippingRates} discountCents={discountCents} voucherCode={voucherCode} voucherMessage={voucherMessage} isApplyingVoucher={isApplyingVoucher} onApplyVoucher={handleApplyVoucher} />
       <section className="commission-checkout-form-panel">
         <h3>Shipping information</h3>
         <Elements stripe={getStripe()} options={{ clientSecret, fonts: [{ cssSrc: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Tenor+Sans&display=swap" }], appearance: { theme: "flat", variables: { colorPrimary: "#263443", colorText: "#263443", iconColor: "#263443", iconHoverColor: "#263443", tabIconColor: "#263443", tabIconHoverColor: "#263443", tabIconSelectedColor: "#263443", tabIconMoreColor: "#263443", colorDanger: "#ad3127", fontFamily: "'Montserrat', Arial, sans-serif", fontSizeBase: "14px", fontSizeSm: "13px", borderRadius: "8px", spacingUnit: "2px" }, rules: { ".Input": { border: "1px solid #d6d6dc", borderRadius: "7px", backgroundColor: "#fff", padding: "9px 12px", boxShadow: "0 1px 3px rgba(38, 52, 67, 0.1)", fontFamily: "'Montserrat', Arial, sans-serif", fontSize: "14px" }, ".Input:focus": { border: "2px solid #263443", boxShadow: "0 0 0 3px rgba(38, 52, 67, 0.17)" }, ".Label": { fontSize: "13px", textTransform: "none", color: "#565661", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".TabLabel": { color: "#263443", fontFamily: "'Tenor Sans', Arial, sans-serif" }, ".Link": { color: "#263443" }, ".TabIcon": { color: "#263443" } } } }}>
-          <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay first installment" : "Pay in full"} clientSecret={clientSecret} sizeLabel={sizeLabel} shippingRates={shippingRates} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
+          <PayButton amountCents={displayAmountCents} currency={currency} paymentLabel={paymentPlan === "installments" ? "Pay first installment" : "Pay in full"} clientSecret={clientSecret} shippingRates={shippingRates} onOptionsChange={handleOptionsChange} onSuccess={onSuccess} />
         </Elements>
       </section>
     </div>
