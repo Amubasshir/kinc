@@ -11,6 +11,7 @@ export type CommissionShippingOption = {
   label: string;
   amount: number;
   rateIds: string[];
+  deliveryEstimate?: string;
 };
 
 export type CommissionShippingRates = {
@@ -53,6 +54,16 @@ function shippingAmountInCurrency(rate: Stripe.ShippingRate, currency: string) {
   if (!rate.fixed_amount) return null;
   if (rate.fixed_amount.currency === currency) return rate.fixed_amount.amount;
   return rate.fixed_amount.currency_options?.[currency]?.amount ?? null;
+}
+
+function deliveryEstimateLabel(rate: Stripe.ShippingRate) {
+  const minimum = rate.delivery_estimate?.minimum;
+  const maximum = rate.delivery_estimate?.maximum;
+  if (!minimum || !maximum || minimum.unit !== maximum.unit) return "";
+  const unit = minimum.unit === "business_day" ? "business days" : minimum.unit.replace(/_/g, " ") + "s";
+  return minimum.value === maximum.value
+    ? minimum.value + " " + unit
+    : minimum.value + "–" + maximum.value + " " + unit;
 }
 
 function shippingRateMatchesSize(rate: Stripe.ShippingRate, size: ShippingSize, currency: string) {
@@ -127,7 +138,7 @@ export async function getCommissionShippingQuote(stripe: Stripe, prices: Stripe.
   if (currencySet.size !== 1) throw new Error("Selected commission prices must use one currency for shipping.");
   const currency = [...currencySet][0];
   const shippingRates = await getAllActiveShippingRates(stripe);
-  const optionMap = new Map<string, { id: string; label: string; amount: number; rateIds: string[]; sizeIndexes: Set<number> }>();
+  const optionMap = new Map<string, { id: string; label: string; amount: number; rateIds: string[]; deliveryEstimate: string; sizeIndexes: Set<number> }>();
   const selectedSizeLabels: string[] = [];
 
   for (const [sizeIndex, price] of prices.entries()) {
@@ -135,7 +146,7 @@ export async function getCommissionShippingQuote(stripe: Stripe, prices: Stripe.
     if (!product) throw new Error("A selected commission product is missing from Stripe.");
     const size = sizeForProduct(product.name);
     if (!size) throw new Error("No Stripe shipping size mapping exists for " + product.name + ".");
-    selectedSizeLabels.push(product.name.replace(/^KinCollage\s+/i, "").trim());
+    selectedSizeLabels.push(size.labels[0].replace(/\b\w/g, (character) => character.toUpperCase()));
 
     const matchingRates = shippingRates.filter((rate) => shippingRateMatchesSize(rate, size, currency));
     if (matchingRates.length === 0) {
@@ -147,12 +158,13 @@ export async function getCommissionShippingQuote(stripe: Stripe, prices: Stripe.
       if (amount === null || amount < 0) continue;
       const label = shippingOptionLabel(rate, size);
       const id = shippingOptionId(label);
-      const option = optionMap.get(id) ?? { id, label, amount: 0, rateIds: [], sizeIndexes: new Set<number>() };
+      const option = optionMap.get(id) ?? { id, label, amount: 0, rateIds: [], deliveryEstimate: deliveryEstimateLabel(rate), sizeIndexes: new Set<number>() };
       if (option.sizeIndexes.has(sizeIndex)) {
         throw new Error("Multiple active Stripe shipping rates use the same service label for " + product.name + ".");
       }
       option.amount += amount;
       option.rateIds.push(rate.id);
+      if (!option.deliveryEstimate) option.deliveryEstimate = deliveryEstimateLabel(rate);
       option.sizeIndexes.add(sizeIndex);
       optionMap.set(id, option);
     }
@@ -163,9 +175,10 @@ export async function getCommissionShippingQuote(stripe: Stripe, prices: Stripe.
     .sort((left, right) => left.label.localeCompare(right.label))
     .map((option) => ({
       id: option.id,
-      label: option.label + " – " + selectedSizeLabels.join(" + "),
+      label: selectedSizeLabels.join(" + ") + " Shipping (" + option.label + ")",
       amount: option.amount,
       rateIds: option.rateIds,
+      deliveryEstimate: option.deliveryEstimate || undefined,
     }));
   if (options.length === 0) throw new Error("No common active Stripe shipping rate is available for the selected sizes.");
 
