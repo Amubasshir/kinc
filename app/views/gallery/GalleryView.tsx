@@ -53,8 +53,17 @@ function GalleryMedia({ item, className, sizes }: GalleryMediaProps) {
   return <GalleryImage item={item} className={className} sizes={sizes} />;
 }
 
+function getMediaIndex(media: GalleryMediaModel[], item: GalleryMediaModel) {
+  return media.findIndex((mediaItem) => mediaItem.src === item.src);
+}
+
 function splitGalleryMediaForMobile(media: GalleryMediaModel[]) {
-  const weights = media.map((item) => Math.round((item.height / item.width) * 1000) + 21);
+  const commissionCardWeight = Math.round((652 / 584) * 1000);
+  const weights = media.map((item, index) => {
+    const mediaWeight = Math.round((item.height / item.width) * 1000) + 21;
+    const hasCommissionCard = (index + 1) % 11 === 0;
+    return mediaWeight + (hasCommissionCard ? commissionCardWeight : 0);
+  });
   const target = Math.floor(weights.reduce((total, weight) => total + weight, 0) / 2);
   const reachable = new Uint8Array(target + 1);
   const previousSum = new Int32Array(target + 1).fill(-1);
@@ -128,14 +137,14 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
           <div className={`gallery-page-column gallery-page-column-${columnIndex + 1} flex min-w-0 flex-col gap-6 max-[1000px]:gap-2.5`} key={columnIndex}>
             {column.map((item, itemIndex) => (
               <div key={`${item.src}-${itemIndex}`} className="gallery-page-item relative">
-                <button className="gallery-page-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(galleryMedia.indexOf(item))} aria-label={`Open ${item.alt}`}>
+                <button className="gallery-page-image-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left" type="button" onClick={() => setActiveIndex(getMediaIndex(galleryMedia, item))} aria-label={`Open ${item.alt}`}>
                   <GalleryMedia
                     item={item}
                     className="block h-auto w-full rounded-[20px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
                     sizes="(max-width: 1000px) 48vw, 23vw"
                   />
                 </button>
-                {(galleryMedia.indexOf(item) + 1) % 11 === 0 && <GalleryCommissionCard />}
+                {(getMediaIndex(galleryMedia, item) + 1) % 11 === 0 && <GalleryCommissionCard />}
               </div>
             ))}
           </div>
@@ -143,11 +152,11 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
       </section>
       <section className="gallery-page-mobile hidden flex-col gap-[5px] rounded-none bg-[#f5f5f5] pb-0 max-[700px]:flex" aria-label="KinCollage artwork gallery">
         <div className="gallery-page-mobile-grid grid grid-cols-2 gap-[5px]">
-          {mobileColumns.map((column, columnIndex) => (
-            <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={columnIndex}>
-              {column.map((item, itemIndex) => (
+          {mobileColumns.map((column) => (
+            <div className="gallery-page-mobile-column flex min-w-0 flex-col gap-[5px]" key={column[0]?.src ?? "empty-column"}>
+              {column.map((item) => (
                 <Fragment key={item.src}>
-                  {columnIndex === 1 && itemIndex === 1 && (
+                  {(getMediaIndex(galleryMedia, item) + 1) % 11 === 0 && (
                     <div className="gallery-page-mobile-inline-card">
                       <GalleryCommissionCard />
                     </div>
@@ -155,7 +164,7 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
                   <button
                     className="group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
                     type="button"
-                    onClick={() => setActiveIndex(galleryMedia.indexOf(item))}
+                    onClick={() => setActiveIndex(getMediaIndex(galleryMedia, item))}
                     aria-label={`Open ${item.alt}`}
                   >
                     <GalleryMedia item={item} className="block h-auto w-full rounded-[20px] object-cover transition duration-300 ease-out group-hover:scale-[1.015] group-focus-visible:scale-[1.015]" sizes="47vw" />
@@ -164,9 +173,6 @@ export default function GalleryView({ viewModel }: { viewModel: GalleryPageViewM
               ))}
             </div>
           ))}
-        </div>
-        <div className="gallery-page-mobile-card w-full aspect-[174/194]">
-          <GalleryCommissionCard />
         </div>
       </section>
       <GalleryLightbox images={galleryMedia} activeIndex={activeIndex} onChange={setActiveIndex} onClose={() => setActiveIndex(null)} />

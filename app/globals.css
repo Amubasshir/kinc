@@ -2655,6 +2655,16 @@ main > section {
   .gallery-page-hero-accent {
     display: none;
   }
+  .gallery-page-mobile {
+    margin-top: 16px;
+  }
+  .gallery-page-mobile-grid,
+  .gallery-page-mobile-column {
+    min-height: 0;
+  }
+  .gallery-page-mobile-column > button {
+    flex: 0 0 auto;
+  }
   .gallery-page-mobile-block {
     display: contents;
   }
@@ -6551,6 +6561,19 @@ html {
   }
   .gallery-page-mobile-card .start-commission {
     padding: 24px 12px 26px;
+  }
+}
+
+/* Keep the mobile gallery and newsletter section visually separated. */
+@media (max-width: 700px) {
+  .gallery-page-mobile + .stay-connected {
+    margin-top: 16px !important;
+    border-radius: 20px !important;
+    overflow: hidden;
+  }
+
+  .gallery-page-hero ~ .gallery-page-mobile {
+    margin-top: 5px !important;
   }
 }
 
