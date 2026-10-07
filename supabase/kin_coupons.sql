@@ -322,3 +322,17 @@ $$;
 
 revoke all on function public.kin_check_rate_limit(text, text, integer, integer) from public, anon, authenticated;
 grant execute on function public.kin_check_rate_limit(text, text, integer, integer) to service_role;
+
+-- External keep-alive heartbeat. The GitHub Actions workflow writes one row
+-- every two hours so the Free Plan project receives regular database activity.
+create table if not exists public.kin_keepalive (
+  id bigint generated always as identity primary key,
+  heartbeat_at timestamptz not null default now(),
+  source text not null default 'github-actions'
+);
+
+alter table public.kin_keepalive enable row level security;
+
+revoke all on table public.kin_keepalive from public, anon, authenticated;
+grant insert on table public.kin_keepalive to service_role;
+grant usage, select on sequence public.kin_keepalive_id_seq to service_role;

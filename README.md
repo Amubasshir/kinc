@@ -48,6 +48,17 @@ Run the production-readiness check after configuring an environment:
 npm run audit:stripe
 ```
 
+### Supabase Free Plan keepalive
+
+The repository includes a GitHub Actions workflow at `.github/workflows/supabase-keepalive.yml` that inserts a heartbeat row every two hours into `kin_keepalive`. Before enabling it:
+
+1. Resume the paused Supabase project from the Supabase Dashboard.
+2. Run `supabase/kin_coupons.sql` in the project SQL editor.
+3. Add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as GitHub Actions repository secrets.
+4. Run the workflow once with **Actions → Supabase keepalive → Run workflow** to verify it.
+
+The workflow only prevents future inactivity pauses; it cannot wake a project that is already paused. Supabase recommends upgrading to Pro when the project must not be paused.
+
 The existing “3 installments” catalog prices are one-time Stripe Prices. The application collects installment 1 and explicitly records that installments 2 and 3 are arranged manually by the studio; it does not claim that Stripe schedules them automatically.
 
 Commission shipping amounts are read from all active Stripe ShippingRate objects on the server. Each rate display name must include the configured canvas size dimensions plus its service or destination label; checkout automatically groups matching rates by that label and sums them when multiple sizes are selected. Rates must use the same currency as the commission Prices. Configure equivalent rates in test and live mode; the checkout refuses to use a missing or mismatched rate rather than falling back to a hard-coded amount.
